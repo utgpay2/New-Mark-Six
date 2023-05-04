@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.central.backend.mapper.KpnSiteAppMapper">
+    <select id="findList" resultType="com.central.common.model.KpnSiteApp">
+        select * from kpn_site_app t
+        <where>
+            1=1
+            <if test="p.siteId != null and  p.siteId != ''">
+                and t.site_id LIKE CONCAT('%',#{p.siteId},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

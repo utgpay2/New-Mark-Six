@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.porn.mapper.KpnSiteChannelMapper">
+
+    <select id="getMemberChannels" resultType="com.central.common.model.KpnSiteChannel">
+        select b.id, b.name_zh, b.name_en, b.name_kh, a.sort, b.icon
+        from kpn_site_user_channel a
+                 left join kpn_site_channel b on b.id = a.channel_id
+        where a.user_id = #{uid}
+          and b.status = 1
+        order by a.sort desc, a.create_time desc
+    </select>
+
+    <select id="getChannelMovieIdsSortedByColumn" resultType="java.lang.Long">
+        select y.movie_id
+        from (
+                 select distinct movie_id from kpn_movie_tag t1
+                 where tag_id in
+                       (
+                           select substring_index(substring_index(a.tags, ',', b.help_topic_id + 1), ',', - 1) AS shareholder
+                           from kpn_site_channel a
+                                    inner join mysql.help_topic b ON b.help_topic_id &lt; (length(a.tags) - length(REPLACE(a.tags, ',', '')) + 1)
+                           where a.site_id = #{sid}
+                             and a.id = #{channelId}
+                       )
+                   and exists(
+                         select id from kpn_site_movie a where site_id = #{sid} and a.movie_id = t1.movie_id
+                     )) x
+                 join (select `movie_id`, `vv`, `create_time`, `duration` from kpn_site_movie b where site_id = #{sid} and status = 1) y on y.movie_id = x.movie_id
+
+        order by ${column} asc, y.movie_id asc
+    </select>
+
+
+</mapper>

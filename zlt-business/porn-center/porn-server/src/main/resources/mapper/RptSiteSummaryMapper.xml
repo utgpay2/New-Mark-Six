@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.porn.mapper.RptSiteSummaryMapper">
+
+
+    <insert id="addNewUserNum">
+        insert into rpt_site_summary (site_id, site_code, site_name, `date`, new_user_num)
+        values (#{sid}, #{siteCode}, #{siteName}, #{today}, 1) ON DUPLICATE KEY
+        UPDATE new_user_num = new_user_num + 1
+    </insert>
+	<insert id="addNewVipNum">
+        insert into rpt_site_summary (site_id, site_code, site_name, `date`, new_vip_num)
+        values (#{sid}, #{siteCode}, #{siteName}, #{today}, 1) ON DUPLICATE KEY
+        UPDATE new_vip_num = new_vip_num + 1
+    </insert>
+</mapper>

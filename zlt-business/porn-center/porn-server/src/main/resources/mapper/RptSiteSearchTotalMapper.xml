@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.porn.mapper.RptSiteSearchTotalMapper">
+
+    <insert id="saveRptSiteSearchTotalNumber">
+        insert into rpt_site_search_total(site_id, keywords, `number`)
+        values (#{sid}, #{keywords}, 1) ON DUPLICATE KEY
+        UPDATE
+            `number` = `number` + 1
+    </insert>
+
+    <select id="getSiteSearchTotal" resultType="com.central.porn.entity.vo.KpnSiteSearchVo">
+        select keywords, `number`
+        from rpt_site_search_total
+        where site_id = #{sid}
+        order by number desc limit 10;
+    </select>
+</mapper>

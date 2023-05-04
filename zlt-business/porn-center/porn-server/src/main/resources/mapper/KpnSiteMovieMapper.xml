@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.porn.mapper.KpnSiteMovieMapper">
+
+    <select id="getByKeyWords" resultType="com.central.common.model.KpnSiteMovie">
+        select *
+        from kpn_site_movie
+        where site_id = #{sid}
+          and (
+                name_zh like concat('%', #{keywords}, '%')
+                or name_en like concat('%', #{keywords}, '%')
+                or name_kh like concat('%', #{keywords}, '%')
+            )
+    </select>
+</mapper>

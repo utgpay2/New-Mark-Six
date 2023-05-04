@@ -1,0 +1,45 @@
+########################## 统一变量配置 ##########################
+zlt:
+  ##### 数据库配置
+  datasource:
+    ip: 8.214.118.39
+    username: root
+    password: Zd(lu7(]yrdtjsmj0qnN>tz2WYVnnrJb
+  ##### elasticsearch配置
+  elasticsearch:
+    uris: 192.168.28.130:9200
+    username: elastic
+    password: qEnNfKNujqNrOPD9q5kb
+  ##### sentinel配置
+  sentinel:
+    dashboard: 192.168.28.130:6999
+  ##### fastDFS配置
+  fdfs:
+    web-url: 192.168.28.130
+    trackerList: ${zlt.fdfs.web-url}:22122
+  ##### s3配置
+  s3:
+    access-key: minioadmin
+    accessKeySecret: minioadmin
+    endpoint: http://192.168.28.130:9000
+    bucketName: test
+  ##### 日志链路追踪
+  trace:
+    enable: true
+  ##### 负载均衡隔离(version隔离，只适用于开发环境)
+  ribbon:
+    isolation:
+      enabled: false
+
+##### redis配置
+spring:
+  redis:
+    host: 8.214.118.139
+    port: 6501
+    password: gk21(O3ieZDxSehCgTQVvmFZuE{ec2z9
+    timeout: 5000
+
+##### mybatis-plus打印完整sql(只适用于开发环境)
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

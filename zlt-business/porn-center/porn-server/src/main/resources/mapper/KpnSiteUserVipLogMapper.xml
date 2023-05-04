@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.porn.mapper.KpnSiteUserVipLogMapper">
+
+    <select id="getRewardVipDaysByVipChangeType" resultType="java.lang.Integer">
+        select ifnull(sum(days), 0) vip_days
+        from kpn_site_user_vip_log
+        where user_id = #{userId}
+          and `type` = #{vipChangeTypeCode}
+    </select>
+</mapper>

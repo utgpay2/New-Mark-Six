@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.porn.mapper.RptSiteSearchDateMapper">
+
+
+    <insert id="saveRptSiteSearchDateNumber">
+        insert into rpt_site_search_date(site_id, `date`, keywords, `number`)
+        values (#{sid}, #{date}, #{keywords}, 1) ON DUPLICATE KEY
+        UPDATE
+            `number` = `number` + 1
+    </insert>
+
+    <select id="getSiteSearchMonth" resultType="com.central.porn.entity.vo.KpnSiteSearchVo">
+        select keywords, sum(`number`) `number`
+        from rpt_site_search_date
+        where site_id = #{sid}
+          and `date` &gt;= #{startDate}
+          and `date` &lt;= #{endDate}
+        group by site_id, keywords
+        order by sum(`number`) desc
+    </select>
+</mapper>

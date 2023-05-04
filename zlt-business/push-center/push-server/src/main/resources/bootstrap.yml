@@ -1,0 +1,15 @@
+server:
+  port: 7600
+ws:
+  port: 7601
+  host: 0.0.0.0
+
+spring:
+  application:
+    name: push-server
+  cloud:
+    nacos:
+      discovery:
+        namespace: ${zlt.naocs.server.namespace}
+#        metadata:
+#          version: zlt

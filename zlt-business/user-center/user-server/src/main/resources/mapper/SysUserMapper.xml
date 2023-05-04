@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.user.mapper.SysUserMapper">
+	<sql id="where">
+		<where>
+			t.is_del=0
+			<if test="u.id != null and u.id != ''">
+				and t.id like concat('%', #{u.id}, '%')
+			</if>
+			<if test="u.username != null and u.username != ''">
+				<if test="u.isOpen==1">
+					and t.username like concat('%', #{u.username}, '%')
+				</if>
+				<if test="u.isOpen!=1">
+					and t.username = #{u.username}
+				</if>
+			</if>
+			<if test="u.nickname != null and u.nickname != ''">
+				and t.nickname like concat('%', #{u.nickname}, '%')
+			</if>
+			<if test="u.enabled != null and u.enabled != ''">
+				and t.enabled = #{u.enabled}
+			</if>
+			<if test="u.type != null and u.type != ''">
+				and t.type = #{u.type}
+			</if>
+			<if test="u.searchKey != null and u.searchKey != '' and u.searchKey=='user_id'">
+				and t.id  like concat('%', #{u.searchValue}, '%')
+			</if>
+			<if test="u.searchKey != null and u.searchKey != '' and u.searchKey=='username'">
+				and t.username  like concat('%', #{u.searchValue}, '%')
+			</if>
+			<if test="u.searchKey != null and u.searchKey != '' and u.searchKey=='nick_name'">
+				and t.nickname  like concat('%', #{u.searchValue}, '%')
+			</if>
+			<if test="u.searchKey != null and u.searchKey != '' and u.searchKey=='mobile'">
+				and t.mobile  like concat('%', #{u.searchValue}, '%')
+			</if>
+		</where>
+	</sql>
+
+	<select id="findList" resultType="com.central.common.model.SysUser">
+		select t.*,IFNULL(m.money,0) as currentBalance from sys_user t
+		LEFT JOIN sys_user_money m on m.user_id=t.id
+		<where>
+		t.is_del=0
+			<if test="u.username != null and u.username != ''">
+				<if test="u.isOpen==1">
+					and t.username like concat('%', #{u.username}, '%')
+				</if>
+				<if test="u.isOpen!=1">
+					and t.username = #{u.username}
+				</if>
+			</if>
+			<if test="u.enabled != null and u.enabled != ''">
+				and t.enabled = #{u.enabled}
+			</if>
+			<if test="u.type != null and u.type != ''">
+				and t.type = #{u.type}
+			</if>
+		</where>
+		order by t.id desc
+	</select>
+
+
+
+
+	<select id="adminFindList" resultType="com.central.common.model.SysUser">
+		select 	r.id as roleId,r.`name` as roleName,t.* from sys_user t
+		LEFT JOIN sys_role_user u on u.user_id=t.id
+		LEFT JOIN sys_role r on r.id=u.role_id
+		<where>
+			t.is_del=0
+			<if test="u.username != null and u.username != ''">
+					and t.username like concat('%', #{u.username}, '%')
+			</if>
+			<if test="u.loginIp != null and u.loginIp != ''">
+				and t.login_ip = #{u.loginIp}
+			</if>
+			<if test="u.lastLoginTimeStart != null and u.lastLoginTimeStart != ''">
+				and t.last_login_time <![CDATA[>=]]> #{u.lastLoginTimeStart}
+			</if>
+			<if test="u.lastLoginTimeEnd != null and u.lastLoginTimeEnd != ''">
+				and t.last_login_time <![CDATA[<=]]> #{u.lastLoginTimeEnd}
+			</if>
+
+			<if test="u.roleId != null and u.roleId != ''">
+				and r.id= #{u.roleId}
+			</if>
+		</where>
+		order by t.id desc
+	</select>
+
+
+	<select id="findUserNum" resultType="java.lang.Integer">
+		select COUNT(1) from sys_user u
+		<where>
+			<if test="p.startTime != null and p.startTime != ''">
+				and u.create_time <![CDATA[>=]]> #{p.startTime}
+			</if>
+
+			<if test="p.endTime != null and p.endTime != ''">
+				and u.create_time <![CDATA[<=]]> #{p.endTime}
+			</if>
+
+			<if test="p.type != null and p.type != ''">
+				and u.type = #{p.type}
+			</if>
+
+			<if test="p.parent != null and p.parent != ''">
+				and u.parent = #{p.parent}
+			</if>
+		</where>;
+	</select>
+
+	<select id="findListByIds" resultType="com.central.common.model.SysUser">
+		select t.* from sys_user t
+		where t.id in
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="findListByUserIds" resultType="com.central.user.model.vo.SysUserInfoMoneyVo">
+		SELECT a.id userId,a.username userName,a.head_img_url headImgUrl,b.money
+		from sys_user a LEFT JOIN sys_user_money b on a.id=b.user_id
+		where a.is_del=0
+		and a.id in
+		<foreach collection="userIdList" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

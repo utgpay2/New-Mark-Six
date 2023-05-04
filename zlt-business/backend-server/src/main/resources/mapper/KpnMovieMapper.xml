@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.backend.mapper.KpnMovieMapper">
+    <select id="findList" resultType="com.central.common.model.KpnMovie">
+        select * from kpn_movie t
+        <where>
+            1=1
+            <if test="p.actorId != null and  p.actorId != '' and  p.actorId != 0">
+                and t.actor_id = #{p.actorId}
+            </if>
+        </where>
+    </select>
+</mapper>

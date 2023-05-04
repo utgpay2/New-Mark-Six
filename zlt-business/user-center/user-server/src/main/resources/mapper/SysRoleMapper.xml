@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.user.mapper.SysRoleMapper">
+	<sql id="Column_List">
+			id,
+			code,
+			name,
+			create_time,
+			update_time,
+			tenant_id,remark
+	</sql>
+
+	<sql id="where">
+		<where>
+			<if test="r.name != null and r.name != ''">
+				and t.name like concat('%', #{r.name}, '%')
+			</if>
+
+			<if test="r.searchKey != null and r.searchKey != '' and r.searchKey=='name'">
+				and t.name like concat('%', #{r.searchValue}, '%')
+			</if>
+		</where>
+	</sql>
+
+	<select id="findList" resultType="com.central.user.model.vo.SysRoleVo">
+		select <include refid="Column_List"/>
+		,IFNULL(st.number,0)
+		from sys_role t
+		LEFT JOIN (select COUNT(u.user_id) as number,u.role_id from sys_role_user u GROUP BY u.role_id) st on st.role_id=t.id
+		<include refid="where" />
+		order by t.create_time desc
+	</select>
+
+	<select id="findAll" resultType="com.central.common.model.SysRole">
+		select <include refid="Column_List"/>
+		from sys_role
+		order by create_time desc
+	</select>
+</mapper>

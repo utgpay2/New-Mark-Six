@@ -1,0 +1,12 @@
+server:
+  port: 7300
+
+spring:
+  application:
+    name: porn-server
+  cloud:
+    nacos:
+      discovery:
+        namespace: ${zlt.naocs.server.namespace}
+#        metadata:
+#          version: zlt

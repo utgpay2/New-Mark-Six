@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.porn.mapper.KpnMovieTagMapper">
+
+    <select id="getTagIdsBySiteId" resultType="java.lang.Long">
+        select distinct tag_id
+        from kpn_movie_tag
+        where movie_id in (select movie_id from kpn_site_movie where site_id = #{sid});
+    </select>
+
+    <select id="getTageMovieIdsSortedByColumn" resultType="java.lang.Long">
+        select y.movie_id
+        from (select a.movie_id,a.tag_id
+              from kpn_movie_tag a
+              where tag_id = #{tagId} and exists(select id from kpn_site_movie b where site_id = #{sid} and status=1 and b.movie_id = a.movie_id)) x
+                 left join (select `movie_id`,`vv`,`create_time`,`duration` from kpn_site_movie b where site_id = #{sid} and status = 1) y on y.movie_id = x.movie_id
+        order by ${column} asc,y.movie_id asc
+    </select>
+</mapper>

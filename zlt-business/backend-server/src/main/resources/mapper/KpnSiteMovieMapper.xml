@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.central.backend.mapper.KpnSiteMovieMapper">
+    <!--<select id="findList" resultType="com.central.backend.model.vo.KpnSiteMovieVO">
+        select t.id,t.movie_id as movieId,t.name_zh as nameZh,t.name_en as nameEn,t.name_kh as nameKh,
+               t.cover_url as coverUrl,t.actor_id as actorId,t.actor_name_zh as actorNameZh,t.actor_name_en as actorNameEn,t.actor_name_kh as actorNameKh,
+               t.vv as vv,t.favorites as favorites,t.pay_type as payType,t.update_time as updateTime,t.update_by as updateBy,t.status as status
+        from kpn_site_movie t
+        <where>
+         1=1
+            <if test="p.movieId != null and  p.movieId != '' and p.movieId !=0">
+                and t.movie_id LIKE CONCAT('%',#{p.movieId},'%')
+            </if>
+            <if test="p.siteId != null and  p.siteId != ''">
+                and t.site_id LIKE CONCAT('%',#{p.siteId},'%')
+            </if>
+            <if test="p.nameZh != null and  p.nameZh != ''">
+                and t.name_zh LIKE CONCAT('%',#{p.nameZh},'%')
+            </if>
+            <if test="p.nameEn != null and  p.nameEn != ''">
+                and t.name_en LIKE CONCAT('%',#{p.nameEn},'%')
+            </if>
+            <if test="p.nameKh != null and  p.nameKh != ''">
+                and t.name_kh LIKE CONCAT('%',#{p.nameKh},'%')
+            </if>
+            <if test="p.actorNameZh != null and  p.actorNameZh != ''">
+                and t.actor_name_zh LIKE CONCAT('%',#{p.actorNameZh},'%')
+            </if>
+            <if test="p.actorNameEn != null and  p.actorNameEn != ''">
+                and t.actor_name_en LIKE CONCAT('%',#{p.actorNameEn},'%')
+            </if>
+            <if test="p.actorNameKh != null and  p.actorNameKh != ''">
+                and t.actor_name_kh LIKE CONCAT('%',#{p.actorNameKh},'%')
+            </if>
+            <if test="p.startTime!=null and  p.startTime != ''">
+                and DATE_FORMAT(t.update_time,'%Y-%m-%d %H:%i:%s') <![CDATA[ >= ]]>DATE_FORMAT(#{p.startTime},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="p.endTime!=null and  p.endTime != ''">
+                and DATE_FORMAT(t.update_time,'%Y-%m-%d %H:%i:%s') <![CDATA[ <= ]]>DATE_FORMAT(#{p.endTime},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="p.status != null and  p.status != ''">
+                and t.status LIKE CONCAT('%',#{p.status},'%')
+            </if>
+            <if test="p.country != null and  p.country != ''">
+                and t.country LIKE CONCAT('%',#{p.country},'%')
+            </if>
+            <if test="p.type != null and  p.type != ''">
+                and t.type LIKE CONCAT('%',#{p.type},'%')
+            </if>
+            <if test="p.shootingType != null and  p.shootingType != ''">
+                and t.shooting_type LIKE CONCAT('%',#{p.shootingType},'%')
+            </if>
+            <if test="p.subtitleType != null and  p.subtitleType != ''">
+                and t.subtitle_type LIKE CONCAT('%',#{p.subtitleType},'%')
+            </if>
+            <if test="p.payType != null and  p.payType != ''">
+                and t.pay_type LIKE CONCAT('%',#{p.payType},'%')
+            </if>
+            <choose>
+                <when test="p.orderByParms != null and  p.orderByParms != '' and  p.orderByParms == 2">
+                    ORDER BY t.vv <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1"> ASC </when><otherwise> DESC </otherwise></choose>
+                </when>
+                <when test="p.orderByParms != null and  p.orderByParms != '' and  p.orderByParms == 3">
+                    ORDER BY t.favorites <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1"> ASC </when><otherwise> DESC </otherwise></choose>
+                </when>
+                <otherwise>
+                    ORDER BY t.create_time <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1"> ASC </when><otherwise> DESC </otherwise></choose>
+                </otherwise>
+            </choose>
+        </where>
+    </select>-->
+    <update id="updateBatchStatusById" parameterType="java.util.List">
+        update kpn_site_movie set
+        `status`=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.id,jdbcType=DECIMAL} then #{item.status,jdbcType=VARCHAR}
+        </foreach>
+        ,`update_by`=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.id,jdbcType=DECIMAL} then #{item.updateBy,jdbcType=VARCHAR}
+        </foreach>
+        ,`update_time`=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.id,jdbcType=DECIMAL} then #{item.updateTime,jdbcType=VARCHAR}
+        </foreach>
+        where ID in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.id,jdbcType=DECIMAL}
+        </foreach>
+    </update>
+    <update id="updateBatchPayTypeById" parameterType="java.util.List">
+        update kpn_site_movie set
+        `pay_type`=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.id,jdbcType=DECIMAL} then #{item.payType,jdbcType=VARCHAR}
+        </foreach>
+        ,`update_by`=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.id,jdbcType=DECIMAL} then #{item.updateBy,jdbcType=VARCHAR}
+        </foreach>
+        ,`update_time`=
+        <foreach collection="list" item="item" index="index" separator=" " open="case ID" close="end">
+            when #{item.id,jdbcType=DECIMAL} then #{item.updateTime,jdbcType=VARCHAR}
+        </foreach>
+        where ID in
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.id,jdbcType=DECIMAL}
+        </foreach>
+    </update>
+
+    <select id="findMovieList" resultType="com.central.backend.vo.MovieVo">
+        select
+        t.movie_id AS movieId,
+        t.name_zh AS nameZh,
+        t.name_en AS nameEn,
+        t.name_kh AS nameKh,
+        t.cover_url AS coverUrl,
+        t.STATUS AS status
+        from kpn_site_movie t
+        <where>
+            1=1
+            <if test="p.movieId != null and  p.movieId != '' and p.movieId !=0">
+                and t.movie_id LIKE CONCAT('%',#{p.movieId},'%')
+            </if>
+            <if test="p.siteId != null and  p.siteId != ''">
+                and t.site_id LIKE CONCAT('%',#{p.siteId},'%')
+            </if>
+            <if test="p.name != null and  p.name != ''">
+                and (
+                t.name_zh LIKE CONCAT('%',#{p.name},'%')
+                or t.name_en LIKE CONCAT('%',#{p.name},'%')
+                or t.name_kh LIKE CONCAT('%',#{p.name},'%')
+                )
+            </if>
+        </where>
+    </select>
+
+</mapper>

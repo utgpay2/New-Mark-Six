@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.porn.mapper.KpnSiteTopicMovieMapper">
+
+    <select id="getTopicMovieIdsSortedByColumn" resultType="java.lang.Long">
+        select b.movie_id
+        from (select site_id, topic_id, movie_id
+              from kpn_site_topic_movie
+              where site_id = #{sid} and topic_id = #{topicId}) a
+                 left join kpn_site_movie b on b.site_id = a.site_id and b.movie_id = a.movie_id
+        order by ${column} asc,b.id asc
+    </select>
+</mapper>

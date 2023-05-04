@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.central.backend.mapper.SysUserMoneyMapper">
+    <select id="findList" resultType="com.central.common.model.SysUserMoney">
+        select * from user_money t
+    </select>
+
+    <select id="getSumMoneyByParent" resultType="java.math.BigDecimal">
+        SELECT sum(a.money) money
+        from sys_user_money a
+        LEFT JOIN sys_user b on a.user_id = b.id
+        where b.parent = #{parent}
+    </select>
+
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.backend.mapper.KpnSiteTopicMovieMapper">
+
+
+
+	<select id="findSiteMovieList" resultType="com.central.backend.vo.SiteMovieListVo">
+		SELECT
+			m.id as topicMovieId,
+			m.movie_id,
+			mt.name_zh,
+			mt.name_en,
+			mt.name_kh,
+			m.sort,
+			mt.`status`
+		FROM
+			kpn_site_topic_movie m
+				LEFT JOIN kpn_site_movie mt ON mt.id = m.movie_id
+		<where>
+			<if test="p.topicId != null">
+				and m.topic_id = #{p.topicId}
+			</if>
+		</where>
+	</select>
+
+
+
+
+</mapper>

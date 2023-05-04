@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.backend.mapper.KpnMoneyLogMapper">
+
+
+
+	<select id="findList" resultType="com.central.common.model.KpnMoneyLog">
+		SELECT
+		m.user_name as userName,
+		m.order_type as orderType,
+		m.money AS money,
+		m.before_money as beforeMoney,
+		m.after_money as afterMoney,
+		m.create_time as createTime
+		FROM
+		kpn_money_log m
+		LEFT JOIN sys_user u ON u.id = m.user_id
+		<where>
+			<if test="r.userName != null and r.userName != ''">
+				and m.user_name = #{r.userName}
+			</if>
+			<if test="r.orderNo != null and r.orderNo != ''">
+				and m.order_no = #{r.orderNo}
+			</if>
+			<if test="r.siteId != null ">
+				and u.site_id = #{r.siteId}
+			</if>
+			<if test="r.startTime != null and r.startTime != ''">
+				AND  m.create_time <![CDATA[>=]]> #{r.startTime}
+			</if>
+
+			<if test="r.endTime != null and r.endTime != ''">
+				AND  m.create_time <![CDATA[<=]]> #{r.endTime}
+			</if>
+		</where>
+	</select>
+
+	<select id="totalNumber" resultType="com.central.backend.model.vo.KpnMoneyLogVO">
+		SELECT
+		count(1) AS total_number,
+		sum(ifnull(money, 0)) as money
+		FROM
+		kpn_money_log m
+		LEFT JOIN sys_user u ON u.id = m.user_id
+		<where>
+			1=1
+			<if test="p.siteId != null and  p.siteId != '' and  p.siteId != '0'">
+				and u.site_id = #{p.siteId}
+			</if>
+			<if test="p.transferStatus != null and  p.transferStatus != ''">
+				and m.transfer_status = #{p.transferStatus}
+			</if>
+			<if test="p.orderType != null and  p.orderType != ''">
+				and m.order_type = #{p.orderType}
+			</if>
+			<if test="p.status!=null and  p.status != '' and p.status = '1'"><!-- 今天 -->
+				and to_days(now())-to_days(m.create_time) =0
+			</if>
+		</where>
+	</select>
+
+
+
+</mapper>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.central.backend.mapper.KpnTagMapper">
+    <select id="findList" resultType="com.central.backend.model.vo.KpnTagVO">
+        select * from kpn_tag t
+        LEFT JOIN
+        <choose>
+        <when test="p.siteId != null and  p.siteId != '' and p.siteId != 0">
+            (SELECT mt.tag_id,count(mt.movie_id) as total,sum(sm.vv) as vv,sum(sm.favorites) as favorites FROM kpn_movie_tag mt LEFT JOIN  kpn_site_movie sm ON mt.movie_id= sm.movie_id LEFT JOIN kpn_movie m ON sm.movie_id= m.id WHERE sm.status='1' and sm.site_id = #{p.siteId}  GROUP BY mt.tag_category_id,mt.tag_id) s
+        </when>
+        <otherwise>
+            (SELECT mt.tag_id,count(mt.movie_id) as total,sum(m.vv) as vv,sum(m.favorites) as favorites FROM kpn_movie_tag mt LEFT JOIN kpn_movie m ON mt.movie_id= m.id WHERE m.status='1' GROUP BY mt.tag_category_id,mt.tag_id) s
+        </otherwise>
+        </choose>
+        ON t.id=s.tag_id
+        <where>
+            1=1
+            <if test="p.id != null and  p.id != '' and p.id != 0">
+                and t.id = #{p.id}
+            </if>
+            <if test="p.nameZh != null and p.nameZh != ''">
+                and t.name_zh LIKE CONCAT('%',#{p.nameZh},'%')
+            </if>
+            <if test="p.nameEn != null and p.nameEn != ''">
+                and t.name_en LIKE CONCAT('%',#{p.nameEn},'%')
+            </if>
+            <if test="p.nameKh != null and p.nameKh != ''">
+                and t.name_kh LIKE CONCAT('%',#{p.nameKh},'%')
+            </if>
+            <if test="p.categoryId != null and p.categoryId != ''">
+                and t.category_id = #{p.categoryId}
+            </if>
+            <choose>
+                <when test="p.orderByParms != null and  p.orderByParms != '' and  p.orderByParms == 1">
+                    ORDER BY s.total <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1"> ASC </when><otherwise> DESC </otherwise></choose>
+                </when>
+                <when test="p.orderByParms != null and  p.orderByParms != '' and  p.orderByParms != 2">
+                    ORDER BY s.vv <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1"> ASC </when><otherwise> DESC </otherwise></choose>
+                </when>
+                <when test="p.orderByParms != null and  p.orderByParms != '' and  p.orderByParms != 3">
+                    ORDER BY s.favorites <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1"> ASC </when><otherwise> DESC </otherwise></choose>
+                </when>
+                <otherwise>
+                    ORDER BY t.create_time <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1"> ASC </when><otherwise> DESC </otherwise></choose>
+                </otherwise>
+            </choose>
+
+        </where>
+    </select>
+
+
+    <select id="findTagList" resultType="com.central.backend.vo.KpnTagVo">
+        SELECT
+        t.id AS id,
+        t.category_id AS categoryId,
+        t.category_name AS categoryName,
+        t.name_zh AS nameZh,
+        t.name_en AS nameEn,
+        t.name_kh AS nameKh,
+        COUNT( m.id ) AS kpnTagNum
+        FROM
+        kpn_tag t
+        LEFT JOIN kpn_movie_tag mt ON mt.tag_id = t.id
+        LEFT JOIN kpn_site_movie m ON m.movie_id = mt.movie_id
+        <if test="p.siteId != null ">
+            and m.site_id = #{p.siteId}
+        </if>
+       <where>
+           <if test="p.categoryId != null and p.categoryId != ''">
+               and t.category_id = #{p.categoryId}
+           </if>
+        </where>
+        GROUP BY
+            t.id
+    </select>
+
+    <select id="findTagCategoryList" resultType="com.central.backend.vo.CategoryVo">
+        SELECT
+            category_id AS categoryId,
+            category_name AS categoryName from kpn_tag
+            GROUP BY
+	        category_id
+    </select>
+</mapper>
