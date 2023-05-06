@@ -2,7 +2,7 @@ package com.central.common.utils;
 
 import cn.hutool.core.util.StrUtil;
 import com.central.common.constant.I18nKeys;
-import com.central.common.constant.PornConstants;
+import com.central.common.constant.MarksixConstants;
 import com.central.common.dto.I18nSourceDTO;
 import com.central.common.language.LanguageEnum;
 import com.central.common.language.LanguageThreadLocal;
@@ -215,7 +215,7 @@ public class I18nUtil implements ApplicationContextAware {
             return key;
         }
 //        String language = request.getHeader(I18nKeys.LANGUAGE);
-        String language = request.getHeader(PornConstants.Str.LANGUAGE);
+        String language = request.getHeader(MarksixConstants.Str.LANGUAGE);
 
         if (StrUtil.isBlank(language) || LanguageEnum.ZH.getValue().equalsIgnoreCase(language) || Objects.isNull(redisTemplate) || StrUtil.isBlank(key)) {
             return key;

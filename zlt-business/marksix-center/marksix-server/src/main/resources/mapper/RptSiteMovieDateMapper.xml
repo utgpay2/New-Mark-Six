@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.marksix.mapper.RptSiteMovieDateMapper">
+
+
+    <insert id="saveRptSiteMovieDateVv">
+        insert into rpt_site_movie_date(site_id, movie_id, `date`, `vv`)
+        values (#{sid}, #{movieId}, #{date}, 1) ON DUPLICATE KEY
+        UPDATE
+            vv = vv+1
+    </insert>
+
+    <select id="searchSiteMovieMonth" resultType="com.central.common.model.RptSiteMovieDate">
+        select site_id,movie_id,sum(vv) vv
+        from rpt_site_movie_date a
+        where site_id = #{sid}
+        and `date` &gt;= #{startDate}
+        and `date` &lt;= #{endDate}
+        and exists(select id from kpn_site_movie b where b.movie_id = a.movie_id and b.status = 1)
+        group by site_id, movie_id
+        order by sum(vv) desc
+    </select>
+</mapper>

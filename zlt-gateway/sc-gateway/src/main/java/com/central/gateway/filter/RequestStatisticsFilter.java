@@ -1,7 +1,7 @@
 package com.central.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
-import com.central.common.constant.PornConstants;
+import com.central.common.constant.MarksixConstants;
 import eu.bitwalker.useragentutils.UserAgent;
 import com.central.gateway.utils.ReactiveAddrUtil;
 import com.central.log.monitor.PointUtil;
@@ -38,7 +38,7 @@ public class RequestStatisticsFilter implements GlobalFilter, Ordered {
         log.info("remoteAddr: {}, requestPath:{}", remoteAddr, request.getPath());
 
         ServerHttpRequest.Builder builder = request.mutate();
-        builder.header(PornConstants.Str.LOGIN_IP, remoteAddr);
+        builder.header(MarksixConstants.Str.LOGIN_IP, remoteAddr);
 
         //埋点
         PointUtil.debug("1", "request-statistics",

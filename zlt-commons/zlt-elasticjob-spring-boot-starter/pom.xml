@@ -9,24 +9,24 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <artifactId>zlt-elasticjob-spring-boot-starter</artifactId>
-    <description>elasticjob通用组件</description>
+    <artifactId>zlt-job-spring-boot-starter</artifactId>
+    <description>job通用组件</description>
     <dependencies>
         <dependency>
-            <groupId>org.apache.shardingsphere.elasticjob</groupId>
-            <artifactId>elasticjob-lite-spring-boot-starter</artifactId>
+            <groupId>org.apache.shardingsphere.job</groupId>
+            <artifactId>job-lite-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.shardingsphere.elasticjob</groupId>
-            <artifactId>elasticjob-error-handler-dingtalk</artifactId>
+            <groupId>org.apache.shardingsphere.job</groupId>
+            <artifactId>job-error-handler-dingtalk</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.shardingsphere.elasticjob</groupId>
-            <artifactId>elasticjob-error-handler-wechat</artifactId>
+            <groupId>org.apache.shardingsphere.job</groupId>
+            <artifactId>job-error-handler-wechat</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.shardingsphere.elasticjob</groupId>
-            <artifactId>elasticjob-error-handler-email</artifactId>
+            <groupId>org.apache.shardingsphere.job</groupId>
+            <artifactId>job-error-handler-email</artifactId>
         </dependency>
     </dependencies>
 </project>

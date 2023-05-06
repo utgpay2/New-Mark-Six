@@ -13,7 +13,7 @@
         <!-- 用户中心 -->
         <module>user-center</module>
         <!-- 前台接口服务 -->
-        <module>porn-center</module>
+        <module>marksix-center</module>
         <!--后台接口服务-->
         <module>backend-server</module>
         <!-- 推送中心 -->

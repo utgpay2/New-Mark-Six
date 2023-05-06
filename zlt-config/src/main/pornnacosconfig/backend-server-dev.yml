@@ -1,0 +1,27 @@
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.central.backend.model
+  global-config:
+    db-config:
+      id-type: auto
+
+zlt: 
+  file-server:
+    type: minio
+    #fdfs:
+    #  web-url: ${zlt.fdfs.web-url}
+    minio: 
+      access-key: ${zlt.minio.access-key}
+      accessKeySecret: ${zlt.minio.accessKeySecret}
+      endpoint: ${zlt.minio.endpoint}
+      bucketName: ${zlt.minio.bucketName}
+      externalEndpoint: ${zlt.minio.externalEndpoint}
+  swagger:
+    enabled: true
+    title: 后台接口中心
+    description: 后台接口文档
+    version: 1.0
+    base-package: com.central.backend.controller
+  #cache-manager: configs: - key: menu second: 300
+

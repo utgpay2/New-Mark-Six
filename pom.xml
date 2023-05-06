@@ -60,7 +60,7 @@
         <spring-cloud-starter-oauth2.version>2.2.5.RELEASE</spring-cloud-starter-oauth2.version>
         <docker-maven-plugin.version>1.2.2</docker-maven-plugin.version>
         <minio.version>8.2.1</minio.version>
-        <elasticjob.version>3.0.1</elasticjob.version>
+<!--        <elasticjob.version>3.0.1</elasticjob.version>-->
         <netty-websocket.version>0.10.0</netty-websocket.version>
         <sonar.exclusions>zlt-job/**/*, zlt-register/**/*, zlt-web/**/*</sonar.exclusions>
         <docker.baseImage>openjdk:8-jre-alpine</docker.baseImage>
@@ -419,11 +419,11 @@
                 <artifactId>zlt-zookeeper-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.zlt</groupId>
-                <artifactId>zlt-elasticjob-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.zlt</groupId>-->
+<!--                <artifactId>zlt-elasticjob-spring-boot-starter</artifactId>-->
+<!--                <version>${project.version}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-recipes</artifactId>
@@ -488,26 +488,26 @@
             </dependency>
 
             <!-- elasticjob 分布式任务调度 Start -->
-            <dependency>
-                <groupId>org.apache.shardingsphere.elasticjob</groupId>
-                <artifactId>elasticjob-lite-spring-boot-starter</artifactId>
-                <version>${elasticjob.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.shardingsphere.elasticjob</groupId>
-                <artifactId>elasticjob-error-handler-dingtalk</artifactId>
-                <version>${elasticjob.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.shardingsphere.elasticjob</groupId>
-                <artifactId>elasticjob-error-handler-wechat</artifactId>
-                <version>${elasticjob.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.shardingsphere.elasticjob</groupId>
-                <artifactId>elasticjob-error-handler-email</artifactId>
-                <version>${elasticjob.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.apache.shardingsphere.elasticjob</groupId>-->
+<!--                <artifactId>elasticjob-lite-spring-boot-starter</artifactId>-->
+<!--                <version>${elasticjob.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.apache.shardingsphere.elasticjob</groupId>-->
+<!--                <artifactId>elasticjob-error-handler-dingtalk</artifactId>-->
+<!--                <version>${elasticjob.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.apache.shardingsphere.elasticjob</groupId>-->
+<!--                <artifactId>elasticjob-error-handler-wechat</artifactId>-->
+<!--                <version>${elasticjob.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.apache.shardingsphere.elasticjob</groupId>-->
+<!--                <artifactId>elasticjob-error-handler-email</artifactId>-->
+<!--                <version>${elasticjob.version}</version>-->
+<!--            </dependency>-->
             <!-- elasticjob 分布式任务调度 End -->
             <dependency>
                 <groupId>org.yeauty</groupId>

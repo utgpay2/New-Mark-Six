@@ -2,7 +2,6 @@ package com.central.common.resolver;
 
 import cn.hutool.core.util.StrUtil;
 import com.central.common.annotation.LoginUser;
-import com.central.common.constant.PornConstants;
 import com.central.common.constant.SecurityConstants;
 import com.central.common.model.SysRole;
 import com.central.common.model.SysUser;

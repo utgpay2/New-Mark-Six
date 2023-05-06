@@ -17,7 +17,7 @@ public interface ServiceNameConstants {
     /**
      * 彩票业务中心服务
      */
-    String PORN_SERVER = "porn-server";
+    String PORN_SERVER = "marksix-server";
     /**
      * 消息推送服务
      */

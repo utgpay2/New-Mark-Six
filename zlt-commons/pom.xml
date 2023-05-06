@@ -20,9 +20,9 @@
         <module>zlt-auth-client-spring-boot-starter</module>
         <module>zlt-sentinel-spring-boot-starter</module>
         <module>zlt-common-core</module>
-        <module>zlt-elasticsearch-spring-boot-starter</module>
+<!--        <module>zlt-search-spring-boot-starter</module>-->
         <module>zlt-oss-spring-boot-starter</module>
         <module>zlt-zookeeper-spring-boot-starter</module>
-        <module>zlt-elasticjob-spring-boot-starter</module>
+<!--        <module>zlt-job-spring-boot-starter</module>-->
     </modules>
 </project>

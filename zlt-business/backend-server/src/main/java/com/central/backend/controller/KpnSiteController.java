@@ -7,7 +7,7 @@ import com.central.backend.service.IKpnSiteService;
 import com.central.backend.vo.KpnSiteListVo;
 import com.central.backend.vo.KpnSiteVo;
 import com.central.common.annotation.LoginUser;
-import com.central.common.constant.PornConstants;
+import com.central.common.constant.MarksixConstants;
 import com.central.common.model.KpnSite;
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
@@ -44,7 +44,7 @@ public class KpnSiteController {
         PageResult<KpnSite> siteList = siteService.findSiteList(params);
         siteList.getData().stream().forEach(info->{
             if (info.getLogoUrl()!=null){
-                info.setLogoUrl(externalEndpoint + PornConstants.Symbol.FORWARD_SLASH + info.getLogoUrl());
+                info.setLogoUrl(externalEndpoint + MarksixConstants.Symbol.FORWARD_SLASH + info.getLogoUrl());
             }
         });
         return Result.succeed(siteList);

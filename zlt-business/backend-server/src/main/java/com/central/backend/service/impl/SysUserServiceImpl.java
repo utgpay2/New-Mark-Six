@@ -19,7 +19,7 @@ import com.central.backend.vo.UserExtensionListInfoVo;
 import com.central.backend.vo.UserListInfoVo;
 import com.central.backend.vo.UserVipExpireVo;
 import com.central.common.constant.CommonConstant;
-import com.central.common.constant.PornConstants;
+import com.central.common.constant.MarksixConstants;
 import com.central.common.lock.DistributedLock;
 import com.central.common.model.*;
 import com.central.common.model.enums.UserRegTypeEnum;
@@ -504,7 +504,7 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
             } else {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
             }
-            String promotionCode = RandomUtil.randomString(PornConstants.Str.RANDOM_BASE_STR, 6);
+            String promotionCode = RandomUtil.randomString(MarksixConstants.Str.RANDOM_BASE_STR, 6);
             user.setPromotionCode(promotionCode);
             user.setNickname(user.getUsername());
             user.setType(UserTypeEnum.APP.name());

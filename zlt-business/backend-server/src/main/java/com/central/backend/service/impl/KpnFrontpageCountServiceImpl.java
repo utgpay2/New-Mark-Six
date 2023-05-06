@@ -7,14 +7,13 @@ import com.central.backend.service.IKpnFrontpageCountService;
 import com.central.backend.service.IKpnMoneyLogService;
 import com.central.backend.service.IKpnSiteService;
 import com.central.backend.service.ISysUserService;
-import com.central.common.constant.PornConstants;
+import com.central.common.constant.MarksixConstants;
 import com.central.common.model.KpnSite;
 import com.central.common.model.RptSiteSummary;
 import com.central.common.model.SysUser;
 import com.central.common.model.enums.DateEnum;
 import com.central.common.model.enums.KbChangeTypeEnum;
 import com.central.common.model.enums.KpnMoneyLogEnum;
-import com.central.common.model.enums.UserTypeEnum;
 import com.central.common.redis.template.RedisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,7 +58,7 @@ public class KpnFrontpageCountServiceImpl extends SuperServiceImpl<KpnFrontpageC
 //        Long uv = 0L;//独立访客数
         //实时在线人数
         Long onlineUsers = 0L;
-        String onlineUsersKey = StrUtil.format(PornConstants.RedisKey.KPN_SITE_ONLINE_COUNT);
+        String onlineUsersKey = StrUtil.format(MarksixConstants.RedisKey.KPN_SITE_ONLINE_COUNT);
         if(null!=user&&null!=user.getSiteId()&&0!=user.getSiteId()) {
             Object obj = RedisRepository.get(StrUtil.format(onlineUsersKey , user.getSiteId()));//实时在线人数
             onlineUsers = null!=obj?(Long) obj:0L;

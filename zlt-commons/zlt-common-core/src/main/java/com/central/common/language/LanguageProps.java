@@ -1,4 +1,4 @@
-//package com.central.porn.core.language;
+//package com.central.marksix.core.language;
 //
 //import lombok.Getter;
 //import lombok.Setter;

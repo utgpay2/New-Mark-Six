@@ -2,15 +2,15 @@ package com.central.user.jobs;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
-import com.central.common.constant.PornConstants;
+import com.central.common.constant.MarksixConstants;
 import com.central.common.constant.SecurityConstants;
 import com.central.common.model.SysUser;
 import com.central.common.redis.template.RedisRepository;
 import com.central.user.service.ISysUserService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shardingsphere.elasticjob.api.ShardingContext;
-import org.apache.shardingsphere.elasticjob.simple.job.SimpleJob;
+import org.apache.shardingsphere.job.api.ShardingContext;
+import org.apache.shardingsphere.job.simple.job.SimpleJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +43,7 @@ public class CheckUserOfflineJob implements SimpleJob {
 
         String redisKey = SecurityConstants.REDIS_UNAME_TO_ACCESS + "online";
         for (SysUser sysUser : onlineUserList) {
-            Set<String> onlineUserKey = RedisRepository.keys(redisKey + PornConstants.Symbol.COLON + sysUser.getUsername());
+            Set<String> onlineUserKey = RedisRepository.keys(redisKey + MarksixConstants.Symbol.COLON + sysUser.getUsername());
             if (CollUtil.isEmpty(onlineUserKey)) {
 //                sysUser.setOnlineStatus(2);
                 userService.saveOrUpdateUser(sysUser);

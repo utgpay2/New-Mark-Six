@@ -1,6 +1,6 @@
 package com.central.gateway.filter;
 
-import com.central.common.constant.PornConstants;
+import com.central.common.constant.MarksixConstants;
 import com.central.log.properties.TraceProperties;
 import com.central.log.trace.MDCTraceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +36,8 @@ public class TraceFilter implements GlobalFilter, Ordered {
                     .headers(h -> {
                         h.add(MDCTraceUtils.TRACE_ID_HEADER, MDCTraceUtils.getTraceId());
                         h.add(MDCTraceUtils.SPAN_ID_HEADER, MDCTraceUtils.getSpanId());
-                        h.add(PornConstants.Str.REHOST, h.getFirst(PornConstants.Str.Host));
-                        h.add(PornConstants.Str.REFERER, h.getFirst(PornConstants.Str.REFERER));
+                        h.add(MarksixConstants.Str.REHOST, h.getFirst(MarksixConstants.Str.Host));
+                        h.add(MarksixConstants.Str.REFERER, h.getFirst(MarksixConstants.Str.REFERER));
                     })
                     .build();
 

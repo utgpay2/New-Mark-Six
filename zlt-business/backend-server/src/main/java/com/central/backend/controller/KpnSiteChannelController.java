@@ -7,7 +7,7 @@ import com.central.backend.service.IKpnTagService;
 import com.central.backend.vo.CategoryVo;
 import com.central.backend.vo.KpnTagVo;
 import com.central.common.annotation.LoginUser;
-import com.central.common.constant.PornConstants;
+import com.central.common.constant.MarksixConstants;
 import com.central.common.model.KpnSiteChannel;
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
@@ -59,7 +59,7 @@ public class KpnSiteChannelController {
         Map<Long, KpnTagVo> map = tagList.stream().collect(Collectors.toMap(KpnTagVo::getId, (p) -> p));
         list.getData().stream().forEach(info->{
             if (info.getIcon()!=null){
-                info.setIcon(externalEndpoint + PornConstants.Symbol.FORWARD_SLASH + info.getIcon());
+                info.setIcon(externalEndpoint + MarksixConstants.Symbol.FORWARD_SLASH + info.getIcon());
             }
             //关联标签
             if (info.getTags()!=null){

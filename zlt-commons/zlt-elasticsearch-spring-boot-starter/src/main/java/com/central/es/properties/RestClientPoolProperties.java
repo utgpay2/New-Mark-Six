@@ -16,7 +16,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
  */
 @Setter
 @Getter
-@ConfigurationProperties(prefix = "zlt.elasticsearch.rest-pool")
+@ConfigurationProperties(prefix = "zlt.search.rest-pool")
 @RefreshScope
 public class RestClientPoolProperties {
     /**
