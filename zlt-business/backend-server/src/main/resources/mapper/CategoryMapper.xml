@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.central.backend.mapper.CategoryMapper">
+    <select id="findList" resultType="com.central.common.model.Category">
+        select * from mks_category t
+        <where>
+            1=1
+<!--            <if test="p.lotteryId != null and  p.lotteryId != '' and p.lotteryId != 0">-->
+<!--                and t.lottery_id = #{p.lotteryId}-->
+<!--            </if>-->
+            <if test="p.name != null and p.name != ''">
+                and t.name LIKE CONCAT('%',#{p.name},'%')
+            </if>
+            ORDER BY t.sort <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 2"> DESC </when><otherwise> ASC </otherwise></choose>
+        </where>
+    </select>
+
+</mapper>

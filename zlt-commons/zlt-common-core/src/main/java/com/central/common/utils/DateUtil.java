@@ -244,4 +244,22 @@ public class DateUtil {
         String time = getSimpleDateFormat().format(cal.getTime());
         return time;
     }
+
+    /**
+     * 获取当前年
+     * @return
+     */
+    public static int getYear() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.YEAR);
+    }
+
+    /**
+     * 获取当前日
+     * @return
+     */
+    public static int getMonth() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.MONTH) + 1;
+    }
 }

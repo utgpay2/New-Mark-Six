@@ -13,4 +13,6 @@ public class CategoryVo {
     private Long categoryId;
     @ApiModelProperty(value = "标签分类名称")
     private String categoryName;
+    @ApiModelProperty(value = "顺序")
+    private Integer sort;
 }

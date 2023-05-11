@@ -3,17 +3,15 @@ package com.central.backend.controller.movie;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.alibaba.fastjson.JSONObject;
 import com.central.backend.model.dto.KpnSiteMoviePayTypeDto;
 import com.central.backend.model.dto.KpnSiteMovieStatusDto;
 import com.central.backend.service.IAsyncService;
 import com.central.backend.service.IKpnMovieTagService;
 import com.central.backend.service.IKpnSiteMovieService;
-import com.central.backend.service.IKpnTagCategoryService;
+import com.central.backend.service.ICategoryService;
 import com.central.common.annotation.LoginUser;
 import com.central.common.model.*;
 import com.central.common.model.enums.KpnMovieCountryEnum;
-import com.central.common.utils.I18nUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +38,7 @@ public class KpnSiteMovieController {
     private IKpnMovieTagService movieTagService;
 
     @Autowired
-    private IKpnTagCategoryService tagCategoryService;
+    private ICategoryService tagCategoryService;
 
     @Autowired
     private IAsyncService asyncService;
@@ -57,7 +55,7 @@ public class KpnSiteMovieController {
 //    @GetMapping("/getTagCategoryOptions")
 //    private Result<Map<Integer, String>> getTagCategoryOptions() {
 //        // TODO 按角色筛选
-//        List<KpnTagCategory> tagCategoryList = tagCategoryService.getOptions();
+//        List<Category> tagCategoryList = tagCategoryService.getOptions();
 //        Map<Long, String> collect = tagCategoryList.stream().collect(Collectors.toMap(c -> c.getId(), c -> c.getName(), (o, o2) -> o2));
 //        collect.put(-1L, I18nUtil.))
 //        return Result.succeed(MapUtil.sort(optionMap));

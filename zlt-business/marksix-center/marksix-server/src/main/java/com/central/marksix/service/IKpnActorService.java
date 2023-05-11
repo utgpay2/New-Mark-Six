@@ -1,6 +1,5 @@
 package com.central.marksix.service;
 
-import com.central.common.model.KpnActor;
 import com.central.common.service.ISuperService;
 
 import java.util.List;
