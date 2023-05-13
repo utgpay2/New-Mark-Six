@@ -3,8 +3,10 @@ package com.central.marksix.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.central.common.model.Lottery;
 import com.central.common.model.PageResult;
+import com.central.common.model.SysUser;
 import com.central.common.model.enums.StatusEnum;
 import com.central.common.service.impl.SuperServiceImpl;
+import com.central.marksix.entity.vo.SiteLotteryVO;
 import com.central.marksix.mapper.LotteryMapper;
 import com.central.marksix.service.ILotteryService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +33,14 @@ public class LotteryServiceImpl extends SuperServiceImpl<LotteryMapper, Lottery>
      * @return
      */
     @Override
-    public List<Lottery> findList(Map<String, Object> params){
+    public List<SiteLotteryVO> findList(Map<String, Object> params, SysUser user){
         if(null==params){
             params = new HashMap<>();
+        }
+        if(null==user){
+            params.put("siteId", "");
+        }else {
+            params.put("siteId", user.getSiteId());
         }
         params.put("isDisplay", StatusEnum.ONE_FALSE.getStatus());
         return baseMapper.findList( params);

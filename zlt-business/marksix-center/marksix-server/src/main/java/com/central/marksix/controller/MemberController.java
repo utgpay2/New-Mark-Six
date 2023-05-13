@@ -18,7 +18,6 @@ import com.central.common.redis.lock.RedissLockUtil;
 import com.central.oss.model.ObjectInfo;
 import com.central.oss.template.MinioTemplate;
 import com.central.marksix.entity.PornPageResult;
-import com.central.marksix.entity.co.MemberChannelSortCo;
 import com.central.marksix.entity.dto.KpnSiteAnnouncementUserDto;
 import com.central.marksix.entity.vo.*;
 import com.central.marksix.service.*;
@@ -48,15 +47,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/v1/member")
 @Api(tags = "会员相关api接口")
 public class MemberController {
-
-    @Autowired
-    private IKpnSiteActorService siteActorService;
-
-    @Autowired
-    private IKpnSiteChannelService siteChannelService;
-
-    @Autowired
-    private IKpnSiteMovieService siteMovieService;
 
     @Resource
     private MinioTemplate minioTemplate;
@@ -96,15 +86,6 @@ public class MemberController {
 
     @Autowired
     private IKpnSiteOrderService siteOrderService;
-
-    @Autowired
-    private IKpnSiteUserMovieHistoryService userMovieHistoryService;
-
-    @Autowired
-    private IKpnSiteUserMovieFavoritesService userMovieFavoritesService;
-
-    @Autowired
-    private IKpnSiteUserActorFavoritesService userActorFavoritesService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -321,47 +302,6 @@ public class MemberController {
         }
     }
 
-//    @ApiOperation(value = "查询我的浏览历史")
-//    @GetMapping("/history/movie")
-//    public Result<PornPageResult<KpnSiteMovieBaseVo>> watchHistory(@ApiIgnore @LoginUser SysUser user,
-//                                                                   @ApiParam("当前页") Integer currPage,
-//                                                                   @ApiParam("每页条数") Integer pageSize) {
-//        try {
-//            PornPageResult<KpnSiteMovieBaseVo> watchHistoryPageResult = userMovieHistoryService.getWatchHistoryByPage(user.getSiteId(), user.getId(), currPage, pageSize);
-//            return Result.succeed(watchHistoryPageResult, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    @ApiOperation(value = "查询我的收藏影片")
-//    @GetMapping("/favorites/movie")
-//    public Result<PornPageResult<KpnSiteMovieBaseVo>> favoritesHistory(@ApiIgnore @LoginUser SysUser user,
-//                                                                       @ApiParam("当前页") Integer currPage,
-//                                                                       @ApiParam("每页条数") Integer pageSize) {
-//        try {
-//            PornPageResult<KpnSiteMovieBaseVo> watchHistoryPageResult = userMovieFavoritesService.getFavoritesMoviesByPage(user.getSiteId(), user.getId(), currPage, pageSize);
-//            return Result.succeed(watchHistoryPageResult, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    @ApiOperation(value = "查询我的收藏演员")
-//    @GetMapping("/favorites/actor")
-//    public Result<PornPageResult<KpnActorVo>> actorHistory(@ApiIgnore @LoginUser SysUser user,
-//                                                                       @ApiParam("当前页") Integer currPage,
-//                                                                       @ApiParam("每页条数") Integer pageSize) {
-//        try {
-//            PornPageResult<KpnActorVo> actorPageResult = userActorFavoritesService.getFavoritesActorsByPage(user.getSiteId(), user.getId(), currPage, pageSize);
-//            return Result.succeed(actorPageResult, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
 
     /**
      * 保存意见反馈
@@ -632,166 +572,5 @@ public class MemberController {
             return Result.failed("failed");
         }
     }
-
-//    /**
-//     * 获取会员自定义频道
-//     *
-//     * @return
-//     */
-//    @GetMapping("/channels")
-//    @ApiOperation(value = "获取会员自定义频道")
-//    public Result<List<KpnMemberChannelVo>> getUserChannels(@ApiIgnore @LoginUser SysUser user) {
-//        try {
-//            List<KpnSiteChannel> memberChannels = siteChannelService.getMemberChannels(user.getId());
-//
-//            List<KpnMemberChannelVo> memberChannelVos = memberChannels.stream().map(kpnSiteChannel -> {
-//                KpnMemberChannelVo memberChannelVo = new KpnMemberChannelVo();
-//                BeanUtil.copyProperties(kpnSiteChannel, memberChannelVo);
-//                memberChannelVo.setName(LanguageUtil.getLanguageName(memberChannelVo));
-//                memberChannelVo.setIcon(externalEndpoint + MarksixConstants.Symbol.FORWARD_SLASH + kpnSiteChannel.getIcon());
-//                return memberChannelVo;
-//            }).collect(Collectors.toList());
-//
-//            return Result.succeed(memberChannelVos, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 会员自定义频道-排序
-//     *
-//     * @return
-//     */
-//    @PostMapping("/channel/sort")
-//    @ApiOperation(value = "会员自定义频道排序")
-//    public Result<String> changeChannelsSort(@ApiIgnore @LoginUser SysUser user, @RequestBody List<MemberChannelSortCo> channelSortCos) {
-//        try {
-//            siteChannelService.saveMemberChannelsSort(user.getId(), channelSortCos);
-//            return Result.succeed("succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 会员自定义频道-添加
-//     *
-//     * @param user      登录会员
-//     * @param channelId 添加频道id
-//     * @return
-//     */
-//    @PostMapping("/channel/add")
-//    @ApiOperation(value = "会员自定义频道-添加")
-//    public Result<String> addChannel(@ApiIgnore @LoginUser SysUser user, Long channelId) {
-//        try {
-//            siteChannelService.addChannel(user.getId(), user.getUsername(), user.getSiteId(), user.getSiteCode(), user.getSiteName(), channelId);
-//            return Result.succeed("succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 会员自定义频道-移除频道
-//     *
-//     * @param user      登录会员
-//     * @param channelId 添加频道id
-//     * @return
-//     */
-//    @PostMapping("/channel/remove")
-//    @ApiOperation(value = "会员自定义频道-移除")
-//    public Result<String> removeChannel(@ApiIgnore @LoginUser SysUser user, Long channelId) {
-//        try {
-//            siteChannelService.removeChannel(user.getId(), channelId);
-//            return Result.succeed("succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 会员添加影片收藏
-//     *
-//     * @return 影片收藏量
-//     */
-//    @PostMapping("/favorites/add/movie")
-//    @ApiOperation(value = "会员添加影片收藏")
-//    public Result<Long> addMovieFavorites(@ApiIgnore @LoginUser SysUser user, Long movieId) {
-//        try {
-//            Long siteMovieFavorites = siteMovieService.addSiteMovieFavorites(user.getSiteId(), user.getId(), movieId);
-//
-//            return Result.succeed(siteMovieFavorites, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 会员移除影片收藏
-//     *
-//     * @return 影片收藏量
-//     */
-//    @PostMapping("/favorites/remove/movie")
-//    @ApiOperation(value = "取消影片收藏")
-//    public Result<Long> removeMovieFavorites(@ApiIgnore @LoginUser SysUser user, Long movieId) {
-//        try {
-//            Long siteMovieFavorites = siteMovieService.removeSiteMovieFavorites(user.getSiteId(), user.getId(), movieId);
-//
-//            return Result.succeed(siteMovieFavorites, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 会员添加演员收藏
-//     *
-//     * @return 站点演员收藏量
-//     */
-//    @PostMapping("/favorites/add/actor")
-//    @ApiOperation(value = "会员添加演员收藏")
-//    public Result<Long> addActorFavorites(@ApiIgnore @LoginUser SysUser user, Long actorId) {
-//        try {
-//            if (ObjectUtil.isEmpty(user)) {
-//                return Result.failed("请先登录");
-//            }
-//
-//            Long siteActorFavorites = siteActorService.addSiteActorFavorites(user.getSiteId(), user.getId(), actorId);
-//
-//            return Result.succeed(siteActorFavorites, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 会员移除演员收藏
-//     *
-//     * @return 演员收藏量
-//     */
-//    @PostMapping("/favorites/remove/actor")
-//    @ApiOperation(value = "取消演员收藏")
-//    public Result<Long> removeActorFavorites(@ApiIgnore @LoginUser SysUser user, Long actorId) {
-//        try {
-//            if (ObjectUtil.isEmpty(user)) {
-//                return Result.failed("请先登录");
-//            }
-//            Long siteActorFavorites = siteActorService.removeSiteActorFavorites(user.getSiteId(), user.getId(), actorId);
-//
-//            return Result.succeed(siteActorFavorites, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-
 
 }

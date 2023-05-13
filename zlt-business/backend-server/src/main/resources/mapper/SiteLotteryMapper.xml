@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.central.marksix.mapper.LotteryMapper">
-    <select id="findList" resultType="com.central.marksix.entity.vo.SiteLotteryVO">
+<mapper namespace="com.central.backend.mapper.SiteLotteryMapper">
+    <select id="findList" resultType="com.central.backend.model.vo.SiteLotteryVO">
         select ml.id as id,ml.lottery_name as lotteryName,ml.sort as sort,ml.picture as picture,
         ml.bet_deadline_time as betDeadlineTime,ml.bet_settlement_time as betSettlementTime,
         l.create_time as createTime,l.update_time as updateTime,
@@ -13,11 +13,11 @@
         ON l.lottery_id=ml.id
         <where>
             1=1
-            <if test="p.isDisplay != null and  p.isDisplay != ''">
-                and ml.is_display = #{p.isDisplay}
-            </if>
-            <if test="p.siteId != null and  p.siteId != '' and  p.siteId != 0">
+            <if test="p.siteId != null and  p.siteId != '' and p.siteId != 0">
                 and l.site_id = #{p.siteId}
+            </if>
+            <if test="p.name != null and p.name != ''">
+                and ml.lottery_name LIKE CONCAT('%',#{p.name},'%')
             </if>
             ORDER BY ml.sort <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 2"> DESC </when><otherwise> ASC </otherwise></choose>
         </where>

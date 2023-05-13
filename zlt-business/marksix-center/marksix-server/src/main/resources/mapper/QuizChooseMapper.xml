@@ -6,9 +6,6 @@
         select * from mks_quiz_choose t
         <where>
             1=1
-            <if test="p.lotteryId != null and  p.lotteryId != '' and  p.lotteryId != 0">
-                and t.lottery_id = #{p.lotteryId}
-            </if>
             <if test="p.quizId != null and  p.quizId != '' and  p.quizId != 0">
                 and t.quiz_id = #{p.quizId}
             </if>

@@ -11,10 +11,7 @@ import com.central.common.model.*;
 import com.central.common.model.enums.*;
 import com.central.common.redis.template.RedisRepository;
 import com.central.common.utils.I18nUtil;
-import com.central.marksix.entity.PornPageResult;
-import com.central.marksix.entity.dto.MovieSearchConditionDto;
 import com.central.marksix.entity.vo.*;
-import com.central.marksix.enums.*;
 import com.central.marksix.service.*;
 import com.central.user.feign.UaaService;
 import com.central.user.feign.UserService;
@@ -47,31 +44,10 @@ public class SiteController {
     private IKpnSiteService siteService;
 
     @Autowired
-    private IKpnSiteChannelService siteChannelService;
-
-    @Autowired
-    private IKpnSiteTopicService siteTopicService;
-
-    @Autowired
     private IKpnLineService kpnLineService;
 
     @Autowired
     private IKpnSiteAdvertiseService siteAdvertiseService;
-
-    @Autowired
-    private IKpnSiteActorService siteActorService;
-
-    @Autowired
-    private IKpnSiteMovieService siteMovieService;
-
-    @Autowired
-    private IRptSiteMovieDateService rptSiteMovieDateService;
-
-    @Autowired
-    private IRptSiteSearchTotalService rptSiteSearchTotalService;
-
-    @Autowired
-    private IRptSiteSearchDateService rptSiteSearchDateService;
 
     @Autowired
     private UserService userService;
@@ -196,83 +172,6 @@ public class SiteController {
         }
     }
 
-//    /**
-//     * 获取站点频道
-//     *
-//     * @param sid 站点id
-//     * @return
-//     */
-//    @GetMapping("/channels")
-//    @ApiOperation(value = "获取站点频道")
-//    public Result<List<KpnSiteChannelVo>> getChannels(@RequestHeader("sid") Long sid) {
-//        try {
-//            List<KpnSiteChannel> channelList = siteChannelService.getAllChannelsBySiteId(sid);
-//
-//            List<KpnSiteChannelVo> channelVos = channelList.stream().map(kpnSiteChannel -> {
-//                KpnSiteChannelVo kpnSiteChannelVo = new KpnSiteChannelVo();
-//                BeanUtil.copyProperties(kpnSiteChannel, kpnSiteChannelVo);
-//                kpnSiteChannelVo.setName(LanguageUtil.getLanguageName(kpnSiteChannelVo));
-//                if (kpnSiteChannelVo.getIsStable() && KpnStableChannelEnum.RECOMMEND.getSort().equals(kpnSiteChannelVo.getSort())) {
-//                    kpnSiteChannelVo.setIsRecommend(true);
-//                }
-//                if (kpnSiteChannelVo.getIsStable() && KpnStableChannelEnum.SEARCH.getSort().equals(kpnSiteChannelVo.getSort())) {
-//                    kpnSiteChannelVo.setIsSearch(true);
-//                }
-//                if (kpnSiteChannelVo.getIsStable() && KpnStableChannelEnum.NEWEST.getSort().equals(kpnSiteChannelVo.getSort())) {
-//                    kpnSiteChannelVo.setIsNewest(true);
-//                }
-//                if (kpnSiteChannelVo.getIsStable() && KpnStableChannelEnum.POPULAR.getSort().equals(kpnSiteChannelVo.getSort())) {
-//                    kpnSiteChannelVo.setIsHottest(true);
-//                }
-//                kpnSiteChannelVo.setIcon(externalEndpoint + MarksixConstants.Symbol.FORWARD_SLASH + kpnSiteChannelVo.getIcon());
-//
-//                return kpnSiteChannelVo;
-//            }).collect(Collectors.toList());
-//
-//            return Result.succeed(channelVos, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 获取站点专题
-//     *
-//     * @param sid 站点id
-//     * @return
-//     */
-//    @GetMapping("/topics")
-//    @ApiOperation(value = "获取站点专题")
-//    public Result<List<KpnSiteTopicVo>> getTopics(@RequestHeader("sid") Long sid,
-//                                                  @ApiParam(value = "设备类型 H5/PC", required = true) String deviceType) {
-//        try {
-//            List<KpnSiteTopicVo> siteTopicVos = siteTopicService.getBySiteId(sid);
-//            List<KpnSiteTopicVo> siteTopicVoList = new ArrayList<>();
-//            for (KpnSiteTopicVo vo:siteTopicVos) {
-//                if (KpnDeviceTypeEnum.H5.getRemark().equals(deviceType)) {
-//                    if(KpnSiteTopicComposingEnum.ONE_FALSE.getStatus()==Math.toIntExact(vo.getComposingId())||
-//                            KpnSiteTopicComposingEnum.TWO_FALSE.getStatus()==Math.toIntExact(vo.getComposingId())||
-//                            KpnSiteTopicComposingEnum.THREE_FALSE.getStatus()==Math.toIntExact(vo.getComposingId())||
-//                            KpnSiteTopicComposingEnum.Four_FALSE.getStatus()==Math.toIntExact(vo.getComposingId())){
-//                        siteTopicVoList.add(vo);
-//                    }
-//                }
-//                else if (KpnDeviceTypeEnum.PC.getRemark().equals(deviceType)) {
-//                    if(KpnSiteTopicComposingEnum.ONE_FALSE.getStatus()==Math.toIntExact(vo.getComposingId())||
-//                            KpnSiteTopicComposingEnum.TWO_FALSE.getStatus()==Math.toIntExact(vo.getComposingId())||
-//                            KpnSiteTopicComposingEnum.THREE_FALSE.getStatus()==Math.toIntExact(vo.getComposingId())||
-//                            KpnSiteTopicComposingEnum.Four_FALSE.getStatus()==Math.toIntExact(vo.getComposingId())){
-//                        siteTopicVoList.add(vo);
-//                    }
-//                }
-//            }
-//            return Result.succeed(siteTopicVoList, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
 
     /**
      * 获取站点广告
@@ -322,236 +221,6 @@ public class SiteController {
         }
     }
 
-//    /**
-//     * 热门演员表-收藏量取前10
-//     */
-//    @GetMapping("/actor/top10")
-//    @ApiOperation(value = "热门演员表Top10")
-//    public Result<List<KpnActorVo>> getActorList(@RequestHeader("sid") Long sid) {
-//        try {
-//            List<KpnActorVo> actorListByFavorites = siteActorService.getActorListByFavorites(sid, KpnSortOrderEnum.DESC.name(), 1, 10).getData();
-//            return Result.succeed(actorListByFavorites, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 热门VIP推荐
-//     */
-//    @GetMapping("/vip/top5")
-//    @ApiOperation(value = "热门VIP推荐")
-//    public Result<List<KpnSiteMovieBaseVo>> getVipTop5(@RequestHeader("sid") Long sid) {
-//        try {
-//            List<KpnSiteMovieBaseVo> siteMoviesVipTop5 = siteMovieService.searchSiteVipMovieTop5(sid);
-//            return Result.succeed(siteMoviesVipTop5, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 月播放排行榜
-//     */
-//    @GetMapping("/movie/month")
-//    @ApiOperation(value = "月播放排行榜")
-//    public Result<List<KpnSiteMovieBaseVo>> getMovieMonth(@RequestHeader("sid") Long sid) {
-//        try {
-//            List<KpnSiteMovieBaseVo> kpnSiteMovieBaseVos = rptSiteMovieDateService.searchSiteMovieMonth(sid);
-//            return Result.succeed(kpnSiteMovieBaseVos, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 站点周搜索排行榜TOP10
-//     */
-//    @GetMapping("/search/week")
-//    @ApiOperation(value = "站点周搜索排行榜TOP10")
-//    public Result<List<KpnSiteSearchVo>> getSearchWeek(@RequestHeader("sid") Long sid) {
-//        try {
-//            List<KpnSiteSearchVo> kpnSiteSearchMonthVos = rptSiteSearchDateService.getSiteSearchWeek(sid);
-//            return Result.succeed(kpnSiteSearchMonthVos, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 站点总搜索排行榜TOP10
-//     */
-//    @GetMapping("/search/total")
-//    @ApiOperation(value = "站点总搜索排行榜TOP10")
-//    public Result<List<KpnSiteSearchVo>> getSearchTotal(@RequestHeader("sid") Long sid) {
-//        try {
-//            List<KpnSiteSearchVo> kpnSiteSearchMonthVos = rptSiteSearchTotalService.getSiteSearchTotal(sid);
-//            return Result.succeed(kpnSiteSearchMonthVos, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 关键词搜索影片
-//     */
-//    @GetMapping("/search/keywords")
-//    @ApiOperation(value = "关键词搜索影片")
-//    public Result<PornPageResult<KpnSiteMovieBaseVo>> searchMovieByKeywords(@ApiParam(value = "站点id", required = true)
-//                                                                  @RequestHeader("sid") Long sid,
-//                                                                  @ApiParam("关键词") String keywords,
-//                                                                  @ApiParam("当前页") Integer currPage,
-//                                                                  @ApiParam("每页条数") Integer pageSize) {
-//        try {
-//            if (StrUtil.isBlank(keywords)) {
-//                return Result.failed("关键词不能为空");
-//            }
-//            if (StrUtil.length(keywords) <= 1) {
-//                return Result.failed("关键词太短");
-//            }
-//            if (StrUtil.length(keywords) > 100) {
-//                return Result.failed("关键词太长");
-//            }
-//
-//            PornPageResult<KpnSiteMovieBaseVo> kpnSiteMovieBaseVos = siteMovieService.searchSiteMovieKeywords(sid, keywords, currPage, pageSize);
-//            return Result.succeed(kpnSiteMovieBaseVos, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 找片-搜索选项
-//     *
-//     * @return
-//     */
-//    @GetMapping("/search/options")
-//    @ApiOperation(value = "找片-搜索选项")
-//    public Result<Map<String, Map<Integer, String>>> getSearchOptions() {
-//        try {
-//            //todo key走语言包返回.
-//            Map<String, Map<Integer, String>> searchOptionMap = new TreeMap<>();
-//            searchOptionMap.put(MarksixConstants.Str.COUNTRY, KpnMovieCountryEnum.getOptions());
-//            searchOptionMap.put(MarksixConstants.Str.TYPE, KpnMovieTypeEnum.getOptions());
-//            searchOptionMap.put(MarksixConstants.Str.PAY_TYPE, KpnMoviePayTypeEnum.getOptions());
-//            searchOptionMap.put(MarksixConstants.Str.SHOOTING, KpnMovieShootingEnum.getOptions());
-//            searchOptionMap.put(MarksixConstants.Str.SUBTITLE, KpnMovieSubtitleEnum.getOptions());
-//
-//            return Result.succeed(searchOptionMap, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 搜索影片库
-//     */
-//    @GetMapping("/search/depot")
-//    @ApiOperation(value = "搜索影片库")
-//    public Result<PornPageResult<KpnSiteMovieBaseVo>> searchDepot(@RequestHeader("sid") Long sid,
-//                                                                  @ApiParam("0:找片,1:标签,2:专题,3:频道,4:热门VIP推荐,5:最新,6:最热") Integer from,
-//                                                                  @ApiParam("标签/专题/频道 ID") Long fromId,
-//                                                                  @ApiParam("排序字段 HOT:最热,LATEST:最新,DURATION:时长") String sortType,
-////                                                                  @ApiParam("找片搜索条件,只在找片时使用") @RequestBody MovieSearchConditionCo searchConditionCo,
-//                                                                  @ApiParam("找片 国家 -1:全部,0:日本,1:中国大陆,2:中国台湾,3:韩国,4:欧美,5:东南亚,6:其他地区") Integer country,
-//                                                                  @ApiParam("找片 影片类型: -1:全部,0:无码,1有码") Integer type,
-//                                                                  @ApiParam("找片 付费类型: -1:全部,0:免费,1:vip") Integer payType,
-//                                                                  @ApiParam("找片 拍摄类型: -1:全部,0:专业拍摄,1:偷拍,2:自拍,3:其他") Integer shooting,
-//                                                                  @ApiParam("找片 字幕类型: -1:全部,0:无字幕,1:中文字幕,2:英文字幕,3:中英文字幕,4:其他字幕") Integer subtitle,
-//                                                                  @ApiParam("排序顺序 0:ASC,1:DESC") Integer sortOrder,
-//                                                                  @ApiParam("当前页") Integer currPage,
-//                                                                  @ApiParam("每页条数") Integer pageSize) {
-//        try {
-//            if (StrUtil.isBlank(sortType) || !KpnMovieSortTypeEnum.isLegalType(sortType.toUpperCase())) {
-//                sortType = KpnMovieSortTypeEnum.HOT.getType();
-//            }
-//
-//            if (ObjectUtil.isNull(sortOrder) || !KpnSortOrderEnum.isLegalCode(sortOrder)) {
-//                sortOrder = KpnSortOrderEnum.DESC.getCode();
-//            }
-//            //找片
-//            MovieSearchConditionDto searchConditionDto = null;
-//            if (KpnSiteMovieSearchFromEnum.isSearch(from)) {
-//                searchConditionDto = MovieSearchConditionDto.builder().country(country).type(type).payType(payType).shooting(shooting).subtitle(subtitle).build();
-//            }
-//
-//            PornPageResult<KpnSiteMovieBaseVo> kpnSiteMoviePageResult = siteMovieService.searchDepot(sid, from, fromId, sortType, sortOrder, searchConditionDto, currPage, pageSize);
-//            return Result.succeed(kpnSiteMoviePageResult, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-//
-//    /**
-//     * 演员列表查询
-//     *
-//     * @param sid       站点id
-//     * @param sortType  排序列
-//     * @param sortOrder 排序顺序
-//     * @param currPage  当前页数
-//     * @param pageSize  每页条数
-//     */
-//    @GetMapping("/actor/list")
-//    @ApiOperation(value = "演员列表")
-//    public Result<PornPageResult<KpnActorVo>> getActorList(@ApiParam(value = "站点id", required = true) @RequestHeader(value = "sid") Long sid,
-//                                                           @ApiParam("排序字段 HOT:收藏量,LATEST:最新") String sortType,
-//                                                           @ApiParam("排序顺序 0:正序,1倒序") Integer sortOrder,
-//                                                           @ApiParam("当前页数") Integer currPage,
-//                                                           @ApiParam("每页条数") Integer pageSize) {
-//        try {
-//            //排序字段
-//            if (StrUtil.isBlank(sortType) || !KpnActorSortTypeEnum.isLegalType(sortType)) {
-//                sortType = KpnActorSortTypeEnum.HOT.getType();
-//            }
-//
-//            //排序顺序
-//            if (ObjectUtil.isNull(sortOrder) || !KpnSortOrderEnum.isLegalCode(sortOrder)) {
-//                sortOrder = KpnSortOrderEnum.DESC.getCode();
-//            }
-//
-//            PornPageResult<KpnActorVo> actorPageVos = null;
-//            //按收藏量查询
-//            if (sortType.equalsIgnoreCase(KpnActorSortTypeEnum.HOT.getType())) {
-//                actorPageVos = siteActorService.getActorListByFavorites(sid, KpnSortOrderEnum.getByCode(sortOrder).name(), currPage, pageSize);
-//            }
-//            //按创建时间
-//            else if (sortType.equalsIgnoreCase(KpnActorSortTypeEnum.LATEST.getType())) {
-//                actorPageVos = siteActorService.getActorListByCreateTime(sid, KpnSortOrderEnum.getByCode(sortOrder).name(), currPage, pageSize);
-//            }
-//
-//            return Result.succeed(actorPageVos, "succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
-
-//    @ApiOperation("获取图形验证码")
-//    @GetMapping("/verifyCode")
-//    public void getVerifyCode(HttpServletResponse response,
-//                              @ApiParam(value = "图形验证码id") String verifyCodeId) throws IOException {
-//        LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(150, 50, 4, 50);
-//        String code = lineCaptcha.getCode();
-//        if (StrUtil.isBlank(verifyCodeId)) {
-//            verifyCodeId = UUID.randomUUID().toString();
-//        }
-//        RedisRepository.setExpire(verifyCodeId, code, MarksixConstants.RedisKey.EXPIRE_TIME_7_DAYS);
-//        response.setHeader(MarksixConstants.Str.VERIFY_CODE_ID, verifyCodeId);
-//        response.setHeader(MarksixConstants.Str.VERIFY_CODE_SECONDS, String.valueOf(MarksixConstants.RedisKey.EXPIRE_TIME_7_DAYS));
-//        try (ServletOutputStream outputStream = response.getOutputStream()) {
-//            lineCaptcha.write(outputStream);
-//        } catch (Exception e) {
-//            log.error("获取验证码异常:" + e.getMessage(), e);
-//        }
-//    }
 
     //todo lk
     @ApiOperation("登录")
@@ -668,16 +337,6 @@ public class SiteController {
         }
     }
 
-//    @ApiOperation(value = "token续期,每10分钟调用一次")
-//    @PostMapping("/refreshAccessToken")
-//    public Result<String> refreshAccessToken() {
-//        try {
-//            return Result.succeed("succeed");
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return Result.failed("failed");
-//        }
-//    }
     /**
      * 列表
      */

@@ -6,8 +6,8 @@
         select * from mks_quiz t
         <where>
             1=1
-            <if test="p.lotteryId != null and  p.lotteryId != '' and  p.lotteryId != 0">
-                and t.lottery_id = #{p.lotteryId}
+            <if test="p.siteCategoryId != null and  p.siteCategoryId != '' and  p.siteCategoryId != 0">
+                and t.site_category_id = #{p.siteCategoryId}
             </if>
             <if test="p.status != null and  p.status != ''">
                 and t.status = #{p.status}

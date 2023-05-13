@@ -1,11 +1,11 @@
 package com.central.marksix.controller;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.central.common.annotation.LoginUser;
 import com.central.common.model.*;
-import com.central.marksix.service.ILotteryService;
-import com.central.marksix.service.IQuizChooseService;
-import com.central.marksix.service.IQuizService;
-import com.central.marksix.service.IWnDataService;
+import com.central.marksix.entity.vo.CategoryVO;
+import com.central.marksix.entity.vo.SiteLotteryVO;
+import com.central.marksix.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,8 @@ public class LotteryController {
     private IQuizService quizService;
     @Autowired
     private IQuizChooseService quizChooseService;
+    @Autowired
+    private ISiteCategoryLotteryService categoryLotteryService;
     /**
      * 列表
      */
@@ -44,23 +47,11 @@ public class LotteryController {
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping
-    public Result<List<Lottery>> list(@RequestParam Map<String, Object> params) {
+    public Result<List<SiteLotteryVO>> list(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
 
-        return Result.succeed(lotteryService.findList(params));
+        return Result.succeed(lotteryService.findList(params,user));
     }
 
-    /**
-     * 查询
-     */
-    @ApiOperation(value = "根据彩种ID查询彩种")
-    @GetMapping("/{id}")
-    public Result findUserById(@PathVariable Long id) {
-        if (ObjectUtil.isEmpty(id)) {
-            return Result.failed("ID不能为空");
-        }
-        Lottery model = lotteryService.getById(id);
-        return Result.succeed(model, "查询成功");
-    }
 
     /**
      * 列表
@@ -96,6 +87,22 @@ public class LotteryController {
         }
         return Result.succeed(wnDataService.lastOneWnData(id));
     }
+    @ApiOperation(value = "查询站点下注分类（系统管理员权限）")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "分类名称", required = false, dataType = "String"),
+            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
+    })
+    @GetMapping("/listsitecategory")
+    public Result<List<CategoryVO>> listSiteCategory(@RequestParam Map<String, Object> params) {
+        if (ObjectUtil.isEmpty(params)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("siteLotteryId"))) {
+            return Result.failed("站点彩种ID不能为空");
+        }
+        return Result.succeed(categoryLotteryService.findList(params));
+    }
     @ApiOperation(value = "查询彩票规则主表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "lotteryId", value = "彩种id", required = true, dataType = "Integer"),
@@ -106,8 +113,8 @@ public class LotteryController {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
-        if (ObjectUtil.isEmpty(params.get("lotteryId"))) {
-            return Result.failed("彩种id不能为空");
+        if (ObjectUtil.isEmpty(params.get("siteCategoryId"))) {
+            return Result.failed("站点分类ID不能为空");
         }
         return Result.succeed(quizService.findList(params));
     }
@@ -121,9 +128,6 @@ public class LotteryController {
     public Result<List<QuizChoose>> quizChooseList(@RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
-        }
-        if (ObjectUtil.isEmpty(params.get("lotteryId"))) {
-            return Result.failed("彩种id不能为空");
         }
         if (ObjectUtil.isEmpty(params.get("quizId"))) {
             return Result.failed("彩票规则主表id不能为空");

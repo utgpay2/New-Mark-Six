@@ -3,6 +3,7 @@ package com.central.marksix.mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.central.common.model.Lottery;
 import com.central.db.mapper.SuperMapper;
+import com.central.marksix.entity.vo.SiteLotteryVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,5 +23,5 @@ public interface LotteryMapper extends SuperMapper<Lottery> {
      * @param params
      * @return
      */
-    List<Lottery> findList(@Param("p") Map<String, Object> params);
+    List<SiteLotteryVO> findList(@Param("p") Map<String, Object> params);
 }

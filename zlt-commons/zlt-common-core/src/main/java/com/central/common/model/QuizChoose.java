@@ -32,8 +32,6 @@ public class QuizChoose extends SuperEntity {
     private Integer sort;
     @ApiModelProperty(value = "状态 1：启用 2：禁用 3：淘料专用")
     private Integer status;
-    @ApiModelProperty(value = "彩种")
-    private Integer lotteryId;
     @ApiModelProperty(value = "赔率")
     private Double odds;
     @ApiModelProperty(value = "标记")

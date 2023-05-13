@@ -1,20 +1,18 @@
 package com.central.backend.service.impl;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.central.backend.mapper.CategoryMapper;
-import com.central.backend.model.vo.CategoryVO;
 import com.central.backend.service.ICategoryService;
-import com.central.common.KpnMovieTag;
+import com.central.backend.service.ISiteCategoryLotteryService;
 import com.central.common.model.Category;
-import com.central.common.model.PageResult;
 import com.central.common.model.Result;
+import com.central.common.model.SiteCategoryLottery;
 import com.central.common.model.SysUser;
 import com.central.common.service.impl.SuperServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.MapUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +26,8 @@ import java.util.Map;
 @Slf4j
 @Service
 public class CategoryServiceImpl extends SuperServiceImpl<CategoryMapper, Category> implements ICategoryService {
+    @Autowired
+    private ISiteCategoryLotteryService categoryLotteryService;
     @Override
     public List<Category> findList(Map<String, Object> params){
         List<Category> list  =  baseMapper.findList(params);
@@ -35,8 +35,15 @@ public class CategoryServiceImpl extends SuperServiceImpl<CategoryMapper, Catego
     }
     @Override
     public Result deleteCategory(Long id){
-        this.removeById(id);
-        return Result.succeed("删除成功");
+        LambdaQueryWrapper<SiteCategoryLottery> wrapper=new LambdaQueryWrapper<>();
+        wrapper.eq(SiteCategoryLottery::getCategoryId,id);
+        List<SiteCategoryLottery> list = categoryLotteryService.getBaseMapper().selectList(wrapper);
+        if(null!=list && list.size()>0){
+            return Result.failed("请删除站点下分类，再删除分类");
+        }else {
+            this.removeById(id);
+            return Result.succeed("删除成功");
+        }
     }
 
     @Override

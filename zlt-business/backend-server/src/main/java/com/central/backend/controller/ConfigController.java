@@ -5,7 +5,6 @@ import com.central.backend.vo.FullSourceVo;
 import com.central.common.dto.I18nSourceDTO;
 import com.central.common.language.LanguageEnum;
 import com.central.common.model.Result;
-import com.central.common.model.enums.KpnMovieCountryEnum;
 import com.central.common.utils.I18nUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,11 +28,11 @@ public class ConfigController {
     /**
      * 列表
      */
-    @ApiOperation(value = "查询国家列表")
-    @GetMapping("/country")
-    public Result<Map<Integer, String>> list() {
-        return Result.succeed(KpnMovieCountryEnum.getOptions());
-    }
+//    @ApiOperation(value = "查询国家列表")
+//    @GetMapping("/country")
+//    public Result<Map<Integer, String>> list() {
+//        return Result.succeed(KpnMovieCountryEnum.getOptions());
+//    }
 
     /**
      * 列表

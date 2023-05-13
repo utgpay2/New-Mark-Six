@@ -1,7 +1,9 @@
 package com.central.backend.controller;
 
+import java.util.List;
 import java.util.Map;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.central.backend.service.IQuizService;
 import com.central.common.model.Quiz;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,30 +36,40 @@ public class QuizController {
      */
     @ApiOperation(value = "查询列表")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "siteCategoryId", value = "站点分类ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
     })
     @GetMapping
-    public PageResult list(@RequestParam Map<String, Object> params) {
-        return quizService.findList(params);
+    public Result<List<Quiz>> list(@RequestParam Map<String, Object> params) {
+        if (ObjectUtil.isEmpty(params)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("siteCategoryId"))) {
+            return Result.failed("站点分类ID");
+        }
+        return Result.succeed(quizService.findList(params));
     }
 
-    /**
-     * 查询
-     */
-    @ApiOperation(value = "查询")
-    @GetMapping("/{id}")
-    public Result findUserById(@PathVariable Long id) {
-        Quiz model = quizService.getById(id);
-        return Result.succeed(model, "查询成功");
-    }
 
     /**
      * 新增or更新
      */
-    @ApiOperation(value = "保存")
+    @ApiOperation(value = "新增or更新")
     @PostMapping
     public Result save(@RequestBody Quiz quiz) {
+        if (ObjectUtil.isEmpty(quiz)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(quiz.getTitle())) {
+            return Result.failed("标题不能为空");
+        }
+        if (ObjectUtil.isEmpty(quiz.getSiteCategoryId())) {
+            return Result.failed("站点分类ID不能为空");
+        }
+        if (ObjectUtil.isEmpty(quiz.getSort())) {
+            return Result.failed("顺序不能为空");
+        }
         quizService.saveOrUpdate(quiz);
         return Result.succeed("保存成功");
     }
@@ -67,8 +79,8 @@ public class QuizController {
      */
     @ApiOperation(value = "删除")
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable Long id) {
-        quizService.removeById(id);
+    public Result deleteQuiz(@PathVariable Long id) {
+        quizService.deleteQuiz(id);
         return Result.succeed("删除成功");
     }
 }

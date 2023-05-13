@@ -1,9 +1,12 @@
 package com.central.backend.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.central.backend.mapper.SiteCategoryLotteryMapper;
 import com.central.backend.model.vo.CategoryVO;
+import com.central.backend.service.IQuizService;
 import com.central.backend.service.ISiteCategoryLotteryService;
 import com.central.common.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.central.common.service.impl.SuperServiceImpl;
 
@@ -22,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class SiteCategoryLotteryServiceImpl extends SuperServiceImpl<SiteCategoryLotteryMapper, SiteCategoryLottery> implements ISiteCategoryLotteryService {
+    @Autowired
+    private IQuizService quizService;
     /**
      * 列表
      * @param params
@@ -33,8 +38,15 @@ public class SiteCategoryLotteryServiceImpl extends SuperServiceImpl<SiteCategor
     }
     @Override
     public Result deleteSiteCategory(Long id){
-        this.removeById(id);
-        return Result.succeed("删除成功");
+        LambdaQueryWrapper<Quiz> wrapper=new LambdaQueryWrapper<>();
+        wrapper.eq(Quiz::getSiteCategoryId,id);
+        List<Quiz> list = quizService.getBaseMapper().selectList(wrapper);
+        if(null!=list && list.size()>0){
+            return Result.failed("请删除站点分类下规则主表，再删除站点分类");
+        }else {
+            this.removeById(id);
+            return Result.succeed("删除成功");
+        }
     }
 
     @Override

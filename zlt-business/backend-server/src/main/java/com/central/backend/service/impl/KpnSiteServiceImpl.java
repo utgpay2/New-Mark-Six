@@ -6,7 +6,6 @@ import com.central.backend.co.KpnSiteCo;
 import com.central.backend.co.KpnSiteUpdateCo;
 import com.central.backend.mapper.KpnSiteMapper;
 import com.central.backend.service.IAsyncService;
-import com.central.backend.service.IKpnSiteChannelService;
 import com.central.backend.service.IKpnSiteService;
 import com.central.backend.vo.KpnSiteListVo;
 import com.central.backend.vo.KpnSiteVo;
@@ -31,8 +30,6 @@ import java.util.Random;
 public class KpnSiteServiceImpl extends SuperServiceImpl<KpnSiteMapper, KpnSite> implements IKpnSiteService {
 
 
-    @Autowired
-    private IKpnSiteChannelService siteChannelService;
 
     @Autowired
     private IAsyncService asyncService;
@@ -74,8 +71,6 @@ public class KpnSiteServiceImpl extends SuperServiceImpl<KpnSiteMapper, KpnSite>
         //新增
         if (kpnSite.getId() == null) {
             insert = super.save(kpnSite);
-            //生成站点对应的频道栏目配置
-            siteChannelService.saveSiteChannelList(kpnSite.getId(), kpnSite.getCode(), kpnSite.getName(), kpnSite.getCreateBy());
         } else {
             KpnSite info = baseMapper.selectById(kpnSite.getId());
             if (info == null) {
