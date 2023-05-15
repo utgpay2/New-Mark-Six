@@ -1,4 +1,4 @@
-server:
+Qserver:
   port: 6000
 
 spring:
