@@ -6,7 +6,9 @@ import com.central.backend.model.dto.SysAdminUserEnabledDto;
 import com.central.common.model.*;
 import com.central.common.service.ISuperService;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author yixiu
@@ -26,4 +28,16 @@ public interface IAdminUserService extends ISuperService<SysUser> {
 	Result updateVerify(Long id);
 	Result updateGaBind(GaBindCo params);
 	boolean delUser(Long id);
+	/**
+	 * 用户分配角色
+	 * @param id
+	 * @param roleIds
+	 */
+	void setRoleToUser(Long id, Set<Long> roleIds);
+	/**
+	 * 用户角色列表
+	 * @param userId
+	 * @return
+	 */
+	List<SysRole> findRolesByUserId(Long userId);
 }

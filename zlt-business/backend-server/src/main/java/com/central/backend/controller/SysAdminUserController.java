@@ -1,11 +1,13 @@
 package com.central.backend.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.central.backend.co.GaBindCo;
 import com.central.backend.model.dto.SysAdminUserDto;
 import com.central.backend.model.dto.SysAdminUserEnabledDto;
 import com.central.backend.model.dto.SysAdminUserPasswordDto;
 import com.central.backend.service.IAdminUserService;
+import com.central.backend.vo.UserInfoVo;
 import com.central.common.annotation.LoginUser;
 import com.central.common.model.*;
 import io.swagger.annotations.Api;
@@ -19,7 +21,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author yixiu
@@ -218,5 +222,40 @@ public class SysAdminUserController {
 //        cacheEvictUser(id);
         iAdminUserService.delUser(id);
         return Result.succeed("删除成功");
+    }
+
+    @GetMapping("/users/info")
+    @ApiOperation(value = "查询登录用户基本信息")
+    public Result<UserInfoVo> findUserInfoById(@LoginUser SysUser user) {
+        SysUser sysUser = iAdminUserService.selectById(user.getId());
+        UserInfoVo vo = new UserInfoVo();
+        BeanUtil.copyProperties(sysUser, vo);
+        vo.setIsAutoBet(vo.getIsAutoBet() == null ? false : vo.getIsAutoBet());
+        return Result.succeed(vo);
+    }
+
+
+    /**
+     * 管理后台给用户分配角色
+     *
+     * @param id
+     * @param roleIds
+     */
+    @PostMapping("/users/{id}/roles")
+    @ApiOperation(value = "管理后台给用户分配角色")
+    public void setRoleToUser(@PathVariable Long id, @RequestBody Set<Long> roleIds) {
+        iAdminUserService.setRoleToUser(id, roleIds);
+    }
+
+    /**
+     * 获取用户的角色
+     *
+     * @param
+     * @return
+     */
+    @GetMapping("/users/{id}/roles")
+    @ApiOperation(value = "获取用户的角色")
+    public List<SysRole> findRolesByUserId(@PathVariable Long id) {
+        return iAdminUserService.findRolesByUserId(id);
     }
 }

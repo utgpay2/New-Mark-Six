@@ -156,9 +156,19 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
     }
 
     /**
+     * 获取用户的角色
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<SysRole> findRolesByUserId(Long userId) {
+        return roleUserService.findRolesByUserId(userId);
+    }
+    /**
      * 给用户设置角色
      */
     @Transactional(rollbackFor = Exception.class)
+    @Override
     public void setRoleToUser(Long id, Set<Long> roleIds) {
         SysUser sysUser = baseMapper.selectById(id);
         if (sysUser == null) {
