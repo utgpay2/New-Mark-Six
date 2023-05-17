@@ -19,7 +19,6 @@ import java.util.Map;
 public interface LotteryMapper extends SuperMapper<Lottery> {
     /**
      * 分页查询用户列表
-     * @param page
      * @param params
      * @return
      */

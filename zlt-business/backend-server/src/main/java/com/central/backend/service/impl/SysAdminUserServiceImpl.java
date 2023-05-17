@@ -259,6 +259,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                         user.setSiteCode(kpnSite.getCode());
                         //站点名称
                         user.setSiteName(kpnSite.getName());
+                        user.setUsername(kpnSite.getCode() + "_" +adminUserVo.getUsername());
                     }
                 }
             }

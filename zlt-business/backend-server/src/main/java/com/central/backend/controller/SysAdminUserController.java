@@ -93,7 +93,7 @@ public class SysAdminUserController {
      *
      * @param id
      */
-    @PutMapping(value = "/{id}/password")
+    @PutMapping(value = "/password/{id}")
     @ApiOperation("管理后台，给用户重置密码")
     public Result resetPassword(@PathVariable Long id) {
         if (ObjectUtil.isEmpty(id)) {
@@ -130,9 +130,9 @@ public class SysAdminUserController {
         if (ObjectUtil.isEmpty(passwordDto.getNewPassword())) {
             return Result.failed("新密码不能为空");
         }
-        if (checkAdmin(passwordDto.getId())) {
-            return Result.failed(ADMIN_CHANGE_MSG);
-        }
+//        if (checkAdmin(passwordDto.getId())) {
+//            return Result.failed(ADMIN_CHANGE_MSG);
+//        }
         iAdminUserService.updatePassword(passwordDto.getId(), passwordDto.getOldPassword(), passwordDto.getNewPassword());
         return Result.succeed("重置成功");
     }
@@ -299,15 +299,16 @@ public class SysAdminUserController {
 //        if (!cachedCode.equalsIgnoreCase(verifyCode)) {
 //            return Result.failed("验证码错误");
 //        }
+        if (null!=sid && sid !=0 ) {
+            KpnSite kpnSite = siteService.getById(sid);
+            username = kpnSite.getCode() + "_" + username;
+        }
 
-        KpnSite kpnSite = siteService.getById(sid);
-
-        username = kpnSite.getCode() + "_" + username;
         LoginAppUser sysUser = userService.findByUsername(username);
         if (sysUser == null || !sysUser.getEnabled()) {
             return Result.failed("用户名或密码错误");
         }
-        if(!UserTypeEnum.BACKEND.equals(sysUser.getType())){
+        if(!UserTypeEnum.BACKEND.name().equals(sysUser.getType())){
             return Result.failed("非管理员用户");
         }
 
