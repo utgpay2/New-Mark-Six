@@ -258,6 +258,9 @@ public class SiteController {
         if (sysUser == null || !sysUser.getEnabled()) {
             return Result.failed("用户名或密码错误");
         }
+        if(!UserTypeEnum.APP.equals(sysUser.getType())){
+            return Result.failed("非普通用户");
+        }
 
         Result tokenResult = uaaService.login(authorization, username, password, AUTHENTICATION_MODE);
         if (tokenResult == null || !tokenResult.getResp_code().equals(CodeEnum.SUCCESS.getCode())) {

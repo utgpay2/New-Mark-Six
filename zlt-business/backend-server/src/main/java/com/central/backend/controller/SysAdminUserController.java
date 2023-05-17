@@ -14,6 +14,7 @@ import com.central.common.annotation.LoginUser;
 import com.central.common.constant.MarksixConstants;
 import com.central.common.model.*;
 import com.central.common.model.enums.CodeEnum;
+import com.central.common.model.enums.UserTypeEnum;
 import com.central.user.feign.UaaService;
 import com.central.user.feign.UserService;
 import io.swagger.annotations.*;
@@ -306,6 +307,10 @@ public class SysAdminUserController {
         if (sysUser == null || !sysUser.getEnabled()) {
             return Result.failed("用户名或密码错误");
         }
+        if(!UserTypeEnum.BACKEND.equals(sysUser.getType())){
+            return Result.failed("非管理员用户");
+        }
+
 
         Result tokenResult = uaaService.login(authorization, username, password, AUTHENTICATION_MODE);
         if (tokenResult == null || !tokenResult.getResp_code().equals(CodeEnum.SUCCESS.getCode())) {
