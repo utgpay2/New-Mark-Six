@@ -29,9 +29,7 @@ public class LotteryServiceImpl extends SuperServiceImpl<LotteryMapper, Lottery>
      * @return
      */
     @Override
-    public PageResult<Lottery> findList(Map<String, Object> params){
-        Page<Lottery> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
-        List<Lottery> list  =  baseMapper.findList(page, params);
-        return PageResult.<Lottery>builder().data(list).count(page.getTotal()).build();
+    public List<Lottery> findList(Map<String, Object> params){
+        return baseMapper.findList(params);
     }
 }

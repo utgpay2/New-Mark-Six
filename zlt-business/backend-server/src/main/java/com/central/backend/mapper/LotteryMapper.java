@@ -23,5 +23,5 @@ public interface LotteryMapper extends SuperMapper<Lottery> {
      * @param params
      * @return
      */
-    List<Lottery> findList(Page<Lottery> page, @Param("p") Map<String, Object> params);
+    List<Lottery> findList(@Param("p") Map<String, Object> params);
 }

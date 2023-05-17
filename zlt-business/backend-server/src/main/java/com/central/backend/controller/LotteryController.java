@@ -39,13 +39,13 @@ public class LotteryController {
      * 列表
      */
     @ApiOperation(value = "查询彩种列表（超级管理员权限）")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
-    })
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
+//            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
+//    })
     @GetMapping
-    public PageResult list(@RequestParam Map<String, Object> params) {
-        return lotteryService.findList(params);
+    public Result<List<Lottery>> list(@RequestParam Map<String, Object> params) {
+        return Result.succeed(lotteryService.findList(params));
     }
 
 
