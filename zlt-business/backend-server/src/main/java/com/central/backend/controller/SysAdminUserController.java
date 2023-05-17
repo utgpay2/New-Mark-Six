@@ -2,25 +2,30 @@ package com.central.backend.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.central.backend.co.GaBindCo;
 import com.central.backend.model.dto.SysAdminUserDto;
 import com.central.backend.model.dto.SysAdminUserEnabledDto;
 import com.central.backend.model.dto.SysAdminUserPasswordDto;
 import com.central.backend.service.IAdminUserService;
+import com.central.backend.service.IKpnSiteService;
 import com.central.backend.vo.UserInfoVo;
 import com.central.common.annotation.LoginUser;
+import com.central.common.constant.MarksixConstants;
 import com.central.common.model.*;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import com.central.common.model.enums.CodeEnum;
+import com.central.user.feign.UaaService;
+import com.central.user.feign.UserService;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,9 +42,17 @@ public class SysAdminUserController {
     private static final String ADMIN_CHANGE_MSG = "超级管理员不给予修改";
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private UaaService uaaService;
+    @Autowired
+    private IKpnSiteService siteService;
     @Autowired
     private IAdminUserService iAdminUserService;
+    @Value("${marksix.business.authorization:Basic d2ViQXBwOndlYkFwcA==}")
+    private String authorization;
+    public static final String AUTHENTICATION_MODE = "password_code";
 
     @ApiOperation(value = "分页查询管理员列表")
     @ApiImplicitParams({
@@ -209,7 +222,7 @@ public class SysAdminUserController {
         return Result.failed("重置失败");
     }
     /**
-     * 删除用户
+     * 删除管理员用户
      *
      * @param id
      */
@@ -257,5 +270,50 @@ public class SysAdminUserController {
     @ApiOperation(value = "获取用户的角色")
     public List<SysRole> findRolesByUserId(@PathVariable Long id) {
         return iAdminUserService.findRolesByUserId(id);
+    }
+    @ApiOperation("登录")
+    @PostMapping("/login")
+    public Result<String> login(@ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid,
+//                                @ApiParam(value = "图形验证码id", required = true) String verifyCodeId,
+//                                @ApiParam(value = "验证码", required = true) String verifyCode,
+                                @ApiParam(value = "登录账号", required = true) String username,
+                                @ApiParam(value = "密码", required = true) String password) {
+        //校验账号
+        if (StrUtil.isBlank(username)) {
+            return Result.failed("账号不能为空");
+        }
+        if (StrUtil.isBlank(password)) {
+            return Result.failed("密码不能为空");
+        }
+
+//        //校验验证码
+//        if (StrUtil.isBlank(verifyCodeId) || StrUtil.isBlank(verifyCode)) {
+//            return Result.failed("验证码不能为空");
+//        }
+//        String cachedCode = (String) RedisRepository.get(verifyCodeId);
+//        if (StrUtil.isBlank(cachedCode)) {
+//            return Result.failed("验证码已过期");
+//        }
+//
+//        if (!cachedCode.equalsIgnoreCase(verifyCode)) {
+//            return Result.failed("验证码错误");
+//        }
+
+        KpnSite kpnSite = siteService.getById(sid);
+
+        username = kpnSite.getCode() + "_" + username;
+        LoginAppUser sysUser = userService.findByUsername(username);
+        if (sysUser == null || !sysUser.getEnabled()) {
+            return Result.failed("用户名或密码错误");
+        }
+
+        Result tokenResult = uaaService.login(authorization, username, password, AUTHENTICATION_MODE);
+        if (tokenResult == null || !tokenResult.getResp_code().equals(CodeEnum.SUCCESS.getCode())) {
+            log.error("登录失败: username={}, msg={}", username, tokenResult.getResp_msg());
+            return Result.failed(tokenResult.getResp_msg());
+        }
+        String accessToken = (String) (((LinkedHashMap) tokenResult.getDatas()).get(MarksixConstants.Str.ACCESS_TOKEN));
+
+        return Result.succeed(accessToken, "succeed");
     }
 }
