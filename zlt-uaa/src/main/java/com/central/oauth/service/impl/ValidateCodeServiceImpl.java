@@ -131,9 +131,9 @@ public class ValidateCodeServiceImpl implements IValidateCodeService {
         if (loginAppUser == null) {
             throw new CustomOAuth2Exception(CodeErrorAuthEnum.ERROR_AUTH_USERNAME_PASSWORD.getCode(), "用户名或密码错误");
         }
-        if (!loginAppUser.getType().equals(CommonConstant.USER_TYPE_BACKEND) ) {
-            throw new CustomOAuth2Exception(CodeErrorAuthEnum.ERROR_AUTH_USERNAME_PASSWORD.getCode(), "用户名或密码错误");
-        }
+//        if (!loginAppUser.getType().equals(CommonConstant.USER_TYPE_BACKEND) ) {
+//            throw new CustomOAuth2Exception(CodeErrorAuthEnum.ERROR_AUTH_USERNAME_PASSWORD.getCode(), "用户名或密码错误");
+//        }
 
         if (loginAppUser.getVerify() != null && loginAppUser.getVerify() == 1) {
 
@@ -165,9 +165,9 @@ public class ValidateCodeServiceImpl implements IValidateCodeService {
         }
         LoginAppUser loginAppUser = userService.findByUsername(username);
         // TODO 通过类型来判断用户的处理方式是错误的
-        if (loginAppUser == null || !UserTypeEnum.APP.name().equals(loginAppUser.getType())) {
-            throw new CustomOAuth2Exception(CodeErrorAuthEnum.ERROR_AUTH_USERNAME_PASSWORD.getCode(), "用户名或密码错误");
-        }
+//        if (loginAppUser == null || !UserTypeEnum.APP.name().equals(loginAppUser.getType())) {
+//            throw new CustomOAuth2Exception(CodeErrorAuthEnum.ERROR_AUTH_USERNAME_PASSWORD.getCode(), "用户名或密码错误");
+//        }
     }
 
     private String buildKey(String deviceId) {

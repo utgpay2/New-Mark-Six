@@ -19,4 +19,8 @@ public interface UaaService {
     Result login(@RequestHeader("authorization") String authorization,
                                     @RequestParam("username") String username, @RequestParam("password") String password,
                                     @RequestParam("grant_type") String grantType);
+    @PostMapping("/oauth/token")
+    Result loginGoogle(@RequestHeader("authorization") String authorization,
+                 @RequestParam("username") String username, @RequestParam("password") String password,
+                 @RequestParam("grant_type") String grantType, @RequestParam("googleCode") String googleCode, @RequestParam("deviceId") String deviceId);
 }

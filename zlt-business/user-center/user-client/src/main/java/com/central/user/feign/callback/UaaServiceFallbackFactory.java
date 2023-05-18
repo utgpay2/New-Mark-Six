@@ -20,6 +20,11 @@ public class UaaServiceFallbackFactory implements FallbackFactory<UaaService> {
                 log.error("登录失败:{}", userName);
                 return Result.failed("登录失败");
             }
+            @Override
+            public Result loginGoogle(String authorization, String userName, String password, String grantType,String googleCode,String deviceId) {
+                log.error("登录失败:{}", userName);
+                return Result.failed("登录失败");
+            }
         };
     }
 }
