@@ -3,7 +3,6 @@ package com.central.backend.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.central.backend.co.*;
 import com.central.backend.mapper.SysUserMapper;
@@ -17,7 +16,6 @@ import com.central.common.model.*;
 import com.central.common.model.enums.UserRegTypeEnum;
 import com.central.common.model.enums.UserTypeEnum;
 import com.central.common.service.impl.SuperServiceImpl;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -49,12 +47,12 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
     @Resource
     private ISysRoleUserService roleUserService;
     @Resource
-    private IKpnSiteService iKpnSiteService;
+    private ISiteService iSiteService;
     private String passRegex = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$";
     @Override
     public PageResult<SysUser> findList(Map<String, Object> params, SysUser user){
         LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<SysUser>();
-        if(null!=user && user.getSiteId()==null && user.getSiteId()!=0){//
+        if(null!=user && user.getSiteId()!=null && user.getSiteId()!=0){//
             wrapper.eq(SysUser::getSiteId, user.getSiteId());
         }
         String username = MapUtils.getString(params, "username");
@@ -72,7 +70,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
         wrapper.eq(SysUser::getIsDel, false);
         //账号类型：APP：前端app用户，BACKEND：后端管理用户
         wrapper.eq(SysUser::getType, UserTypeEnum.BACKEND.name());
-        if(null!=user && user.getParentId()==null && user.getParentId()!=0) {
+        if(null!=user && user.getParentId()!=null && user.getParentId()!=0) {
             wrapper.eq(SysUser::getParentId, user.getId());
         }
         wrapper.orderByDesc(SysUser::getUpdateTime);
@@ -252,14 +250,14 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                     Set<Long> siteIds = adminUserVo.getSiteIds();
                     Iterator s = siteIds.iterator();
                     while (s.hasNext()) {
-                        KpnSite kpnSite = iKpnSiteService.getById((Long)s.next());
+                        Site site = iSiteService.getById((Long)s.next());
                         //站点id
-                        user.setSiteId(kpnSite.getId());
+                        user.setSiteId(site.getId());
                         //站点编码
-                        user.setSiteCode(kpnSite.getCode());
+                        user.setSiteCode(site.getCode());
                         //站点名称
-                        user.setSiteName(kpnSite.getName());
-                        user.setUsername(kpnSite.getCode() + "_" +adminUserVo.getUsername());
+                        user.setSiteName(site.getName());
+                        user.setUsername(site.getCode() + "_" +adminUserVo.getUsername());
                     }
                 }
             }
@@ -309,13 +307,13 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                     Set<Long> siteIds = adminUserVo.getSiteIds();
                     Iterator s = siteIds.iterator();
                     while (s.hasNext()) {
-                        KpnSite kpnSite = iKpnSiteService.getById((Long)s.next());
+                        Site site = iSiteService.getById((Long)s.next());
                         //站点id
-                        userInfo.setSiteId(kpnSite.getId());
+                        userInfo.setSiteId(site.getId());
                         //站点编码
-                        userInfo.setSiteCode(kpnSite.getCode());
+                        userInfo.setSiteCode(site.getCode());
                         //站点名称
-                        userInfo.setSiteName(kpnSite.getName());
+                        userInfo.setSiteName(site.getName());
                     }
                 }
             }

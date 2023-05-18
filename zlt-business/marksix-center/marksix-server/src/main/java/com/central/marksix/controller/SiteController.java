@@ -41,13 +41,13 @@ import java.util.stream.Collectors;
 public class SiteController {
 
     @Autowired
-    private IKpnSiteService siteService;
+    private ISiteService siteService;
 
     @Autowired
-    private IKpnLineService kpnLineService;
+    private ILineService kpnLineService;
 
     @Autowired
-    private IKpnSiteAdvertiseService siteAdvertiseService;
+    private ISiteAdvertiseService siteAdvertiseService;
 
     @Autowired
     private UserService userService;
@@ -59,13 +59,13 @@ public class SiteController {
     private ISysUserService sysUserService;
 
     @Autowired
-    private IKpnSiteService kpnSiteService;
+    private ISiteService kpnSiteService;
 
     @Value("${marksix.business.authorization:Basic d2ViQXBwOndlYkFwcA==}")
     private String authorization;
 
     @Autowired
-    private IKpnSiteProductService siteProductService;
+    private ISiteProductService siteProductService;
 
     @Value("${zlt.minio.externalEndpoint}")
     private String externalEndpoint;
@@ -74,10 +74,10 @@ public class SiteController {
     private TaskExecutor taskExecutor;
 
     @Autowired
-    private IKpnSitePlatformService sitePlatformService;
+    private ISitePlatformService sitePlatformService;
 
     @Autowired
-    private IKpnSiteServeService siteServeService;
+    private ISiteServeService siteServeService;
 
     public static final String AUTHENTICATION_MODE = "password_code";
 
@@ -89,14 +89,14 @@ public class SiteController {
      */
     @GetMapping("/info")
     @ApiOperation(value = "获取站点信息")
-    public Result<KpnSiteVo> getSiteInfo(HttpServletRequest request) {
+    public Result<SiteVo> getSiteInfo(HttpServletRequest request) {
         try {
             String referer = request.getHeader(MarksixConstants.Str.REFERER);
             String host = request.getHeader(MarksixConstants.Str.REHOST);
             String sid = request.getHeader(MarksixConstants.Str.SID);
             log.info("获取站点信息 -> sid: {},referer: {},host: {}", sid, referer, host);
 
-            KpnSite site = null;
+            Site site = null;
             if (StrUtil.isBlank(sid)) {
                 site = siteService.getInfoByReferer(referer);
                 if (ObjectUtil.isEmpty(site)) {
@@ -110,14 +110,14 @@ public class SiteController {
                 return Result.failed("站点不存在");
             }
             //站点信息
-            KpnSiteVo kpnSiteVo = new KpnSiteVo();
-            kpnSiteVo.setSid(site.getId());
-            kpnSiteVo.setCurrencyCode(site.getCurrencyCode());
-            kpnSiteVo.setLogoUrl(externalEndpoint + MarksixConstants.Symbol.FORWARD_SLASH + site.getLogoUrl());
-//            kpnSiteVo.setChannels(channelVos);
-//            kpnSiteVo.setTopics(topicVos);
+            SiteVo siteVo = new SiteVo();
+            siteVo.setSid(site.getId());
+            siteVo.setCurrencyCode(site.getCurrencyCode());
+            siteVo.setLogoUrl(externalEndpoint + MarksixConstants.Symbol.FORWARD_SLASH + site.getLogoUrl());
+//            siteVo.setChannels(channelVos);
+//            siteVo.setTopics(topicVos);
 
-            return Result.succeed(kpnSiteVo, "succeed");
+            return Result.succeed(siteVo, "succeed");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return Result.failed("failed");
@@ -144,7 +144,7 @@ public class SiteController {
             //线路
             Map<String, List<String>> kpnLineVos = kpnLineService.getLines();
             //站点平台配置
-            KpnSitePlatform sitePlatform = sitePlatformService.getBySiteId(sid);
+            SitePlatform sitePlatform = sitePlatformService.getBySiteId(sid);
             //防走失
             SiteConfigInfoVo siteConfigInfoVo = SiteConfigInfoVo.builder().kpnLineVos(kpnLineVos).tryTime(sitePlatform.getTryTime()).lostDomain(sitePlatform.getLostDomain()).build();
 
@@ -180,21 +180,21 @@ public class SiteController {
      */
     @GetMapping("/pictures")
     @ApiOperation(value = "获取站点广告")
-    public Result<List<KpnSiteAdvertiseVo>> getSiteAdvertise(@RequestHeader(value = "sid") Long sid,
-                                                             @ApiParam(value = "设备类型 H5/PC", required = true) String deviceType,
-                                                             @ApiParam(value = "投放位置 1首页轮播图,2首页平台展示,3首页专题广告,4福利,5游戏轮播图,6游戏广告", required = true) Integer position) {
+    public Result<List<SiteAdvertiseVo>> getSiteAdvertise(@RequestHeader(value = "sid") Long sid,
+                                                          @ApiParam(value = "设备类型 H5/PC", required = true) String deviceType,
+                                                          @ApiParam(value = "投放位置 1首页轮播图,2首页平台展示,3首页专题广告,4福利,5游戏轮播图,6游戏广告", required = true) Integer position) {
         try {
-            List<KpnSiteAdvertise> siteAds = siteAdvertiseService.getSiteAdvertise(sid, deviceType, position);
-            List<KpnSiteAdvertiseVo> siteAdVos = siteAds.stream().map(ad -> {
-                KpnSiteAdvertiseVo adVo = new KpnSiteAdvertiseVo();
+            List<SiteAdvertise> siteAds = siteAdvertiseService.getSiteAdvertise(sid, deviceType, position);
+            List<SiteAdvertiseVo> siteAdVos = siteAds.stream().map(ad -> {
+                SiteAdvertiseVo adVo = new SiteAdvertiseVo();
                 BeanUtil.copyProperties(ad, adVo);
                 adVo.setName(LanguageUtil.getLanguageName(adVo));
                 adVo.setUrl(externalEndpoint + MarksixConstants.Symbol.FORWARD_SLASH + adVo.getUrl());
                 return adVo;
             }).collect(Collectors.toList());
 
-//            Map<String, Map<Integer, List<KpnSiteAdvertiseVo>>> siteAdVoMap = siteAdVos.stream()
-//                    .collect(groupingBy(KpnSiteAdvertiseVo::getDevice, groupingBy(KpnSiteAdvertiseVo::getPosition)));
+//            Map<String, Map<Integer, List<SiteAdvertiseVo>>> siteAdVoMap = siteAdVos.stream()
+//                    .collect(groupingBy(SiteAdvertiseVo::getDevice, groupingBy(SiteAdvertiseVo::getPosition)));
 
             return Result.succeed(siteAdVos, "succeed");
         } catch (Exception e) {
@@ -251,9 +251,9 @@ public class SiteController {
 //            return Result.failed("验证码错误");
 //        }
 
-        KpnSite kpnSite = kpnSiteService.getInfoById(sid);
+        Site site = kpnSiteService.getInfoById(sid);
 
-        username = kpnSite.getCode() + "_" + username;
+        username = site.getCode() + "_" + username;
         LoginAppUser sysUser = userService.findByUsername(username);
         if (sysUser == null || !sysUser.getEnabled()) {
             return Result.failed("用户名或密码错误");
@@ -304,9 +304,9 @@ public class SiteController {
                 }
             }
 
-            KpnSite kpnSite = kpnSiteService.getInfoById(sid);
+            Site site = kpnSiteService.getInfoById(sid);
             String nickName = username;
-            username = kpnSite.getCode() + MarksixConstants.Symbol.UNDERSCORE + username;
+            username = site.getCode() + MarksixConstants.Symbol.UNDERSCORE + username;
             LoginAppUser sysUser = userService.findByUsername(username);
             if (sysUser != null) {
                 return Result.failed("账号已经存在");
@@ -330,9 +330,9 @@ public class SiteController {
 
     @ApiOperation("获取站点支付产品")
     @GetMapping("/products")
-    public Result<List<KpnSiteProductVo>> getSiteProducts(@ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid) {
+    public Result<List<SiteProductVo>> getSiteProducts(@ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid) {
         try {
-            List<KpnSiteProductVo> siteProductVos = siteProductService.getSiteProducts(sid);
+            List<SiteProductVo> siteProductVos = siteProductService.getSiteProducts(sid);
             return Result.succeed(siteProductVos,"succeed");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -390,12 +390,12 @@ public class SiteController {
      */
     @ApiOperation(value = "站点客服信息")
     @GetMapping("/getSiteServes")
-    public Result<List<KpnSiteServeVo>> getSiteServes(@RequestHeader(value = "sid") Long sid) {
+    public Result<List<SiteServeVo>> getSiteServes(@RequestHeader(value = "sid") Long sid) {
         try {
-            List<KpnSiteServe> siteServes = siteServeService.getBySid(sid);
+            List<SiteServe> siteServes = siteServeService.getBySid(sid);
 
-            List<KpnSiteServeVo> siteServeVos = siteServes.stream().map(kpnSiteServe -> {
-                KpnSiteServeVo siteServeVo = new KpnSiteServeVo();
+            List<SiteServeVo> siteServeVos = siteServes.stream().map(kpnSiteServe -> {
+                SiteServeVo siteServeVo = new SiteServeVo();
                 siteServeVo.setPlatform(kpnSiteServe.getPlatform());
                 siteServeVo.setServeAccount(kpnSiteServe.getServeAccount());
                 siteServeVo.setPcIconUrl(externalEndpoint + MarksixConstants.Symbol.FORWARD_SLASH + kpnSiteServe.getPcIconUrl());

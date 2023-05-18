@@ -1,15 +1,13 @@
 package com.central.backend.controller.ipmanage;
 
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.central.backend.model.vo.KpnBlackIpVO;
-import com.central.backend.service.ipmanage.IKpnBlackIpService;
+import com.central.backend.model.vo.BlackIpVO;
+import com.central.backend.service.ipmanage.IBlackIpService;
 import com.central.common.annotation.LoginUser;
 import com.central.common.model.SysUser;
-import com.central.common.model.ipmanage.KpnBlackIp;
+import com.central.common.model.ipmanage.BlackIp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
@@ -34,7 +32,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(tags = "黑名单IP管理")
 public class KpnBlackIpController {
     @Autowired
-    private IKpnBlackIpService kpnBlackIpService;
+    private IBlackIpService kpnBlackIpService;
 
     /**
      * 列表
@@ -49,7 +47,7 @@ public class KpnBlackIpController {
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
     })
     @GetMapping
-    public Result<PageResult<KpnBlackIpVO>> list(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
+    public Result<PageResult<BlackIpVO>> list(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
@@ -71,7 +69,7 @@ public class KpnBlackIpController {
         if (ObjectUtil.isEmpty(id)) {
             return Result.failed("ID不能为空");
         }
-        KpnBlackIp model = kpnBlackIpService.getById(id);
+        BlackIp model = kpnBlackIpService.getById(id);
         return Result.succeed(model, "查询成功");
     }
 
@@ -97,14 +95,14 @@ public class KpnBlackIpController {
      */
     @ApiOperation(value = "保存或修改")
     @PostMapping
-    public Result saveOrUpdateKpnBlackIp(@RequestBody KpnBlackIp kpnBlackIp, @ApiIgnore @LoginUser SysUser user) {
-        if (ObjectUtil.isEmpty(kpnBlackIp)) {
+    public Result saveOrUpdateKpnBlackIp(@RequestBody BlackIp blackIp, @ApiIgnore @LoginUser SysUser user) {
+        if (ObjectUtil.isEmpty(blackIp)) {
             return Result.failed("请求参数不能为空");
         }
-        if (ObjectUtil.isEmpty(kpnBlackIp.getIpSection())) {
+        if (ObjectUtil.isEmpty(blackIp.getIpSection())) {
             return Result.failed("黑名单IP不能为空");
         }
-        return kpnBlackIpService.saveOrUpdateKpnBlackIp(kpnBlackIp, user);
+        return kpnBlackIpService.saveOrUpdateKpnBlackIp(blackIp, user);
     }
 
     /**

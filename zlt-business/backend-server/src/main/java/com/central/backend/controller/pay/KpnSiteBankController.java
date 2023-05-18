@@ -6,8 +6,8 @@
 //import cn.hutool.core.util.ObjectUtil;
 //import com.central.common.annotation.LoginUser;
 //import com.central.common.model.SysUser;
-//import com.central.common.model.pay.KpnSiteBank;
-//import com.central.backend.service.pay.IKpnSiteBankService;
+//import com.central.common.model.pay.SiteBank;
+//import com.central.backend.service.pay.ISiteBankService;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.web.bind.annotation.*;
 //import io.swagger.annotations.Api;
@@ -32,7 +32,7 @@
 //@Api(tags = "收款银行渠道")
 //public class KpnSiteBankController {
 //    @Autowired
-//    private IKpnSiteBankService kpnSiteBankService;
+//    private ISiteBankService kpnSiteBankService;
 //
 //    /**
 //     * 列表
@@ -43,7 +43,7 @@
 //            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
 //    })
 //    @GetMapping
-//    public Result<PageResult<KpnSiteBank>> listPage(@RequestParam Map<String, Object> params,@ApiIgnore @LoginUser SysUser user) {
+//    public Result<PageResult<SiteBank>> listPage(@RequestParam Map<String, Object> params,@ApiIgnore @LoginUser SysUser user) {
 //        if (ObjectUtil.isEmpty(params)) {
 //            return Result.failed("请求参数不能为空");
 //        }
@@ -57,7 +57,7 @@
 //    }
 //    @ApiOperation(value = "查询列表")
 //    @GetMapping("/list")
-//    public Result<List<KpnSiteBank>> list(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
+//    public Result<List<SiteBank>> list(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
 //        return Result.succeed(kpnSiteBankService.findList(params,user));
 //    }
 //
@@ -70,7 +70,7 @@
 //        if (ObjectUtil.isEmpty(id)) {
 //            return Result.failed("ID不能为空");
 //        }
-//        KpnSiteBank model = kpnSiteBankService.getById(id);
+//        SiteBank model = kpnSiteBankService.getById(id);
 //        return Result.succeed(model, "查询成功");
 //    }
 //
@@ -79,7 +79,7 @@
 //     */
 //    @ApiOperation(value = "新增or更新")
 //    @PostMapping
-//    public Result saveOrUpdateKpnSiteBank(@RequestBody KpnSiteBank kpnSiteBank, @ApiIgnore @LoginUser SysUser user) {
+//    public Result saveOrUpdateKpnSiteBank(@RequestBody SiteBank kpnSiteBank, @ApiIgnore @LoginUser SysUser user) {
 //        if (ObjectUtil.isEmpty(kpnSiteBank)) {
 //            return Result.failed("请求参数不能为空");
 //        }

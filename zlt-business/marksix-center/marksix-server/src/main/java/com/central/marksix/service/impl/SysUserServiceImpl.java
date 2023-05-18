@@ -5,16 +5,16 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.central.common.constant.MarksixConstants;
-import com.central.common.model.KpnSite;
-import com.central.common.model.KpnSitePromotion;
+import com.central.common.model.Site;
+import com.central.common.model.SitePromotion;
 import com.central.common.model.SysUser;
 import com.central.common.model.enums.UserRegTypeEnum;
 import com.central.common.model.enums.UserTypeEnum;
 import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
 import com.central.marksix.mapper.SysUserMapper;
-import com.central.marksix.service.IKpnSitePromotionService;
-import com.central.marksix.service.IKpnSiteService;
+import com.central.marksix.service.ISitePromotionService;
+import com.central.marksix.service.ISiteService;
 import com.central.marksix.service.IRptSiteSummaryService;
 import com.central.marksix.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,14 +37,14 @@ import java.util.concurrent.TimeUnit;
 public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
     @Autowired
-    private IKpnSiteService siteService;
+    private ISiteService siteService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     @Lazy
-    private IKpnSitePromotionService promotionConfigService;
+    private ISitePromotionService promotionConfigService;
 
     @Autowired
     private IRptSiteSummaryService siteSummaryService;
@@ -87,7 +87,7 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
     @Override
     @Transactional
     public void register(Long sid, SysUser promoteUser, String nickName, String username, String password) {
-        KpnSite siteInfo = siteService.getInfoById(sid);
+        Site siteInfo = siteService.getInfoById(sid);
 
         SysUser newAppUser = new SysUser();
         newAppUser.setSiteId(sid);
@@ -121,7 +121,7 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
         } while (!succeed);
 
         //站点推广活动配置
-        KpnSitePromotion sitePromotionConfig = promotionConfigService.getBySiteId(sid);
+        SitePromotion sitePromotionConfig = promotionConfigService.getBySiteId(sid);
         if (ObjectUtil.isEmpty(sitePromotionConfig)) {
             return;
         }
@@ -150,7 +150,7 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
         saveOrUpdate(sysUser);
 
         //推广活动
-        KpnSitePromotion sitePromotionConfig = promotionConfigService.getBySiteId(sid);
+        SitePromotion sitePromotionConfig = promotionConfigService.getBySiteId(sid);
         if (ObjectUtil.isEmpty(sitePromotionConfig)) {
             return;
         }

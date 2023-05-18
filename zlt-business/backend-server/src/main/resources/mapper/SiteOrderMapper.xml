@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.backend.mapper.SiteOrderMapper">
+
+
+
+	<select id="findOrderTotal" resultType="java.math.BigDecimal">
+		SELECT
+		IFNULL(SUM(o.product_price),0)
+		FROM
+		kpn_site_user_order o
+		<where>
+			<if test="r.userName != null and r.userName != ''">
+				and o.user_name = #{r.userName}
+			</if>
+			<if test="r.orderNo != null and r.orderNo != ''">
+				and o.order_no = #{r.orderNo}
+			</if>
+			<if test="r.siteId != null">
+				and o.site_id = #{r.siteId}
+			</if>
+			<if test="r.startTime != null and r.startTime != ''">
+				AND  o.create_time <![CDATA[>=]]> #{r.startTime}
+			</if>
+
+			<if test="r.endTime != null and r.endTime != ''">
+				AND  o.create_time <![CDATA[<=]]> #{r.endTime}
+			</if>
+
+			<if test="r.status != null ">
+				AND  o.status = #{r.status}
+			</if>
+		</where>
+	</select>
+
+
+	<select id="findOrderMobileList" resultType="com.central.common.model.SiteUserOrder">
+		select u.user_id,u.mobile from (
+		SELECT
+		o.user_id,
+		o.user_name,
+		o.mobile,
+		o.create_time
+		FROM
+		kpn_site_user_order o
+		<where>
+			and  o.user_id  in
+			<foreach collection="userIds" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+		HAVING 1
+		ORDER BY o.create_time desc
+		) u
+		GROUP BY u.user_id
+	</select>
+
+	<select id="findKpnSiteOrderInfo" resultType="com.central.common.model.SiteUserVipLog">
+		SELECT
+			o.user_id as userId,
+			o.user_name as userName,
+			o.site_id as siteId,
+			o.site_code as siteCode,
+			o.site_name as siteName,
+			o.product_price as amount,
+			s.currency_code as currencyCode,
+			p.valid_days as days
+		FROM
+		kpn_site_user_order o
+				LEFT JOIN kpn_site s on s.id=o.site_id
+				LEFT JOIN kpn_site_product p on p.id=o.product_id
+		<where>
+			<if test="id != null ">
+				AND  o.id = #{id}
+			</if>
+		</where>
+
+	</select>
+
+</mapper>

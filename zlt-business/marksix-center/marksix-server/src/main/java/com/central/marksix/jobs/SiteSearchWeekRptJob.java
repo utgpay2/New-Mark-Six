@@ -2,9 +2,9 @@
 //
 //import cn.hutool.core.util.StrUtil;
 //import com.central.common.constant.MarksixConstants;
-//import com.central.common.model.KpnSite;
+//import com.central.common.model.Site;
 //import com.central.common.redis.template.RedisRepository;
-//import com.central.marksix.service.IKpnSiteService;
+//import com.central.marksix.service.ISiteService;
 //import com.central.marksix.service.IRptSiteSearchDateService;
 //import lombok.extern.slf4j.Slf4j;
 //import org.apache.shardingsphere.job.api.ShardingContext;
@@ -21,7 +21,7 @@
 //public class SiteSearchWeekRptJob implements SimpleJob, CommandLineRunner {
 //
 //    @Autowired
-//    private IKpnSiteService siteService;
+//    private ISiteService siteService;
 //
 //    @Autowired
 //    private IRptSiteSearchDateService rptSiteSearchDateService;
@@ -34,8 +34,8 @@
 //
 //    private void cache() {
 //        try {
-//            List<KpnSite> kpnSites = siteService.getList();
-//            for (KpnSite kpnSite : kpnSites) {
+//            List<Site> kpnSites = siteService.getList();
+//            for (Site kpnSite : kpnSites) {
 //                Long sid = kpnSite.getId();
 //                String redisKey = StrUtil.format(MarksixConstants.RedisKey.KPN_SITE_SEARCH_WEEK_KEY, sid);
 //                RedisRepository.delete(redisKey);

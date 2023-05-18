@@ -45,9 +45,9 @@ public class RptSiteSummaryServiceImpl extends SuperServiceImpl<RptSiteSummaryMa
     }
 
     @Override
-    public void addSummaryNum(KpnSiteUserVipLog KpnSiteUserVipLogInfo ) {
+    public void addSummaryNum(SiteUserVipLog siteUserVipLogInfo) {
         String date =DateUtil.formatDate(new Date());
-        baseMapper.addSummaryNum(KpnSiteUserVipLogInfo.getSiteId(),KpnSiteUserVipLogInfo.getSiteCode(),KpnSiteUserVipLogInfo.getSiteName(),date,KpnSiteUserVipLogInfo.getAmount());
+        baseMapper.addSummaryNum(siteUserVipLogInfo.getSiteId(), siteUserVipLogInfo.getSiteCode(), siteUserVipLogInfo.getSiteName(),date, siteUserVipLogInfo.getAmount());
     }
 
     @Override

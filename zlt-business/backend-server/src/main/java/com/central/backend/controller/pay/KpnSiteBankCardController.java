@@ -4,7 +4,7 @@
 //import java.util.Map;
 //
 //import cn.hutool.core.util.ObjectUtil;
-//import com.central.backend.service.pay.IKpnSiteBankCardService;
+//import com.central.backend.service.pay.ISiteBankCardService;
 //import com.central.common.annotation.LoginUser;
 //import com.central.common.model.SysUser;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@
 //import io.swagger.annotations.ApiImplicitParams;
 //import io.swagger.annotations.ApiOperation;
 //import lombok.extern.slf4j.Slf4j;
-//import com.central.common.model.pay.KpnSiteBankCard;
+//import com.central.common.model.pay.SiteBankCard;
 //import com.central.common.model.PageResult;
 //import com.central.common.model.Result;
 //import springfox.documentation.annotations.ApiIgnore;
@@ -31,7 +31,7 @@
 //@Api(tags = "收款银行卡配置")
 //public class KpnSiteBankCardController {
 //    @Autowired
-//    private IKpnSiteBankCardService kpnSiteBankCardService;
+//    private ISiteBankCardService kpnSiteBankCardService;
 //
 //    /**
 //     * 列表
@@ -42,7 +42,7 @@
 //            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
 //    })
 //    @GetMapping
-//    public Result<PageResult<KpnSiteBankCard>> listPage(@RequestParam Map<String, Object> params,@ApiIgnore @LoginUser SysUser user) {
+//    public Result<PageResult<SiteBankCard>> listPage(@RequestParam Map<String, Object> params,@ApiIgnore @LoginUser SysUser user) {
 //        if (ObjectUtil.isEmpty(params)) {
 //            return Result.failed("请求参数不能为空");
 //        }
@@ -56,7 +56,7 @@
 //    }
 //    @ApiOperation(value = "查询列表")
 //    @GetMapping("/list")
-//    public Result<List<KpnSiteBankCard>> list(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
+//    public Result<List<SiteBankCard>> list(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
 //        return Result.succeed(kpnSiteBankCardService.findList(params,user));
 //    }
 //
@@ -69,7 +69,7 @@
 //        if (ObjectUtil.isEmpty(id)) {
 //            return Result.failed("ID不能为空");
 //        }
-//        KpnSiteBankCard model = kpnSiteBankCardService.getById(id);
+//        SiteBankCard model = kpnSiteBankCardService.getById(id);
 //        return Result.succeed(model, "查询成功");
 //    }
 //
@@ -78,7 +78,7 @@
 //     */
 //    @ApiOperation(value = "新增or更新")
 //    @PostMapping
-//    public Result saveOrUpdateKpnSiteBankCard(@RequestBody KpnSiteBankCard kpnSiteBankCard, @ApiIgnore @LoginUser SysUser user) {
+//    public Result saveOrUpdateKpnSiteBankCard(@RequestBody SiteBankCard kpnSiteBankCard, @ApiIgnore @LoginUser SysUser user) {
 //        if (ObjectUtil.isEmpty(kpnSiteBankCard)) {
 //            return Result.failed("请求参数不能为空");
 //        }

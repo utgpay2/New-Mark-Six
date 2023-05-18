@@ -4,7 +4,7 @@
 <mapper namespace="com.central.backend.mapper.SiteCategoryLotteryMapper">
     <select id="findList" resultType="com.central.backend.model.vo.CategoryVO">
         select mc.id as id,mc.name as name,mc.sort as sort,mc.remark as remark,
-        l.create_time as createTime,l.update_time as updateTime,t.category_id as categoryId
+        l.create_time as createTime,l.update_time as updateTime,l.category_id as categoryId
         l.create_by as createBy,l.update_by as updateBy,l.site_lottery_id  as lotteryId
         from mks_site_category_lottery l
         LEFT JOIN mks_category mc
@@ -12,7 +12,7 @@
         <where>
             1=1
             <if test="p.lotteryId != null and  p.lotteryId != '' and p.lotteryId != 0">
-                and l.lottery_id = #{p.lotteryId}
+                and l.site_lottery_id = #{p.lotteryId}
             </if>
             <if test="p.name != null and p.name != ''">
                 and mc.name LIKE CONCAT('%',#{p.name},'%')

@@ -4,12 +4,12 @@
 //import cn.hutool.core.util.ObjectUtil;
 //import cn.hutool.core.util.StrUtil;
 //import com.central.common.constant.MarksixConstants;
-//import com.central.common.model.KpnSite;
+//import com.central.common.model.Site;
 //import com.central.common.model.KpnSiteMovie;
 //import com.central.common.redis.template.RedisRepository;
 //import com.central.marksix.entity.vo.KpnSiteMovieBaseVo;
 //import com.central.marksix.service.IKpnSiteMovieService;
-//import com.central.marksix.service.IKpnSiteService;
+//import com.central.marksix.service.ISiteService;
 //import lombok.extern.slf4j.Slf4j;
 //import org.apache.shardingsphere.elasticjob.api.ShardingContext;
 //import org.apache.shardingsphere.job.simple.job.SimpleJob;
@@ -33,7 +33,7 @@
 //    private IKpnSiteMovieService siteMovieService;
 //
 //    @Autowired
-//    private IKpnSiteService siteService;
+//    private ISiteService siteService;
 //
 //    @Override
 //    public void execute(ShardingContext shardingContext) {
@@ -43,8 +43,8 @@
 //
 //    private void cache() {
 //        try {
-//            List<KpnSite> kpnSites = siteService.getList();
-//            for (KpnSite kpnSite : kpnSites) {
+//            List<Site> kpnSites = siteService.getList();
+//            for (Site kpnSite : kpnSites) {
 //                Long sid = kpnSite.getId();
 //                List<Long> movieIds = siteMovieService.getSiteMovieIds(sid);
 //                for (Long movieId : movieIds) {

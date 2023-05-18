@@ -2,7 +2,7 @@ package com.central.backend.controller;
 
 
 import com.central.backend.co.*;
-import com.central.backend.service.IKpnSiteOrderService;
+import com.central.backend.service.ISiteOrderService;
 import com.central.backend.service.ISysUserService;
 import com.central.common.annotation.LoginUser;
 import com.central.common.model.*;
@@ -33,7 +33,7 @@ public class UserController {
 
 
     @Autowired
-    private IKpnSiteOrderService orderService;
+    private ISiteOrderService orderService;
 
 
 
@@ -45,11 +45,11 @@ public class UserController {
         if (userList!=null && userList.getData().size() > 0){
             List<Long> userIds = userList.getData().stream().map(SysUser::getId).collect(Collectors.toList());
             //查询充值订单数据
-            List<KpnSiteUserOrder> orderMobileList = orderService.findOrderMobileList(userIds);
+            List<SiteUserOrder> orderMobileList = orderService.findOrderMobileList(userIds);
             if (orderMobileList!=null && orderMobileList.size()>0){
-                Map<Long, KpnSiteUserOrder> map = orderMobileList.stream().collect(Collectors.toMap(KpnSiteUserOrder::getUserId, (p) -> p));
+                Map<Long, SiteUserOrder> map = orderMobileList.stream().collect(Collectors.toMap(SiteUserOrder::getUserId, (p) -> p));
                 userList.getData().stream().forEach(info ->{
-                    KpnSiteUserOrder siteOrderInfo = map.get(info.getId());
+                    SiteUserOrder siteOrderInfo = map.get(info.getId());
                     if (siteOrderInfo!=null){
                         info.setMobile(siteOrderInfo.getMobile());
                     }

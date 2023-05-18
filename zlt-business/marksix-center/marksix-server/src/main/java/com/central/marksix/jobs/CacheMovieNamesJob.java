@@ -3,12 +3,12 @@
 //import cn.hutool.core.collection.CollectionUtil;
 //import cn.hutool.core.util.StrUtil;
 //import com.central.common.constant.MarksixConstants;
-//import com.central.common.model.KpnSite;
+//import com.central.common.model.Site;
 //import com.central.common.model.KpnSiteMovie;
 //import com.central.common.model.enums.SiteMovieStatusEnum;
 //import com.central.common.redis.template.RedisRepository;
 //import com.central.marksix.service.IKpnSiteMovieService;
-//import com.central.marksix.service.IKpnSiteService;
+//import com.central.marksix.service.ISiteService;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.CommandLineRunner;
@@ -26,7 +26,7 @@
 //public class CacheMovieNamesJob implements CommandLineRunner {
 //
 //    @Autowired
-//    private IKpnSiteService siteService;
+//    private ISiteService siteService;
 //
 //    @Autowired
 //    private IKpnSiteMovieService siteMovieService;
@@ -35,8 +35,8 @@
 //    public void loadCacheJob() {
 //        log.info("check site movie change work is running ....");
 //
-//        List<KpnSite> kpnSites = siteService.getList();
-//        for (KpnSite kpnSite : kpnSites) {
+//        List<Site> kpnSites = siteService.getList();
+//        for (Site kpnSite : kpnSites) {
 //            Long sid = kpnSite.getId();
 //
 //            String redisFlagKey = StrUtil.format(MarksixConstants.RedisKey.KPN_SITE_MOVIE_CHANGE_FLAG, sid);
@@ -62,8 +62,8 @@
 //    @Override
 //    public void run(String... args) throws Exception {
 //        cacheData();
-//        List<KpnSite> kpnSites = siteService.getList();
-//        for (KpnSite kpnSite : kpnSites) {
+//        List<Site> kpnSites = siteService.getList();
+//        for (Site kpnSite : kpnSites) {
 //            Long sid = kpnSite.getId();
 //            reCacheSiteData(sid);
 //            log.info("sid:{},数据同步完成!", sid);

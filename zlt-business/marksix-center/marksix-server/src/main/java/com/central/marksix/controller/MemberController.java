@@ -8,12 +8,11 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.central.common.annotation.LoginUser;
 import com.central.common.constant.MarksixConstants;
-import com.central.common.language.LanguageUtil;
 import com.central.common.model.*;
 import com.central.common.model.enums.CodeEnum;
 import com.central.common.model.enums.StatusEnum;
-import com.central.common.model.pay.KpnSiteBankCard;
-import com.central.common.model.pay.KpnSiteProduct;
+import com.central.common.model.pay.SiteBankCard;
+import com.central.common.model.pay.SiteProduct;
 import com.central.common.redis.lock.RedissLockUtil;
 import com.central.oss.model.ObjectInfo;
 import com.central.oss.template.MinioTemplate;
@@ -55,37 +54,37 @@ public class MemberController {
     private ISysUserService userService;
 
     @Autowired
-    private IKpnSiteSignDetailService siteSignDetailService;
+    private ISiteSignDetailService siteSignDetailService;
 
     @Value("${zlt.minio.externalEndpoint}")
     private String externalEndpoint;
 
     @Autowired
-    private IKpnSiteSuggestionService siteSuggestionService;
+    private ISiteSuggestionService siteSuggestionService;
 
     @Autowired
-    private IKpnSiteAnnouncementService siteAnnouncementService;
+    private ISiteAnnouncementService siteAnnouncementService;
 
     @Autowired
-    private IKpnSiteUserVipLogService siteUserVipLogService;
+    private ISiteUserVipLogService siteUserVipLogService;
 
     @Autowired
-    private IKpnMoneyLogService moneyLogService;
+    private IMoneyLogService moneyLogService;
 
     @Autowired
-    private IKpnSiteProductService siteProductService;
+    private ISiteProductService siteProductService;
 
     @Autowired
-    private IKpnSiteBankCardService siteBankCardService;
+    private ISiteBankCardService siteBankCardService;
 
     @Autowired
-    private IKpnSiteService siteService;
+    private ISiteService siteService;
 
     @Autowired
-    private IKpnSitePlatformService sitePlatformService;
+    private ISitePlatformService sitePlatformService;
 
     @Autowired
-    private IKpnSiteOrderService siteOrderService;
+    private ISiteOrderService siteOrderService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -94,9 +93,9 @@ public class MemberController {
     private ISysUserService sysUserService;
 
     @Autowired
-    private IKpnSiteSignService iKpnSiteSignService;
+    private ISiteSignService iSiteSignService;
     @Autowired
-    private IKpnSiteAnnouncementUserService iKpnSiteAnnouncementUserService;
+    private ISiteAnnouncementUserService iSiteAnnouncementUserService;
 
     /**
      * 上传头像
@@ -145,7 +144,7 @@ public class MemberController {
     public Result<String> buyVipUseKb(@ApiIgnore @LoginUser SysUser user, @ApiParam(value = "产品id", required = true) Long productId) {
         try {
             SysUser sysUser = userService.getById(user.getId());
-            KpnSiteProduct product = siteProductService.getById(productId);
+            SiteProduct product = siteProductService.getById(productId);
             BigDecimal userKBalance = sysUser.getKBalance();
             BigDecimal productPrice = product.getPrice();
             //K币
@@ -186,18 +185,18 @@ public class MemberController {
 
     @ApiOperation("获取站点支付银行卡")
     @GetMapping("/bank/cards")
-    public Result<KpnSitePayResultVo> getSiteBankCards(@ApiIgnore @LoginUser SysUser user,
-                                                       @ApiParam("产品id") Long productId) {
+    public Result<SitePayResultVo> getSiteBankCards(@ApiIgnore @LoginUser SysUser user,
+                                                    @ApiParam("产品id") Long productId) {
         try {
             SysUser sysUser = userService.getById(user.getId());
-            KpnSiteProduct product = siteProductService.getById(productId);
-            KpnSite siteInfo = siteService.getInfoById(sysUser.getSiteId());
-            KpnSitePlatform sitePlatform = sitePlatformService.getBySiteId(sysUser.getSiteId());
+            SiteProduct product = siteProductService.getById(productId);
+            Site siteInfo = siteService.getInfoById(sysUser.getSiteId());
+            SitePlatform sitePlatform = sitePlatformService.getBySiteId(sysUser.getSiteId());
 
-            List<KpnSiteBankCard> siteBankCards = siteBankCardService.getBySiteId(sysUser.getSiteId());
-            List<KpnSiteBankCardPayVo> bankCardPayVos = new ArrayList<>();
-            for (KpnSiteBankCard siteBankCard : siteBankCards) {
-                KpnSiteBankCardPayVo bankCardPayVo = new KpnSiteBankCardPayVo();
+            List<SiteBankCard> siteBankCards = siteBankCardService.getBySiteId(sysUser.getSiteId());
+            List<SiteBankCardPayVo> bankCardPayVos = new ArrayList<>();
+            for (SiteBankCard siteBankCard : siteBankCards) {
+                SiteBankCardPayVo bankCardPayVo = new SiteBankCardPayVo();
                 BeanUtil.copyProperties(siteBankCard, bankCardPayVo);
                 bankCardPayVo.setAmount(product.getPrice().divide(sitePlatform.getExchange(), 2, RoundingMode.CEILING));
                 bankCardPayVo.setCurrency(siteInfo.getCurrencyCode());
@@ -205,7 +204,7 @@ public class MemberController {
             }
 
             String orderNo = MarksixConstants.Str.ORDER_NO_PREFIX + RandomUtil.randomNumbers(MarksixConstants.Numeric.ORDER_NO_LENGTH);
-            KpnSitePayResultVo result = KpnSitePayResultVo.builder().orderNo(orderNo).bankCardPayVos(bankCardPayVos).build();
+            SitePayResultVo result = SitePayResultVo.builder().orderNo(orderNo).bankCardPayVos(bankCardPayVos).build();
             return Result.succeed(result, "succeed");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -251,12 +250,12 @@ public class MemberController {
             }
 
             SysUser sysUser = userService.getById(user.getId());
-            KpnSiteProduct product = siteProductService.getById(productId);
-            KpnSite siteInfo = siteService.getInfoById(sysUser.getSiteId());
-            KpnSiteBankCard bankCard = siteBankCardService.getById(bankCardId);
-            KpnSitePlatform sitePlatform = sitePlatformService.getBySiteId(sysUser.getSiteId());
+            SiteProduct product = siteProductService.getById(productId);
+            Site siteInfo = siteService.getInfoById(sysUser.getSiteId());
+            SiteBankCard bankCard = siteBankCardService.getById(bankCardId);
+            SitePlatform sitePlatform = sitePlatformService.getBySiteId(sysUser.getSiteId());
 
-            KpnSiteUserOrder siteOrder = new KpnSiteUserOrder();
+            SiteUserOrder siteOrder = new SiteUserOrder();
             siteOrder.setSiteId(siteInfo.getId());
             siteOrder.setSiteCode(siteInfo.getCode());
             siteOrder.setSiteName(siteInfo.getName());
@@ -290,11 +289,11 @@ public class MemberController {
 
     @ApiOperation(value = "查询订单记录")
     @GetMapping("/order/records")
-    public Result<PornPageResult<KpnSiteUserOrderVo>> orderRecords(@ApiIgnore @LoginUser SysUser user,
-                                                                   @ApiParam("当前页") Integer currPage,
-                                                                   @ApiParam("每页条数") Integer pageSize) {
+    public Result<PornPageResult<SiteUserOrderVo>> orderRecords(@ApiIgnore @LoginUser SysUser user,
+                                                                @ApiParam("当前页") Integer currPage,
+                                                                @ApiParam("每页条数") Integer pageSize) {
         try {
-            PornPageResult<KpnSiteUserOrderVo> userOrderRecordsPage = siteOrderService.getUserOrderRecords(user.getSiteId(), user.getId(), currPage, pageSize);
+            PornPageResult<SiteUserOrderVo> userOrderRecordsPage = siteOrderService.getUserOrderRecords(user.getSiteId(), user.getId(), currPage, pageSize);
             return Result.succeed(userOrderRecordsPage, "succeed");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -329,7 +328,7 @@ public class MemberController {
             }
             SysUser userInfo = userService.getById(user.getId());
 
-            KpnSiteSuggestion siteSuggestion = new KpnSiteSuggestion();
+            SiteSuggestion siteSuggestion = new SiteSuggestion();
             siteSuggestion.setSiteId(userInfo.getSiteId());
             siteSuggestion.setSiteCode(userInfo.getSiteCode());
             siteSuggestion.setSiteName(userInfo.getSiteName());
@@ -360,9 +359,9 @@ public class MemberController {
             params.put("userId",user.getId());
             List<AnnouncementUserVo> kpnSiteAnnouncements = siteAnnouncementService.findList(params);
 //                    siteAnnouncementService.lambdaQuery()
-//                    .eq(KpnSiteAnnouncement::getSiteId, user.getSiteId())
-//                    .eq(KpnSiteAnnouncement::getStatus, true)
-//                    .orderByDesc(KpnSiteAnnouncement::getSort, KpnSiteAnnouncement::getCreateTime)
+//                    .eq(SiteAnnouncement::getSiteId, user.getSiteId())
+//                    .eq(SiteAnnouncement::getStatus, true)
+//                    .orderByDesc(SiteAnnouncement::getSort, SiteAnnouncement::getCreateTime)
 //                    .list();
 
             List<AnnouncementVo> announcementVos = kpnSiteAnnouncements.stream().map(AnnouncementVo::new).collect(Collectors.toList());
@@ -388,13 +387,13 @@ public class MemberController {
         if (ObjectUtil.isEmpty(dto.getIsRead())) {
             return Result.failed("状态不能为空");
         }
-        return iKpnSiteAnnouncementUserService.saveOrUpdateAnnUser(dto,user);
+        return iSiteAnnouncementUserService.saveOrUpdateAnnUser(dto,user);
     }
     @ApiOperation("查询签到配置列表")
     @ResponseBody
     @GetMapping("/findSignList")
-    public Result< List<KpnSiteSign>> findSignList(@RequestHeader("sid") Long sid) {
-        List<KpnSiteSign> signList = iKpnSiteSignService.findSignList(sid);
+    public Result< List<SiteSign>> findSignList(@RequestHeader("sid") Long sid) {
+        List<SiteSign> signList = iSiteSignService.findSignList(sid);
         return Result.succeed(signList);
     }
     /**
@@ -402,8 +401,8 @@ public class MemberController {
      */
     @ApiOperation(value = "获取月份签到信息")
     @GetMapping("/sign/history")
-    public Result<List<KpnSiteUserSignHistoryVo>> getSignHistory(@ApiIgnore @LoginUser SysUser user,
-                                                                 @ApiParam("当前年月(yyyy-MM),为空时返回当前月份签到数据") String month) {
+    public Result<List<SiteUserSignHistoryVo>> getSignHistory(@ApiIgnore @LoginUser SysUser user,
+                                                              @ApiParam("当前年月(yyyy-MM),为空时返回当前月份签到数据") String month) {
         try {
             //todo 获取上月后7天签到数据
             SysUser sysUser = userService.getById(user.getId());
@@ -411,7 +410,7 @@ public class MemberController {
                 month = DateUtil.format(new Date(), MarksixConstants.Format.YYYY_MM);
             }
 
-            List<KpnSiteUserSignHistoryVo> resultVos = siteSignDetailService.getSignHistory(sysUser, month);
+            List<SiteUserSignHistoryVo> resultVos = siteSignDetailService.getSignHistory(sysUser, month);
             return Result.succeed(resultVos, "succeed");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -438,8 +437,8 @@ public class MemberController {
      */
     @ApiOperation(value = "签到")
     @PostMapping("/sign")
-    public Result<KpnSiteUserSignResultVo> sign(@ApiIgnore @LoginUser SysUser user,
-                                                @ApiParam("签到日期(yyyy-MM-dd)") String date) {
+    public Result<SiteUserSignResultVo> sign(@ApiIgnore @LoginUser SysUser user,
+                                             @ApiParam("签到日期(yyyy-MM-dd)") String date) {
         if (ObjectUtil.isEmpty(date)) {
             return Result.failed("签到日期不能为空");
         }
@@ -464,7 +463,7 @@ public class MemberController {
 
             //签到
             SysUser sysUser = userService.getById(user.getId());
-            KpnSiteUserSignResultVo resultVo = siteSignDetailService.sign(sysUser, date);
+            SiteUserSignResultVo resultVo = siteSignDetailService.sign(sysUser, date);
 
             return Result.succeed(resultVo, "succeed");
         } catch (Exception e) {
@@ -513,13 +512,13 @@ public class MemberController {
      */
     @ApiOperation(value = "获取我的推广数据")
     @GetMapping("/promotion/info")
-    public Result<KpnPromotionInfoVo> getPromotionInfo(@ApiIgnore @LoginUser SysUser user) {
+    public Result<PromotionInfoVo> getPromotionInfo(@ApiIgnore @LoginUser SysUser user) {
         try {
             SysUser sysUser = userService.getById(user.getId());
             String promotionCode = sysUser.getPromotionCode();
             if (StrUtil.isBlank(promotionCode)) {
                 log.error("会员推广码为空,userId: {}", sysUser.getId());
-                KpnPromotionInfoVo emptyVo = KpnPromotionInfoVo.builder().promotionCode(promotionCode).members(0).vipDays(0).kbs(BigDecimal.ZERO).build();
+                PromotionInfoVo emptyVo = PromotionInfoVo.builder().promotionCode(promotionCode).members(0).vipDays(0).kbs(BigDecimal.ZERO).build();
                 return Result.succeed(emptyVo, "succeed");
             }
 
@@ -527,7 +526,7 @@ public class MemberController {
             Integer vipDays = siteUserVipLogService.getPromotionRewardVipDays(sysUser.getId());
             BigDecimal kbs = moneyLogService.getPromotionRewardTotalKbs(sysUser.getId()).setScale(2, RoundingMode.FLOOR);
 
-            KpnPromotionInfoVo promotionInfoVo = KpnPromotionInfoVo.builder().promotionCode(promotionCode).members(members).vipDays(vipDays).kbs(kbs).build();
+            PromotionInfoVo promotionInfoVo = PromotionInfoVo.builder().promotionCode(promotionCode).members(members).vipDays(vipDays).kbs(kbs).build();
             return Result.succeed(promotionInfoVo, "succeed");
         } catch (Exception e) {
             log.error(e.getMessage(), e);

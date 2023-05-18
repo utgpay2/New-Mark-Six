@@ -3,10 +3,10 @@
 //import cn.hutool.core.collection.CollectionUtil;
 //import cn.hutool.core.util.StrUtil;
 //import com.central.common.constant.MarksixConstants;
-//import com.central.common.model.KpnSite;
+//import com.central.common.model.Site;
 //import com.central.common.redis.template.RedisRepository;
 //import com.central.marksix.service.IKpnSiteChannelService;
-//import com.central.marksix.service.IKpnSiteService;
+//import com.central.marksix.service.ISiteService;
 //import lombok.extern.slf4j.Slf4j;
 //import org.apache.shardingsphere.job.api.ShardingContext;
 //import org.apache.shardingsphere.job.simple.job.SimpleJob;
@@ -23,7 +23,7 @@
 //public class SiteChannelRptJob implements SimpleJob, CommandLineRunner {
 //
 //    @Autowired
-//    private IKpnSiteService siteService;
+//    private ISiteService siteService;
 //
 //    @Autowired
 //    private IKpnSiteChannelService siteChannelService;
@@ -37,8 +37,8 @@
 //
 //    private void cache() {
 //        try {
-//            List<KpnSite> kpnSites = siteService.getList();
-//            for (KpnSite kpnSite : kpnSites) {
+//            List<Site> kpnSites = siteService.getList();
+//            for (Site kpnSite : kpnSites) {
 //                Long sid = kpnSite.getId();
 //
 //                //非固定标签

@@ -8,7 +8,7 @@ import com.central.common.language.LanguageThreadLocal;
 import com.central.common.model.enums.StatusEnum;
 import com.central.common.model.ipmanage.SysIpSwitchButton;
 import com.central.common.utils.IpUtil;
-import com.central.marksix.service.IKpnBlackIpService;
+import com.central.marksix.service.IBlackIpService;
 import com.central.marksix.service.ISysSysIpSwitchButtonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class RequestInterceptor implements HandlerInterceptor {
     @Autowired
     private ISysSysIpSwitchButtonService iSysSysIpSwitchButtonService;
     @Autowired
-    IKpnBlackIpService iKpnBlackIpService;
+    IBlackIpService iBlackIpService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String language = ServletUtil.getHeader(request, MarksixConstants.Str.LANGUAGE, Charset.defaultCharset());
@@ -39,7 +39,7 @@ public class RequestInterceptor implements HandlerInterceptor {
             if(StatusEnum.ONE_FALSE.getStatus()==switchButton.getWhiteipSwithcButton()){//白名单开关为1
                 String ip = IpUtil.getIpAddr(request);
                 String siteId = request.getHeader(SecurityConstants.USER_SITE_ID_HEADER);
-                if(iKpnBlackIpService.ipcheck(ip,siteId)){
+                if(iBlackIpService.ipcheck(ip,siteId)){
                     response.sendRedirect(request.getContextPath()+"/kpnblackip/iperror");
                     return false;
                 }

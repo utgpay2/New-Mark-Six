@@ -1,6 +1,6 @@
 package com.central.backend.mapper.pay;
 
-import com.central.common.model.pay.KpnSiteBank;
+import com.central.common.model.pay.SiteBank;
 import com.central.db.mapper.SuperMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
@@ -16,13 +16,13 @@ import java.util.Map;
  * @date 2023-02-03 19:35:22
  */
 @Mapper
-public interface KpnSiteBankMapper extends SuperMapper<KpnSiteBank> {
+public interface KpnSiteBankMapper extends SuperMapper<SiteBank> {
     /**
      * 分页查询用户列表
      * @param page
      * @param params
      * @return
      */
-    List<KpnSiteBank> findList(Page<KpnSiteBank> page, @Param("p") Map<String, Object> params);
-    List<KpnSiteBank> findList(@Param("p") Map<String, Object> params);
+    List<SiteBank> findList(Page<SiteBank> page, @Param("p") Map<String, Object> params);
+    List<SiteBank> findList(@Param("p") Map<String, Object> params);
 }

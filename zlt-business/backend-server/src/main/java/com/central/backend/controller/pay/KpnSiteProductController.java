@@ -4,7 +4,7 @@
 //import java.util.Map;
 //
 //import cn.hutool.core.util.ObjectUtil;
-//import com.central.backend.service.pay.IKpnSiteProductService;
+//import com.central.backend.service.pay.ISiteProductService;
 //import com.central.common.annotation.LoginUser;
 //import com.central.common.model.SysUser;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@
 //import io.swagger.annotations.ApiOperation;
 //import lombok.extern.slf4j.Slf4j;
 //
-//import com.central.common.model.pay.KpnSiteProduct;
+//import com.central.common.model.pay.SiteProduct;
 //import com.central.common.model.PageResult;
 //import com.central.common.model.Result;
 //import springfox.documentation.annotations.ApiIgnore;
@@ -32,7 +32,7 @@
 //@Api(tags = "vip支付产品")
 //public class KpnSiteProductController {
 //    @Autowired
-//    private IKpnSiteProductService kpnSiteProductService;
+//    private ISiteProductService kpnSiteProductService;
 //
 //    /**
 //     * 列表
@@ -43,7 +43,7 @@
 //            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
 //    })
 //    @GetMapping("/page")
-//    public Result<PageResult<KpnSiteProduct>> listPage(@RequestParam Map<String, Object> params,@ApiIgnore @LoginUser SysUser user) {
+//    public Result<PageResult<SiteProduct>> listPage(@RequestParam Map<String, Object> params,@ApiIgnore @LoginUser SysUser user) {
 //        if (ObjectUtil.isEmpty(params)) {
 //            return Result.failed("请求参数不能为空");
 //        }
@@ -58,7 +58,7 @@
 //
 //    @ApiOperation(value = "查询列表")
 //    @GetMapping("/list")
-//    public Result<List<KpnSiteProduct>> list(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
+//    public Result<List<SiteProduct>> list(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
 //        return Result.succeed(kpnSiteProductService.findList(params,user));
 //    }
 //
@@ -71,7 +71,7 @@
 //        if (ObjectUtil.isEmpty(id)) {
 //            return Result.failed("ID不能为空");
 //        }
-//        KpnSiteProduct model = kpnSiteProductService.getById(id);
+//        SiteProduct model = kpnSiteProductService.getById(id);
 //        return Result.succeed(model, "查询成功");
 //    }
 //
@@ -80,7 +80,7 @@
 //     */
 //    @ApiOperation(value = "新增or更新")
 //    @PostMapping
-//    public Result saveOrUpdateKpnSiteProduct(@RequestBody KpnSiteProduct kpnSiteProduct, @ApiIgnore @LoginUser SysUser user) {
+//    public Result saveOrUpdateKpnSiteProduct(@RequestBody SiteProduct kpnSiteProduct, @ApiIgnore @LoginUser SysUser user) {
 //        if (ObjectUtil.isEmpty(kpnSiteProduct)) {
 //            return Result.failed("请求参数不能为空");
 //        }

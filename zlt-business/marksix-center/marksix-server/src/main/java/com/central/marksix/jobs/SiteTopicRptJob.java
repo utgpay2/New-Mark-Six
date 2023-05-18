@@ -3,9 +3,9 @@
 //import cn.hutool.core.collection.CollectionUtil;
 //import cn.hutool.core.util.StrUtil;
 //import com.central.common.constant.MarksixConstants;
-//import com.central.common.model.KpnSite;
+//import com.central.common.model.Site;
 //import com.central.common.redis.template.RedisRepository;
-//import com.central.marksix.service.IKpnSiteService;
+//import com.central.marksix.service.ISiteService;
 //import com.central.marksix.service.IKpnSiteTopicMovieService;
 //import com.central.marksix.service.IKpnSiteTopicService;
 //import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@
 //public class SiteTopicRptJob implements SimpleJob, CommandLineRunner {
 //
 //    @Autowired
-//    private IKpnSiteService siteService;
+//    private ISiteService siteService;
 //
 //    @Autowired
 //    private IKpnSiteTopicMovieService siteTopicMovieService;
@@ -41,8 +41,8 @@
 //
 //    private void cache() {
 //        try {
-//            List<KpnSite> kpnSites = siteService.getList();
-//            for (KpnSite kpnSite : kpnSites) {
+//            List<Site> kpnSites = siteService.getList();
+//            for (Site kpnSite : kpnSites) {
 //                Long sid = kpnSite.getId();
 //
 //                List<Long> topicIds = siteTopicService.getTopicIdsBySiteId(sid);

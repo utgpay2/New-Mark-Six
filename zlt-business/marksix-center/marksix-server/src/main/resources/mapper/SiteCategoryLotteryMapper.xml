@@ -4,7 +4,7 @@
 <mapper namespace="com.central.marksix.mapper.SiteCategoryLotteryMapper">
     <select id="findList" resultType="com.central.marksix.entity.vo.CategoryVO">
         select mc.id as id,mc.name as name,mc.sort as sort,mc.remark as remark,
-        l.create_time as createTime,l.update_time as updateTime,t.category_id as categoryId
+        l.create_time as createTime,l.update_time as updateTime,l.category_id as categoryId
         l.create_by as createBy,l.update_by as updateBy,l.site_lottery_id  as lotteryId
         from mks_site_category_lottery l
         LEFT JOIN mks_category mc

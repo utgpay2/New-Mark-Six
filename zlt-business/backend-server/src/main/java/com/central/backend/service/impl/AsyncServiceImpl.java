@@ -1,13 +1,11 @@
 package com.central.backend.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.central.backend.service.IAsyncService;
-import com.central.backend.service.IKpnSiteService;
+import com.central.backend.service.ISiteService;
 import com.central.common.constant.MarksixConstants;
-import com.central.common.model.KpnSite;
 import com.central.common.redis.template.RedisRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -25,7 +22,7 @@ public class AsyncServiceImpl implements IAsyncService {
 
     @Autowired
     @Lazy
-    private IKpnSiteService siteService;
+    private ISiteService siteService;
 
 
     @Async

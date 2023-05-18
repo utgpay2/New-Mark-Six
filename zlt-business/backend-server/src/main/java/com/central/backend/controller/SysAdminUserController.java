@@ -9,7 +9,7 @@ import com.central.backend.model.dto.SysAdminUserDto;
 import com.central.backend.model.dto.SysAdminUserEnabledDto;
 import com.central.backend.model.dto.SysAdminUserPasswordDto;
 import com.central.backend.service.IAdminUserService;
-import com.central.backend.service.IKpnSiteService;
+import com.central.backend.service.ISiteService;
 import com.central.backend.service.ISysUserService;
 import com.central.backend.vo.UserInfoVo;
 import com.central.common.annotation.LoginUser;
@@ -53,7 +53,7 @@ public class SysAdminUserController {
     @Autowired
     private UaaService uaaService;
     @Autowired
-    private IKpnSiteService siteService;
+    private ISiteService siteService;
     @Autowired
     private IAdminUserService iAdminUserService;
     @Value("${marksix.business.authorization:Basic d2ViQXBwOndlYkFwcA==}")
@@ -311,8 +311,8 @@ public class SysAdminUserController {
 //            return Result.failed("验证码错误");
 //        }
         if (null!=sid && sid !=0 ) {
-            KpnSite kpnSite = siteService.getById(sid);
-            username = kpnSite.getCode() + "_" + username;
+            Site site = siteService.getById(sid);
+            username = site.getCode() + "_" + username;
         }
 
         LoginAppUser sysUser = userService.findByUsername(username);
@@ -362,8 +362,8 @@ public class SysAdminUserController {
 //            return Result.failed("验证码错误");
 //        }
         if (null!=sid && sid !=0 ) {
-            KpnSite kpnSite = siteService.getById(sid);
-            username = kpnSite.getCode() + "_" + username;
+            Site site = siteService.getById(sid);
+            username = site.getCode() + "_" + username;
         }
 
         LoginAppUser sysUser = userService.findByUsername(username);

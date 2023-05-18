@@ -3,10 +3,10 @@
 //import cn.hutool.core.collection.CollUtil;
 //import cn.hutool.core.util.StrUtil;
 //import com.central.common.constant.MarksixConstants;
-//import com.central.common.model.KpnSite;
+//import com.central.common.model.Site;
 //import com.central.common.redis.template.RedisRepository;
 //import com.central.marksix.service.IKpnMovieTagService;
-//import com.central.marksix.service.IKpnSiteService;
+//import com.central.marksix.service.ISiteService;
 //import lombok.extern.slf4j.Slf4j;
 //import org.apache.shardingsphere.job.api.ShardingContext;
 //import org.apache.shardingsphere.job.simple.job.SimpleJob;
@@ -23,7 +23,7 @@
 //public class SiteTagRptJob implements SimpleJob, CommandLineRunner {
 //
 //    @Autowired
-//    private IKpnSiteService siteService;
+//    private ISiteService siteService;
 //
 //    @Autowired
 //    private IKpnMovieTagService movieTagService;
@@ -37,8 +37,8 @@
 //
 //    private void cache() {
 //        try {
-//            List<KpnSite> kpnSites = siteService.getList();
-//            for (KpnSite kpnSite : kpnSites) {
+//            List<Site> kpnSites = siteService.getList();
+//            for (Site kpnSite : kpnSites) {
 //                Long sid = kpnSite.getId();
 //
 //                List<Long> tagIds = movieTagService.getTagIdsBySiteId(sid);

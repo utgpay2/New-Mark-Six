@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.central.backend.mapper.ipmanage.BlackIpMapper">
+    <resultMap id="BaseResultMap" type="com.central.backend.model.vo.BlackIpVO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="ip_section" jdbcType="VARCHAR" property="ipSection"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="site_id" jdbcType="BIGINT" property="siteId"/>
+        <result column="site_code" jdbcType="VARCHAR" property="siteCode"/>
+        <result column="site_name" jdbcType="VARCHAR" property="siteName"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <select id="findList" resultType="com.central.backend.model.vo.BlackIpVO">
+        select t.id as id,t.ip_section as ipSection,
+               t.remark as remark,t.site_id as siteId,
+               t.site_code as siteCode,t.site_name as siteName,
+               t.create_by as createBy,t.create_time as createTime,
+               t.update_by as updateBy,t.update_time as updateTime
+        from kpn_black_ip t
+        <where>
+            1=1
+            <if test="p.siteId != null and  p.siteId != '' and p.siteId != 0">
+                and t.site_id = #{p.siteId}
+            </if>
+            <if test="p.ip != null and p.ip != ''">
+                and t.ip_section = #{p.ip}
+            </if>
+            <if test="p.updateBy != null and p.updateBy != ''">
+                and t.update_by = #{p.updateBy}
+            </if>
+            <if test="p.startTime!=null">
+                and DATE_FORMAT(t.update_time,'%Y-%m-%d %H:%i:%s') <![CDATA[ >= ]]>DATE_FORMAT(#{p.startTime},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="p.endTime!=null">
+                and DATE_FORMAT(t.update_time,'%Y-%m-%d %H:%i:%s') <![CDATA[ <= ]]>DATE_FORMAT(#{p.endTime},'%Y-%m-%d %H:%i:%s')
+            </if>
+        </where>
+    </select>
+</mapper>

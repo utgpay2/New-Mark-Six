@@ -97,6 +97,7 @@ public class LoginController {
             @ApiImplicitParam(name = "Username", value = "授权用户：video-signal-platform", required = true, dataType = "String"),
             @ApiImplicitParam(name = "Password", value = "授权密码：video-signal-platform_YYDS", required = true, dataType = "String"),
             @ApiImplicitParam(name = "grant_type", value = "password_google", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "username", value = "用户账号", required = true, dataType = "String"),
             @ApiImplicitParam(name = "googleCode", value = "google验证码", required = false, dataType = "String"),
             @ApiImplicitParam(name = "deviceId", value = "UUID随机值", required = true, dataType = "String")
     })
@@ -117,7 +118,8 @@ public class LoginController {
             @ApiResponse(code = 130, message = "获取游客失败" ),
             @ApiResponse(code = 150, message = "获取用户信息失败" )
     })
-    public void loginPlatformBackend(@PathVariable String Username, @PathVariable String Password, @PathVariable String grant_type, @PathVariable String googleCode, @PathVariable String deviceId) {
+    public void loginPlatformBackend(@PathVariable String Username, @PathVariable String Password, @PathVariable String grant_type,
+                      @PathVariable String username, @PathVariable String googleCode, @PathVariable String deviceId) {
     }
 
     @Value("${zlt.uaa.isSingleLogin:false}")
