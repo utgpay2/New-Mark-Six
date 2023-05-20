@@ -39,12 +39,8 @@ public class LotteryController {
      * 列表
      */
     @ApiOperation(value = "查询彩种列表（超级管理员权限）")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
-//            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
-//    })
     @GetMapping
-    public Result<List<Lottery>> list(@RequestParam Map<String, Object> params) {
+    public Result<List<Lottery>> list(@ApiIgnore @RequestParam Map<String, Object> params) {
         return Result.succeed(lotteryService.findList(params));
     }
 
@@ -66,6 +62,9 @@ public class LotteryController {
         }
         if (ObjectUtil.isEmpty(lottery.getBetSettlementTime())) {
             return Result.failed("结算完成时间不能为空");
+        }
+        if (ObjectUtil.isEmpty(lottery.getSort())) {
+            return Result.failed("顺序不能为空");
         }
         lotteryService.saveOrUpdate(lottery);
         return Result.succeed("保存成功");
@@ -91,7 +90,7 @@ public class LotteryController {
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/listsitelottery")
-    public Result<List<SiteLotteryVO>> listSiteLottery(@RequestParam Map<String, Object> params) {
+    public Result<List<SiteLotteryVO>> listSiteLottery(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }

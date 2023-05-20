@@ -45,7 +45,7 @@ public class NumberAttributesController {
             @ApiImplicitParam(name = "year", value = "年份", required = true, dataType = "Integer")
     })
     @GetMapping
-    public Result<List<NumberAttributes>> list(@RequestParam Map<String, Object> params) {
+    public Result<List<NumberAttributes>> list(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }

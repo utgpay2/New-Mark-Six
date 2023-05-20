@@ -1,11 +1,15 @@
 package com.central.backend.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.central.backend.service.IQuizService;
+import com.central.common.annotation.LoginUser;
 import com.central.common.model.Quiz;
+import com.central.common.model.SysUser;
+import com.central.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
@@ -57,7 +61,7 @@ public class QuizController {
      */
     @ApiOperation(value = "新增or更新")
     @PostMapping
-    public Result save(@RequestBody Quiz quiz) {
+    public Result save(@RequestBody Quiz quiz, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(quiz)) {
             return Result.failed("请求参数不能为空");
         }
@@ -70,6 +74,15 @@ public class QuizController {
         if (ObjectUtil.isEmpty(quiz.getSort())) {
             return Result.failed("顺序不能为空");
         }
+        if(StringUtils.isNotNull(quiz.getId())){
+            quiz.setUpdateBy(user.getUsername());
+            quiz.setUpdateTime(new Date());
+        }else {
+            quiz.setCreateBy(user.getUsername());
+            quiz.setCreateTime(new Date());
+            quiz.setUpdateBy(user.getUsername());
+            quiz.setUpdateTime(new Date());
+        }
         quizService.saveOrUpdate(quiz);
         return Result.succeed("保存成功");
     }
@@ -80,6 +93,9 @@ public class QuizController {
     @ApiOperation(value = "删除")
     @DeleteMapping("/{id}")
     public Result deleteQuiz(@PathVariable Long id) {
+        if (ObjectUtil.isEmpty(id)) {
+            return Result.failed("ID不能为空");
+        }
         quizService.deleteQuiz(id);
         return Result.succeed("删除成功");
     }
