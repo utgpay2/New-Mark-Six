@@ -4,6 +4,7 @@ import com.central.common.model.PageResult;
 import com.central.common.model.QuizChoose;
 import com.central.common.service.ISuperService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,6 +19,6 @@ public interface IQuizChooseService extends ISuperService<QuizChoose> {
      * @param params
      * @return
      */
-    PageResult<QuizChoose> findList(Map<String, Object> params);
+    List<QuizChoose> findList(Map<String, Object> params);
 }
 

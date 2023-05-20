@@ -29,9 +29,7 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
      * @return
      */
     @Override
-    public PageResult<QuizChoose> findList(Map<String, Object> params){
-        Page<QuizChoose> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
-        List<QuizChoose> list  =  baseMapper.findList(page, params);
-        return PageResult.<QuizChoose>builder().data(list).count(page.getTotal()).build();
+    public List<QuizChoose> findList(Map<String, Object> params){
+        return baseMapper.findList( params);
     }
 }

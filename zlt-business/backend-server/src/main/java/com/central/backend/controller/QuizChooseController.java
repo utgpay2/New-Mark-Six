@@ -1,7 +1,9 @@
 package com.central.backend.controller;
 
+import java.util.List;
 import java.util.Map;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.central.backend.service.IQuizChooseService;
 import com.central.common.model.QuizChoose;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,23 +36,20 @@ public class QuizChooseController {
      */
     @ApiOperation(value = "查询列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "quizId", value = "开奖规则主表ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping
-    public PageResult list(@RequestParam Map<String, Object> params) {
-        return quizChooseService.findList(params);
+    public Result<List<QuizChoose>> list(@RequestParam Map<String, Object> params) {
+        if (ObjectUtil.isEmpty(params)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("quizId"))) {
+            return Result.failed("开奖规则主表ID");
+        }
+        return Result.succeed(quizChooseService.findList(params));
     }
 
-    /**
-     * 查询
-     */
-    @ApiOperation(value = "查询")
-    @GetMapping("/{id}")
-    public Result findUserById(@PathVariable Long id) {
-        QuizChoose model = quizChooseService.getById(id);
-        return Result.succeed(model, "查询成功");
-    }
 
     /**
      * 新增or更新

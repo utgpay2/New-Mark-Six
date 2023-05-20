@@ -30,6 +30,4 @@ public class Quiz extends SuperEntity {
     private Integer siteCategoryId;
     @ApiModelProperty(value = "顺序")
     private Integer sort;
-    @ApiModelProperty(value = "简介")
-    private String content;
     }
