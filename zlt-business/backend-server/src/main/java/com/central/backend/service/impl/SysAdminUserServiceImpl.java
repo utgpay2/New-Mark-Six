@@ -229,51 +229,33 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
             boolean b = false;
             while (it.hasNext()) {
                 SysRole sysRole = sysRoleService.getById((Long) it.next());
-                if(RoleEnum.MERCHANT_ADMIN.getStatus().equals(sysRole.getCode())){//商户管理员
+                if(RoleEnum.MERCHANT_ADMIN.getStatus().equals(sysRole.getCode())||RoleEnum.SUPER_ADMIN.getStatus().equals(sysRole.getCode())){//系统管理员||超级管理员
                     b = true;
                 }
             }
-            if(b){//商户管理员
-                user.setRoleSites(JSONObject.toJSONString(adminUserVo.getSiteIds()));
+            if(b){
                 //站点id
                 user.setSiteId(0L);
                 //站点编码
                 user.setSiteCode("0");
                 //站点名称
                 user.setSiteName("0");
-            }else {
-                if(null==adminUserVo.getSiteIds()||adminUserVo.getSiteIds().size()==0){
-                    return Result.failed("站点权限不能为空");
-                }else if(adminUserVo.getSiteIds().size()>1){
-                    return Result.failed("站点管理员只能唯一一个站点权限");
-                }else {//站点管理员
-                    Set<Long> siteIds = adminUserVo.getSiteIds();
-                    Iterator s = siteIds.iterator();
-                    while (s.hasNext()) {
-                        Site site = iSiteService.getById((Long)s.next());
-                        //站点id
-                        user.setSiteId(site.getId());
-                        //站点编码
-                        user.setSiteCode(site.getCode());
-                        //站点名称
-                        user.setSiteName(site.getName());
-                        user.setUsername(site.getCode() + "_" +adminUserVo.getUsername());
-                    }
-                }
+            }else {//商户管理员
+                user.setUsername(user.getSiteCode() + "_" +adminUserVo.getUsername());
             }
             if(null!=sysUser){
                 //上级id
                 user.setParentId(sysUser.getId());
                 //上级账号
                 user.setParentName(sysUser.getUsername());
-                user.setUpdateBy(sysUser.getUsername());
-                user.setCreateBy(sysUser.getUsername());
+
             }
             user.setNickname(user.getUsername());
             user.setType(UserTypeEnum.BACKEND.name());
             user.setIsReg(UserRegTypeEnum.ADMIN_CREATE.getType());
             user.setEnabled(Boolean.TRUE);
-
+            user.setUpdateBy(sysUser.getUsername());
+            user.setCreateBy(sysUser.getUsername());
             user.setUpdateTime(new Date());
 
             insert = super.save(user);
@@ -292,30 +274,19 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
             boolean b = false;
             while (it.hasNext()) {
                 SysRole sysRole = sysRoleService.getById((Long) it.next());
-                if(RoleEnum.MERCHANT_ADMIN.getStatus().equals(sysRole.getCode())){//商户管理员
+                if(RoleEnum.MERCHANT_ADMIN.getStatus().equals(sysRole.getCode())||RoleEnum.SUPER_ADMIN.getStatus().equals(sysRole.getCode())){//系统管理员||超级管理员
                     b = true;
                 }
             }
-            if(b){//商户管理员
-                userInfo.setRoleSites(JSONObject.toJSONString(adminUserVo.getSiteIds()));
-            }else {
-                if(null==adminUserVo.getSiteIds()||adminUserVo.getSiteIds().size()==0){
-                    return Result.failed("站点权限不能为空");
-                }else if(adminUserVo.getSiteIds().size()>1){
-                    return Result.failed("站点管理员只能唯一一个站点权限");
-                }else {//站点管理员
-                    Set<Long> siteIds = adminUserVo.getSiteIds();
-                    Iterator s = siteIds.iterator();
-                    while (s.hasNext()) {
-                        Site site = iSiteService.getById((Long)s.next());
-                        //站点id
-                        userInfo.setSiteId(site.getId());
-                        //站点编码
-                        userInfo.setSiteCode(site.getCode());
-                        //站点名称
-                        userInfo.setSiteName(site.getName());
-                    }
-                }
+            if(b){
+                //站点id
+                user.setSiteId(0L);
+                //站点编码
+                user.setSiteCode("0");
+                //站点名称
+                user.setSiteName("0");
+            }else {//商户管理员
+                user.setUsername(user.getSiteCode() + "_" +adminUserVo.getUsername());
             }
 
             //userInfo.setMobile(user.getMobile());
