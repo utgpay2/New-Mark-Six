@@ -1,8 +1,9 @@
 package com.central.backend.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.central.backend.co.*;
 import com.central.backend.mapper.SysUserMapper;
@@ -11,11 +12,14 @@ import com.central.backend.model.dto.SysAdminUserEnabledDto;
 import com.central.backend.model.enums.RoleEnum;
 import com.central.backend.service.*;
 import com.central.backend.util.PasswordUtil;
+import com.central.backend.util.SecureToken;
 import com.central.common.constant.CommonConstant;
 import com.central.common.model.*;
 import com.central.common.model.enums.UserRegTypeEnum;
 import com.central.common.model.enums.UserTypeEnum;
+import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
+import com.central.common.utils.GoogleAuthUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -49,6 +53,12 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
     @Resource
     private ISiteService iSiteService;
     private String passRegex = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$";
+
+    @Autowired
+    private ISysUserService sysUserService;
+    @Autowired
+    RedisRepository redisRepository;
+
     @Override
     public PageResult<SysUser> findList(Map<String, Object> params, SysUser user){
         LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<SysUser>();
@@ -162,6 +172,71 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
     public List<SysRole> findRolesByUserId(Long userId) {
         return roleUserService.findRolesByUserId(userId);
     }
+
+    @Override
+    public LoginAppUser findByUsername(String username) {
+        SysUser sysUser=baseMapper.selectOne(new QueryWrapper<SysUser>().eq("username",username));
+        return  sysUserService.getLoginAppUser(sysUser);
+    }
+
+    @Override
+    public Result login(String username, String password,String verifyCode) {
+
+        SysUser sysUser=baseMapper.selectOne(new QueryWrapper<SysUser>().eq("username",username));
+        if (sysUser == null || !sysUser.getEnabled()) {
+
+            return Result.failed("用户名或密码错误");
+        }
+        if(!UserTypeEnum.BACKEND.name().equals(sysUser.getType())){
+
+            return Result.failed("非管理员用户");
+        }
+        if(!sysUser.getEnabled()){
+
+            return Result.failed("账户已禁用");
+        }
+        Pattern pattern = Pattern.compile(passRegex);//6-16位字母和数字组合
+        //2.选择匹配对象
+        Matcher usermatcher = pattern.matcher(password);
+        if(!usermatcher.matches()){
+
+            return Result.failed("密码必须是6-16位字母和数字组合");
+        }
+
+        if (StrUtil.isNotBlank(password)) {
+            if (!passwordEncoder.matches(password, sysUser.getPassword())) {
+
+                return Result.failed("密码错误");
+            }
+        }
+
+
+
+        if (sysUser.getVerify() != null && sysUser.getVerify() == 1) {
+
+            if (StrUtil.isBlank(verifyCode)) {
+                return Result.failed("请输入验证码");
+            }
+
+            Integer code = Integer.parseInt(verifyCode);
+            String secret = sysUser.getGaKey();
+
+
+            if (StrUtil.isBlank(secret) || sysUser.getGaBind() == null || sysUser.getGaBind() != 1) {
+                return Result.failed("请先绑定谷歌身份验证器");
+
+            }
+            boolean checkCode = GoogleAuthUtil.check_code(secret, code);
+            if (!checkCode) {
+                return Result.failed("谷歌身份验证失败");
+            }
+        }
+
+        String token = SecureToken.generate();
+        redisRepository.setExpire("token:"+token,0,12*60*60);
+        return   Result.succeed(token, "succeed");
+    }
+
     /**
      * 给用户设置角色
      */
@@ -234,7 +309,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 }
             }
             if(b){//商户管理员
-                user.setRoleSites(JSONObject.toJSONString(adminUserVo.getSiteIds()));
+                //user.setRoleSites(JSONObject.toJSONString(adminUserVo.getSiteIds()));
                 //站点id
                 user.setSiteId(0L);
                 //站点编码
@@ -297,7 +372,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 }
             }
             if(b){//商户管理员
-                userInfo.setRoleSites(JSONObject.toJSONString(adminUserVo.getSiteIds()));
+                //userInfo.setRoleSites(JSONObject.toJSONString(adminUserVo.getSiteIds()));
             }else {
                 if(null==adminUserVo.getSiteIds()||adminUserVo.getSiteIds().size()==0){
                     return Result.failed("站点权限不能为空");
