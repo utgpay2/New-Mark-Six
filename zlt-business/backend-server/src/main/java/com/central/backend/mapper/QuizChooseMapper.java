@@ -18,10 +18,8 @@ import java.util.Map;
 @Mapper
 public interface QuizChooseMapper extends SuperMapper<QuizChoose> {
     /**
-     * 分页查询用户列表
-     * @param page
      * @param params
      * @return
      */
-    List<QuizChoose> findList(Page<QuizChoose> page, @Param("p") Map<String, Object> params);
+    List<QuizChoose> findList(@Param("p") Map<String, Object> params);
 }

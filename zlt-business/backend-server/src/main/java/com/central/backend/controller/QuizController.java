@@ -1,11 +1,15 @@
 package com.central.backend.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.central.backend.service.IQuizService;
+import com.central.common.annotation.LoginUser;
 import com.central.common.model.Quiz;
+import com.central.common.model.SysUser;
+import com.central.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
@@ -16,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 竞猜分类
@@ -37,11 +42,10 @@ public class QuizController {
     @ApiOperation(value = "查询列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "siteCategoryId", value = "站点分类ID", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping
-    public Result<List<Quiz>> list(@RequestParam Map<String, Object> params) {
+    public Result<List<Quiz>> list(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
@@ -57,7 +61,7 @@ public class QuizController {
      */
     @ApiOperation(value = "新增or更新")
     @PostMapping
-    public Result save(@RequestBody Quiz quiz) {
+    public Result save(@RequestBody Quiz quiz, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(quiz)) {
             return Result.failed("请求参数不能为空");
         }
@@ -70,6 +74,15 @@ public class QuizController {
         if (ObjectUtil.isEmpty(quiz.getSort())) {
             return Result.failed("顺序不能为空");
         }
+        if(StringUtils.isNotNull(quiz.getId())){
+            quiz.setUpdateBy(user.getUsername());
+            quiz.setUpdateTime(new Date());
+        }else {
+            quiz.setCreateBy(user.getUsername());
+            quiz.setCreateTime(new Date());
+            quiz.setUpdateBy(user.getUsername());
+            quiz.setUpdateTime(new Date());
+        }
         quizService.saveOrUpdate(quiz);
         return Result.succeed("保存成功");
     }
@@ -80,6 +93,9 @@ public class QuizController {
     @ApiOperation(value = "删除")
     @DeleteMapping("/{id}")
     public Result deleteQuiz(@PathVariable Long id) {
+        if (ObjectUtil.isEmpty(id)) {
+            return Result.failed("ID不能为空");
+        }
         quizService.deleteQuiz(id);
         return Result.succeed("删除成功");
     }

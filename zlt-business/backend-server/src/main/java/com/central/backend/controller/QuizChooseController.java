@@ -1,9 +1,15 @@
 package com.central.backend.controller;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.central.backend.service.IQuizChooseService;
+import com.central.common.annotation.LoginUser;
 import com.central.common.model.QuizChoose;
+import com.central.common.model.SysUser;
+import com.central.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
@@ -14,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 竞猜奖项详情
@@ -34,30 +41,51 @@ public class QuizChooseController {
      */
     @ApiOperation(value = "查询列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "quizId", value = "开奖规则主表ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping
-    public PageResult list(@RequestParam Map<String, Object> params) {
-        return quizChooseService.findList(params);
+    public Result<List<QuizChoose>> list(@ApiIgnore @RequestParam Map<String, Object> params) {
+        if (ObjectUtil.isEmpty(params)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("quizId"))) {
+            return Result.failed("开奖规则主表ID");
+        }
+        return Result.succeed(quizChooseService.findList(params));
     }
 
-    /**
-     * 查询
-     */
-    @ApiOperation(value = "查询")
-    @GetMapping("/{id}")
-    public Result findUserById(@PathVariable Long id) {
-        QuizChoose model = quizChooseService.getById(id);
-        return Result.succeed(model, "查询成功");
-    }
 
     /**
      * 新增or更新
      */
     @ApiOperation(value = "保存")
     @PostMapping
-    public Result save(@RequestBody QuizChoose quizChoose) {
+    public Result save(@RequestBody QuizChoose quizChoose, @ApiIgnore @LoginUser SysUser user) {
+        if (ObjectUtil.isEmpty(quizChoose)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizChoose.getQuizId())) {
+            return Result.failed("开奖规则主表ID不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizChoose.getIntroduce())) {
+            return Result.failed("标题不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizChoose.getSort())) {
+            return Result.failed("顺序不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizChoose.getOdds())) {
+            return Result.failed("赔率不能为空");
+        }
+        if(StringUtils.isNotNull(quizChoose.getId())){
+            quizChoose.setUpdateBy(user.getUsername());
+            quizChoose.setUpdateTime(new Date());
+        }else {
+            quizChoose.setCreateBy(user.getUsername());
+            quizChoose.setCreateTime(new Date());
+            quizChoose.setUpdateBy(user.getUsername());
+            quizChoose.setUpdateTime(new Date());
+        }
         quizChooseService.saveOrUpdate(quizChoose);
         return Result.succeed("保存成功");
     }

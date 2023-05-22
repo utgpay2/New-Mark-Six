@@ -44,7 +44,7 @@ public class CategoryController {
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/all")
-    public Result<List<Category>> listAll(@RequestParam Map<String, Object> params) {
+    public Result<List<Category>> listAll(@ApiIgnore @RequestParam Map<String, Object> params) {
         return Result.succeed(categoryService.findList(params));
     }
 
@@ -60,6 +60,9 @@ public class CategoryController {
         }
         if (ObjectUtil.isEmpty(category.getName())) {
             return Result.failed("分类名称不能为空");
+        }
+        if (ObjectUtil.isEmpty(category.getSort())) {
+            return Result.failed("顺序不能为空");
         }
         if (ObjectUtil.isNotNull(category.getRemark())) {
             if(category.getRemark().length()>100){
@@ -87,7 +90,7 @@ public class CategoryController {
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/listsitecategory")
-    public Result<List<CategoryVO>> listSiteCategory(@RequestParam Map<String, Object> params) {
+    public Result<List<CategoryVO>> listSiteCategory(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }

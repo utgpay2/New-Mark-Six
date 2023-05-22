@@ -56,8 +56,6 @@ public class SysUser extends SuperEntity {
     private Date vipExpire;
     @ApiModelProperty("K币余额")
     private BigDecimal kBalance;
-    @ApiModelProperty("管理站点")
-    private String roleSites;
     @ApiModelProperty(value = "备注")
     private String remark;
     @ApiModelProperty(value = "状态：0/false.禁用，1/true.启用")

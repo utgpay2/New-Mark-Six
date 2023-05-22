@@ -13,8 +13,8 @@ import java.util.stream.Stream;
  */
 public enum RoleEnum {
     SUPER_ADMIN("1", "超级管理员"),
-    MERCHANT_ADMIN("2", "商户管理员"),
-    SITE_ADMIN("3", "站点管理员");
+    MERCHANT_ADMIN("2", "系统管理员"),
+    SITE_ADMIN("3", "商户管理员");
     private final String status;
     private final String remark;
 
