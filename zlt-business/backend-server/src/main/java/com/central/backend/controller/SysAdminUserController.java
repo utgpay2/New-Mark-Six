@@ -17,7 +17,6 @@ import com.central.common.constant.MarksixConstants;
 import com.central.common.model.*;
 import com.central.common.model.enums.CodeEnum;
 import com.central.common.model.enums.UserTypeEnum;
-import com.central.common.redis.template.RedisRepository;
 import com.central.common.utils.GoogleAuthUtil;
 import com.central.user.feign.UaaService;
 import com.central.user.feign.UserService;
@@ -57,30 +56,9 @@ public class SysAdminUserController {
     private ISiteService siteService;
     @Autowired
     private IAdminUserService iAdminUserService;
-
     @Value("${marksix.business.authorization:Basic d2ViQXBwOndlYkFwcA==}")
     private String authorization;
     public static final String AUTHENTICATION_MODE = "password_code";
-
-
-    @ApiOperation("密码登录")
-    @PostMapping("/login/password")
-    public Result<String> login(@ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid,
-//                                @ApiParam(value = "图形验证码id", required = true) String verifyCodeId,
-                                @ApiParam(value = "验证码", required = false) String verifyCode,
-                                @ApiParam(value = "登录账号", required = true) String username,
-                                @ApiParam(value = "密码", required = true) String password) {
-        //校验账号
-        if (StrUtil.isBlank(username)) {
-            return Result.failed("账号不能为空");
-        }
-        if (StrUtil.isBlank(password)) {
-            return Result.failed("密码不能为空");
-        }
-
-        return  iAdminUserService.login(username, password,verifyCode);
-    }
-
 
     @ApiOperation(value = "分页查询管理员列表")
     @ApiImplicitParams({
@@ -202,6 +180,7 @@ public class SysAdminUserController {
                 return Result.failed("密码不能为空");
             }
         }
+
         if (ObjectUtil.isEmpty(adminUserVo.getRoleIds())) {
             return Result.failed("角色id不能为空");
         }
@@ -302,8 +281,56 @@ public class SysAdminUserController {
     public List<SysRole> findRolesByUserId(@PathVariable Long id) {
         return iAdminUserService.findRolesByUserId(id);
     }
+    @ApiOperation("密码登录")
+    @PostMapping("/login/password")
+    public Result<String> login(@ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid,
+//                                @ApiParam(value = "图形验证码id", required = true) String verifyCodeId,
+//                                @ApiParam(value = "验证码", required = true) String verifyCode,
+                                @ApiParam(value = "登录账号", required = true) String username,
+                                @ApiParam(value = "密码", required = true) String password) {
+        //校验账号
+        if (StrUtil.isBlank(username)) {
+            return Result.failed("账号不能为空");
+        }
+        if (StrUtil.isBlank(password)) {
+            return Result.failed("密码不能为空");
+        }
+
+//        //校验验证码
+//        if (StrUtil.isBlank(verifyCodeId) || StrUtil.isBlank(verifyCode)) {
+//            return Result.failed("验证码不能为空");
+//        }
+//        String cachedCode = (String) RedisRepository.get(verifyCodeId);
+//        if (StrUtil.isBlank(cachedCode)) {
+//            return Result.failed("验证码已过期");
+//        }
+//
+//        if (!cachedCode.equalsIgnoreCase(verifyCode)) {
+//            return Result.failed("验证码错误");
+//        }
+        if (null!=sid && sid !=0 ) {
+            Site site = siteService.getById(sid);
+            username = site.getCode() + "_" + username;
+        }
+
+        LoginAppUser sysUser = userService.findByUsername(username);
+        if (sysUser == null || !sysUser.getEnabled()) {
+            return Result.failed("用户名或密码错误");
+        }
+        if(!UserTypeEnum.BACKEND.name().equals(sysUser.getType())){
+            return Result.failed("非管理员用户");
+        }
 
 
+        Result tokenResult = uaaService.login(authorization, username, password, AUTHENTICATION_MODE);
+        if (tokenResult == null || !tokenResult.getResp_code().equals(CodeEnum.SUCCESS.getCode())) {
+            log.error("登录失败: username={}, msg={}", username, tokenResult.getResp_msg());
+            return Result.failed(tokenResult.getResp_msg());
+        }
+        String accessToken = (String) (((LinkedHashMap) tokenResult.getDatas()).get(MarksixConstants.Str.ACCESS_TOKEN));
+
+        return Result.succeed(accessToken, "succeed");
+    }
 
     @ApiOperation("google登录")
     @PostMapping("/logingoogle")
@@ -320,18 +347,18 @@ public class SysAdminUserController {
             return Result.failed("密码不能为空");
         }
 
-        //校验验证码
-        if (StrUtil.isBlank(verifyCodeId) || StrUtil.isBlank(verifyCode)) {
-            return Result.failed("验证码不能为空");
-        }
-        String cachedCode = (String) RedisRepository.get(verifyCodeId);
-        if (StrUtil.isBlank(cachedCode)) {
-            return Result.failed("验证码已过期");
-        }
-
-        if (!cachedCode.equalsIgnoreCase(verifyCode)) {
-            return Result.failed("验证码错误");
-        }
+//        //校验验证码
+//        if (StrUtil.isBlank(verifyCodeId) || StrUtil.isBlank(verifyCode)) {
+//            return Result.failed("验证码不能为空");
+//        }
+//        String cachedCode = (String) RedisRepository.get(verifyCodeId);
+//        if (StrUtil.isBlank(cachedCode)) {
+//            return Result.failed("验证码已过期");
+//        }
+//
+//        if (!cachedCode.equalsIgnoreCase(verifyCode)) {
+//            return Result.failed("验证码错误");
+//        }
         if (null!=sid && sid !=0 ) {
             Site site = siteService.getById(sid);
             username = site.getCode() + "_" + username;
@@ -375,16 +402,6 @@ public class SysAdminUserController {
         if (StringUtils.isBlank(loginAppUser.getGaKey())) {
             return Result.failed("请先绑定谷歌身份验证器");
         }
-        if (StrUtil.isBlank(googleCode)) {
-            return Result.failed("请输入验证码");
-        }
-
-        Integer code = Integer.parseInt(googleCode);
-        boolean checkCode = GoogleAuthUtil.check_code(loginAppUser.getGaKey(), code);
-        if (!checkCode) {
-            return Result.failed("谷歌身份验证失败");
-        }
-
         GaBindCo param = new GaBindCo();
         param.setId(loginAppUser.getId());
         param.setGaBind(1);
