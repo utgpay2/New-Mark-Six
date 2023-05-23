@@ -13,8 +13,8 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-@TableName("kpn_money_log")
-@ApiModel("K币账变记录")
+@TableName("mks_money_log")
+@ApiModel("M币账变记录")
 public class MoneyLog extends SuperEntity {
 
     @ApiModelProperty(value = "用户ID")
@@ -35,21 +35,12 @@ public class MoneyLog extends SuperEntity {
     @ApiModelProperty(value = "备注")
     private String remark;
 
-    @ApiModelProperty(value = "产品id")
-    private Long productId;
-
     @ApiModelProperty(value = "账变类型")
     private Integer orderType;
-
-    @ApiModelProperty(value = "日期(yyyy-MM-dd)")
-    private String date;
 
     @ApiModelProperty(value = "账变类型名称")
     @TableField(exist = false)
     private String orderTypeName;
-
-    @ApiModelProperty(value = "币种")
-    private String currency;
 
     @ApiModelProperty(value = "0失败,1成功")
     private Integer transferStatus;

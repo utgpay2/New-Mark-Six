@@ -46,7 +46,7 @@ public class BlackIpServiceImpl extends SuperServiceImpl<BlackIpMapper, BlackIp>
         return PageResult.<BlackIpVO>builder().data(list).count(page.getTotal()).build();
     }
     @Override
-    public Result saveOrUpdateKpnBlackIp(BlackIp blackIp, SysUser user){
+    public Result saveOrUpdateBlackIp(BlackIp blackIp, SysUser user){
         String ip = blackIp.getIpSection();
         if(null==ip || "".equals(ip)){
             return Result.failed("黑名单IP不能为空");
@@ -77,7 +77,7 @@ public class BlackIpServiceImpl extends SuperServiceImpl<BlackIpMapper, BlackIp>
         return Result.succeed("保存成功");
     }
     @Override
-    public Result deleteKpnBlackIp(@PathVariable Long id){
+    public Result deleteBlackIp(@PathVariable Long id){
         this.removeById(id);
         return Result.succeed("删除成功");
     }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping("/kpnblackip")
+@RequestMapping("/blackip")
 public class BlackIpController {
     @GetMapping("/iperror")
     public Result iperror() {

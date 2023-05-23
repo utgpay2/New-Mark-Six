@@ -1,8 +1,10 @@
 package com.central.marksix.controller;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.central.common.annotation.LoginUser;
 import com.central.common.model.*;
+import com.central.marksix.entity.dto.QuizOrdersDto;
 import com.central.marksix.entity.vo.CategoryVO;
 import com.central.marksix.entity.vo.SiteLotteryVO;
 import com.central.marksix.service.*;
@@ -39,6 +41,8 @@ public class LotteryController {
     private IQuizChooseService quizChooseService;
     @Autowired
     private ISiteCategoryLotteryService categoryLotteryService;
+    @Autowired
+    private IQuizOrdersService siteOrderService;
     /**
      * 列表
      */
@@ -133,5 +137,14 @@ public class LotteryController {
             return Result.failed("彩票规则主表id不能为空");
         }
         return Result.succeed(quizChooseService.findList(params));
+    }
+
+    /**
+     * 投注
+     */
+    @ApiOperation(value = "投注")
+    @PostMapping("/bettingorders")
+    public Result bettingOrders(@RequestBody List<QuizOrdersDto> ordersDtoList, @ApiIgnore @LoginUser SysUser user) {
+        return siteOrderService.bettingOrders(ordersDtoList,user);
     }
 }

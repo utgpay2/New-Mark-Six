@@ -38,7 +38,7 @@ public class SysUserVo implements Serializable {
     @ApiModelProperty("剩余天数")
     private Long between;
 
-    @ApiModelProperty("k币余额")
-    private BigDecimal kBalance;
+    @ApiModelProperty("M币余额")
+    private BigDecimal mBalance;
 
 }

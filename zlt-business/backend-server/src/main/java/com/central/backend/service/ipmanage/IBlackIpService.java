@@ -31,8 +31,8 @@ public interface IBlackIpService extends ISuperService<BlackIp> {
      */
     public Boolean ipcheck(String ip, SysUser user);
 
-    Result saveOrUpdateKpnBlackIp(BlackIp blackIp, SysUser user);
+    Result saveOrUpdateBlackIp(BlackIp blackIp, SysUser user);
 
-    Result deleteKpnBlackIp(@PathVariable Long id);
+    Result deleteBlackIp(@PathVariable Long id);
 }
 

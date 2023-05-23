@@ -7,7 +7,7 @@ public enum VipChangeTypeEnum {
     SIGN(1, "签到", "签到累计达到:{}天,获取vip天数:{}"),
     FILL_INVITE_CODE(2, "填写邀请码", "填写邀请码:{},获取vip天数:{}"),
     PROMOTION(3, "推广", "推广会员id:{},获取vip天数:{}"),
-    KB(4, "K币兑换", "消费K币:{},获取vip天数:{}"),
+    MB(4, "M币兑换", "消费M币:{},获取vip天数:{}"),
     CASH(5, "购买", "消费金额:{},币种:{},获取vip天数:{}");
 
     private int code;

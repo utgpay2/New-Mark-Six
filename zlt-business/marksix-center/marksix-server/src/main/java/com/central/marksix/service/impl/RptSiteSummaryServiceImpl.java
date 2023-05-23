@@ -20,9 +20,4 @@ public class RptSiteSummaryServiceImpl extends SuperServiceImpl<RptSiteSummaryMa
         this.baseMapper.addNewUserNum(sid, siteCode, siteName, today);
     }
 
-    @Override
-    public void addNewVipNum(Long sid, String siteCode, String siteName) {
-        String today = DateUtil.formatDate(new Date());
-        this.baseMapper.addNewVipNum(sid, siteCode, siteName, today);
-    }
 }

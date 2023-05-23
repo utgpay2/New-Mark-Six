@@ -56,7 +56,6 @@ public class ProcessLoginInfoServiceImpl implements ProcessLoginInfoService {
         siteLoginLog.setLoginIp(loginIp);
         siteLoginLog.setLoginTime(DateTime.now());
         siteLoginLog.setType(sysUser.getType());
-        siteLoginLog.setVip(sysUser.getVip());
         siteLoginLog.setNickName(sysUser.getNickname());
         if ((sysUser.getType().equals("BACKEND")) && CollUtil.isNotEmpty(sysUser.getRoles())) {
             siteLoginLog.setRoleId(sysUser.getRoles().get(0).getId());

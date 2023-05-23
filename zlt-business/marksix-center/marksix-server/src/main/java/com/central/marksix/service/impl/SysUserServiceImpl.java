@@ -1,33 +1,25 @@
 package com.central.marksix.service.impl;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
-import cn.hutool.core.util.StrUtil;
 import com.central.common.constant.MarksixConstants;
 import com.central.common.model.Site;
-import com.central.common.model.SitePromotion;
 import com.central.common.model.SysUser;
 import com.central.common.model.enums.UserRegTypeEnum;
 import com.central.common.model.enums.UserTypeEnum;
-import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
 import com.central.marksix.mapper.SysUserMapper;
-import com.central.marksix.service.ISitePromotionService;
 import com.central.marksix.service.ISiteService;
 import com.central.marksix.service.IRptSiteSummaryService;
 import com.central.marksix.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 /**
  * year
@@ -42,9 +34,6 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    @Lazy
-    private ISitePromotionService promotionConfigService;
 
     @Autowired
     private IRptSiteSummaryService siteSummaryService;
@@ -58,23 +47,11 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
                 .one();
     }
 
-    @Override
-    public void addRewardVipDays(SysUser sysUser, Integer vipDays) {
-        Date vipExpire = sysUser.getVipExpire() == null ? DateUtil.offsetDay(new Date(), vipDays) : DateUtil.offsetDay(sysUser.getVipExpire(), vipDays);
-        this.lambdaUpdate().eq(SysUser::getId, sysUser.getId())
-                .set(SysUser::getVipExpire, vipExpire)
-                .set(SysUser::getVip, true)
-                .update();
-
-        long expireInSeconds = (vipExpire.getTime() - new Date().getTime()) / 1000;
-        String vipExpireKey = StrUtil.format(MarksixConstants.RedisKey.KPN_SITE_VIP_EXPIRE, sysUser.getId());
-        RedisRepository.setExpire(vipExpireKey, DateUtil.formatDateTime(vipExpire), expireInSeconds, TimeUnit.SECONDS);
-    }
 
     @Override
-    public void addRewardKb(SysUser sysUser, BigDecimal rewardKb) {
+    public void addRewardMb(SysUser sysUser, BigDecimal rewardMb) {
         this.lambdaUpdate().eq(SysUser::getId, sysUser.getId())
-                .setSql("`k_balance` = `k_balance` + " + rewardKb)
+                .setSql("`m_balance` = `m_balance` + " + rewardMb)
                 .update();
     }
 
@@ -98,7 +75,7 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
         newAppUser.setType(UserTypeEnum.APP.name());
         newAppUser.setPassword(passwordEncoder.encode(password));
         newAppUser.setIsReg(UserRegTypeEnum.SELF_REG.getType());
-        newAppUser.setKBalance(BigDecimal.ZERO);
+        newAppUser.setMBalance(BigDecimal.ZERO);
 
         if (ObjectUtil.isNotEmpty(promoteUser)) {
             newAppUser.setParentId(promoteUser.getId());
@@ -120,23 +97,10 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
             }
         } while (!succeed);
 
-        //站点推广活动配置
-        SitePromotion sitePromotionConfig = promotionConfigService.getBySiteId(sid);
-        if (ObjectUtil.isEmpty(sitePromotionConfig)) {
-            return;
-        }
-        promotionConfigService.addPromotionDatas(sitePromotionConfig, newAppUser, promoteUser);
 
         //增加站点统计-新增会员数
         siteSummaryService.addNewUserNum(sid, siteInfo.getCode(), siteInfo.getName());
 
-        //记录站点新增vip数
-        if(ObjectUtil.isNotEmpty(promoteUser)){
-            siteSummaryService.addNewVipNum(siteInfo.getId(), siteInfo.getCode(), siteInfo.getName());
-            if(!promoteUser.getVip()){
-                siteSummaryService.addNewVipNum(siteInfo.getId(), siteInfo.getCode(), siteInfo.getName());
-            }
-        }
 
     }
 
@@ -149,30 +113,8 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
         sysUser.setParentName(promoteUser.getUsername());
         saveOrUpdate(sysUser);
 
-        //推广活动
-        SitePromotion sitePromotionConfig = promotionConfigService.getBySiteId(sid);
-        if (ObjectUtil.isEmpty(sitePromotionConfig)) {
-            return;
-        }
 
-        promotionConfigService.addPromotionDatas(sitePromotionConfig, sysUser, promoteUser);
-
-        //记录站点新增vip数
-        if (!sysUser.getVip()) {
-            siteSummaryService.addNewVipNum(sysUser.getSiteId(), sysUser.getSiteCode(), sysUser.getSiteName());
-        }
     }
-
-    @Async
-    @Override
-    public void updateVipExpire(Long userId) {
-        this.lambdaUpdate()
-                .eq(SysUser::getId, userId)
-                .set(SysUser::getVip, false)
-                .set(SysUser::getVipExpire, null)
-                .update();
-    }
-
 }
 
 

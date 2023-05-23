@@ -1,7 +1,7 @@
 package com.central.backend.service.pay.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.central.backend.mapper.pay.KpnSiteBankMapper;
+import com.central.backend.mapper.pay.SiteBankMapper;
 import com.central.backend.service.pay.ISiteBankCardService;
 import com.central.backend.service.pay.ISiteBankService;
 import com.central.common.model.Result;
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @Slf4j
 @Service
-public class SiteBankServiceImpl extends SuperServiceImpl<KpnSiteBankMapper, SiteBank> implements ISiteBankService {
+public class SiteBankServiceImpl extends SuperServiceImpl<SiteBankMapper, SiteBank> implements ISiteBankService {
     @Autowired
     private ISiteBankCardService iSiteBankCardService;
     /**

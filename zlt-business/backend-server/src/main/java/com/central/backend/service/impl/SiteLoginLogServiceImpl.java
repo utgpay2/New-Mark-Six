@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.central.backend.co.SiteLoginLogCo;
 import com.central.backend.mapper.SiteLoginLogMapper;
 import com.central.backend.service.ISiteLoginLogService;
-import com.central.common.model.KpnSiteLoginLog;
+import com.central.common.model.SiteLoginLog;
 import com.central.common.model.PageResult;
 import com.central.common.model.enums.UserTypeEnum;
 import com.central.common.service.impl.SuperServiceImpl;
@@ -16,34 +16,34 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class SiteLoginLogServiceImpl extends SuperServiceImpl<SiteLoginLogMapper, KpnSiteLoginLog> implements ISiteLoginLogService {
+public class SiteLoginLogServiceImpl extends SuperServiceImpl<SiteLoginLogMapper, SiteLoginLog> implements ISiteLoginLogService {
 
 
     @Override
-    public PageResult<KpnSiteLoginLog> findUserLoginLogList(SiteLoginLogCo params) {
-        Page<KpnSiteLoginLog> page = new Page<>(params.getPage(), params.getLimit());
-        LambdaQueryWrapper<KpnSiteLoginLog> wrapper=new LambdaQueryWrapper<>();
+    public PageResult<SiteLoginLog> findUserLoginLogList(SiteLoginLogCo params) {
+        Page<SiteLoginLog> page = new Page<>(params.getPage(), params.getLimit());
+        LambdaQueryWrapper<SiteLoginLog> wrapper=new LambdaQueryWrapper<>();
         if (params.getSiteId()!=null){
-            wrapper.eq(KpnSiteLoginLog::getSiteId, params.getSiteId());
+            wrapper.eq(SiteLoginLog::getSiteId, params.getSiteId());
         }
         if (StringUtils.isNotBlank(params.getUserName())){
-            wrapper.eq(KpnSiteLoginLog::getUserName, params.getUserName());
+            wrapper.eq(SiteLoginLog::getUserName, params.getUserName());
         }
         if (StringUtils.isNotBlank(params.getLoginIp())){
-            wrapper.eq(KpnSiteLoginLog::getLoginIp, params.getLoginIp());
+            wrapper.eq(SiteLoginLog::getLoginIp, params.getLoginIp());
         }
 
         if (StringUtils.isNotBlank(params.getStartTime())) {
-            wrapper.ge(KpnSiteLoginLog::getCreateTime, params.getStartTime());
+            wrapper.ge(SiteLoginLog::getCreateTime, params.getStartTime());
         }
         if (StringUtils.isNotBlank(params.getEndTime())) {
-            wrapper.le(KpnSiteLoginLog::getCreateTime, params.getEndTime());
+            wrapper.le(SiteLoginLog::getCreateTime, params.getEndTime());
         }
 
-        wrapper.eq(KpnSiteLoginLog::getType, UserTypeEnum.APP.name());
-        wrapper.orderByDesc(KpnSiteLoginLog::getCreateTime);
-        Page<KpnSiteLoginLog> list = baseMapper.selectPage(page, wrapper);
+        wrapper.eq(SiteLoginLog::getType, UserTypeEnum.APP.name());
+        wrapper.orderByDesc(SiteLoginLog::getCreateTime);
+        Page<SiteLoginLog> list = baseMapper.selectPage(page, wrapper);
         long total = page.getTotal();
-        return PageResult.<KpnSiteLoginLog>builder().data(list.getRecords()).count(total).build();
+        return PageResult.<SiteLoginLog>builder().data(list.getRecords()).count(total).build();
     }
 }

@@ -5,7 +5,7 @@ import com.central.common.model.SiteAnnouncementUser;
 import com.central.common.model.Result;
 import com.central.common.model.SysUser;
 import com.central.common.service.impl.SuperServiceImpl;
-import com.central.marksix.entity.dto.KpnSiteAnnouncementUserDto;
+import com.central.marksix.entity.dto.SiteAnnouncementUserDto;
 import com.central.marksix.mapper.SiteAnnouncementUserMapper;
 import com.central.marksix.service.ISiteAnnouncementUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.util.Date;
 @Service
 public class SiteAnnouncementUserServiceImpl extends SuperServiceImpl<SiteAnnouncementUserMapper, SiteAnnouncementUser> implements ISiteAnnouncementUserService {
     @Override
-    public Result saveOrUpdateAnnUser(KpnSiteAnnouncementUserDto dto, SysUser user) {
+    public Result saveOrUpdateAnnUser(SiteAnnouncementUserDto dto, SysUser user) {
         LambdaQueryWrapper<SiteAnnouncementUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SiteAnnouncementUser::getUserId,user.getId());
         queryWrapper.eq(SiteAnnouncementUser::getAnnId,dto.getAnnId());

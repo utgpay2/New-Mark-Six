@@ -21,21 +21,14 @@ public interface ISysUserService extends ISuperService<SysUser> {
      */
     SysUser getByInviteCode(String inviteCode);
 
-    /**
-     * 增加奖励vip天数
-     *
-     * @param sysUser 登录会员
-     * @param vipDays 新增vip天数
-     */
-    void addRewardVipDays(SysUser sysUser, Integer vipDays);
 
     /**
-     * 增加奖励K币数
+     * 增加奖励M币数
      *
      * @param sysUser  登录会员
-     * @param rewardKb 奖励K币数
+     * @param rewardMb 奖励M币数
      */
-    void addRewardKb(SysUser sysUser, BigDecimal rewardKb);
+    void addRewardMb(SysUser sysUser, BigDecimal rewardMb);
 
     /**
      * 获取总推广人数
@@ -65,11 +58,5 @@ public interface ISysUserService extends ISuperService<SysUser> {
      */
     void saveInviteCode(Long sid, Long userId, SysUser promoteUser, String inviteCode);
 
-    /**
-     * 更新vip过期状态
-     *
-     * @param userId 会员id
-     */
-    void updateVipExpire(Long userId);
 
 }

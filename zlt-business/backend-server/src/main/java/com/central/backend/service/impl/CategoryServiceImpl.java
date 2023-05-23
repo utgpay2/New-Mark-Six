@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -49,9 +50,12 @@ public class CategoryServiceImpl extends SuperServiceImpl<CategoryMapper, Catego
     @Override
     public Result saveOrUpdateCategory(Category category, SysUser user) {
         if (null != category.getId() && 0 != category.getId()) {
+            category.setUpdateTime(new Date());
             category.setUpdateBy(null != user ? user.getUsername() : category.getUpdateBy());
         } else {
             category.setCreateBy(null != user ? user.getUsername() : category.getCreateBy());
+            category.setCreateTime(new Date());
+            category.setUpdateTime(new Date());
             category.setUpdateBy(null != user ? user.getUsername() : category.getCreateBy());
         }
         this.saveOrUpdate(category);

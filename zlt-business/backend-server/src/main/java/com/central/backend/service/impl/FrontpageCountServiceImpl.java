@@ -12,7 +12,7 @@ import com.central.common.model.Site;
 import com.central.common.model.RptSiteSummary;
 import com.central.common.model.SysUser;
 import com.central.common.model.enums.DateEnum;
-import com.central.common.model.enums.KbChangeTypeEnum;
+import com.central.common.model.enums.MbChangeTypeEnum;
 import com.central.common.model.enums.MoneyLogEnum;
 import com.central.common.redis.template.RedisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +73,7 @@ public class FrontpageCountServiceImpl extends SuperServiceImpl<FrontpageCountMa
 
         }
         Map<String, Object> moneyparams = new HashMap<>();
-        moneyparams.put("orderType", KbChangeTypeEnum.OPEN_VIP.getType());
+//        moneyparams.put("orderType", MbChangeTypeEnum.OPEN_VIP.getType());
         moneyparams.put("status",DateEnum.TODAY.getStatus());
         moneyparams.put("transferStatus", MoneyLogEnum.TRANSFER_STATUS_SUCCESS.getStatus());
         MoneyLogVO moneyLogVO = moneyLogService.totalNumber(moneyparams,user);

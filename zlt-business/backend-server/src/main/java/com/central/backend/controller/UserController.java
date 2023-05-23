@@ -2,7 +2,6 @@ package com.central.backend.controller;
 
 
 import com.central.backend.co.*;
-import com.central.backend.service.ISiteOrderService;
 import com.central.backend.service.ISysUserService;
 import com.central.common.annotation.LoginUser;
 import com.central.common.model.*;
@@ -32,8 +31,6 @@ public class UserController {
     private ISysUserService userService;
 
 
-    @Autowired
-    private ISiteOrderService orderService;
 
 
 
@@ -44,17 +41,6 @@ public class UserController {
         PageResult<SysUser> userList = userService.findUserList(params);
         if (userList!=null && userList.getData().size() > 0){
             List<Long> userIds = userList.getData().stream().map(SysUser::getId).collect(Collectors.toList());
-            //查询充值订单数据
-            List<SiteUserOrder> orderMobileList = orderService.findOrderMobileList(userIds);
-            if (orderMobileList!=null && orderMobileList.size()>0){
-                Map<Long, SiteUserOrder> map = orderMobileList.stream().collect(Collectors.toMap(SiteUserOrder::getUserId, (p) -> p));
-                userList.getData().stream().forEach(info ->{
-                    SiteUserOrder siteOrderInfo = map.get(info.getId());
-                    if (siteOrderInfo!=null){
-                        info.setMobile(siteOrderInfo.getMobile());
-                    }
-                });
-            }
         }
         return Result.succeed(userList);
     }

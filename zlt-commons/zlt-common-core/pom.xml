@@ -104,5 +104,11 @@
             <artifactId>knife4j-micro-spring-boot-starter</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>5.8.12</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

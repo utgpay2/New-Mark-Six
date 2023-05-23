@@ -44,11 +44,6 @@ public class RptSiteSummaryServiceImpl extends SuperServiceImpl<RptSiteSummaryMa
         return baseMapper.findSummaryTotal(params);
     }
 
-    @Override
-    public void addSummaryNum(SiteUserVipLog siteUserVipLogInfo) {
-        String date =DateUtil.formatDate(new Date());
-        baseMapper.addSummaryNum(siteUserVipLogInfo.getSiteId(), siteUserVipLogInfo.getSiteCode(), siteUserVipLogInfo.getSiteName(),date, siteUserVipLogInfo.getAmount());
-    }
 
     @Override
     public void addSummaryNewUserNum( Long siteId,  String siteCode,String siteName) {

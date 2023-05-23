@@ -180,9 +180,6 @@ public class SysAdminUserController {
                 return Result.failed("密码不能为空");
             }
         }
-        if (ObjectUtil.isEmpty(adminUserVo.getSiteIds())) {
-            return Result.failed("站点权限id不能为空");
-        }
         if (ObjectUtil.isEmpty(adminUserVo.getRoleIds())) {
             return Result.failed("角色id不能为空");
         }

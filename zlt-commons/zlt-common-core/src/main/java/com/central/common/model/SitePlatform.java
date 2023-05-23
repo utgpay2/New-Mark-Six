@@ -25,7 +25,7 @@ public class SitePlatform extends SuperEntity{
     @ApiModelProperty(value = "站点名称")
     private String siteName;
 
-    @ApiModelProperty(value = "兑换K币数")
+    @ApiModelProperty(value = "兑换M币数")
     private BigDecimal exchange;
 
     @ApiModelProperty(value = "试看时长(秒)")

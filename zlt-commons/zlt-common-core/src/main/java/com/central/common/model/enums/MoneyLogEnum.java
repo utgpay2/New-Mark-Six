@@ -1,7 +1,7 @@
 package com.central.common.model.enums;
 
 /**
- * K币账变记录
+ * M币账变记录
  */
 public enum MoneyLogEnum {
     TRANSFER_STATUS_FAILED(1, "失败"),

@@ -64,9 +64,6 @@ public class SiteController {
     @Value("${marksix.business.authorization:Basic d2ViQXBwOndlYkFwcA==}")
     private String authorization;
 
-    @Autowired
-    private ISiteProductService siteProductService;
-
     @Value("${zlt.minio.externalEndpoint}")
     private String externalEndpoint;
 
@@ -328,17 +325,6 @@ public class SiteController {
         }
     }
 
-    @ApiOperation("获取站点支付产品")
-    @GetMapping("/products")
-    public Result<List<SiteProductVo>> getSiteProducts(@ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid) {
-        try {
-            List<SiteProductVo> siteProductVos = siteProductService.getSiteProducts(sid);
-            return Result.succeed(siteProductVos,"succeed");
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return Result.failed("failed");
-        }
-    }
 
     /**
      * 列表

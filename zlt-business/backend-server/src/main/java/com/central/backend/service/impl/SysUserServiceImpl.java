@@ -458,9 +458,6 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
         if (StringUtils.isNotBlank(params.getMobile())){
             wrapper.eq(SysUser::getMobile, params.getMobile());
         }
-        if (params.getVip()!=null){
-            wrapper.eq(SysUser::getVip, params.getVip());
-        }
 
         if (StringUtils.isNotBlank(params.getStartTime())) {
             wrapper.ge(SysUser::getCreateTime, params.getStartTime());

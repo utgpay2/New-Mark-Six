@@ -3,18 +3,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.central.marksix.mapper.MoneyLogMapper">
 
-    <select id="getRewardKbsByKbChangeType" resultType="java.math.BigDecimal">
+    <select id="getRewardMbsByMbChangeType" resultType="java.math.BigDecimal">
         select ifnull(sum(money), 0)
         from kpn_money_log
         where user_id = #{userId}
-          and order_type = #{kbChangeTypeCode}
+          and order_type = #{mbChangeTypeCode}
     </select>
 
-    <select id="getUserTodayPromoteTotalKb" resultType="java.math.BigDecimal">
+    <select id="getUserTodayPromoteTotalMb" resultType="java.math.BigDecimal">
         select ifnull(sum(money), 0)
         from kpn_money_log
         where user_id = #{userId}
           and `date` = #{date}
-          and order_type = #{kbChangeTypeCode}
+          and order_type = #{mbChangeTypeCode}
     </select>
 </mapper>

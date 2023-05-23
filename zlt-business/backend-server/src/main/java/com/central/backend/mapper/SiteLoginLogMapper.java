@@ -1,6 +1,6 @@
 package com.central.backend.mapper;
 
-import com.central.common.model.KpnSiteLoginLog;
+import com.central.common.model.SiteLoginLog;
 import com.central.db.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @Date: 2023/2/7
  */
 @Mapper
-public interface SiteLoginLogMapper extends SuperMapper<KpnSiteLoginLog> {
+public interface SiteLoginLogMapper extends SuperMapper<SiteLoginLog> {
 
 
 }

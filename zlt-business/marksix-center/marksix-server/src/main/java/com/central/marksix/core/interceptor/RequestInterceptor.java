@@ -40,7 +40,7 @@ public class RequestInterceptor implements HandlerInterceptor {
                 String ip = IpUtil.getIpAddr(request);
                 String siteId = request.getHeader(SecurityConstants.USER_SITE_ID_HEADER);
                 if(iBlackIpService.ipcheck(ip,siteId)){
-                    response.sendRedirect(request.getContextPath()+"/kpnblackip/iperror");
+                    response.sendRedirect(request.getContextPath()+"/blackip/iperror");
                     return false;
                 }
             }

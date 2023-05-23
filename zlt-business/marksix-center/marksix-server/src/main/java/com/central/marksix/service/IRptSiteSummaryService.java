@@ -14,12 +14,4 @@ public interface IRptSiteSummaryService extends ISuperService<RptSiteSummary> {
      */
     void addNewUserNum(Long sid, String siteCode, String siteName);
 
-    /**
-     * 站点当日新增vip数
-     *
-     * @param siteId   站点id
-     * @param siteCode 站点编码
-     * @param siteName 站点名称
-     */
-    void addNewVipNum(Long siteId, String siteCode, String siteName);
 }

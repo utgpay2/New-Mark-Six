@@ -11,22 +11,22 @@ import java.math.BigDecimal;
 public interface MoneyLogMapper extends SuperMapper<MoneyLog> {
 
     /**
-     * 按K币账变类型获取累计总金额
+     * 按M币账变类型获取累计总金额
      *
      * @param userId           会员id
-     * @param kbChangeTypeCode kb账变类型
+     * @param mbChangeTypeCode mb账变类型
      * @return
      */
-    BigDecimal getRewardKbsByKbChangeType(@Param("userId") Long userId, @Param("kbChangeTypeCode") Integer kbChangeTypeCode);
+    BigDecimal getRewardMbsByMbChangeType(@Param("userId") Long userId, @Param("mbChangeTypeCode") Integer mbChangeTypeCode);
 
     /**
-     * 获取推广人今日总推广kb金额
+     * 获取推广人今日总推广mb金额
      *
      * @param userId           推广人id
      * @param date             当前日期(yyyy-MM-dd)
-     * @param kbChangeTypeCode kb变动类型
+     * @param mbChangeTypeCode mb变动类型
      * @return
      */
-    BigDecimal getUserTodayPromoteTotalKb(@Param("userId") Long userId, @Param("date") String date, @Param("kbChangeTypeCode") Integer kbChangeTypeCode);
+    BigDecimal getUserTodayPromoteTotalMb(@Param("userId") Long userId, @Param("date") String date, @Param("mbChangeTypeCode") Integer mbChangeTypeCode);
 
 }

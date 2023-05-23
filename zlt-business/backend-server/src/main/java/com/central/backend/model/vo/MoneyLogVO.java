@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-@ApiModel("K币统计")
+@ApiModel("M币统计")
 public class MoneyLogVO {
 
 
