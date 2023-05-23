@@ -40,4 +40,8 @@ public interface IAdminUserService extends ISuperService<SysUser> {
 	 * @return
 	 */
 	List<SysRole> findRolesByUserId(Long userId);
+
+    LoginAppUser findByUsername(String username);
+
+	Result login(String username, String password,String verifyCode);
 }

@@ -22,7 +22,7 @@ public class WebMvcConfig extends DefaultWebMvcConfig {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(requestInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(requestInterceptor()).addPathPatterns("/**").excludePathPatterns("/adminuser/login/password");
     }
 
     @Bean

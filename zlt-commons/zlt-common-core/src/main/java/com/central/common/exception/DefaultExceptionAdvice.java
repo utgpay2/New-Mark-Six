@@ -37,6 +37,16 @@ public class DefaultExceptionAdvice {
     }
 
     /**
+     * IllegalArgumentException异常处理返回json
+     * 返回状态码:400
+     */
+    @ResponseStatus(HttpStatus.OK) // HttpStatus.BAD_REQUEST
+    @ExceptionHandler({TokenNotValidException.class})
+    public Result badRequestException(TokenNotValidException e) {
+        return Result.failed(e.getMessage());
+    }
+
+    /**
      * AccessDeniedException异常处理返回json
      * 返回状态码:403
      */
