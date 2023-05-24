@@ -47,4 +47,6 @@ public class SiteLotteryVO {
     private Instant betDeadlineTime;
     @ApiModelProperty(value = "结算完成时间")
     private Instant betSettlementTime;
+    @ApiModelProperty(value = "是否结算中(0否，1结算中)")
+    private Integer status;
     }

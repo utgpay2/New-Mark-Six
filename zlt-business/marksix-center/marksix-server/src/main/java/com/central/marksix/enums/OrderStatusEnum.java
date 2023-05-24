@@ -3,52 +3,35 @@ package com.central.marksix.enums;
 import com.central.common.language.LanguageEnum;
 import com.central.common.language.LanguageThreadLocal;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public enum OrderStatusEnum {
-    approval(0, "待审核", "Waiting for approval", "កំពុងរង់ចាំការយល់ព្រម"),
-    passed(1, "通过", "pass", "ឆ្លងកាត់"),
-    reject(2, "拒绝", "reject", "បដិសេធ"),
-    ;
-    private final Integer code;
-    private final String nameZh;
-    private final String nameEn;
-    private final String nameKh;
+    ORDER_ONE(1, "待开奖"),
+    ORDER_TWO(2, "已取消"),
+    ORDER_THREE(3, "中奖"),
+    ORDER_FOUR(4, "未中奖");
+    private final Integer status;
+    private final String remark;
 
-    OrderStatusEnum(Integer code, String nameZh, String nameEn, String nameKh) {
-        this.code = code;
-        this.nameZh = nameZh;
-        this.nameEn = nameEn;
-        this.nameKh = nameKh;
+    OrderStatusEnum(Integer status, String remark) {
+        this.status = status;
+        this.remark = remark;
     }
 
-    public static String getNameByCode(Integer code) {
-        for (OrderStatusEnum e : values()) {
-            if (e.code.equals(code)) {
-                final String language = LanguageThreadLocal.getLanguage();
-                if (language.equalsIgnoreCase(LanguageEnum.ZH.name().toLowerCase())) {
-                    return e.getNameZh();
-                }else if(language.equalsIgnoreCase(LanguageEnum.EN.name().toLowerCase())){
-                    return e.getNameEn();
-                }else if(language.equalsIgnoreCase(LanguageEnum.KH.name().toLowerCase())){
-                    return e.getNameKh();
-                }
-            }
-        }
-        return null;
+    public Integer getStatus() {
+        return status;
     }
 
-    public Integer getCode() {
-        return code;
+    public String getRemark() {
+        return remark;
     }
+    public static Map<Integer, String> getOptions() {
 
-    public String getNameZh() {
-        return nameZh;
-    }
+        Stream<OrderStatusEnum> stream = Arrays.stream(values());
 
-    public String getNameEn() {
-        return nameEn;
-    }
-
-    public String getNameKh() {
-        return nameKh;
+        return stream.collect(Collectors.toMap(o -> o.status, o -> o.remark));
     }
 }

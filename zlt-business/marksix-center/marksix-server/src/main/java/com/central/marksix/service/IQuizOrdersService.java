@@ -26,4 +26,12 @@ public interface IQuizOrdersService extends ISuperService<QuizOrders> {
      * @return
      */
     public Result bettingOrders(List<QuizOrdersDto> ordersDtoList, SysUser user);
+
+    /**
+     * 撤销投注
+     * @param ids
+     * @param user
+     * @return
+     */
+    public Result cancelBetting(List<Long> ids, SysUser user);
 }
