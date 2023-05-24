@@ -5,6 +5,7 @@ package com.central.common.model.enums;
  */
 public enum MbChangeTypeEnum {
     BETTING(1, "投注", -1),
+    CANCELBETTING(2, "撤销投注", 1)
 //    SIGN_REWARD(2, "签到", 1),
     ;
 

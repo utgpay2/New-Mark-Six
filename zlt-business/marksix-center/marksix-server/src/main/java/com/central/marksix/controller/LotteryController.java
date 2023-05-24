@@ -3,10 +3,12 @@ package com.central.marksix.controller;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.central.common.annotation.LoginUser;
+import com.central.common.language.LanguageEnum;
 import com.central.common.model.*;
 import com.central.marksix.entity.dto.QuizOrdersDto;
 import com.central.marksix.entity.vo.CategoryVO;
 import com.central.marksix.entity.vo.SiteLotteryVO;
+import com.central.marksix.enums.OrderStatusEnum;
 import com.central.marksix.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -146,5 +148,44 @@ public class LotteryController {
     @PostMapping("/bettingorders")
     public Result bettingOrders(@RequestBody List<QuizOrdersDto> ordersDtoList, @ApiIgnore @LoginUser SysUser user) {
         return siteOrderService.bettingOrders(ordersDtoList,user);
+    }
+    /**
+     * 查询我的投注记录
+     */
+    @ApiOperation(value = "查询我的投注记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序、2倒叙(默认)", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "days", value = "1 今天,2 昨天,3 近七天", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "status", value = "1 待开奖,2 已取消,3 中奖,4 未中奖", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
+    })
+    @GetMapping("/queryorders")
+    public Result<PageResult<QuizOrders>> queryBettingOrders(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
+        if (ObjectUtil.isEmpty(params)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("page"))) {
+            return Result.failed("分页起始位置不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("limit"))) {
+            return Result.failed("分页结束位置不能为空");
+        }
+        params.put("siteId",user.getSiteId());
+        params.put("memberId",user.getId());
+        return Result.succeed(siteOrderService.findList(params));
+    }
+    @ApiOperation(value = "撤销投注")
+    @PostMapping("/cancelbetting")
+    public Result cancelBetting(@RequestBody List<Long> ids, @ApiIgnore @LoginUser SysUser user) {
+        return siteOrderService.cancelBetting(ids,user);
+    }
+    /**
+     * 列表
+     */
+    @ApiOperation(value = "订单状态")
+    @GetMapping("/orderstatus")
+    public Result<Map<Integer, String>> orderStatusList() {
+        return Result.succeed(OrderStatusEnum.getOptions());
     }
 }

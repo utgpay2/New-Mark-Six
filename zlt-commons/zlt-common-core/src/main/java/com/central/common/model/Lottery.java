@@ -28,6 +28,8 @@ public class Lottery extends SuperEntity {
     private Integer sort;
     @ApiModelProperty(value = "是否显示(0隐藏，1显示)")
     private Integer isDisplay;
+    @ApiModelProperty(value = "是否结算中(0否，1结算中)")
+    private Integer status;
     @ApiModelProperty(value = "图片地址")
     private String picture;
     @ApiModelProperty(value = "下注截止时间")
