@@ -36,7 +36,7 @@ public class RequestInterceptor implements HandlerInterceptor {
         LanguageThreadLocal.setLanguage(language);
         List<SysIpSwitchButton> buttonList = iSysSysIpSwitchButtonService.findList();
         for(SysIpSwitchButton switchButton : buttonList){
-            if(StatusEnum.ONE_FALSE.getStatus()==switchButton.getWhiteipSwithcButton()){//白名单开关为1
+            if(StatusEnum.ONE_TRUE.getStatus()==switchButton.getWhiteipSwithcButton()){//白名单开关为1
                 String ip = IpUtil.getIpAddr(request);
                 String siteId = request.getHeader(SecurityConstants.USER_SITE_ID_HEADER);
                 if(iBlackIpService.ipcheck(ip,siteId)){

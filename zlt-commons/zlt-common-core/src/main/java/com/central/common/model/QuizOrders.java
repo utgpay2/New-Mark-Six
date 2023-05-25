@@ -43,15 +43,15 @@ public class QuizOrders extends SuperEntity {
     private String bettingContent;
 
     @ApiModelProperty(value = "开奖规则主表ID")
-    private Integer quizId;
+    private Long quizId;
     @ApiModelProperty(value = "开奖规则主表标题")
     private String quizTitle;
     @ApiModelProperty(value = "开奖规则明细ID")
-    private String quizChooseId;
+    private Long quizChooseId;
     @ApiModelProperty(value = "开奖规则明细名称")
     private String quizIntroduce;
     @ApiModelProperty(value = "赔率")
-    private Double odds;
+    private BigDecimal odds;
     @ApiModelProperty(value = "订单金额")
     private BigDecimal totalPrice;
     @JsonFormat(shape = JsonFormat.Shape.STRING)

@@ -1,15 +1,18 @@
 package com.central.common.model.enums;
 
 /**
- * 站点专题状态
+ * 彩种
  */
-public enum StatusEnum {
-    ZERO_FALSE(0, "否"),
-    ONE_TRUE(1, "是");
+public enum LotteryEnum {
+    HONGKONG_MKS(1, "香港六合彩"),
+    MACAO_MKS(1, "澳门六合彩"),
+    TAIWAN_MKS(1, "台湾六合彩"),
+    SINGAPORE_MKS(1, "新加坡六合彩");
+
     private final Integer status;
     private final String remark;
 
-    StatusEnum(Integer status, String remark) {
+    LotteryEnum(Integer status, String remark) {
         this.status = status;
         this.remark = remark;
     }

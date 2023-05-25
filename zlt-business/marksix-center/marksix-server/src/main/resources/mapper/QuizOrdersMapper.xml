@@ -12,6 +12,12 @@
             <if test="p.status != null and p.status != '' and p.status != 0">
                 and t.status = #{p.status}
             </if>
+            <if test="p.periods != null and p.periods != ''">
+                and t.periods = #{p.periods}
+            </if>
+            <if test="p.siteLotteryId != null and p.siteLotteryId != '' and p.siteLotteryId != 0">
+                and t.site_lottery_id = #{p.siteLotteryId}
+            </if>
             <if test="p.memberId != null and p.memberId != '' and p.memberId != 0">
                 and t.member_id = #{p.memberId}
             </if>

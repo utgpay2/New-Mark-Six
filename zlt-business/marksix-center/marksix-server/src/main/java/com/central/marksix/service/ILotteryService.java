@@ -21,6 +21,7 @@ public interface ILotteryService extends ISuperService<Lottery> {
      * @param params
      * @return
      */
-    List<SiteLotteryVO> findList(Map<String, Object> params, SysUser user);
+    List<SiteLotteryVO> findList(Map<String, Object> params);
+    public void updateLotteryStatus(Integer lotteryId, Integer stauts);
 }
 

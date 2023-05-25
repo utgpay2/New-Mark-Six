@@ -28,7 +28,7 @@ public class IpBlackCheckInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         List<SysIpSwitchButton> buttonList = iSysSysIpSwitchButtonService.findList();
         for(SysIpSwitchButton switchButton : buttonList){
-            if(StatusEnum.ONE_FALSE.getStatus()==switchButton.getWhiteipSwithcButton()){//白名单开关为1
+            if(StatusEnum.ONE_TRUE.getStatus()==switchButton.getWhiteipSwithcButton()){//白名单开关为1
                 String ip = IpUtil.getIpAddr(request);
                     if(!iSysWhiteIpService.ipcheck(ip)){
                         response.sendRedirect(request.getContextPath()+"/syswhiteip/iperror");

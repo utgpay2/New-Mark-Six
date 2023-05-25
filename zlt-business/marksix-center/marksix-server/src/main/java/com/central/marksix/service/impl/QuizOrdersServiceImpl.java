@@ -66,7 +66,6 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             if (!lockedSuccess) {
                 return Result.failed("加锁失败");
             }
-            //是否结算时间
             SysUser sysUser = userService.getById(user.getId());
             BigDecimal balance = sysUser.getCurrentBalance();//用户余额
             BigDecimal totalPrice = BigDecimal.ZERO;//总订单金额
@@ -76,9 +75,10 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             for (QuizOrdersDto ordersDto: ordersDtoList){
                 Map<String, Object> params = new HashMap<>();
                 params.put("siteLotteryId",ordersDto.getSiteLotteryId());
-                List<SiteLotteryVO> siteLotteryVOList = lotteryService.findList(params,user);
+                params.put("siteId", user.getSiteId());
+                List<SiteLotteryVO> siteLotteryVOList = lotteryService.findList(params);
                 for (SiteLotteryVO siteLotteryVO:siteLotteryVOList){
-                    if(StatusEnum.ONE_FALSE.getStatus()==siteLotteryVO.getStatus()){
+                    if(StatusEnum.ONE_TRUE.getStatus()==siteLotteryVO.getStatus()){
                         return Result.failed(siteLotteryVO.getLotteryName()+"结算中，请稍后再试");
                     }
                 }
@@ -150,7 +150,6 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             if (!lockedSuccess) {
                 return Result.failed("加锁失败");
             }
-            //是否结算时间
             SysUser sysUser = userService.getById(user.getId());
             BigDecimal totalPrice = BigDecimal.ZERO;//总订单金额
             List<QuizOrders> ordersList = new ArrayList<>();
@@ -160,9 +159,10 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 QuizOrders quizOrders = this.getById(id);
                 Map<String, Object> params = new HashMap<>();
                 params.put("siteLotteryId",quizOrders.getSiteLotteryId());
-                List<SiteLotteryVO> siteLotteryVOList = lotteryService.findList(params,user);
+                params.put("siteId", user.getSiteId());
+                List<SiteLotteryVO> siteLotteryVOList = lotteryService.findList(params);
                 for (SiteLotteryVO siteLotteryVO:siteLotteryVOList){
-                    if(StatusEnum.ONE_FALSE.getStatus()==siteLotteryVO.getStatus()){
+                    if(StatusEnum.ONE_TRUE.getStatus()==siteLotteryVO.getStatus()){
                         return Result.failed(siteLotteryVO.getLotteryName()+"结算中，请稍后再试");
                     }
                 }

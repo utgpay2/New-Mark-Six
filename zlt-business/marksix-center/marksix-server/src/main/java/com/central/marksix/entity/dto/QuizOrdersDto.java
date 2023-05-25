@@ -30,16 +30,16 @@ public class QuizOrdersDto{
     @ApiModelProperty(value = "站点彩种名称")
     private String lotteryName;
     @ApiModelProperty(value = "站点下注分类ID")
-    private Long categoryId;
+    private Long siteCategoryId;
     @ApiModelProperty(value = "站点下注分类名称")
     private String bettingContent;
 
     @ApiModelProperty(value = "开奖规则主表ID")
-    private Integer quizId;
+    private Long quizId;
     @ApiModelProperty(value = "开奖规则主表标题")
     private String quizTitle;
     @ApiModelProperty(value = "开奖规则明细ID")
-    private String quizChooseId;
+    private Long quizChooseId;
     @ApiModelProperty(value = "开奖规则明细名称")
     private String quizIntroduce;
 
