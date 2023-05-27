@@ -1,14 +1,12 @@
 package com.central.marksix.controller;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.central.common.annotation.LoginUser;
-import com.central.common.language.LanguageEnum;
 import com.central.common.model.*;
 import com.central.marksix.entity.dto.QuizOrdersDto;
 import com.central.marksix.entity.vo.CategoryVO;
 import com.central.marksix.entity.vo.SiteLotteryVO;
-import com.central.marksix.enums.OrderStatusEnum;
+import com.central.common.model.enums.OrderStatusEnum;
 import com.central.marksix.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

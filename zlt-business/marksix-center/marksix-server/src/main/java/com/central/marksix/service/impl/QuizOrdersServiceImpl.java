@@ -2,7 +2,6 @@ package com.central.marksix.service.impl;
 
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.central.common.constant.MarksixConstants;
@@ -10,30 +9,25 @@ import com.central.common.model.*;
 import com.central.common.model.enums.CodeEnum;
 import com.central.common.model.enums.MbChangeTypeEnum;
 import com.central.common.model.enums.StatusEnum;
-import com.central.common.model.enums.VipChangeTypeEnum;
-import com.central.common.model.pay.SiteBankCard;
 import com.central.common.redis.lock.RedissLockUtil;
 import com.central.common.service.impl.SuperServiceImpl;
 import com.central.common.utils.SnowflakeIdWorker;
 import com.central.marksix.entity.dto.QuizOrdersDto;
 import com.central.marksix.entity.vo.SiteLotteryVO;
-import com.central.marksix.enums.OrderStatusEnum;
+import com.central.common.model.enums.OrderStatusEnum;
 import com.central.marksix.mapper.QuizOrdersMapper;
 import com.central.marksix.service.ILotteryService;
 import com.central.marksix.service.IMoneyLogService;
 import com.central.marksix.service.IQuizOrdersService;
 import com.central.marksix.service.ISysUserService;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
