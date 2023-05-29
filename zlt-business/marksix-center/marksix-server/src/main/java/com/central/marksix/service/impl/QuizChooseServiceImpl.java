@@ -35,7 +35,7 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
         if(null == params){
             params = new HashMap<>();
         }
-        params.put("status", StatusEnum.ONE_FALSE.getStatus());
+        params.put("status", StatusEnum.ONE_TRUE.getStatus());
         return baseMapper.findList( params);
     }
 }

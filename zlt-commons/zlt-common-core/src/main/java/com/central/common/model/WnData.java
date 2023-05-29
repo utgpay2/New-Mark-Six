@@ -22,22 +22,24 @@ import java.util.Date;
 public class WnData  {
     private static final long serialVersionUID=1L;
     @TableId
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "开奖ID")
     private Long id;
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "期号")
     private Long qihao;
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "彩种id")
     private Integer lotteryId;
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "开奖号码")
     private String numbers;
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "创建时间")
     private Integer createTime;
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "开奖视频")
     private String videoPath;
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "下一期开奖时间")
     private Integer nextTime;
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "下一期号")
     private String nextQihao;
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = "号码归属年份")
     private Integer year;
+    @ApiModelProperty(value = "是否结算完成(0否，1结算完成)")
+    private Integer status;
     }

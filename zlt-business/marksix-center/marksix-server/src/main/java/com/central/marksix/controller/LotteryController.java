@@ -1,14 +1,12 @@
 package com.central.marksix.controller;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.central.common.annotation.LoginUser;
-import com.central.common.language.LanguageEnum;
 import com.central.common.model.*;
 import com.central.marksix.entity.dto.QuizOrdersDto;
 import com.central.marksix.entity.vo.CategoryVO;
 import com.central.marksix.entity.vo.SiteLotteryVO;
-import com.central.marksix.enums.OrderStatusEnum;
+import com.central.common.model.enums.OrderStatusEnum;
 import com.central.marksix.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -19,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,9 +52,12 @@ public class LotteryController {
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping
-    public Result<List<SiteLotteryVO>> list(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
-
-        return Result.succeed(lotteryService.findList(params,user));
+    public Result<List<SiteLotteryVO>> list(@ApiIgnore @RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
+        if(null==params){
+            params = new HashMap<>();
+        }
+        params.put("siteId", user.getSiteId());
+        return Result.succeed(lotteryService.findList(params));
     }
 
 
@@ -70,7 +72,7 @@ public class LotteryController {
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
     })
     @GetMapping("/wndatalist")
-    public Result<PageResult<WnData>>  wnDatalist(@RequestParam Map<String, Object> params) {
+    public Result<PageResult<WnData>>  wnDatalist(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
@@ -100,7 +102,7 @@ public class LotteryController {
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/listsitecategory")
-    public Result<List<CategoryVO>> listSiteCategory(@RequestParam Map<String, Object> params) {
+    public Result<List<CategoryVO>> listSiteCategory(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
@@ -115,7 +117,7 @@ public class LotteryController {
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/quizlist")
-    public Result<List<Quiz>> quizList(@RequestParam Map<String, Object> params) {
+    public Result<List<Quiz>> quizList(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
@@ -131,7 +133,7 @@ public class LotteryController {
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/quizchooselist")
-    public Result<List<QuizChoose>> quizChooseList(@RequestParam Map<String, Object> params) {
+    public Result<List<QuizChoose>> quizChooseList(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
@@ -161,7 +163,7 @@ public class LotteryController {
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
     })
     @GetMapping("/queryorders")
-    public Result<PageResult<QuizOrders>> queryBettingOrders(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
+    public Result<PageResult<QuizOrders>> queryBettingOrders(@ApiIgnore @RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }

@@ -569,6 +569,8 @@
         <module>zlt-business</module>
         <!-- 配置 -->
         <module>zlt-config</module>
+        <!-- 自动任务 -->
+        <module>xxl-job</module>
     </modules>
 
     <licenses>
