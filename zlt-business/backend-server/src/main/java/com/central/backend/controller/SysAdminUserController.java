@@ -332,10 +332,10 @@ public class SysAdminUserController {
     }
 
     @ApiOperation("google登录")
-    @PostMapping("/logingoogle")
+    @PostMapping("/login/logingoogle")
     public Result<String> login(@ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid,
-                                @ApiParam(value = "图形验证码id", required = true) String verifyCodeId,
-                                @ApiParam(value = "验证码", required = true) String verifyCode,
+                                //@ApiParam(value = "图形验证码id", required = false) String verifyCodeId,
+                                @ApiParam(value = "验证码", required = false) String verifyCode,
                                 @ApiParam(value = "登录账号", required = true) String username,
                                 @ApiParam(value = "密码", required = true) String password) {
         //校验账号
@@ -346,10 +346,10 @@ public class SysAdminUserController {
             return Result.failed("密码不能为空");
         }
 
-//        //校验验证码
-//        if (StrUtil.isBlank(verifyCodeId) || StrUtil.isBlank(verifyCode)) {
-//            return Result.failed("验证码不能为空");
-//        }
+        //校验验证码
+        if ( StrUtil.isBlank(verifyCode)) {
+            return Result.failed("验证码不能为空");
+        }
 //        String cachedCode = (String) RedisRepository.get(verifyCodeId);
 //        if (StrUtil.isBlank(cachedCode)) {
 //            return Result.failed("验证码已过期");
@@ -372,7 +372,7 @@ public class SysAdminUserController {
         }
 
 
-        Result tokenResult = uaaService.loginGoogle(authorization, username, password, "password_google",verifyCode,verifyCodeId);
+        Result tokenResult = uaaService.loginGoogle(authorization, username, password, "password_google",verifyCode,null);
         if (tokenResult == null || !tokenResult.getResp_code().equals(CodeEnum.SUCCESS.getCode())) {
             log.error("登录失败: username={}, msg={}", username, tokenResult.getResp_msg());
             return Result.failed(tokenResult.getResp_msg());

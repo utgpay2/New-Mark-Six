@@ -325,5 +325,8 @@
 		</where>
 	</select>
 
-
+	<select id="getMerchantAdministrator" resultType="com.central.common.model.SysUser">
+		select t.* from sys_user t left join sys_role_user r on t.id=r.user_id
+		where t.site_code = #{siteCode} and r.role_id=3
+	</select>
 </mapper>
