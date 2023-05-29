@@ -6,7 +6,8 @@ package com.central.common.model.enums;
 public enum MbChangeTypeEnum {
     BETTING(1, "投注", -1),
     CANCELBETTING(2, "撤销投注", 1),
-    BETTINGWIN(3, "赢", 1)
+    BETTINGWIN(3, "赢", 1),
+    BETTINGTIE(4, "和", 1)
     ;
 
     private final Integer type;
