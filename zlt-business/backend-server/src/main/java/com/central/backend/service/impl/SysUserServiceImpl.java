@@ -529,7 +529,7 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
 
     @Override
     public Result<UserVipExpireVo> updateUserVipExpire(Long userId, Integer days) {
-        SysUser sysUser = baseMapper.selectById(userId);
+      /*  SysUser sysUser = baseMapper.selectById(userId);
         if (sysUser == null) {
             return Result.failed("数据不存在");
         }
@@ -544,7 +544,8 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
         UserVipExpireVo.setAfterExpire(date);
         //记录VIP最新过期时间 add by year
         asyncService.setVipExpire(date, sysUser.getId());
-        return i>0 ? Result.succeed(UserVipExpireVo,"操作成功") :Result.failed("操作失败");
+        return i>0 ? Result.succeed(UserVipExpireVo,"操作成功") :Result.failed("操作失败");*/
+      return null;
     }
 
     /**

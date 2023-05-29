@@ -237,6 +237,12 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
         return   Result.succeed(token, "succeed");
     }
 
+    @Override
+    public SysUser getMerchantAdministrator(String siteCode) {
+
+        return baseMapper.getMerchantAdministrator(siteCode);
+    }
+
     /**
      * 给用户设置角色
      */
@@ -325,7 +331,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 user.setParentName(sysUser.getUsername());
 
             }
-            user.setNickname(user.getUsername());
+            user.setNickname(adminUserVo.getUsername());
             user.setType(UserTypeEnum.BACKEND.name());
             user.setIsReg(UserRegTypeEnum.ADMIN_CREATE.getType());
             user.setEnabled(Boolean.TRUE);

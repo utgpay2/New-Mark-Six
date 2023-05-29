@@ -50,10 +50,6 @@ public class SysUser extends SuperEntity {
     private Integer sex;
     @ApiModelProperty(value = "账号类型：APP：前端app用户，BACKEND：后端管理用户")
     private String type;
-    @ApiModelProperty("会员等级 0/false:普通会员,1/true:vip")
-    private Boolean vip;
-    @ApiModelProperty("vip到期时间")
-    private Date vipExpire;
     @ApiModelProperty("M币余额")
     private BigDecimal mBalance;
     @ApiModelProperty(value = "备注")

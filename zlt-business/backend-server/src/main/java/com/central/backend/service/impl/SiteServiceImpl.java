@@ -7,17 +7,24 @@ import com.central.backend.co.SiteUpdateCo;
 import com.central.backend.mapper.SiteMapper;
 import com.central.backend.service.IAsyncService;
 import com.central.backend.service.ISiteService;
+import com.central.backend.service.IThirdPartyService;
+import com.central.backend.service.ThirdPartyServiceImpl;
+import com.central.backend.util.MD5;
 import com.central.backend.vo.SiteListVo;
 import com.central.backend.vo.SiteVo;
 import com.central.common.constant.MarksixConstants;
 import com.central.common.model.Site;
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
+import com.central.common.model.ThirdParty;
 import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
+import com.central.common.utils.RsaUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +40,9 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
 
     @Autowired
     private IAsyncService asyncService;
+
+    @Autowired
+    private ThirdPartyServiceImpl thirdPartyService;
 
     @Override
     public List<Site> getList() {
@@ -65,12 +75,18 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
         return baseMapper.findSiteTotal();
     }
 
+    @Transactional
     @Override
     public Result saveOrUpdateSite(Site site) {
         boolean insert = false;
         //新增
-        if (site.getId() == null) {
+        if (site.getId() == null || site.getId()==0  ) {
             insert = super.save(site);
+            ThirdParty thirdParty=new ThirdParty();
+            thirdParty.setSiteId(site.getId());
+            thirdParty.setSiteCode(site.getCode());
+            thirdParty.setSecretKey(MD5.encrypt(site.getId()+":"+site.getCode()));
+            thirdPartyService.save(thirdParty);
         } else {
             Site info = baseMapper.selectById(site.getId());
             if (info == null) {

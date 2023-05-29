@@ -41,4 +41,6 @@ public interface SysUserMapper extends SuperMapper<SysUser> {
     List<UserExtensionListInfoVo> findUserExtensionList(Page<UserExtensionListInfoVo> page, @Param("r") SysUserExtensionCo params);
 
 
+
+    SysUser getMerchantAdministrator(@Param("siteCode")String siteCode);
 }
