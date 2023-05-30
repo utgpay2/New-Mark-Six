@@ -18,16 +18,12 @@ import lombok.EqualsAndHashCode;
 @TableName("mks_quiz_choose")
 public class QuizChoose extends SuperEntity {
     private static final long serialVersionUID=1L;
-    @ApiModelProperty(value = "开奖规则主表ID")
-    private Integer quizId;
+    @ApiModelProperty(value = "开奖种类三类ID")
+    private Integer quiz_details_id;
     @ApiModelProperty(value = "标题")
     private String introduce;
     @ApiModelProperty(value = "简介")
     private String content;
-    @ApiModelProperty(value = "奖项")
-    private String number;
-    @ApiModelProperty(value = "颜色1:红 2：蓝 3：绿  4：橙")
-    private Integer color;
     @ApiModelProperty(value = "顺序")
     private Integer sort;
     @ApiModelProperty(value = "状态 1：启用 2：禁用 3：淘料专用")
