@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.central.marksix.mapper.QuizChooseMapper">
-    <select id="findList" resultType="com.central.common.model.QuizChoose">
-        select * from mks_quiz_choose t
+<mapper namespace="com.central.marksix.mapper.QuizDetailsMapper">
+    <select id="findList" resultType="com.central.common.model.QuizDetails">
+        select * from mks_quiz_details t
         <where>
             1=1
-            <if test="p.quizDetailsId != null and  p.quizDetailsId != '' and  p.quizDetailsId != 0">
-                and t.quiz_details_id = #{p.quizDetailsId}
+            <if test="p.quizId != null and  p.quizId != '' and  p.quizId != 0">
+                and t.quiz_id = #{p.quizId}
             </if>
             <if test="p.status != null and  p.status != ''">
                 and t.status = #{p.status}
