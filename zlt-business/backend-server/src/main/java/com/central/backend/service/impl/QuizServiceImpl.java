@@ -42,7 +42,7 @@ public class QuizServiceImpl extends SuperServiceImpl<QuizMapper, Quiz> implemen
     @Override
     public Result deleteQuiz(Long id){
         LambdaQueryWrapper<QuizChoose> wrapper=new LambdaQueryWrapper<>();
-        wrapper.eq(QuizChoose::getQuizId,id);
+        wrapper.eq(QuizChoose::getQuizDetailsId,id);
         List<QuizChoose> list = quizChooseService.getBaseMapper().selectList(wrapper);
         if(null!=list && list.size()>0){
             return Result.failed("请删除规则明细，再删除规则主表");

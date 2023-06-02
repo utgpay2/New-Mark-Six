@@ -10,3 +10,6 @@ spring:
         namespace: ${zlt.naocs.server.namespace}
 #        metadata:
 #          version: zlt
+  encrypt:
+    key: qwertyuiop123456
+    debug: true

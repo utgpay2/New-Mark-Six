@@ -118,8 +118,6 @@ public class MemberController {
                     .headImgUrl(externalEndpoint + MarksixConstants.Symbol.FORWARD_SLASH + userInfo.getHeadImgUrl())
                     .inviteCode(userInfo.getInviteCode())
                     .promotionCode(userInfo.getPromotionCode())
-                    .vipExpire(DateUtil.formatDate(userInfo.getVipExpire()))
-                    .between(DateUtil.betweenDay(new Date(),userInfo.getVipExpire(),true))
                     .mBalance(userInfo.getMBalance().setScale(2, RoundingMode.FLOOR))
                     .build();
             return Result.succeed(sysUserVo, "succeed");

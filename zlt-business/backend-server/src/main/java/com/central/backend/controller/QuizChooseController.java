@@ -65,8 +65,8 @@ public class QuizChooseController {
         if (ObjectUtil.isEmpty(quizChoose)) {
             return Result.failed("请求参数不能为空");
         }
-        if (ObjectUtil.isEmpty(quizChoose.getQuizId())) {
-            return Result.failed("开奖规则主表ID不能为空");
+        if (ObjectUtil.isEmpty(quizChoose.getQuizDetailsId())) {
+            return Result.failed("开奖种类三类ID");
         }
         if (ObjectUtil.isEmpty(quizChoose.getIntroduce())) {
             return Result.failed("标题不能为空");
