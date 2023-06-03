@@ -95,7 +95,10 @@ public class WinningSettlementImpl {
                                   List<String> hongboList,List<String> lvboList,List<String> lanboList,
                                   List<String> jiaList,List<String> yeList,
                                   String winZodiacStr,
-                                  int bigcount,int smallcount,int doublecount,int singlecount){
+                                  int bigcount,int smallcount,int doublecount,int singlecount,
+//                                  String[] head0,String[] head1,String[] head2,String[] head3,String[] head4,
+//                                  String[] tail0,String[] tail1,String[] tail2,String[] tail3,String[] tail4,String[] tail5,String[] tail6,String[] tail7,String[] tail8,String[] tail9,
+                                  String[] wnTail){
         List<QuizOrders> ordersList = new ArrayList<>();
         List<MoneyLog> moneyLogList = new ArrayList<>();
         for (QuizOrders quizOrders: list){
@@ -199,7 +202,7 @@ public class WinningSettlementImpl {
                         if ("二肖连中".equals(quizOrders.getQuizIntroduce())) {
                             //选择2个或2个以上生肖，所选生肖与开奖号码所对应的生肖一致，即中奖；如投注方案为牛、鼠，开奖号码为：01(虎),02(牛),03(鼠),04(猪),05(狗),06(鸡) + 07(猴)，即中二连肖。
                             String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
-                            List<String> bettingZodiacList = this.getBettingZodiacList(bettingZodiacStr);
+                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr);
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
@@ -210,7 +213,7 @@ public class WinningSettlementImpl {
                         if ("三肖连中".equals(quizOrders.getQuizIntroduce())) {
                             //选择3个或3个以上生肖，所选生肖与开奖号码所对应的生肖一致，即中奖；如投注方案为牛、鼠、猪，开奖号码为：01(虎),02(牛),03(鼠),04(猪),05(狗),06(鸡) + 07(猴)，即中三连肖。
                             String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
-                            List<String> bettingZodiacList = this.getBettingZodiacList(bettingZodiacStr);
+                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr);
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
@@ -221,7 +224,7 @@ public class WinningSettlementImpl {
                         if ("四肖连中".equals(quizOrders.getQuizIntroduce())) {
                             //选择4个或4个以上生肖，所选生肖与开奖号码所对应的生肖一致，即中奖；如投注方案为牛、鼠、猪、狗，开奖号码为：01(虎),02(牛),03(鼠),04(猪),05(狗),06(鸡) + 07(猴)，即中四连肖。
                             String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
-                            List<String> bettingZodiacList = this.getBettingZodiacList(bettingZodiacStr);
+                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr);
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
@@ -232,7 +235,7 @@ public class WinningSettlementImpl {
                         if ("五肖连中".equals(quizOrders.getQuizIntroduce())) {
                             //选择5个或5个以上生肖，所选生肖与开奖号码所对应的生肖一致，即中奖；如投注方案为牛、鼠、猪、狗、鸡，开奖号码为：01(虎),02(牛),03(鼠),04(猪),05(狗),06(鸡) + 07(猴)，即中五连肖。
                             String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
-                            List<String> bettingZodiacList = this.getBettingZodiacList(bettingZodiacStr);
+                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr);
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
@@ -242,7 +245,7 @@ public class WinningSettlementImpl {
                         }
                         if ("二肖连不中".equals(quizOrders.getQuizIntroduce())) {
                             String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
-                            List<String> bettingZodiacList = this.getBettingZodiacList(bettingZodiacStr);
+                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr);
                             boolean b = true;
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
@@ -256,7 +259,7 @@ public class WinningSettlementImpl {
                         }
                         if ("三肖连不中".equals(quizOrders.getQuizIntroduce())) {
                             String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
-                            List<String> bettingZodiacList = this.getBettingZodiacList(bettingZodiacStr);
+                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr);
                             boolean b = true;
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
@@ -270,7 +273,7 @@ public class WinningSettlementImpl {
                         }
                         if ("四肖连不中".equals(quizOrders.getQuizIntroduce())) {
                             String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
-                            List<String> bettingZodiacList = this.getBettingZodiacList(bettingZodiacStr);
+                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr);
                             boolean b = true;
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
@@ -603,10 +606,55 @@ public class WinningSettlementImpl {
                     }
                 }else if ("连码".equals(quizOrders.getSiteCategoryName())) {//分类一类
                     if("三全中".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("生肖对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("尾数对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("生尾对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
                     }
                     if("三中二".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("生肖对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("尾数对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("生尾对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
                     }
                     if("二全中".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("生肖对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("尾数对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("生尾对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
                     }
                     if("二中特".equals(quizOrders.getQuizTitle())) {//分类二类
                         if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
@@ -649,33 +697,132 @@ public class WinningSettlementImpl {
                         if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
 
                         }
+                        if("生肖对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("尾数对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("生尾对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
                     }
                 }else if ("头尾数".equals(quizOrders.getSiteCategoryName())) {//分类一类
                     if("特码头尾数".equals(quizOrders.getQuizTitle())) {//分类二类
-
+                        //对特码的头尾数进行下注，下注的头尾数与特码的头尾数一致即中奖
+                        if("特码头尾数".equals(quizOrders.getQuizDetailsName())) {//分类三类
+                            //0头、1头、2头、3头、4头
+                            //0尾、1尾、2尾、3尾、4尾、5尾、6尾、7尾、8尾、9尾
+                            if(quizOrders.getBettingContent().equals(seven_ones+"头")||quizOrders.getBettingContent().equals(seven_ones+"尾")){
+                                winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
+                            }
+                        }
                     }
                     if("正特尾数".equals(quizOrders.getQuizTitle())) {//分类二类
-
+                        //对正码和特码的尾数进行下注，下注尾数必须在当期开出的正码或特码对应的尾数中即中奖，不论同尾数出现一个或者多个都只派彩一次
+                        if("正特尾数".equals(quizOrders.getQuizDetailsName())) {//分类三类
+                            if(quizOrders.getBettingContent().indexOf(Arrays.toString(wnTail))!=-1) {
+                                winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
+                            }
+                        }
                     }
                     if("二尾连中".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
 
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
                     }
                     if("三尾连中".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
 
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
                     }
                     if("四尾连中".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
 
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
                     }
                     if("二尾连不中".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
 
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
                     }
                     if("三尾连不中".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
 
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
                     }
                     if("四尾连不中".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
 
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
                     }
                 }else if ("多选中一".equals(quizOrders.getSiteCategoryName())) {//分类一类
+                    if("五选中一".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                    }
+                    if("六选中一".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                    }
+                    if("七选中一".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                    }
+                    if("八选中一".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                    }
+                    if("九选中一".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                    }
+                    if("十选中一".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                    }
                 }else if ("自选不中".equals(quizOrders.getSiteCategoryName())) {//分类一类
                     if("五不中".equals(quizOrders.getQuizTitle())) {//分类二类
                         if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
@@ -744,15 +891,39 @@ public class WinningSettlementImpl {
                     }
                     if("二粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
                     }
                     if("三粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
                     }
                     if("四粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
                     }
                     if("五粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
+                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
+                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+
+                        }
                     }
                 }else if ("五行".equals(quizOrders.getSiteCategoryName())) {//分类一类
                     if("五行".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -1379,7 +1550,27 @@ public class WinningSettlementImpl {
         int smallcount = 0;//7码中小总数
         int doublecount = 0;//7码中双总数
         int singlecount = 0;//7码中单总数
-        for (String wnnumber:wnNumbers){
+        //0头、1头、2头、3头、4头
+        String[] head0 = {"01","02","03","04","05","06","07","08","09"};
+        String[] head1 = {"10","11","12","13","14","15","16","17","18","19"};
+        String[] head2 = {"20","21","22","23","24","25","26","27","28","29"};
+        String[] head3 = {"30","31","32","33","34","35","36","37","38","39"};
+        String[] head4 = {"40","41","42","43","44","45","46","47","48","49"};
+        //0尾、1尾、2尾、3尾、4尾、5尾、6尾、7尾、8尾、9尾
+        String[] tail0 = {"10","20","30","40"};
+        String[] tail1 = {"01","11","21","31","41"};
+        String[] tail2 = {"02","12","22","32","42"};
+        String[] tail3 = {"03","13","23","33","43"};
+        String[] tail4 = {"04","14","24","34","44"};
+        String[] tail5 = {"05","15","25","35","45"};
+        String[] tail6 = {"06","16","26","36","46"};
+        String[] tail7 = {"07","17","27","37","47"};
+        String[] tail8 = {"08","18","28","38","48"};
+        String[] tail9 = {"09","19","29","39","49"};
+        String[] wnHead = new String[7];
+        String[] wnTail = new String[7];
+        for(int i=0;i<wnNumbers.length;i++){
+            String wnnumber = wnNumbers[i];
             //大：特别码大于或等于25
             if (Integer.parseInt(wnnumber) >= 25) {
                 bigcount = bigcount+1;
@@ -1396,6 +1587,9 @@ public class WinningSettlementImpl {
             if (Integer.parseInt(wnnumber) % 2 == 0) {
                 doublecount = doublecount+1;
             }
+            wnHead[i] = Integer.parseInt(wnnumber)/10%10+"头";
+            wnTail[i] = Integer.parseInt(wnnumber)%10+"尾";
+
         }
         for(NumberAttributes number : numberList){
 
@@ -1470,6 +1664,7 @@ public class WinningSettlementImpl {
                 yeList.add(number.getNumber());
             }
         }
+        //开奖生肖
         String winZodiacStr = this.winZodiac(one,shuList,niuList,huList,tuzList,longList,sheList,maList,yanList,houList,jiList,gouList,zhuList)+","+
                 this.winZodiac(two,shuList,niuList,huList,tuzList,longList,sheList,maList,yanList,houList,jiList,gouList,zhuList)+","+
                 this.winZodiac(three,shuList,niuList,huList,tuzList,longList,sheList,maList,yanList,houList,jiList,gouList,zhuList)+","+
@@ -1499,7 +1694,10 @@ public class WinningSettlementImpl {
                             hongboList,lvboList,lanboList,
                             jiaList,yeList,
                             winZodiacStr,
-                            bigcount,smallcount,doublecount,singlecount);
+                            bigcount,smallcount,doublecount,singlecount,
+//                            head0,head1,head2,head3,head4,
+//                            tail0,tail1,tail2,tail3,tail4,tail5,tail6,tail7,tail8,tail9,
+                            wnTail);
                 } else {
                     break;
                 }
@@ -1529,27 +1727,77 @@ public class WinningSettlementImpl {
         //
 
     }
-    public List<String> getBettingZodiacList(String[] bettingZodiac) {
+    public List<String> getBettingComList(String[] bettingCom) {
         List<String> bettingZodiacList = new ArrayList<>();
-        for(int i = 0; i < bettingZodiac.length; i++){
-            for(int j = 0; j < bettingZodiac.length; j++){
+        for(int i = 0; i < bettingCom.length; i++){
+            for(int j = 0; j < bettingCom.length; j++){
                 if(i != j){
-                    if(bettingZodiac.length==2){
-                        bettingZodiacList.add(bettingZodiac[i] + "," + bettingZodiac[j]);
+                    if(bettingCom.length==2){
+                        bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j]);
                     }else {
-                        for (int k = 0; k < bettingZodiac.length; k++) {
+                        for (int k = 0; k < bettingCom.length; k++) {
                             if (k != i && k != j) {
-                                if (bettingZodiac.length == 3) {
-                                    bettingZodiacList.add(bettingZodiac[i] + "," + bettingZodiac[j] + "," + bettingZodiac[k]);
+                                if (bettingCom.length == 3) {
+                                    bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k]);
                                 } else {
-                                    for (int m = 0; m < bettingZodiac.length; m++) {
+                                    for (int m = 0; m < bettingCom.length; m++) {
                                         if (m != i && m != k && m != j) {
-                                            if (bettingZodiac.length == 4) {
-                                                bettingZodiacList.add(bettingZodiac[i] + "," + bettingZodiac[j] + "," + bettingZodiac[k] + "," + bettingZodiac[m]);
+                                            if (bettingCom.length == 4) {
+                                                bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m]);
                                             } else {
-                                                for (int n = 0; n < bettingZodiac.length; n++) {
+                                                for (int n = 0; n < bettingCom.length; n++) {
                                                     if (n != i && n != j && n != k && n != m) {
-                                                        bettingZodiacList.add(bettingZodiac[i] + "," + bettingZodiac[j] + "," + bettingZodiac[k] + "," + bettingZodiac[m] + "," + bettingZodiac[n]);
+                                                        if (bettingCom.length == 5) {
+                                                            bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m] + "," + bettingCom[n]);
+                                                        } else {
+                                                            for (int o = 0; o < bettingCom.length; o++) {
+                                                                if (o != i && o != j && o != k && o != m && o != n) {
+                                                                    if (bettingCom.length == 6) {
+                                                                        bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m] + "," + bettingCom[n] + "," + bettingCom[o]);
+                                                                    }else {
+                                                                        for (int p = 0; p < bettingCom.length; p++) {
+                                                                            if (p != i && p != j && p != k && p != m && p != n && p != o) {
+                                                                                if (bettingCom.length == 7) {
+                                                                                    bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m] + "," + bettingCom[n] + "," + bettingCom[o] + "," + bettingCom[p]);
+                                                                                }else {
+                                                                                    for (int q = 0; q < bettingCom.length; q++) {
+                                                                                        if (q != i && q != j && q != k && q != m && q != n && q != o && q != p) {
+                                                                                            if (bettingCom.length == 8) {
+                                                                                                bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m] + "," + bettingCom[n] + "," + bettingCom[o] + "," + bettingCom[p] + "," + bettingCom[q]);
+                                                                                            }else {
+                                                                                                for (int r = 0; r < bettingCom.length; r++) {
+                                                                                                    if (r != i && r != j && r != k && r != m && r != n && r != o && r != p && r != q) {
+                                                                                                        if (bettingCom.length == 9) {
+                                                                                                            bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m] + "," + bettingCom[n] + "," + bettingCom[o] + "," + bettingCom[p] + "," + bettingCom[q] + "," + bettingCom[r]);
+                                                                                                        }else {
+                                                                                                            for (int s = 0; s < bettingCom.length; s++) {
+                                                                                                                if (s != i && s != j && s != k && s != m && s != n && s != o && s != p && s != q && s != r) {
+                                                                                                                    if (bettingCom.length == 10) {
+                                                                                                                        bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m] + "," + bettingCom[n] + "," + bettingCom[o] + "," + bettingCom[p] + "," + bettingCom[q] + "," + bettingCom[r] + "," + bettingCom[s]);
+                                                                                                                    }else {
+                                                                                                                        for (int t = 0; t < bettingCom.length; t++) {
+                                                                                                                            if (t != i && t != j && t != k && t != m && t != n && t != o && t != p && t != q && t != r && t != s) {
+                                                                                                                                if (bettingCom.length == 11) {
+                                                                                                                                    bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m] + "," + bettingCom[n] + "," + bettingCom[o] + "," + bettingCom[p] + "," + bettingCom[q] + "," + bettingCom[r] + "," + bettingCom[s] + "," + bettingCom[t]);
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }
