@@ -191,7 +191,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             moneyLogService.saveBatch(moneyLogList);
             //更新投注
             this.saveOrUpdateBatch(ordersList);
-            return Result.succeed("投注完成");
+            return Result.succeed("撤销投注");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return Result.failed("failed");
