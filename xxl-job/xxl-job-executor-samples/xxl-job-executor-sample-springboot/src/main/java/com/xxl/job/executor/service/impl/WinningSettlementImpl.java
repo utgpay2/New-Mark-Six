@@ -103,7 +103,7 @@ public class WinningSettlementImpl {
         List<MoneyLog> moneyLogList = new ArrayList<>();
         for (QuizOrders quizOrders: list){
             SysUser sysUser = userService.getById(quizOrders.getMemberId());
-            BigDecimal currentBalance = sysUser.getCurrentBalance();//用户当前余额
+            BigDecimal currentBalance = sysUser.getMBalance();//用户当前余额
             quizOrders.setUpdateTime(new Date());
             quizOrders.setUpdateBy(sysUser.getUsername());
             BigDecimal winAmount = BigDecimal.ZERO;

@@ -5,6 +5,7 @@ import com.central.common.annotation.LoginUser;
 import com.central.common.model.*;
 import com.central.marksix.entity.dto.QuizOrdersDto;
 import com.central.marksix.entity.vo.CategoryVO;
+import com.central.marksix.entity.vo.QuizChooseVo;
 import com.central.marksix.entity.vo.SiteLotteryVO;
 import com.central.common.model.enums.OrderStatusEnum;
 import com.central.marksix.service.*;
@@ -100,7 +101,6 @@ public class LotteryController {
     }
     @ApiOperation(value = "查询站点下注分类-分类一类")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "分类名称", required = false, dataType = "String"),
             @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
@@ -150,11 +150,11 @@ public class LotteryController {
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/quizchooselist")
-    public Result<List<QuizChoose>> quizChooseList(@ApiIgnore @RequestParam Map<String, Object> params) {
+    public Result<List<QuizChooseVo>> quizChooseList(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
-        if (ObjectUtil.isEmpty(params.get("quizId"))) {
+        if (ObjectUtil.isEmpty(params.get("quizDetailsId"))) {
             return Result.failed("彩票规则主表id不能为空");
         }
         return Result.succeed(quizChooseService.findList(params));

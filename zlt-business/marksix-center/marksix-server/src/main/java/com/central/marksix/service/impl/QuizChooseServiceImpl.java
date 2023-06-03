@@ -37,12 +37,13 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
      * @return
      */
     @Override
-    public List<QuizChoose> findList(Map<String, Object> params){
+    public List<QuizChooseVo> findList(Map<String, Object> params){
         if(null == params){
             params = new HashMap<>();
         }
         params.put("status", StatusEnum.ONE_TRUE.getStatus());
         List<QuizChoose> chooseList = baseMapper.findList( params);
+        List<QuizChooseVo> chooseVoList = new ArrayList<>();
         for(QuizChoose quizChoose:chooseList){
             QuizChooseVo quizChooseVo = new QuizChooseVo();
             BeanUtils.copyProperties(quizChoose,quizChooseVo);
@@ -95,7 +96,7 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
                 "47".equals(quizChoose.getIntroduce())||
                 "48".equals(quizChoose.getIntroduce())||
                 "49".equals(quizChoose.getIntroduce())){
-                this.setQuizChooseVo(quizChooseVo,quizChoose.getIntroduce(),null);
+                quizChooseVo = this.setQuizChooseVo(quizChooseVo,quizChoose.getIntroduce(),null);
             }
             if("金".equals(quizChoose.getIntroduce())||
                     "木".equals(quizChoose.getIntroduce())||
@@ -104,7 +105,7 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
                     "土".equals(quizChoose.getIntroduce())){
                 NumberAttributesVo numberAttributesVo = new NumberAttributesVo();
                 numberAttributesVo.setFiveElements(quizChoose.getIntroduce());
-                this.setQuizChooseVo(quizChooseVo,"",numberAttributesVo);
+                quizChooseVo = this.setQuizChooseVo(quizChooseVo,"",numberAttributesVo);
             }
             if("鼠".equals(quizChoose.getIntroduce())||
             "牛".equals(quizChoose.getIntroduce())||
@@ -120,11 +121,11 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
             "猪".equals(quizChoose.getIntroduce())){
                 NumberAttributesVo numberAttributesVo = new NumberAttributesVo();
                 numberAttributesVo.setZodiac(quizChoose.getIntroduce());
-                this.setQuizChooseVo(quizChooseVo,"",numberAttributesVo);
+                quizChooseVo = this.setQuizChooseVo(quizChooseVo,"",numberAttributesVo);
             }
-
+            chooseVoList.add(quizChooseVo);
         }
-        return baseMapper.findList( params);
+        return chooseVoList;
     }
     public QuizChooseVo setQuizChooseVo(QuizChooseVo quizChooseVo,String number,NumberAttributesVo numberAttributesVo) {
         List<NumberAttributes> numberAttributesList = numberAttributesService.findList(numberAttributesVo);

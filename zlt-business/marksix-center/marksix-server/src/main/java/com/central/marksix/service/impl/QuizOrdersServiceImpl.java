@@ -61,11 +61,11 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 return Result.failed("加锁失败");
             }
             SysUser sysUser = userService.getById(user.getId());
-            BigDecimal balance = sysUser.getCurrentBalance();//用户余额
+            BigDecimal balance = sysUser.getMBalance();//用户余额
             BigDecimal totalPrice = BigDecimal.ZERO;//总订单金额
             List<QuizOrders> ordersList = new ArrayList<>();
             List<MoneyLog> moneyLogList = new ArrayList<>();
-            BigDecimal currentBalance = sysUser.getCurrentBalance();//用户当前余额
+            BigDecimal currentBalance = sysUser.getMBalance();//用户当前余额
             for (QuizOrdersDto ordersDto: ordersDtoList){
                 Map<String, Object> params = new HashMap<>();
                 params.put("siteLotteryId",ordersDto.getSiteLotteryId());
@@ -148,7 +148,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             BigDecimal totalPrice = BigDecimal.ZERO;//总订单金额
             List<QuizOrders> ordersList = new ArrayList<>();
             List<MoneyLog> moneyLogList = new ArrayList<>();
-            BigDecimal currentBalance = sysUser.getCurrentBalance();//用户当前余额
+            BigDecimal currentBalance = sysUser.getMBalance();//用户当前余额
             for (Long  id: ids){
                 QuizOrders quizOrders = this.getById(id);
                 Map<String, Object> params = new HashMap<>();
