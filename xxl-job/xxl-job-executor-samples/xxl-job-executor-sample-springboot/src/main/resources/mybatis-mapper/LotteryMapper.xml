@@ -3,11 +3,11 @@
 
 <mapper namespace="com.xxl.job.executor.mapper.LotteryMapper">
     <select id="findList" resultType="com.central.marksix.entity.vo.SiteLotteryVO">
-        select ml.id as id,ml.lottery_name as lotteryName,ml.sort as sort,ml.picture as picture,
+        select l.id as id,ml.lottery_name as lotteryName,ml.sort as sort,ml.picture as picture,
         ml.bet_deadline_time as betDeadlineTime,ml.bet_settlement_time as betSettlementTime,ml.status as status,
         l.create_time as createTime,l.update_time as updateTime,
         l.site_id as siteId,l.site_code as siteCode,l.site_name as siteName,
-        l.create_by as createBy,l.update_by as updateBy,l.site_lottery_id  as siteLotteryId
+        l.create_by as createBy,l.update_by as updateBy,ml.id  as lotteryId
         from mks_site_lottery l
         LEFT JOIN mks_lottery ml
         ON l.lottery_id=ml.id
