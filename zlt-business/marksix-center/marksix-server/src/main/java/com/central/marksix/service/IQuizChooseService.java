@@ -3,6 +3,7 @@ package com.central.marksix.service;
 import com.central.common.model.PageResult;
 import com.central.common.model.QuizChoose;
 import com.central.common.service.ISuperService;
+import com.central.marksix.entity.vo.QuizChooseVo;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,6 @@ public interface IQuizChooseService extends ISuperService<QuizChoose> {
      * @param params
      * @return
      */
-    List<QuizChoose> findList(Map<String, Object> params);
+    List<QuizChooseVo> findList(Map<String, Object> params);
 }
 

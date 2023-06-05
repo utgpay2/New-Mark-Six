@@ -15,7 +15,7 @@
     <select id="lastOneWnData" resultType="com.central.common.model.WnData">
         select * from mks_wn_data t
         <where>
-            qihao = (SELECT max(qihao) FROM `mks_wn_data` WHERE lottery_id=#{p.lotteryId})
+            qihao = (SELECT max(qihao) FROM `mks_wn_data` WHERE lottery_id=#{lotteryId})
         </where>
     </select>
 </mapper>

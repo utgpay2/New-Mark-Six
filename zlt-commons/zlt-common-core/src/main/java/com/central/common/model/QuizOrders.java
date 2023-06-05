@@ -40,7 +40,7 @@ public class QuizOrders extends SuperEntity {
     @ApiModelProperty(value = "站点下注分类一类ID")
     private Long siteCategoryId;
     @ApiModelProperty(value = "站点下注分类一类名称")
-    private Long siteCategoryName;
+    private String siteCategoryName;
     @ApiModelProperty(value = "投注内容")
     private String bettingContent;
 

@@ -86,14 +86,4 @@ public class SysUser extends SuperEntity {
     private String newPassword;
 
 
-    @ApiModelProperty(value = "当前余额")
-    @TableField(exist = false)
-    private BigDecimal currentBalance;
-
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    public BigDecimal getCurrentBalance() {
-        return currentBalance == null ? BigDecimal.ZERO.setScale(2) : currentBalance.setScale(2, BigDecimal.ROUND_HALF_UP);
-    }
-
 }

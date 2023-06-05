@@ -21,16 +21,16 @@
             <if test="p.memberId != null and p.memberId != '' and p.memberId != 0">
                 and t.member_id = #{p.memberId}
             </if>
-            <if test="p.days!=null and  p.days != '' and p.days = 1"><!-- 今天 -->
+            <if test="p.days!=null and  p.days != '' and p.days == 1"><!-- 今天 -->
                 and to_days(t.create_time) = to_days(now())
             </if>
-            <if test="p.days!=null and  p.days != '' and p.days = 2"><!-- 昨天 -->
+            <if test="p.days!=null and  p.days != '' and p.days == 2"><!-- 昨天 -->
                 and to_days(now())-to_days(t.date) =1
             </if>
-            <if test="p.days!=null and  p.days != '' and p.days = 3"><!-- 近7天 -->
+            <if test="p.days!=null and  p.days != '' and p.days == 3"><!-- 近7天 -->
                 and to_days(now())-to_days(t.date) <![CDATA[ <= ]]> 7
             </if>
-            ORDER BY t.createTime <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1"> ASC </when><otherwise> DESC </otherwise></choose>
+            ORDER BY t.create_time <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1"> ASC </when><otherwise> DESC </otherwise></choose>
         </where>
     </select>
 </mapper>

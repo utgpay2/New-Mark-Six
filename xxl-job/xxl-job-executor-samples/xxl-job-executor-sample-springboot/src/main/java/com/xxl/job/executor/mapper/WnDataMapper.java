@@ -24,5 +24,5 @@ public interface WnDataMapper extends SuperMapper<WnData> {
      * @return
      */
     List<WnData> findList(Page<WnData> page, @Param("p") Map<String, Object> params);
-    WnData lastOneWnData( @Param("p")  Integer lotteryId);
+    WnData lastOneWnData(Integer lotteryId);
 }

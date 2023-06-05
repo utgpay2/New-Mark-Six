@@ -313,7 +313,7 @@ public class SysAdminUserController {
         }
 
         LoginAppUser sysUser = userService.findByUsername(username);
-        if (sysUser == null || !sysUser.getEnabled()) {
+        if (sysUser == null || null == sysUser.getUsername() || !sysUser.getEnabled()) {
             return Result.failed("用户名或密码错误");
         }
         if(!UserTypeEnum.BACKEND.name().equals(sysUser.getType())){
@@ -364,7 +364,7 @@ public class SysAdminUserController {
         }
 
         LoginAppUser sysUser = userService.findByUsername(username);
-        if (sysUser == null || !sysUser.getEnabled()) {
+        if (sysUser == null || null == sysUser.getUsername() || !sysUser.getEnabled()) {
             return Result.failed("用户名或密码错误");
         }
         if(!UserTypeEnum.BACKEND.name().equals(sysUser.getType())){

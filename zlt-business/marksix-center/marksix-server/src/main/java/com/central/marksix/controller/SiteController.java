@@ -252,7 +252,7 @@ public class SiteController {
 
         username = site.getCode() + "_" + username;
         LoginAppUser sysUser = userService.findByUsername(username);
-        if (sysUser == null || !sysUser.getEnabled()) {
+        if (sysUser == null || null == sysUser.getUsername() || !sysUser.getEnabled()) {
             return Result.failed("用户名或密码错误");
         }
         if(!UserTypeEnum.APP.name().equals(sysUser.getType())){
