@@ -7,28 +7,23 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.central.backend.model.dto.ProxyAdminDto;
 import com.central.backend.model.dto.SysAdminUserDto;
 import com.central.backend.model.dto.UserDto;
-import com.central.backend.service.IAdminUserService;
-import com.central.backend.service.ISiteService;
-import com.central.backend.service.ISysUserService;
-import com.central.backend.service.IThirdPartyService;
+import com.central.backend.service.*;
 import com.central.backend.util.MD5;
 import com.central.backend.vo.UserInfoVo;
-import com.central.common.model.Result;
-import com.central.common.model.Site;
-import com.central.common.model.SysUser;
-import com.central.common.model.ThirdParty;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import com.central.common.annotation.LoginUser;
+import com.central.common.model.*;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Slf4j
@@ -51,6 +46,9 @@ public class ThirdPartyController {
 
     @Autowired
     ISysUserService sysUserService;
+
+    @Autowired
+    IQuizOrdersService quizOrdersService;
 
     /**
      * 新增
@@ -382,6 +380,8 @@ public class ThirdPartyController {
         if (ObjectUtil.isEmpty(stationOwner)) {
             return Result.failed("请联系后台添加商户管理员");
         }
+
+
         QueryWrapper<SysUser> queryWrapper;
         if(stationOwner.getUsername().equals(username)){
             //商户管理员查询会员，直接使用商户代码
@@ -405,6 +405,81 @@ public class ThirdPartyController {
         return sysUserService.updateById(user)? Result.succeed(user, "更新成功") : Result.failed("更新失败");
     }
 
+
+    /**
+     * 查询投注记录(商务查询商户下所有用户，代理可以查询代理下所有用户)
+     */
+    @ApiOperation(value = "查询投注记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "随机字符串", required = true ,name = "random",dataType = "String"),
+            @ApiImplicitParam(value = "签名摘要", required = true ,name = "sign",dataType = "String"),
+            @ApiImplicitParam(value = "登录账号", required = true ,name = "siteCode",dataType = "String"),
+            @ApiImplicitParam(value = "用户名", required = true ,name = "username",dataType = "String"),
+            @ApiImplicitParam(value = "会员id集合", required = false ,name = "userIds",dataType = "Integer[]"),
+            @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序、2倒叙(默认)", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "days", value = "1 今天,2 昨天,3 近七天", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "status", value = "1 待开奖,2 已取消,3 中奖,4 未中奖", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "periods", value = "期数", required = false, dataType = "String"),
+            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = false, dataType = "Integer")
+    })
+    @GetMapping("/queryorders")
+    public Result<PageResult<QuizOrders>> queryBettingOrders(@ApiIgnore @RequestParam Map<String, Object> params) {
+
+        if (ObjectUtil.isEmpty(params)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("page"))) {
+            return Result.failed("分页起始位置不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("limit"))) {
+            return Result.failed("分页结束位置不能为空");
+        }
+
+        if (ObjectUtil.isEmpty(params.get("username"))) {
+            return Result.failed("用户名不能为空");
+        }
+
+        if (ObjectUtil.isEmpty(params.get("random"))) {
+            return Result.failed("随机字符不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("siteCode"))) {
+            return Result.failed("商户编码不能为空");
+        }
+
+        if (ObjectUtil.isEmpty(params.get("sign"))) {
+            return Result.failed("签名摘要不能为空");
+        }
+
+        Site site=iSiteService.getOne(new QueryWrapper<Site>().eq("code",params.get("siteCode").toString()));
+        if (ObjectUtil.isEmpty(site)) {
+            return Result.failed("商户不存在");
+        }
+
+        ThirdParty thirdParty= iThirdPartyService.getOne(new QueryWrapper<ThirdParty>().eq("site_code",params.get("siteCode").toString()));
+        String secretKey=thirdParty.getSecretKey();
+        String signGet= MD5.encrypt(params.get("random").toString()+params.get("siteCode").toString()+params.get("username").toString()+secretKey);
+        if (!signGet.equals(params.get("sign").toString())) {
+            return Result.failed("签名摘要错误");
+        }
+
+
+        SysUser stationOwner=iAdminUserService.getMerchantAdministrator(params.get("siteCode").toString());
+        if (ObjectUtil.isEmpty(stationOwner)) {
+            return Result.failed("请联系后台添加商户管理员");
+        }
+
+        if(!stationOwner.getUsername().equals(params.get("username").toString())){
+            //当前用户不是商户管理 是代理
+            params.put("parentName",params.get("username").toString());
+        }
+
+
+
+
+        return Result.succeed(quizOrdersService.findList(params));
+    }
 
 
 
