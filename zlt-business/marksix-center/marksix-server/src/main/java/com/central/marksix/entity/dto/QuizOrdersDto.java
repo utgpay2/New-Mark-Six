@@ -25,6 +25,8 @@ public class QuizOrdersDto{
     private String periods;
     @ApiModelProperty(value = "年份")
     private Integer year;
+    @ApiModelProperty(value = "彩种ID")
+    private Long lotteryId;
     @ApiModelProperty(value = "站点彩种ID")
     private Long siteLotteryId;
     @ApiModelProperty(value = "站点彩种名称")

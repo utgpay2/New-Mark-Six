@@ -5,9 +5,9 @@ import cn.hutool.core.util.ObjectUtil;
 /**
  * 通用排序规则
  */
-public enum SortOrderEnum {
-    ASC(0, "正序"),
-    DESC(1, "倒序"),
+public enum SortEnum {
+    ASC(1, "正序"),
+    DESC(2, "倒序"),
     ;
 
     //排序类型
@@ -15,13 +15,13 @@ public enum SortOrderEnum {
     //描述
     private String remark;
 
-    SortOrderEnum(Integer code, String remark) {
+    SortEnum(Integer code, String remark) {
         this.code = code;
         this.remark = remark;
     }
 
-    public static SortOrderEnum getByCode(Integer code) {
-        for (SortOrderEnum orderEnum : values()) {
+    public static SortEnum getByCode(Integer code) {
+        for (SortEnum orderEnum : values()) {
             if (orderEnum.getCode().equals(code)) {
                 return orderEnum;
             }
@@ -30,7 +30,7 @@ public enum SortOrderEnum {
     }
 
     public static boolean isLegalCode(Integer code) {
-        for (SortOrderEnum orderEnum : values()) {
+        for (SortEnum orderEnum : values()) {
             if (orderEnum.getCode().equals(code)) {
                 return true;
             }

@@ -68,9 +68,8 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             BigDecimal currentBalance = sysUser.getMBalance();//用户当前余额
             for (QuizOrdersDto ordersDto: ordersDtoList){
                 Map<String, Object> params = new HashMap<>();
-                params.put("siteLotteryId",ordersDto.getSiteLotteryId());
-                params.put("siteId", user.getSiteId());
-                List<SiteLotteryVO> siteLotteryVOList = lotteryService.findList(params);
+                params.put("lotteryId",ordersDto.getLotteryId());
+                List<SiteLotteryVO> siteLotteryVOList = lotteryService.findListByLotteryId(params);
                 for (SiteLotteryVO siteLotteryVO:siteLotteryVOList){
                     if(StatusEnum.ONE_TRUE.getStatus()==siteLotteryVO.getStatus()){
                         return Result.failed(siteLotteryVO.getLotteryName()+"结算中，请稍后再试");
@@ -152,9 +151,8 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             for (Long  id: ids){
                 QuizOrders quizOrders = this.getById(id);
                 Map<String, Object> params = new HashMap<>();
-                params.put("siteLotteryId",quizOrders.getSiteLotteryId());
-                params.put("siteId", user.getSiteId());
-                List<SiteLotteryVO> siteLotteryVOList = lotteryService.findList(params);
+                params.put("lotteryId",quizOrders.getLotteryId());
+                List<SiteLotteryVO> siteLotteryVOList = lotteryService.findListByLotteryId(params);
                 for (SiteLotteryVO siteLotteryVO:siteLotteryVOList){
                     if(StatusEnum.ONE_TRUE.getStatus()==siteLotteryVO.getStatus()){
                         return Result.failed(siteLotteryVO.getLotteryName()+"结算中，请稍后再试");

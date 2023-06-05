@@ -61,7 +61,7 @@ public class LotteryController {
             params = new HashMap<>();
         }
         params.put("siteId", user.getSiteId());
-        return Result.succeed(lotteryService.findList(params));
+        return Result.succeed(lotteryService.findListBySiteId(params));
     }
 
 

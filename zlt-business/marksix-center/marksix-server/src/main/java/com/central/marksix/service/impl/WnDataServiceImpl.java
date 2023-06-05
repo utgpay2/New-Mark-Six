@@ -1,8 +1,13 @@
 package com.central.marksix.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.central.common.constant.RedisConstants;
 import com.central.common.model.PageResult;
 import com.central.common.model.WnData;
+import com.central.common.model.enums.SortEnum;
+import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
 import com.central.marksix.mapper.WnDataMapper;
 import com.central.marksix.service.IWnDataService;
@@ -31,11 +36,24 @@ public class WnDataServiceImpl extends SuperServiceImpl<WnDataMapper, WnData> im
     @Override
     public PageResult<WnData> findList(Map<String, Object> params){
         Page<WnData> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
-        List<WnData> list  =  baseMapper.findList(page, params);
+        String redisKey = StrUtil.format(RedisConstants.WNDATA_LIST_PAGE_KEY, MapUtils.getInteger(params,"lotteryId"),
+                true==ObjectUtil.isEmpty(params.get("sortBy"))? SortEnum.ASC.getCode():MapUtils.getInteger(params,"sortBy"),
+                MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
+        List<WnData> list  =  (List<WnData>)RedisRepository.get(redisKey);
+        if (ObjectUtil.isNotEmpty(list)) {
+            list  =  baseMapper.findList(page, params);
+            RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
+        }
         return PageResult.<WnData>builder().data(list).count(page.getTotal()).build();
     }
     @Override
     public WnData lastOneWnData(Integer lotteryId){
-        return baseMapper.lastOneWnData(lotteryId);
+        String redisKey = StrUtil.format(RedisConstants.LASTONE_WNDATA_KEY, lotteryId);
+        WnData wnData = (WnData)RedisRepository.get(redisKey);
+        if (ObjectUtil.isNotEmpty(wnData)) {
+            wnData = baseMapper.lastOneWnData(lotteryId);
+            RedisRepository.setExpire(redisKey, wnData, RedisConstants.EXPIRE_TIME_30_DAYS);
+        }
+        return wnData;
     }
 }
