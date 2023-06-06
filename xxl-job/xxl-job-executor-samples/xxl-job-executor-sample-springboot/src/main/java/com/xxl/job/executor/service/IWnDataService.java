@@ -13,12 +13,6 @@ import java.util.Map;
  * @date 2023-05-09 18:39:54
  */
 public interface IWnDataService extends ISuperService<WnData> {
-    /**
-     * 列表
-     * @param params
-     * @return
-     */
-    PageResult<WnData> findList(Map<String, Object> params);
     WnData lastOneWnData(Integer lotteryId);
 }
 

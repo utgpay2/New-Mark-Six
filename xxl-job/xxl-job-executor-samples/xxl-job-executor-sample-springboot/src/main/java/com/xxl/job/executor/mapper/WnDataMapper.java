@@ -17,12 +17,5 @@ import java.util.Map;
  */
 @Mapper
 public interface WnDataMapper extends SuperMapper<WnData> {
-    /**
-     * 分页查询用户列表
-     * @param page
-     * @param params
-     * @return
-     */
-    List<WnData> findList(Page<WnData> page, @Param("p") Map<String, Object> params);
     WnData lastOneWnData(Integer lotteryId);
 }

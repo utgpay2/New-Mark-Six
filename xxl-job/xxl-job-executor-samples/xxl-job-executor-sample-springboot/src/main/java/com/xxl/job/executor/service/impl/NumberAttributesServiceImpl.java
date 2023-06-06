@@ -1,8 +1,12 @@
 package com.xxl.job.executor.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.central.common.constant.RedisConstants;
 import com.central.common.model.NumberAttributes;
 import com.central.common.model.Result;
+import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
 import com.central.common.utils.DateUtil;
 import com.xxl.job.executor.mapper.NumberAttributesMapper;
@@ -29,8 +33,15 @@ public class NumberAttributesServiceImpl extends SuperServiceImpl<NumberAttribut
      */
     @Override
     public List<NumberAttributes> findList(){
-        LambdaQueryWrapper<NumberAttributes> wrapper=new LambdaQueryWrapper<>();
-        wrapper.eq(NumberAttributes::getYear, DateUtil.getYear());
-        return baseMapper.selectList(wrapper);
+
+        String redisKey = StrUtil.format(RedisConstants.NUMBERATTRIBUTES_LIST_KEY, DateUtil.getYear(),"number");
+        List<NumberAttributes> list = (List<NumberAttributes>) RedisRepository.get(redisKey);
+        if (ObjectUtil.isNotEmpty(list)) {
+            LambdaQueryWrapper<NumberAttributes> wrapper=new LambdaQueryWrapper<>();
+            wrapper.eq(NumberAttributes::getYear, DateUtil.getYear());
+            list = baseMapper.selectList(wrapper);
+            RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
+        }
+        return list;
     }
 }
