@@ -2,19 +2,19 @@ package com.central.marksix.service.impl;
 
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.central.common.constant.MarksixConstants;
+import com.central.common.constant.RedisConstants;
 import com.central.common.model.*;
-import com.central.common.model.enums.CodeEnum;
-import com.central.common.model.enums.MbChangeTypeEnum;
-import com.central.common.model.enums.StatusEnum;
+import com.central.common.model.enums.*;
 import com.central.common.redis.lock.RedissLockUtil;
+import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
 import com.central.common.utils.SnowflakeIdWorker;
 import com.central.marksix.entity.dto.QuizOrdersDto;
 import com.central.marksix.entity.vo.SiteLotteryVO;
-import com.central.common.model.enums.OrderStatusEnum;
 import com.central.marksix.mapper.QuizOrdersMapper;
 import com.central.marksix.service.ILotteryService;
 import com.central.marksix.service.IMoneyLogService;
@@ -41,7 +41,17 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
     @Override
     public PageResult<QuizOrders> findList(Map<String, Object> params) {
         Page<QuizOrders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
-        List<QuizOrders> list  =  baseMapper.findList(page, params);
+        String redisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY,
+                MapUtils.getInteger(params,"siteId"),
+                MapUtils.getInteger(params,"memberId"),
+                MapUtils.getInteger(params,"days"),
+                MapUtils.getInteger(params,"status"),
+                true== ObjectUtil.isEmpty(params.get("sortBy"))? SortEnum.ASC.getCode():MapUtils.getInteger(params,"sortBy"),
+                MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
+        List<QuizOrders> list = (List<QuizOrders>)RedisRepository.get(redisKey);
+        if (ObjectUtil.isNotEmpty(list)) {
+            list = baseMapper.findList(page, params);
+        }
         return PageResult.<QuizOrders>builder().data(list).count(page.getTotal()).build();
     }
 
@@ -119,6 +129,9 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             moneyLogService.saveBatch(moneyLogList);
             //保存注单
             this.saveBatch(ordersList);
+            //删除投注订单缓存
+            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY,user.getSiteId(),user.getId());
+            RedisRepository.delete(ordersRedisKey+"*");
             return Result.succeed("投注完成");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -189,6 +202,9 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             moneyLogService.saveBatch(moneyLogList);
             //更新投注
             this.saveOrUpdateBatch(ordersList);
+            //删除投注订单缓存
+            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY,user.getSiteId(),user.getId());
+            RedisRepository.delete(ordersRedisKey+"*");
             return Result.succeed("撤销投注");
         } catch (Exception e) {
             log.error(e.getMessage(), e);

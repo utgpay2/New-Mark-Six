@@ -1,13 +1,20 @@
 package com.central.marksix.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.central.common.constant.RedisConstants;
 import com.central.common.model.NumberAttributes;
+import com.central.common.model.enums.SortEnum;
+import com.central.common.model.enums.StatusEnum;
+import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
 import com.central.common.utils.DateUtil;
-import com.central.marksix.entity.vo.NumberAttributesVo;
+import com.central.marksix.entity.dto.NumberAttributesDto;
 import com.central.marksix.mapper.NumberAttributesMapper;
 import com.central.marksix.service.INumberAttributesService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,20 +34,32 @@ public class NumberAttributesServiceImpl extends SuperServiceImpl<NumberAttribut
      * @return
      */
     @Override
-    public List<NumberAttributes> findList(NumberAttributesVo numberAttributesVo){
+    public List<NumberAttributes> findList(NumberAttributesDto numberAttributesDto){
         LambdaQueryWrapper<NumberAttributes> wrapper=new LambdaQueryWrapper<>();
-        if(null!=numberAttributesVo){
-            if(numberAttributesVo.getZodiac()!=null&&!"".equals(numberAttributesVo.getZodiac()))
-                wrapper.eq(NumberAttributes::getZodiac, numberAttributesVo.getZodiac());
-            if(numberAttributesVo.getPoultryandbeast()!=null&&!"".equals(numberAttributesVo.getPoultryandbeast()))
-                wrapper.eq(NumberAttributes::getPoultryandbeast, numberAttributesVo.getPoultryandbeast());
-            if(numberAttributesVo.getColor()!=null&&!"".equals(numberAttributesVo.getColor()))
-                wrapper.eq(NumberAttributes::getColor, numberAttributesVo.getColor());
-            if(numberAttributesVo.getFiveElements()!=null&&!"".equals(numberAttributesVo.getFiveElements()))
-                wrapper.eq(NumberAttributes::getFiveElements, numberAttributesVo.getFiveElements());
+        String str = "number";
+        if(null!= numberAttributesDto){
+            if(numberAttributesDto.getZodiac()!=null&&!"".equals(numberAttributesDto.getZodiac())) {
+                wrapper.eq(NumberAttributes::getZodiac, numberAttributesDto.getZodiac());
+                str = numberAttributesDto.getZodiac();
+            }else if(numberAttributesDto.getPoultryandbeast()!=null&&!"".equals(numberAttributesDto.getPoultryandbeast())) {
+                wrapper.eq(NumberAttributes::getPoultryandbeast, numberAttributesDto.getPoultryandbeast());
+                str = numberAttributesDto.getPoultryandbeast();
+            }else if(numberAttributesDto.getColor()!=null&&!"".equals(numberAttributesDto.getColor())) {
+                wrapper.eq(NumberAttributes::getColor, numberAttributesDto.getColor());
+                str = numberAttributesDto.getColor();
+            }else if(numberAttributesDto.getFiveElements()!=null&&!"".equals(numberAttributesDto.getFiveElements())) {
+                wrapper.eq(NumberAttributes::getFiveElements, numberAttributesDto.getFiveElements());
+                str = numberAttributesDto.getFiveElements();
+            }
         }
         wrapper.eq(NumberAttributes::getYear, DateUtil.getYear());
         wrapper.orderByAsc(NumberAttributes::getNumber);
-        return baseMapper.selectList(wrapper);
+        String redisKey = StrUtil.format(RedisConstants.NUMBERATTRIBUTES_LIST_KEY, DateUtil.getYear(),str);
+        List<NumberAttributes> list = (List<NumberAttributes>)RedisRepository.get(redisKey);
+        if (ObjectUtil.isNotEmpty(list)) {
+            list = baseMapper.selectList(wrapper);
+            RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
+        }
+        return list;
     }
 }

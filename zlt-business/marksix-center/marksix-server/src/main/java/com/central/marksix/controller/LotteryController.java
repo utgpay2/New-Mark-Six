@@ -175,8 +175,8 @@ public class LotteryController {
     @ApiOperation(value = "查询我的投注记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序、2倒叙(默认)", required = false, dataType = "Integer"),
-            @ApiImplicitParam(name = "days", value = "1 今天,2 昨天,3 近七天", required = false, dataType = "Integer"),
-            @ApiImplicitParam(name = "status", value = "1 待开奖,2 已取消,3 中奖,4 未中奖", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "days", value = "1 今天,2 昨天,3 近七天", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "status", value = "0 全部,1 待开奖,2 已取消,3 中奖,4 未中奖", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
     })
@@ -187,6 +187,12 @@ public class LotteryController {
         }
         if (ObjectUtil.isEmpty(params.get("page"))) {
             return Result.failed("分页起始位置不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("days"))) {
+            return Result.failed("时间选项不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("status"))) {
+            return Result.failed("状态选项不能为空");
         }
         if (ObjectUtil.isEmpty(params.get("limit"))) {
             return Result.failed("分页结束位置不能为空");

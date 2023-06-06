@@ -2,7 +2,7 @@ package com.central.marksix.service;
 
 import com.central.common.model.NumberAttributes;
 import com.central.common.service.ISuperService;
-import com.central.marksix.entity.vo.NumberAttributesVo;
+import com.central.marksix.entity.dto.NumberAttributesDto;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public interface INumberAttributesService extends ISuperService<NumberAttributes
      * 列表
      * @return
      */
-    List<NumberAttributes> findList(NumberAttributesVo numberAttributesVo);
+    List<NumberAttributes> findList(NumberAttributesDto numberAttributesDto);
 
 }
 

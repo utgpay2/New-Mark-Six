@@ -1,7 +1,5 @@
-package com.central.marksix.entity.vo;
+package com.central.marksix.entity.dto;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.central.common.model.SuperEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-public class NumberAttributesVo{
+public class NumberAttributesDto {
     @ApiModelProperty(value = "年份")
     private Integer year;
     @ApiModelProperty(value = "开奖号码")
