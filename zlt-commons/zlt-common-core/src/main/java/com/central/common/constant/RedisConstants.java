@@ -35,4 +35,9 @@ public interface RedisConstants {
     public static final String NUMBERATTRIBUTES_LIST_KEY = "NUMBERATTRIBUTES:LIST:{}:{}";
     //- 缓存我的投注记录
     public static final String SITE_MYQUIZORDERS_LIST_KEY = "SITE:MYQUIZORDERS:LIST:{}:{}:{}:{}:{}:{}:{}";
+
+    //- 缓存站点用户
+    public static final String SITE_SYSUSER_KEY = "SITE:SYSUSER:OBJECT:{}";
+    //- 缓存站点用户账变记录
+    public static final String SITE_MONEYLOG_KEY = "SITE:MONEYLOG:OBJECT:{}";
 }

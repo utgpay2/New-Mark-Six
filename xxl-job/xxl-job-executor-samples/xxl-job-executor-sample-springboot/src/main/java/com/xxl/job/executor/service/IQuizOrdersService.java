@@ -17,5 +17,6 @@ public interface IQuizOrdersService extends ISuperService<QuizOrders> {
      * @return
      */
     public PageResult<QuizOrders> findList(Map<String, Object> params);
+    void saveOrUpdateQuizOrdersBatch(List<QuizOrders> ordersList);
 
 }

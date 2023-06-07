@@ -23,5 +23,10 @@ public interface ISysUserService extends ISuperService<SysUser> {
      */
     void addRewardMb(SysUser sysUser, BigDecimal rewardMb);
 
-
+    /**
+     * 根据用户ID查询用户
+     * @param memberId
+     * @return
+     */
+    SysUser getSysUserById(Long memberId);
 }

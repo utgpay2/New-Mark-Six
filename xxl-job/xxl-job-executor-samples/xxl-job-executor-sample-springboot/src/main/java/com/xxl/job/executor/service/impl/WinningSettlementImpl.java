@@ -75,7 +75,7 @@ public class WinningSettlementImpl {
                 quizOrders.setUpdateBy("mks_site02_admin");
                 ordersList.add(quizOrders);
             }
-            siteOrderService.saveBatch(ordersList);
+            siteOrderService.saveOrUpdateQuizOrdersBatch(ordersList);
             System.out.println("插入一万条结束时间："+ DateUtil.dateToHHmmss(new Date()));
         }
         System.out.println("结束时间："+ DateUtil.dateToHHmmss(new Date()));
@@ -102,7 +102,7 @@ public class WinningSettlementImpl {
         List<QuizOrders> ordersList = new ArrayList<>();
         List<MoneyLog> moneyLogList = new ArrayList<>();
         for (QuizOrders quizOrders: list){
-            SysUser sysUser = userService.getById(quizOrders.getMemberId());
+            SysUser sysUser = userService.getSysUserById(quizOrders.getMemberId());
             BigDecimal currentBalance = sysUser.getMBalance();//用户当前余额
             quizOrders.setUpdateTime(new Date());
             quizOrders.setUpdateBy(sysUser.getUsername());
@@ -1148,10 +1148,10 @@ public class WinningSettlementImpl {
         }
         if(null!=moneyLogList && moneyLogList.size()>0) {
             //账变记录
-            moneyLogService.saveBatch(moneyLogList);
+            moneyLogService.saveMoneyLogBatch(moneyLogList);
         }
         //更新投注
-        siteOrderService.saveOrUpdateBatch(ordersList);
+        siteOrderService.saveOrUpdateQuizOrdersBatch(ordersList);
     }
     private BigDecimal daxiaodangshuanghonglvlanbo(QuizOrders quizOrders,String enterNumber,
                                                    Integer onesNumber,Integer tensNumber,
@@ -1703,6 +1703,9 @@ public class WinningSettlementImpl {
                 }
             }
         }
+        //修改开彩结果为结算完成
+        wnData.setStatus(StatusEnum.ONE_TRUE.getStatus());
+        wnDataService.updateWnDataStatus(wnData);
         //彩种状态修改为结算完成
         lotteryService.updateLotteryStatus(LotteryEnum.HONGKONG_MKS.getStatus(), StatusEnum.ZERO_FALSE.getStatus());
     }

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.central.common.constant.RedisConstants;
 import com.central.common.model.PageResult;
 import com.central.common.model.WnData;
+import com.central.common.model.enums.StatusEnum;
 import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
 import com.xxl.job.executor.mapper.WnDataMapper;
@@ -36,5 +37,13 @@ public class WnDataServiceImpl extends SuperServiceImpl<WnDataMapper, WnData> im
             RedisRepository.setExpire(redisKey, wnData, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
         return wnData;
+    }
+    @Override
+    public void updateWnDataStatus(WnData wnData) {
+        this.lambdaUpdate().eq(WnData::getId, wnData.getId())
+                .setSql("`status` = "+ wnData.getStatus())
+                .update();
+        String redisKey = StrUtil.format(RedisConstants.LASTONE_WNDATA_KEY, wnData.getLotteryId());
+        RedisRepository.delete(redisKey);
     }
 }
