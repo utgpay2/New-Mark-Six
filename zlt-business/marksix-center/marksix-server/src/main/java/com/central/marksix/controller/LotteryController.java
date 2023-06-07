@@ -9,7 +9,6 @@ import com.central.marksix.entity.vo.QuizChooseVo;
 import com.central.marksix.entity.vo.SiteLotteryVO;
 import com.central.common.model.enums.OrderStatusEnum;
 import com.central.marksix.service.*;
-import com.cxytiandi.encrypt.springboot.annotation.Decrypt;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -164,7 +163,6 @@ public class LotteryController {
      * 投注
      */
     @ApiOperation(value = "投注")
-    @Decrypt
     @PostMapping("/bettingorders")
     public Result bettingOrders(@RequestBody List<QuizOrdersDto> ordersDtoList, @ApiIgnore @LoginUser SysUser user) {
         return siteOrderService.bettingOrders(ordersDtoList,user);

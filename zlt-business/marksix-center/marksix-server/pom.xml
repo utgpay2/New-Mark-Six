@@ -136,12 +136,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.zlt</groupId>
-            <artifactId>monkey-api-encrypt-core</artifactId>
-            <version>1.2.2.RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
 
 
     </dependencies>

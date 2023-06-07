@@ -24,6 +24,5 @@
         <module>zlt-oss-spring-boot-starter</module>
         <module>zlt-zookeeper-spring-boot-starter</module>
 <!--        <module>zlt-job-spring-boot-starter</module>-->
-        <module>monkey-api-encrypt-core</module>
     </modules>
 </project>
