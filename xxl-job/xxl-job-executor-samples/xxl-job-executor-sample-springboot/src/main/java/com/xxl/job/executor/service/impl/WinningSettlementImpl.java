@@ -202,7 +202,7 @@ public class WinningSettlementImpl {
                         if ("二肖连中".equals(quizOrders.getQuizIntroduce())) {
                             //选择2个或2个以上生肖，所选生肖与开奖号码所对应的生肖一致，即中奖；如投注方案为牛、鼠，开奖号码为：01(虎),02(牛),03(鼠),04(猪),05(狗),06(鸡) + 07(猴)，即中二连肖。
                             String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
-                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr);
+                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
@@ -213,7 +213,7 @@ public class WinningSettlementImpl {
                         if ("三肖连中".equals(quizOrders.getQuizIntroduce())) {
                             //选择3个或3个以上生肖，所选生肖与开奖号码所对应的生肖一致，即中奖；如投注方案为牛、鼠、猪，开奖号码为：01(虎),02(牛),03(鼠),04(猪),05(狗),06(鸡) + 07(猴)，即中三连肖。
                             String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
-                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr);
+                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
@@ -224,7 +224,7 @@ public class WinningSettlementImpl {
                         if ("四肖连中".equals(quizOrders.getQuizIntroduce())) {
                             //选择4个或4个以上生肖，所选生肖与开奖号码所对应的生肖一致，即中奖；如投注方案为牛、鼠、猪、狗，开奖号码为：01(虎),02(牛),03(鼠),04(猪),05(狗),06(鸡) + 07(猴)，即中四连肖。
                             String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
-                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr);
+                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
@@ -235,7 +235,7 @@ public class WinningSettlementImpl {
                         if ("五肖连中".equals(quizOrders.getQuizIntroduce())) {
                             //选择5个或5个以上生肖，所选生肖与开奖号码所对应的生肖一致，即中奖；如投注方案为牛、鼠、猪、狗、鸡，开奖号码为：01(虎),02(牛),03(鼠),04(猪),05(狗),06(鸡) + 07(猴)，即中五连肖。
                             String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
-                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr);
+                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
@@ -245,7 +245,7 @@ public class WinningSettlementImpl {
                         }
                         if ("二肖连不中".equals(quizOrders.getQuizIntroduce())) {
                             String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
-                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr);
+                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             boolean b = true;
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
@@ -259,7 +259,7 @@ public class WinningSettlementImpl {
                         }
                         if ("三肖连不中".equals(quizOrders.getQuizIntroduce())) {
                             String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
-                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr);
+                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             boolean b = true;
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
@@ -273,7 +273,7 @@ public class WinningSettlementImpl {
                         }
                         if ("四肖连不中".equals(quizOrders.getQuizIntroduce())) {
                             String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
-                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr);
+                            List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             boolean b = true;
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
@@ -1730,57 +1730,57 @@ public class WinningSettlementImpl {
         //
 
     }
-    public List<String> getBettingComList(String[] bettingCom) {
+    public List<String> getBettingComList(String[] bettingCom,int length) {
         List<String> bettingZodiacList = new ArrayList<>();
         for(int i = 0; i < bettingCom.length; i++){
             for(int j = 0; j < bettingCom.length; j++){
                 if(i != j){
-                    if(bettingCom.length==2){
+                    if(length==2){
                         bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j]);
                     }else {
                         for (int k = 0; k < bettingCom.length; k++) {
                             if (k != i && k != j) {
-                                if (bettingCom.length == 3) {
+                                if (length == 3) {
                                     bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k]);
                                 } else {
                                     for (int m = 0; m < bettingCom.length; m++) {
                                         if (m != i && m != k && m != j) {
-                                            if (bettingCom.length == 4) {
+                                            if (length == 4) {
                                                 bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m]);
                                             } else {
                                                 for (int n = 0; n < bettingCom.length; n++) {
                                                     if (n != i && n != j && n != k && n != m) {
-                                                        if (bettingCom.length == 5) {
+                                                        if (length == 5) {
                                                             bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m] + "," + bettingCom[n]);
                                                         } else {
                                                             for (int o = 0; o < bettingCom.length; o++) {
                                                                 if (o != i && o != j && o != k && o != m && o != n) {
-                                                                    if (bettingCom.length == 6) {
+                                                                    if (length == 6) {
                                                                         bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m] + "," + bettingCom[n] + "," + bettingCom[o]);
                                                                     }else {
                                                                         for (int p = 0; p < bettingCom.length; p++) {
                                                                             if (p != i && p != j && p != k && p != m && p != n && p != o) {
-                                                                                if (bettingCom.length == 7) {
+                                                                                if (length == 7) {
                                                                                     bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m] + "," + bettingCom[n] + "," + bettingCom[o] + "," + bettingCom[p]);
                                                                                 }else {
                                                                                     for (int q = 0; q < bettingCom.length; q++) {
                                                                                         if (q != i && q != j && q != k && q != m && q != n && q != o && q != p) {
-                                                                                            if (bettingCom.length == 8) {
+                                                                                            if (length == 8) {
                                                                                                 bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m] + "," + bettingCom[n] + "," + bettingCom[o] + "," + bettingCom[p] + "," + bettingCom[q]);
                                                                                             }else {
                                                                                                 for (int r = 0; r < bettingCom.length; r++) {
                                                                                                     if (r != i && r != j && r != k && r != m && r != n && r != o && r != p && r != q) {
-                                                                                                        if (bettingCom.length == 9) {
+                                                                                                        if (length == 9) {
                                                                                                             bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m] + "," + bettingCom[n] + "," + bettingCom[o] + "," + bettingCom[p] + "," + bettingCom[q] + "," + bettingCom[r]);
                                                                                                         }else {
                                                                                                             for (int s = 0; s < bettingCom.length; s++) {
                                                                                                                 if (s != i && s != j && s != k && s != m && s != n && s != o && s != p && s != q && s != r) {
-                                                                                                                    if (bettingCom.length == 10) {
+                                                                                                                    if (length == 10) {
                                                                                                                         bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m] + "," + bettingCom[n] + "," + bettingCom[o] + "," + bettingCom[p] + "," + bettingCom[q] + "," + bettingCom[r] + "," + bettingCom[s]);
                                                                                                                     }else {
                                                                                                                         for (int t = 0; t < bettingCom.length; t++) {
                                                                                                                             if (t != i && t != j && t != k && t != m && t != n && t != o && t != p && t != q && t != r && t != s) {
-                                                                                                                                if (bettingCom.length == 11) {
+                                                                                                                                if (length == 11) {
                                                                                                                                     bettingZodiacList.add(bettingCom[i] + "," + bettingCom[j] + "," + bettingCom[k] + "," + bettingCom[m] + "," + bettingCom[n] + "," + bettingCom[o] + "," + bettingCom[p] + "," + bettingCom[q] + "," + bettingCom[r] + "," + bettingCom[s] + "," + bettingCom[t]);
                                                                                                                                 }
                                                                                                                             }
@@ -1815,4 +1815,38 @@ public class WinningSettlementImpl {
         }
         return bettingZodiacList;
     }
+    public static void main(String args[]){
+        int length =3;
+        String[] str = {"1","2","3"};
+        List<String> list = new ArrayList<>();
+        for(int i=0;i<str.length;i++){
+            for(int j = 0; j < str.length; j++){
+                if(i != j){
+                    if(length==2){
+                        Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j])};
+                        Arrays.sort(str1);
+                        list.add(String.format("%02d", str1[0])+","+String.format("%02d", str1[1]));
+                    }else {
+                        for (int k = 0; k < str.length; k++) {
+                            if (k != i && k != j) {
+                                if(length==3){
+                                    Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k])};
+                                    Arrays.sort(str1);
+                                    list.add(String.format("%02d", str1[0])+","+String.format("%02d", str1[1])+","+String.format("%02d", str1[2]));
+                                }else {
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //去重集合
+        HashSet<String> set = new HashSet<>(list);
+        System.out.println("去重集合:" + set);
+    }
+
+
+
+
 }
