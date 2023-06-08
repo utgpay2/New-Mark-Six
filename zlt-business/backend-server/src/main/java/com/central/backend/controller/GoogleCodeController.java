@@ -1,3 +1,4 @@
+/*
 package com.central.backend.controller;
 
 import com.central.common.model.Result;
@@ -36,3 +37,4 @@ public class GoogleCodeController {
         return userService.getGoogleCodeLink(params);
     }
 }
+*/

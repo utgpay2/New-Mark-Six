@@ -11,6 +11,7 @@ import com.central.backend.model.dto.SysAdminUserPasswordDto;
 import com.central.backend.service.IAdminUserService;
 import com.central.backend.service.ISiteService;
 import com.central.backend.service.ISysUserService;
+import com.central.backend.vo.SysUserInfoMoneyVo;
 import com.central.backend.vo.UserInfoVo;
 import com.central.common.annotation.LoginUser;
 import com.central.common.constant.MarksixConstants;
@@ -494,4 +495,35 @@ public class SysAdminUserController {
         cacheEvictUser(id);
         return appUserService.updateVerify(id);
     }
+
+
+    @ResponseBody
+    @ApiOperation(value = "查询注册会员数量")
+    @GetMapping("/users/findUserNum")
+    @ApiImplicitParams({@ApiImplicitParam(name = "startTime", value = "开始时间", required = false),
+            @ApiImplicitParam(name = "endTime", value = "结束时间", required = false),
+            @ApiImplicitParam(name = "type", value = "账号类型：APP：前端app用户，BACKEND：后端管理用户", required = false),
+            @ApiImplicitParam(name = "parent", value = "所属平台", required = false),})
+    public Result<Integer> findUserNum(@RequestParam Map<String, Object> params) {
+        Integer userNum = appUserService.findUserNum(params);
+        return Result.succeed(userNum);
+    }
+
+
+    @ApiOperation(value = "根据ids,查询用户")
+    @PostMapping("/users/findListByIds")
+    @ApiImplicitParams({@ApiImplicitParam(name = "ids", value = "用户id", required = true)})
+    public Result<List<SysUser>> findListByIds(@RequestBody List<Long> ids) {
+        List<SysUser> listByIds = appUserService.findListByIds(ids);
+        return Result.succeed(listByIds);
+    }
+
+    @ApiOperation(value = "根据ids,查询用户基本信息及余额", hidden = true)
+    @PostMapping("/users/findListByUserIdList")
+    @ApiImplicitParam(name = "userIdList", value = "用户userIdList", required = true)
+    public Result<List<SysUserInfoMoneyVo>> findListByUserIdList(@RequestBody List<Long> userIdList) {
+        List<SysUserInfoMoneyVo> list = appUserService.findListByUserIds(userIdList);
+        return Result.succeed(list);
+    }
+
 }
