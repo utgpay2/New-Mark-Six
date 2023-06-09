@@ -283,7 +283,8 @@ public class SysAdminUserController {
     }
     @ApiOperation("密码登录")
     @PostMapping("/login/password")
-    public Result<String> login(@ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid,
+    public Result<String> login(
+//            @ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid,
 //                                @ApiParam(value = "图形验证码id", required = true) String verifyCodeId,
 //                                @ApiParam(value = "验证码", required = true) String verifyCode,
                                 @ApiParam(value = "登录账号", required = true) String username,
@@ -308,10 +309,10 @@ public class SysAdminUserController {
 //        if (!cachedCode.equalsIgnoreCase(verifyCode)) {
 //            return Result.failed("验证码错误");
 //        }
-        if (null!=sid && sid !=0 ) {
-            Site site = siteService.getById(sid);
-            username = site.getCode() + "_" + username;
-        }
+//        if (null!=sid && sid !=0 ) {
+//            Site site = siteService.getById(sid);
+//            username = site.getCode() + "_" + username;
+//        }
 
         LoginAppUser sysUser = userService.findByUsername(username);
         if (sysUser == null || null == sysUser.getUsername() || !sysUser.getEnabled()) {
@@ -334,7 +335,8 @@ public class SysAdminUserController {
 
     @ApiOperation("google登录")
     @PostMapping("/login/logingoogle")
-    public Result<String> login(@ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid,
+    public Result<String> login(
+//            @ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid,
                                 //@ApiParam(value = "图形验证码id", required = false) String verifyCodeId,
                                 @ApiParam(value = "验证码", required = false) String verifyCode,
                                 @ApiParam(value = "登录账号", required = true) String username,
@@ -359,10 +361,10 @@ public class SysAdminUserController {
 //        if (!cachedCode.equalsIgnoreCase(verifyCode)) {
 //            return Result.failed("验证码错误");
 //        }
-        if (null!=sid && sid !=0 ) {
-            Site site = siteService.getById(sid);
-            username = site.getCode() + "_" + username;
-        }
+//        if (null!=sid && sid !=0 ) {
+//            Site site = siteService.getById(sid);
+//            username = site.getCode() + "_" + username;
+//        }
 
         LoginAppUser sysUser = userService.findByUsername(username);
         if (sysUser == null || null == sysUser.getUsername() || !sysUser.getEnabled()) {

@@ -321,9 +321,10 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 user.setSiteCode("0");
                 //站点名称
                 user.setSiteName("0");
-            }else {//商户管理员
-                user.setUsername(user.getSiteCode() + "_" +adminUserVo.getUsername());
             }
+//            else {//商户管理员
+//                user.setUsername(user.getSiteCode() + "_" +adminUserVo.getUsername());
+//            }
             if(null!=sysUser){
                 //上级id
                 user.setParentId(sysUser.getId());
@@ -366,9 +367,10 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 user.setSiteCode("0");
                 //站点名称
                 user.setSiteName("0");
-            }else {//商户管理员
-                user.setUsername(user.getSiteCode() + "_" +adminUserVo.getUsername());
             }
+//            else {//商户管理员
+//                user.setUsername(user.getSiteCode() + "_" +adminUserVo.getUsername());
+//            }
 
             //userInfo.setMobile(user.getMobile());
             userInfo.setUpdateBy(null!=sysUser?sysUser.getUpdateBy():"");
