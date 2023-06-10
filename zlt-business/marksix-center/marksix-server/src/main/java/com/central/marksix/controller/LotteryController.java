@@ -30,7 +30,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/lottery")
+@RequestMapping("/v1/lottery")
 @Api(tags = "彩票相关API接口")
 public class LotteryController {
     @Autowired
