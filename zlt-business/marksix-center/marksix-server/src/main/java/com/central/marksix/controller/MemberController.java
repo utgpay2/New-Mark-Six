@@ -111,13 +111,11 @@ public class MemberController {
     @GetMapping("/info")
     public Result<SysUserVo> getUserInfo(@ApiIgnore @LoginUser SysUser user) {
         try {
-            SysUser userInfo = userService.getById(user.getId());
+            SysUser userInfo = userService.getSysUserById(user.getId());
 
             SysUserVo sysUserVo = SysUserVo.builder()
                     .username(userInfo.getNickname())
                     .headImgUrl(externalEndpoint + MarksixConstants.Symbol.FORWARD_SLASH + userInfo.getHeadImgUrl())
-                    .inviteCode(userInfo.getInviteCode())
-                    .promotionCode(userInfo.getPromotionCode())
                     .mBalance(userInfo.getMBalance().setScale(2, RoundingMode.FLOOR))
                     .build();
             return Result.succeed(sysUserVo, "succeed");

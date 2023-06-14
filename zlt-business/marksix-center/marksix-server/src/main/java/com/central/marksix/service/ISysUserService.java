@@ -58,5 +58,10 @@ public interface ISysUserService extends ISuperService<SysUser> {
      */
     void saveInviteCode(Long sid, Long userId, SysUser promoteUser, String inviteCode);
 
-
+    /**
+     * 根据用户ID查询用户
+     * @param memberId
+     * @return
+     */
+    SysUser getSysUserById(Long memberId);
 }

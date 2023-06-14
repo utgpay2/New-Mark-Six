@@ -151,23 +151,23 @@ public class SiteController {
             return Result.failed("failed");
         }
     }
-    /**
-     * 获取站点线路
-     *
-     * @param sid 站点id
-     * @return
-     */
-    @GetMapping("/lines")
-    @ApiOperation(value = "获取站点线路")
-    public Result<Map<String, List<String>>> getLines(@RequestHeader(value = "sid", required = false) Long sid) {
-        try {
-            Map<String, List<String>> kpnLineVos = kpnLineService.getLines();
-            return Result.succeed(kpnLineVos, "succeed");
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return Result.failed("failed");
-        }
-    }
+//    /**
+//     * 获取站点线路
+//     *
+//     * @param sid 站点id
+//     * @return
+//     */
+//    @GetMapping("/lines")
+//    @ApiOperation(value = "获取站点线路")
+//    public Result<Map<String, List<String>>> getLines(@RequestHeader(value = "sid", required = false) Long sid) {
+//        try {
+//            Map<String, List<String>> kpnLineVos = kpnLineService.getLines();
+//            return Result.succeed(kpnLineVos, "succeed");
+//        } catch (Exception e) {
+//            log.error(e.getMessage(), e);
+//            return Result.failed("failed");
+//        }
+//    }
 
 
     /**

@@ -2,11 +2,14 @@ package com.central.marksix.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.central.common.constant.MarksixConstants;
+import com.central.common.constant.RedisConstants;
 import com.central.common.model.Site;
 import com.central.common.model.SysUser;
 import com.central.common.model.enums.UserRegTypeEnum;
 import com.central.common.model.enums.UserTypeEnum;
+import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
 import com.central.marksix.mapper.SysUserMapper;
 import com.central.marksix.service.ISiteService;
@@ -114,6 +117,16 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
         saveOrUpdate(sysUser);
 
 
+    }
+    @Override
+    public SysUser getSysUserById(Long memberId){
+        String redisKey = StrUtil.format(RedisConstants.SITE_SYSUSER_KEY, memberId);
+        SysUser sysUser = (SysUser) RedisRepository.get(redisKey);
+        if (ObjectUtil.isNotEmpty(sysUser)) {
+            sysUser = this.getById(memberId);
+            RedisRepository.setExpire(redisKey, sysUser, RedisConstants.EXPIRE_TIME_30_DAYS);
+        }
+        return sysUser;
     }
 }
 

@@ -23,21 +23,6 @@ public class SysUserVo implements Serializable {
     @ApiModelProperty("头像")
     private String headImgUrl;
 
-    @ApiModelProperty("邀请码")
-    private String inviteCode;
-
-    @ApiModelProperty("我的推广码")
-    private String promotionCode;
-
-    @ApiModelProperty("是否VIP")
-    private Boolean vip;
-
-    @ApiModelProperty("vip到期时间")
-    private String vipExpire;
-
-    @ApiModelProperty("剩余天数")
-    private Long between;
-
     @ApiModelProperty("M币余额")
     private BigDecimal mBalance;
 
