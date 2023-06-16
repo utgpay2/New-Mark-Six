@@ -75,25 +75,25 @@ public class SysMenuController {
 
     @ApiOperation(value = "根据roleId获取对应的菜单")
     @GetMapping("/{roleId}/menus")
-    public List<SysMenu> findMenusByRoleId(@PathVariable Long roleId) {
+    public Result findMenusByRoleId(@PathVariable Long roleId) {
         Set<Long> roleIds = new HashSet<>();
         roleIds.add(roleId);
         // 获取该角色对应的菜单
         List<SysMenu> roleMenus = menuService.findByRoles(roleIds);
-        return treeBuilder(roleMenus);
+        return  Result.succeed(treeBuilder(roleMenus));
     }
 
     @ApiOperation(value = "根据roleCodes获取对应的权限")
     @SuppressWarnings("unchecked")
     @Cacheable(value = "menu", key = "#roleCodes")
     @GetMapping("/{roleCodes}")
-    public List<SysMenu> findMenuByRoles(@PathVariable String roleCodes) {
+    public  Result  findMenuByRoles(@PathVariable String roleCodes) {
         List<SysMenu> result = null;
         if (StringUtils.isNotEmpty(roleCodes)) {
             Set<String> roleSet = (Set<String>)Convert.toCollection(HashSet.class, String.class, roleCodes);
             result = menuService.findByRoleCodes(roleSet, CommonConstant.PERMISSION);
         }
-        return result;
+        return  Result.succeed(treeBuilder(result));
     }
 
     /**
@@ -108,17 +108,17 @@ public class SysMenuController {
 
     @ApiOperation(value = "查询所有菜单")
     @GetMapping("/findAlls")
-    public PageResult<SysMenu> findAlls() {
+    public Result  findAlls() {
         List<SysMenu> list = menuService.findAll();
         List<SysMenu> sysMenus = treeBuilder(list);
-        return PageResult.<SysMenu>builder().data(sysMenus).count((long)list.size()).build();
+        return  Result.succeed( PageResult.<SysMenu>builder().data(sysMenus).count((long)list.size()).build());
     }
 
     @ApiOperation(value = "获取菜单以及顶级菜单")
     @GetMapping("/findOnes")
-    public PageResult<SysMenu> findOnes() {
+    public  Result  findOnes() {
         List<SysMenu> list = menuService.findOnes();
-        return PageResult.<SysMenu>builder().data(list).count((long)list.size()).build();
+        return  Result.succeed(PageResult.<SysMenu>builder().data(list).count((long)list.size()).build());
     }
 
     /**

@@ -266,8 +266,9 @@ public class SysAdminUserController {
      */
     @PostMapping("/users/{id}/roles")
     @ApiOperation(value = "管理后台给用户分配角色")
-    public void setRoleToUser(@PathVariable Long id, @RequestBody Set<Long> roleIds) {
+    public Result setRoleToUser(@PathVariable Long id, @RequestBody Set<Long> roleIds) {
         iAdminUserService.setRoleToUser(id, roleIds);
+       return Result.succeed();
     }
 
     /**
@@ -278,8 +279,8 @@ public class SysAdminUserController {
      */
     @GetMapping("/users/{id}/roles")
     @ApiOperation(value = "获取用户的角色")
-    public List<SysRole> findRolesByUserId(@PathVariable Long id) {
-        return iAdminUserService.findRolesByUserId(id);
+    public Result  findRolesByUserId(@PathVariable Long id) {
+        return Result.succeed(iAdminUserService.findRolesByUserId(id));
     }
     @ApiOperation("密码登录")
     @PostMapping("/login/password")
