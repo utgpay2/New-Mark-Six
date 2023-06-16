@@ -1,5 +1,6 @@
 package com.central.marksix.service;
 
+import com.central.common.model.Result;
 import com.central.common.model.SysUser;
 import com.central.common.service.ISuperService;
 
@@ -64,4 +65,6 @@ public interface ISysUserService extends ISuperService<SysUser> {
      * @return
      */
     SysUser getSysUserById(Long memberId);
+
+    Result saveOrUpdateUserInfo(SysUser user);
 }

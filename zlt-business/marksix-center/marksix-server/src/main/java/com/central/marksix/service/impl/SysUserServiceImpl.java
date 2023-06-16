@@ -3,8 +3,11 @@ package com.central.marksix.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.central.common.constant.CommonConstant;
 import com.central.common.constant.MarksixConstants;
 import com.central.common.constant.RedisConstants;
+import com.central.common.model.Result;
 import com.central.common.model.Site;
 import com.central.common.model.SysUser;
 import com.central.common.model.enums.UserRegTypeEnum;
@@ -16,6 +19,7 @@ import com.central.marksix.service.ISiteService;
 import com.central.marksix.service.IRptSiteSummaryService;
 import com.central.marksix.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,6 +44,7 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
 
     @Autowired
     private IRptSiteSummaryService siteSummaryService;
+
 
 
     @Override
@@ -127,6 +132,59 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
             RedisRepository.setExpire(redisKey, sysUser, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
         return sysUser;
+    }
+
+    /**
+     * 添加会员
+     * @param user
+     * @return
+     * @Author: Lulu
+     * @Date: 2023/2/7
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Result saveOrUpdateUserInfo(SysUser user) {
+        boolean insert =false;
+        //新增
+        if (user.getId() == null) {
+            LambdaQueryWrapper<SysUser> wrapper=new LambdaQueryWrapper<>();
+            if (StringUtils.isNotBlank(user.getUsername())){
+                wrapper.eq(SysUser::getUsername, user.getUsername());
+            }
+            Integer integer = baseMapper.selectCount(wrapper);
+            if (integer>0){
+                return Result.failed("会员账号已存在");
+            }
+
+            if (StringUtils.isBlank(user.getPassword())) {
+                user.setPassword(passwordEncoder.encode(CommonConstant.DEF_USER_PASSWORD));
+            } else {
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
+            String promotionCode = RandomUtil.randomString(MarksixConstants.Str.RANDOM_BASE_STR, 6);
+            user.setPromotionCode(promotionCode);
+            user.setNickname(user.getUsername());
+            user.setType(UserTypeEnum.APP.name());
+            user.setIsReg(UserRegTypeEnum.ADMIN_CREATE.getType());
+            user.setEnabled(Boolean.TRUE);
+            insert = super.save(user);
+            //添加运营报表
+            siteSummaryService.addNewUserNum(user.getSiteId(),user.getSiteCode(),user.getSiteName());
+        }else {
+            SysUser userInfo = baseMapper.selectById(user.getId());
+            if (userInfo == null) {
+                return Result.failed("会员不存在");
+            }
+            //userInfo.setMobile(user.getMobile());
+            userInfo.setUpdateBy(user.getUpdateBy());
+            userInfo.setSex(user.getSex());
+            int i = baseMapper.updateById(userInfo);
+            insert = i > 0 ? true : false;
+        }
+        if (insert) {
+            return Result.succeed(user, "操作成功");
+        }
+        return Result.failed("操作失败");
     }
 }
 

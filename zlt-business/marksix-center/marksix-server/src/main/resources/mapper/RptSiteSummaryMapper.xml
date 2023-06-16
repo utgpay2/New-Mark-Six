@@ -9,4 +9,6 @@
         values (#{sid}, #{siteCode}, #{siteName}, #{today}, 1) ON DUPLICATE KEY
         UPDATE new_user_num = new_user_num + 1
     </insert>
+
+
 </mapper>

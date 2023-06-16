@@ -16,4 +16,7 @@ public interface RptSiteSummaryMapper extends SuperMapper<RptSiteSummary> {
      */
     void addNewUserNum(@Param("sid") Long sid, @Param("siteCode") String siteCode, @Param("siteName") String siteName, @Param("today") String today);
 
+
+
+
 }

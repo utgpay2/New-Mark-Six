@@ -20,4 +20,5 @@ public class RptSiteSummaryServiceImpl extends SuperServiceImpl<RptSiteSummaryMa
         this.baseMapper.addNewUserNum(sid, siteCode, siteName, today);
     }
 
+
 }

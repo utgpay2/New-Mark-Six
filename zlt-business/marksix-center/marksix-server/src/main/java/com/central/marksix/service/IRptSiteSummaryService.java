@@ -14,4 +14,5 @@ public interface IRptSiteSummaryService extends ISuperService<RptSiteSummary> {
      */
     void addNewUserNum(Long sid, String siteCode, String siteName);
 
+
 }

@@ -1,8 +1,9 @@
-package com.central.backend.service;
+package com.central.backend.service.impl;
 
 
 import com.central.backend.mapper.ThirdPartyMapper;
 
+import com.central.backend.service.IThirdPartyService;
 import com.central.common.model.ThirdParty;
 
 import com.central.common.service.impl.SuperServiceImpl;
@@ -11,6 +12,6 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class ThirdPartyServiceImpl extends SuperServiceImpl<ThirdPartyMapper, ThirdParty> implements IThirdPartyService{
+public class ThirdPartyServiceImpl extends SuperServiceImpl<ThirdPartyMapper, ThirdParty> implements IThirdPartyService {
 
 }
