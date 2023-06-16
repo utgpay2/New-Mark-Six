@@ -240,12 +240,12 @@ public class SysAdminUserController {
 
     @GetMapping("/users/info")
     @ApiOperation(value = "查询登录用户基本信息")
-    public Result<UserInfoVo> findUserInfoById(@LoginUser SysUser user) {
+    public Result<SysUser> findUserInfoById(@LoginUser SysUser user) {
         SysUser sysUser = iAdminUserService.selectById(user.getId());
         UserInfoVo vo = new UserInfoVo();
         BeanUtil.copyProperties(sysUser, vo);
         vo.setIsAutoBet(vo.getIsAutoBet() == null ? false : vo.getIsAutoBet());
-        return Result.succeed(vo);
+        return Result.succeed(sysUser);
     }
 
     /**
