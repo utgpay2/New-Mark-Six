@@ -611,15 +611,15 @@ public class WinningSettlementImpl {
                         //所投注的每三个号码为一组合，若三个号码都是开奖号码之正码，视为中奖，其余行情视为不中奖
                         if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
                             String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
-                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,3);//计算出所有投注号码,3个号码为一组
-                            for (String bettingNumberStr:bettingNumberHashSet) {
-                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
-                                if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
-                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
-                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){
-                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-                                }
-                            }
+//                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,3);//计算出所有投注号码,3个号码为一组
+//                            for (String bettingNumberStr:bettingNumberHashSet) {
+//                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
+//                                if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
+//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
+//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){
+//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
+//                                }
+//                            }
                         }
                         if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
 
@@ -637,29 +637,29 @@ public class WinningSettlementImpl {
                     if("三中二".equals(quizOrders.getQuizTitle())) {//分类二类
                         //所投注的每三个号码为一组合，若其中2个号码都是开奖号码之正码，视为三中二奖，若3个都是开奖号码中的正码，即为三中二之中三，其余行情视为不中奖
                         if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
-                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,3);//计算出所有投注号码,3个号码为一组
-                            for (String bettingNumberStr:bettingNumberHashSet) {
-                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
-                                //若3个都是开奖号码中的正码，即为三中二之中三
-                                if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
-                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
-                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){
-                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-                                }else if (!Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
-                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
-                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){//为三中二
-                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-                                }else if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
-                                        &&!Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
-                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){//为三中二
-                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-                                }else if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
-                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
-                                        &&!Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){//为三中二
-                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-                                }
-                            }
+//                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
+//                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,3);//计算出所有投注号码,3个号码为一组
+//                            for (String bettingNumberStr:bettingNumberHashSet) {
+//                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
+//                                //若3个都是开奖号码中的正码，即为三中二之中三
+//                                if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
+//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
+//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){
+//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
+//                                }else if (!Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
+//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
+//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){//为三中二
+//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
+//                                }else if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
+//                                        &&!Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
+//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){//为三中二
+//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
+//                                }else if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
+//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
+//                                        &&!Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){//为三中二
+//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
+//                                }
+//                            }
                         }
                         if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
 
@@ -677,15 +677,15 @@ public class WinningSettlementImpl {
                     if("二全中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //所投注的每二个号码为一组合，若二个号码都是开奖号码之正码，视为中奖，其余行情视为不中奖（含一个正码加一个特码情形）
                         if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
-                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,2);//计算出所有投注号码,2个号码为一组
-                            for (String bettingNumberStr:bettingNumberHashSet) {
-                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
-                                if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
-                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])){
-                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-                                }
-                            }
+//                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
+//                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,2);//计算出所有投注号码,2个号码为一组
+//                            for (String bettingNumberStr:bettingNumberHashSet) {
+//                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
+//                                if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
+//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])){
+//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
+//                                }
+//                            }
                         }
                         if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
 
@@ -703,23 +703,23 @@ public class WinningSettlementImpl {
                     if("二中特".equals(quizOrders.getQuizTitle())) {//分类二类
                         //所投注的每二个号码为一组合，若二个号码都是开奖号码之正码，叫二中特之中二，其中一个是正码，一个是特码，视为中奖,其余行情视为不中奖二中特之中二赔率高于二中特之中特的赔率
                         if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
-                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,2);//计算出所有投注号码,2个号码为一组
-                            for (String bettingNumberStr:bettingNumberHashSet) {
-                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
-                                if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
-                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])){//二中特之中二
-                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-                                }else {//二中特之中特
-                                    if(seven.equals(bettingNumber[0])){
-                                        if (Arrays.asList(wnNumbersSix).contains(bettingNumber[1]))
-                                            winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-                                    }else if(seven.equals(bettingNumber[1])){
-                                        if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0]))
-                                            winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-                                    }
-                                }
-                            }
+//                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
+//                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,2);//计算出所有投注号码,2个号码为一组
+//                            for (String bettingNumberStr:bettingNumberHashSet) {
+//                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
+//                                if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
+//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])){//二中特之中二
+//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
+//                                }else {//二中特之中特
+//                                    if(seven.equals(bettingNumber[0])){
+//                                        if (Arrays.asList(wnNumbersSix).contains(bettingNumber[1]))
+//                                            winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
+//                                    }else if(seven.equals(bettingNumber[1])){
+//                                        if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0]))
+//                                            winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
+//                                    }
+//                                }
+//                            }
                         }
                         if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
 
@@ -737,18 +737,18 @@ public class WinningSettlementImpl {
                     if("特串".equals(quizOrders.getQuizTitle())) {//分类二类
                         //所投注的每两个号码为一组合，其中一个是正码，一个是特码，视为中奖，其余情形视为不中奖（含二个都是正码之情形）
                         if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
-                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,2);//计算出所有投注号码,2个号码为一组
-                            for (String bettingNumberStr:bettingNumberHashSet) {
-                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
-                                if(seven.equals(bettingNumber[0])){
-                                    if (Arrays.asList(wnNumbersSix).contains(bettingNumber[1]))
-                                        winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-                                }else if(seven.equals(bettingNumber[1])){
-                                    if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0]))
-                                        winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-                                }
-                            }
+//                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
+//                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,2);//计算出所有投注号码,2个号码为一组
+//                            for (String bettingNumberStr:bettingNumberHashSet) {
+//                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
+//                                if(seven.equals(bettingNumber[0])){
+//                                    if (Arrays.asList(wnNumbersSix).contains(bettingNumber[1]))
+//                                        winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
+//                                }else if(seven.equals(bettingNumber[1])){
+//                                    if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0]))
+//                                        winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
+//                                }
+//                            }
                         }
                         if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
 //                            HashSet<String> braveryTow(String braveryNumber,String[] towNumber,int length)
@@ -766,16 +766,16 @@ public class WinningSettlementImpl {
                     if("四中一".equals(quizOrders.getQuizTitle())) {//分类二类
                         //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
                         if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
-                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,2);//计算出所有投注号码,2个号码为一组
-                            for (String bettingNumberStr:bettingNumberHashSet) {
-                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
-                                if (Arrays.asList(wnNumbers).contains(bettingNumber[0])
-                                        ||Arrays.asList(wnNumbers).contains(bettingNumber[1])
-                                        ||Arrays.asList(wnNumbers).contains(bettingNumber[2])
-                                        ||Arrays.asList(wnNumbers).contains(bettingNumber[3]))
-                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-                            }
+//                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
+//                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,2);//计算出所有投注号码,2个号码为一组
+//                            for (String bettingNumberStr:bettingNumberHashSet) {
+//                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
+//                                if (Arrays.asList(wnNumbers).contains(bettingNumber[0])
+//                                        ||Arrays.asList(wnNumbers).contains(bettingNumber[1])
+//                                        ||Arrays.asList(wnNumbers).contains(bettingNumber[2])
+//                                        ||Arrays.asList(wnNumbers).contains(bettingNumber[3]))
+//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
+//                            }
                         }
                         if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
 
@@ -1909,210 +1909,7 @@ public class WinningSettlementImpl {
         return bettingZodiacList;
     }
 
-    /**
-     * 复式投注
-     * @param str 选择号码
-     * @param length 每注彩票组合个数
-     * @return
-     */
-    public HashSet<String> duplexNumber(String[] str ,int length){
-        List<String> list = new ArrayList<>();
-        for(int i=0;i<str.length;i++){
-            for(int j = 0; j < str.length; j++){
-                if(i != j){
-                    if(length==2){
-                        Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j])};
-                        Arrays.sort(str1);
-                        list.add(String.format("%02d", str1[0])+","+String.format("%02d", str1[1]));
-                    }else {
-                        for (int k = 0; k < str.length; k++) {
-                            if (k != i && k != j) {
-                                if(length==3){
-                                    Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k])};
-                                    Arrays.sort(str1);
-                                    list.add(String.format("%02d", str1[0])+","+String.format("%02d", str1[1])+","+String.format("%02d", str1[2]));
-                                }else {
-                                    for (int m = 0; m < str.length; m++) {
-                                        if (m != i && m != k && m != j) {
-                                            if (length == 4) {
-                                                Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m])};
-                                                Arrays.sort(str1);
-                                                list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]));
-                                            } else {
-                                                for (int n = 0; n < str.length; n++) {
-                                                    if (n != i && n != j && n != k && n != m) {
-                                                        if (length == 5) {
-                                                            Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n])};
-                                                            Arrays.sort(str1);
-                                                            list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]));
-                                                        } else {
-                                                            for (int o = 0; o < str.length; o++) {
-                                                                if (o != i && o != j && o != k && o != m && o != n) {
-                                                                    if (length == 6) {
-                                                                        Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o])};
-                                                                        Arrays.sort(str1);
-                                                                        list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]));
-                                                                    }else {
-                                                                        for (int p = 0; p < str.length; p++) {
-                                                                            if (p != i && p != j && p != k && p != m && p != n && p != o) {
-                                                                                if (length == 7) {
-                                                                                    Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p])};
-                                                                                    Arrays.sort(str1);
-                                                                                    list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]));
-                                                                                }else {
-                                                                                    for (int q = 0; q < str.length; q++) {
-                                                                                        if (q != i && q != j && q != k && q != m && q != n && q != o && q != p) {
-                                                                                            if (length == 8) {
-                                                                                                Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q])};
-                                                                                                Arrays.sort(str1);
-                                                                                                list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]));
-                                                                                            }else {
-                                                                                                for (int r = 0; r < str.length; r++) {
-                                                                                                    if (r != i && r != j && r != k && r != m && r != n && r != o && r != p && r != q) {
-                                                                                                        if (length == 9) {
-                                                                                                            Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q]), Integer.parseInt(str[r])};
-                                                                                                            Arrays.sort(str1);
-                                                                                                            list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]));
-                                                                                                        }else {
-                                                                                                            for (int s = 0; s < str.length; s++) {
-                                                                                                                if (s != i && s != j && s != k && s != m && s != n && s != o && s != p && s != q && s != r) {
-                                                                                                                    if (length == 10) {
-                                                                                                                        Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q]), Integer.parseInt(str[r]), Integer.parseInt(str[s])};
-                                                                                                                        Arrays.sort(str1);
-                                                                                                                        list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]) + "," + String.format("%02d", str1[s]));
-                                                                                                                    }else {
-                                                                                                                        for (int t = 0; t < str.length; t++) {
-                                                                                                                            if (t != i && t != j && t != k && t != m && t != n && t != o && t != p && t != q && t != r && t != s) {
-                                                                                                                                if (length == 11) {
-                                                                                                                                    Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q]), Integer.parseInt(str[r]), Integer.parseInt(str[s]), Integer.parseInt(str[t])};
-                                                                                                                                    Arrays.sort(str1);
-                                                                                                                                    list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]) + "," + String.format("%02d", str1[s]) + "," + String.format("%02d", str1[t]));
-                                                                                                                                }
-                                                                                                                            }
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                }
-                                                                                                            }
-                                                                                                        }
-                                                                                                    }
-                                                                                                }
-                                                                                            }
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        //去重集合
-        return new HashSet<>(list);
-    }
 
-    /**
-     * 胆拖投注
-     * @param braveryNumber 胆码
-     * @param towNumber 拖码
-     * @param length
-     * @return
-     */
-    public HashSet<String> braveryTow(String braveryNumber,String[] towNumber,int length){
-        List<String> list = new ArrayList<>();
-        for(int j = 0; j < towNumber.length; j++){
-            if(length==2){
-                Integer[] str1 = {Integer.parseInt(braveryNumber), Integer.parseInt(towNumber[j])};
-                Arrays.sort(str1);
-                list.add(String.format("%02d", str1[0])+","+String.format("%02d", str1[1]));
-            }else {
-                for (int k = 0; k < towNumber.length; k++) {
-                    if(length==3){
-                        Integer[] str1 = {Integer.parseInt(braveryNumber), Integer.parseInt(towNumber[j]), Integer.parseInt(towNumber[k])};
-                        Arrays.sort(str1);
-                        list.add(String.format("%02d", str1[0])+","+String.format("%02d", str1[1])+","+String.format("%02d", str1[2]));
-                    }else {
-                        for (int m = 0; m < towNumber.length; m++) {
-                            if (length == 4) {
-                                Integer[] str1 = {Integer.parseInt(braveryNumber), Integer.parseInt(towNumber[j]), Integer.parseInt(towNumber[k]), Integer.parseInt(towNumber[m])};
-                                Arrays.sort(str1);
-                                list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]));
-                            } else {
-                                for (int n = 0; n < towNumber.length; n++) {
-                                    if (length == 5) {
-                                        Integer[] str1 = {Integer.parseInt(braveryNumber), Integer.parseInt(towNumber[j]), Integer.parseInt(towNumber[k]), Integer.parseInt(towNumber[m]), Integer.parseInt(towNumber[n])};
-                                        Arrays.sort(str1);
-                                        list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]));
-                                    } else {
-                                        for (int o = 0; o < towNumber.length; o++) {
-                                            if (length == 6) {
-                                                Integer[] str1 = {Integer.parseInt(braveryNumber), Integer.parseInt(towNumber[j]), Integer.parseInt(towNumber[k]), Integer.parseInt(towNumber[m]), Integer.parseInt(towNumber[n]), Integer.parseInt(towNumber[o])};
-                                                Arrays.sort(str1);
-                                                list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]));
-                                            }else {
-                                                for (int p = 0; p < towNumber.length; p++) {
-                                                    if (length == 7) {
-                                                        Integer[] str1 = {Integer.parseInt(braveryNumber), Integer.parseInt(towNumber[j]), Integer.parseInt(towNumber[k]), Integer.parseInt(towNumber[m]), Integer.parseInt(towNumber[n]), Integer.parseInt(towNumber[o]), Integer.parseInt(towNumber[p])};
-                                                        Arrays.sort(str1);
-                                                        list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]));
-                                                    }else {
-                                                        for (int q = 0; q < towNumber.length; q++) {
-                                                            if (length == 8) {
-                                                                Integer[] str1 = {Integer.parseInt(braveryNumber), Integer.parseInt(towNumber[j]), Integer.parseInt(towNumber[k]), Integer.parseInt(towNumber[m]), Integer.parseInt(towNumber[n]), Integer.parseInt(towNumber[o]), Integer.parseInt(towNumber[p]), Integer.parseInt(towNumber[q])};
-                                                                Arrays.sort(str1);
-                                                                list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]));
-                                                            }else {
-                                                                for (int r = 0; r < towNumber.length; r++) {
-                                                                    if (length == 9) {
-                                                                        Integer[] str1 = {Integer.parseInt(braveryNumber), Integer.parseInt(towNumber[j]), Integer.parseInt(towNumber[k]), Integer.parseInt(towNumber[m]), Integer.parseInt(towNumber[n]), Integer.parseInt(towNumber[o]), Integer.parseInt(towNumber[p]), Integer.parseInt(towNumber[q]), Integer.parseInt(towNumber[r])};
-                                                                        Arrays.sort(str1);
-                                                                        list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]));
-                                                                    }else {
-                                                                        for (int s = 0; s < towNumber.length; s++) {
-                                                                            if (length == 10) {
-                                                                                Integer[] str1 = {Integer.parseInt(braveryNumber), Integer.parseInt(towNumber[j]), Integer.parseInt(towNumber[k]), Integer.parseInt(towNumber[m]), Integer.parseInt(towNumber[n]), Integer.parseInt(towNumber[o]), Integer.parseInt(towNumber[p]), Integer.parseInt(towNumber[q]), Integer.parseInt(towNumber[r]), Integer.parseInt(towNumber[s])};
-                                                                                Arrays.sort(str1);
-                                                                                list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]) + "," + String.format("%02d", str1[s]));
-                                                                            }else {
-                                                                                for (int t = 0; t < towNumber.length; t++) {
-                                                                                    if (length == 11) {
-                                                                                        Integer[] str1 = {Integer.parseInt(braveryNumber), Integer.parseInt(towNumber[j]), Integer.parseInt(towNumber[k]), Integer.parseInt(towNumber[m]), Integer.parseInt(towNumber[n]), Integer.parseInt(towNumber[o]), Integer.parseInt(towNumber[p]), Integer.parseInt(towNumber[q]), Integer.parseInt(towNumber[r]), Integer.parseInt(towNumber[s]), Integer.parseInt(towNumber[t])};
-                                                                                        Arrays.sort(str1);
-                                                                                        list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]) + "," + String.format("%02d", str1[s]) + "," + String.format("%02d", str1[t]));
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        //去重集合
-        return new HashSet<>(list);
-    }
 
 
 

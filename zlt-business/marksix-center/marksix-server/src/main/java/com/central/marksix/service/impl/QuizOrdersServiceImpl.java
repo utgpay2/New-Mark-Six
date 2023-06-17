@@ -14,12 +14,10 @@ import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
 import com.central.common.utils.SnowflakeIdWorker;
 import com.central.marksix.entity.dto.QuizOrdersDto;
+import com.central.marksix.entity.dto.QuizSubordersDto;
 import com.central.marksix.entity.vo.SiteLotteryVO;
 import com.central.marksix.mapper.QuizOrdersMapper;
-import com.central.marksix.service.ILotteryService;
-import com.central.marksix.service.IMoneyLogService;
-import com.central.marksix.service.IQuizOrdersService;
-import com.central.marksix.service.ISysUserService;
+import com.central.marksix.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,17 +36,20 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
     private IMoneyLogService moneyLogService;
     @Autowired
     private ILotteryService lotteryService;
+    @Autowired
+    private IQuizSubordersService quizSubordersService;
+
     @Override
     public PageResult<QuizOrders> findList(Map<String, Object> params) {
         Page<QuizOrders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
         String redisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY,
-                MapUtils.getInteger(params,"siteId"),
-                MapUtils.getInteger(params,"memberId"),
-                MapUtils.getInteger(params,"days"),
-                MapUtils.getInteger(params,"status"),
-                true== ObjectUtil.isEmpty(params.get("sortBy"))? SortEnum.ASC.getCode():MapUtils.getInteger(params,"sortBy"),
+                MapUtils.getInteger(params, "siteId"),
+                MapUtils.getInteger(params, "memberId"),
+                MapUtils.getInteger(params, "days"),
+                MapUtils.getInteger(params, "status"),
+                true == ObjectUtil.isEmpty(params.get("sortBy")) ? SortEnum.ASC.getCode() : MapUtils.getInteger(params, "sortBy"),
                 MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
-        List<QuizOrders> list = (List<QuizOrders>)RedisRepository.get(redisKey);
+        List<QuizOrders> list = (List<QuizOrders>) RedisRepository.get(redisKey);
         if (ObjectUtil.isNotEmpty(list)) {
             list = baseMapper.findList(page, params);
         }
@@ -57,13 +58,14 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
 
     /**
      * 投注
+     *
      * @param ordersDtoList
      * @param user
      * @return
      */
     @Override
-    @Transactional(rollbackFor={RuntimeException.class,Exception.class})
-    public Result bettingOrders(List<QuizOrdersDto> ordersDtoList, SysUser user){
+    @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
+    public Result bettingOrders(List<QuizOrdersDto> ordersDtoList, SysUser user) {
         String lockKey = StrUtil.format(MarksixConstants.Lock.USER_SITEID_SUBMIT_ORDERNO_LOCK, user.getSiteId(), user.getId());
         try {
             boolean lockedSuccess = RedissLockUtil.tryLock(lockKey, MarksixConstants.Lock.WAIT_TIME, MarksixConstants.Lock.LEASE_TIME);
@@ -74,15 +76,17 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             BigDecimal balance = sysUser.getMBalance();//用户余额
             BigDecimal totalPrice = BigDecimal.ZERO;//总订单金额
             List<QuizOrders> ordersList = new ArrayList<>();
+            //子订单
+            List<QuizSuborders> subordersList = new ArrayList<>();
             List<MoneyLog> moneyLogList = new ArrayList<>();
             BigDecimal currentBalance = sysUser.getMBalance();//用户当前余额
-            for (QuizOrdersDto ordersDto: ordersDtoList){
+            for (QuizOrdersDto ordersDto : ordersDtoList) {
                 Map<String, Object> params = new HashMap<>();
-                params.put("lotteryId",ordersDto.getLotteryId());
+                params.put("lotteryId", ordersDto.getLotteryId());
                 List<SiteLotteryVO> siteLotteryVOList = lotteryService.findListByLotteryId(params);
-                for (SiteLotteryVO siteLotteryVO:siteLotteryVOList){
-                    if(StatusEnum.ONE_TRUE.getStatus()==siteLotteryVO.getStatus()){
-                        return Result.failed(siteLotteryVO.getLotteryName()+"结算中，请稍后再试");
+                for (SiteLotteryVO siteLotteryVO : siteLotteryVOList) {
+                    if (StatusEnum.ONE_TRUE.getStatus() == siteLotteryVO.getStatus()) {
+                        return Result.failed(siteLotteryVO.getLotteryName() + "结算中，请稍后再试");
                     }
                 }
                 totalPrice = totalPrice.add(ordersDto.getTotalPrice());//汇总订单金额
@@ -102,6 +106,19 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 quizOrders.setUpdateTime(new Date());
                 quizOrders.setUpdateBy(sysUser.getUsername());
                 ordersList.add(quizOrders);
+                //子订单
+                List<QuizSubordersDto> subordersDtoList = ordersDto.getSubordersList();
+                for (QuizSubordersDto subordersDto : subordersDtoList) {
+                    QuizSuborders quizSuborders = new QuizSuborders();
+                    BeanUtil.copyProperties(subordersDto, quizSuborders);
+                    quizSuborders.setOrderNo(orderSn);//父订单号
+                    quizSuborders.setSuborderNo(SnowflakeIdWorker.createOrderSn());//子订单号
+                    quizSuborders.setCreateTime(new Date());
+                    quizSuborders.setCreateBy(sysUser.getUsername());
+                    quizSuborders.setUpdateTime(new Date());
+                    quizSuborders.setUpdateBy(sysUser.getUsername());
+                    subordersList.add(quizSuborders);
+                }
 
                 MoneyLog moneyLog = new MoneyLog();
                 moneyLog.setUserId(sysUser.getId());
@@ -120,8 +137,8 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 moneyLogList.add(moneyLog);
             }
             //用户余额小于总订单金额
-            if(balance.compareTo(totalPrice) == -1){
-                return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "余额不足",null);
+            if (balance.compareTo(totalPrice) == -1) {
+                return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "余额不足", null);
             }
             //扣除M币
             userService.addRewardMb(sysUser, totalPrice.negate());
@@ -129,9 +146,11 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             moneyLogService.saveBatch(moneyLogList);
             //保存注单
             this.saveBatch(ordersList);
+            //保存子订单
+            quizSubordersService.saveBatch(subordersList);
             //删除投注订单缓存
-            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY,user.getSiteId(),user.getId());
-            RedisRepository.delete(ordersRedisKey+"*");
+            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId());
+            RedisRepository.delete(ordersRedisKey + "*");
             return Result.succeed("投注完成");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -143,13 +162,14 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
 
     /**
      * 撤销投注
+     *
      * @param ids
      * @param user
      * @return
      */
     @Override
-    @Transactional(rollbackFor={RuntimeException.class,Exception.class})
-    public Result cancelBetting(List<Long> ids, SysUser user){
+    @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
+    public Result cancelBetting(List<Long> ids, SysUser user) {
         String lockKey = StrUtil.format(MarksixConstants.Lock.USER_SITEID_SUBMIT_ORDERNO_LOCK, user.getSiteId(), user.getId());
         try {
             boolean lockedSuccess = RedissLockUtil.tryLock(lockKey, MarksixConstants.Lock.WAIT_TIME, MarksixConstants.Lock.LEASE_TIME);
@@ -161,17 +181,17 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             List<QuizOrders> ordersList = new ArrayList<>();
             List<MoneyLog> moneyLogList = new ArrayList<>();
             BigDecimal currentBalance = sysUser.getMBalance();//用户当前余额
-            for (Long  id: ids){
+            for (Long id : ids) {
                 QuizOrders quizOrders = this.getById(id);
                 Map<String, Object> params = new HashMap<>();
-                params.put("lotteryId",quizOrders.getLotteryId());
+                params.put("lotteryId", quizOrders.getLotteryId());
                 List<SiteLotteryVO> siteLotteryVOList = lotteryService.findListByLotteryId(params);
-                for (SiteLotteryVO siteLotteryVO:siteLotteryVOList){
-                    if(StatusEnum.ONE_TRUE.getStatus()==siteLotteryVO.getStatus()){
-                        return Result.failed(siteLotteryVO.getLotteryName()+"结算中，请稍后再试");
+                for (SiteLotteryVO siteLotteryVO : siteLotteryVOList) {
+                    if (StatusEnum.ONE_TRUE.getStatus() == siteLotteryVO.getStatus()) {
+                        return Result.failed(siteLotteryVO.getLotteryName() + "结算中，请稍后再试");
                     }
                 }
-                if(OrderStatusEnum.ORDER_ONE.getStatus()!=quizOrders.getStatus()){
+                if (OrderStatusEnum.ORDER_ONE.getStatus() != quizOrders.getStatus()) {
                     return Result.failed("状态不正确不允许撤销");
                 }
                 totalPrice = totalPrice.add(quizOrders.getTotalPrice());//汇总订单金额
@@ -179,6 +199,22 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 quizOrders.setUpdateBy(sysUser.getUsername());
                 quizOrders.setStatus(OrderStatusEnum.ORDER_TWO.getStatus());
                 ordersList.add(quizOrders);
+                //0 没有子订单,1 有子订单
+                if (StatusEnum.ONE_TRUE.getStatus() == quizOrders.getIsSubOrders()) {
+                    Map<String, Object> subordersParams = new HashMap<>();
+                    subordersParams.put("orderNo", quizOrders.getOrderNo());
+                    List<QuizSuborders> quizSubordersList = quizSubordersService.findList(subordersParams);
+                    List<QuizSuborders> newQuizSubordersList = new ArrayList<>();
+                    for (QuizSuborders suborders : quizSubordersList) {
+                        suborders.setUpdateTime(new Date());
+                        suborders.setUpdateBy(sysUser.getUsername());
+                        suborders.setStatus(OrderStatusEnum.ORDER_TWO.getStatus());
+                        newQuizSubordersList.add(suborders);
+                    }
+                    quizSubordersService.updateBatchById(newQuizSubordersList);
+                    //清空子订单缓存
+                    RedisRepository.delete(StrUtil.format(RedisConstants.SITE_QUIZSUBORDERS_LIST_KEY, quizOrders.getOrderNo()));
+                }
 
                 MoneyLog moneyLog = new MoneyLog();
                 moneyLog.setUserId(sysUser.getId());
@@ -203,8 +239,8 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             //更新投注
             this.saveOrUpdateBatch(ordersList);
             //删除投注订单缓存
-            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY,user.getSiteId(),user.getId());
-            RedisRepository.delete(ordersRedisKey+"*");
+            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId());
+            RedisRepository.delete(ordersRedisKey + "*");
             return Result.succeed("撤销投注");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -212,6 +248,6 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
         } finally {
             RedissLockUtil.unlock(lockKey);
         }
-    }
 
+    }
 }

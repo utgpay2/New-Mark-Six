@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 
@@ -61,4 +62,6 @@ public class QuizOrdersDto{
     private Integer units;
     @ApiModelProperty(value = "赔率")
     private Double odds;
+    @ApiModelProperty(value = "子订单：复式，胆拖")
+    private List<QuizSubordersDto> subordersList;
     }
