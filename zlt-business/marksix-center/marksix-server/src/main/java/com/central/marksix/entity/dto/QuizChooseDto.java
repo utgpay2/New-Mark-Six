@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 public class QuizChooseDto extends SuperEntity {
-    @ApiModelProperty(value = "标题")
+    @ApiModelProperty(value = "号码")
     private String introduce;
     @ApiModelProperty(value = "赔率")
     private Double odds;

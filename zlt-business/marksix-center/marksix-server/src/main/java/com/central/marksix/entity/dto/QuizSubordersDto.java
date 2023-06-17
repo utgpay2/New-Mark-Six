@@ -26,5 +26,5 @@ public class QuizSubordersDto {
     @ApiModelProperty(value = "注数")
     private Integer units;
     @ApiModelProperty(value = "赔率")
-    private BigDecimal odds;
+    private Integer odds;
     }

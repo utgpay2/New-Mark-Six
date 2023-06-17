@@ -3,22 +3,20 @@ package com.central.marksix.controller;
 import cn.hutool.core.util.ObjectUtil;
 import com.central.common.annotation.LoginUser;
 import com.central.common.model.*;
-import com.central.marksix.entity.dto.DuplexLotteryBetDto;
-import com.central.marksix.entity.dto.QuizOrdersDto;
+import com.central.marksix.entity.dto.*;
 import com.central.marksix.entity.vo.CategoryVO;
 import com.central.marksix.entity.vo.QuizChooseVo;
 import com.central.marksix.entity.vo.SiteLotteryVO;
 import com.central.common.model.enums.OrderStatusEnum;
 import com.central.marksix.service.*;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -167,7 +165,69 @@ public class LotteryController {
     @ApiOperation(value = "计算复式投注")
     @PostMapping("/duplexLotteryBet")
     public Result duplexLotteryBetNumber(@RequestBody DuplexLotteryBetDto duplexLotteryBetDto) {
+        if (ObjectUtil.isEmpty(duplexLotteryBetDto)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(duplexLotteryBetDto.getQuizTitle())) {
+            return Result.failed("开奖分类二类名称");
+        }
+        if (ObjectUtil.isEmpty(duplexLotteryBetDto.getQuizChooseDtoList())) {
+            return Result.failed("号码及其属性不能为空");
+        }
+        for(QuizChooseDto dto:duplexLotteryBetDto.getQuizChooseDtoList()){
+            if (ObjectUtil.isEmpty(dto.getIntroduce())) {
+                return Result.failed("号码不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getOdds())||dto.getOdds()==0) {
+                return Result.failed("赔率不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getColor())) {
+                return Result.failed("波色不能为空");
+            }
+        }
         return lotteryBetCalculationService.duplexLotteryBetNumber(duplexLotteryBetDto);
+    }
+    /**
+     * 计算胆拖投注
+     */
+    @ApiOperation(value = "计算胆拖投注")
+    @PostMapping("/braveryTowLotteryBet")
+    public Result braveryTowLotteryBetNumber(@RequestBody BraveryTowLotteryBetDto braveryTowLotteryBetDto) {
+        if (ObjectUtil.isEmpty(braveryTowLotteryBetDto)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(braveryTowLotteryBetDto.getQuizTitle())) {
+            return Result.failed("开奖分类二类名称");
+        }
+        if (ObjectUtil.isEmpty(braveryTowLotteryBetDto.getBraveryList())) {
+            return Result.failed("胆码及其属性不能为空");
+        }
+        if (ObjectUtil.isEmpty(braveryTowLotteryBetDto.getTowList())) {
+            return Result.failed("拖码及其属性不能为空");
+        }
+        for(QuizChooseDto dto:braveryTowLotteryBetDto.getBraveryList()){
+            if (ObjectUtil.isEmpty(dto.getIntroduce())) {
+                return Result.failed("胆码号码不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getOdds())||dto.getOdds()==0) {
+                return Result.failed("胆码赔率不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getColor())) {
+                return Result.failed("胆码波色不能为空");
+            }
+        }
+        for(QuizChooseDto dto:braveryTowLotteryBetDto.getTowList()){
+            if (ObjectUtil.isEmpty(dto.getIntroduce())) {
+                return Result.failed("拖码号码不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getOdds())||dto.getOdds()==0) {
+                return Result.failed("拖码赔率不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getColor())) {
+                return Result.failed("拖码波色不能为空");
+            }
+        }
+        return lotteryBetCalculationService.braveryTowLotteryBetNumber(braveryTowLotteryBetDto);
     }
 
     /**
@@ -176,6 +236,79 @@ public class LotteryController {
     @ApiOperation(value = "投注")
     @PostMapping("/bettingorders")
     public Result bettingOrders(@RequestBody List<QuizOrdersDto> ordersDtoList, @ApiIgnore @LoginUser SysUser user) {
+        if (ObjectUtil.isEmpty(ordersDtoList)) {
+            return Result.failed("请求参数不能为空");
+        }
+        for(QuizOrdersDto dto:ordersDtoList){
+            if (ObjectUtil.isEmpty(dto.getPeriods())) {
+                return Result.failed("期数波色不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getYear())||dto.getYear()==0) {
+                return Result.failed("年份不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getLotteryId())||dto.getLotteryId()==0) {
+                return Result.failed("彩种ID不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getSiteLotteryId())||dto.getSiteLotteryId()==0) {
+                return Result.failed("站点彩种ID不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getLotteryName())) {
+                return Result.failed("站点彩种名称不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getSiteCategoryId())||dto.getSiteCategoryId()==0) {
+                return Result.failed("站点下注分类一类ID不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getSiteCategoryName())) {
+                return Result.failed("站点下注分类一类名称不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getBettingContent())) {
+                return Result.failed("投注内容不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getQuizId())||dto.getQuizId()==0) {
+                return Result.failed("开奖分类二类ID不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getQuizTitle())) {
+                return Result.failed("开奖分类二类名称不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getQuizDetailsId())||dto.getQuizDetailsId()==0) {
+                return Result.failed("开奖分类三类ID不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getQuizDetailsName())) {
+                return Result.failed("开奖分类三类名称不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getQuizChooseId())||dto.getQuizChooseId()==0) {
+                return Result.failed("开奖规则明细ID不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getQuizIntroduce())) {
+                return Result.failed("开奖规则明细名称不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getTotalPrice())||BigDecimal.ZERO.compareTo(dto.getTotalPrice())==1) {
+                return Result.failed("订单金额不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getUnits())||dto.getUnits()==0) {
+                return Result.failed("注数不能为空");
+            }
+            if (ObjectUtil.isEmpty(dto.getSubordersList())) {
+                if (ObjectUtil.isEmpty(dto.getOdds())||dto.getOdds()==0) {
+                    return Result.failed("赔率不能为空");
+                }
+            }else {
+                for (QuizSubordersDto subordersDto:dto.getSubordersList()){
+                    if (ObjectUtil.isEmpty(subordersDto.getBettingContent())) {
+                        return Result.failed("投注内容不能为空");
+                    }
+                    if (ObjectUtil.isEmpty(subordersDto.getTotalPrice())||BigDecimal.ZERO.compareTo(subordersDto.getTotalPrice())==1) {
+                        return Result.failed("订单金额不能为空");
+                    }
+                    if (ObjectUtil.isEmpty(subordersDto.getUnits())||subordersDto.getUnits()==0) {
+                        return Result.failed("注数不能为空");
+                    }
+                    if (ObjectUtil.isEmpty(subordersDto.getOdds())||subordersDto.getOdds()==0) {
+                        return Result.failed("赔率不能为空");
+                    }
+                }
+            }
+        }
         return siteOrderService.bettingOrders(ordersDtoList,user);
     }
     /**

@@ -114,7 +114,7 @@ public class MemberController {
             SysUser userInfo = userService.getSysUserById(user.getId());
 
             SysUserVo sysUserVo = SysUserVo.builder()
-                    .username(userInfo.getNickname())
+                    .username(userInfo.getUsername())
                     .headImgUrl(externalEndpoint + MarksixConstants.Symbol.FORWARD_SLASH + userInfo.getHeadImgUrl())
                     .mBalance(userInfo.getMBalance().setScale(2, RoundingMode.FLOOR))
                     .build();

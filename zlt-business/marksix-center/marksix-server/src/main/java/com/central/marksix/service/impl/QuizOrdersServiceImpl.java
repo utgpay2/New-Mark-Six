@@ -183,6 +183,9 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             BigDecimal currentBalance = sysUser.getMBalance();//用户当前余额
             for (Long id : ids) {
                 QuizOrders quizOrders = this.getById(id);
+                if(null == quizOrders){
+                    return Result.failed("投注记录不存在");
+                }
                 Map<String, Object> params = new HashMap<>();
                 params.put("lotteryId", quizOrders.getLotteryId());
                 List<SiteLotteryVO> siteLotteryVOList = lotteryService.findListByLotteryId(params);
