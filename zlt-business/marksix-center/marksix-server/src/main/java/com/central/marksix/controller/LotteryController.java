@@ -3,6 +3,7 @@ package com.central.marksix.controller;
 import cn.hutool.core.util.ObjectUtil;
 import com.central.common.annotation.LoginUser;
 import com.central.common.model.*;
+import com.central.marksix.entity.dto.DuplexLotteryBetDto;
 import com.central.marksix.entity.dto.QuizOrdersDto;
 import com.central.marksix.entity.vo.CategoryVO;
 import com.central.marksix.entity.vo.QuizChooseVo;
@@ -47,6 +48,8 @@ public class LotteryController {
     private ISiteCategoryLotteryService categoryLotteryService;
     @Autowired
     private IQuizOrdersService siteOrderService;
+    @Autowired
+    private ILotteryBetCalculationService lotteryBetCalculationService;
     /**
      * 列表
      */
@@ -157,6 +160,14 @@ public class LotteryController {
             return Result.failed("彩票规则主表id不能为空");
         }
         return Result.succeed(quizChooseService.findList(params));
+    }
+    /**
+     * 计算复式投注
+     */
+    @ApiOperation(value = "计算复式投注")
+    @PostMapping("/duplexLotteryBet")
+    public Result duplexLotteryBetNumber(@RequestBody DuplexLotteryBetDto duplexLotteryBetDto) {
+        return lotteryBetCalculationService.duplexLotteryBetNumber(duplexLotteryBetDto);
     }
 
     /**
