@@ -7,7 +7,11 @@ public enum MbChangeTypeEnum {
     BETTING(1, "投注", -1),
     CANCELBETTING(2, "撤销投注", 1),
     BETTINGWIN(3, "赢", 1),
-    BETTINGTIE(4, "和", 1)
+    BETTINGTIE(4, "和", 1),
+    WITHDRAWAL(5, "下分", -1),
+    RECHARGE(6, "上分", 1),
+    USER_WITHDRAWAL(7, "用户下分", 1),
+    USER_RECHARGE(8, "用户上分", -1),
     ;
 
     private final Integer type;

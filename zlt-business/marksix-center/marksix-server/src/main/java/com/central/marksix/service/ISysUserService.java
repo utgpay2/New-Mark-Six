@@ -1,8 +1,10 @@
 package com.central.marksix.service;
 
+import com.central.common.model.LoginAppUser;
 import com.central.common.model.Result;
 import com.central.common.model.SysUser;
 import com.central.common.service.ISuperService;
+import com.central.marksix.dto.TransferAccountsDto;
 
 import java.math.BigDecimal;
 
@@ -67,4 +69,13 @@ public interface ISysUserService extends ISuperService<SysUser> {
     SysUser getSysUserById(Long memberId);
 
     Result saveOrUpdateUserInfo(SysUser user);
+
+    /**
+     * 通过SysUser 转换为 LoginAppUser，把roles和permissions也查询出来
+     * @param sysUser
+     * @return
+     */
+    LoginAppUser getLoginAppUser(SysUser sysUser);
+
+    Result transfer(TransferAccountsDto userDto);
 }

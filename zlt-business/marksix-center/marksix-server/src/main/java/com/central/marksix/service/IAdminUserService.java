@@ -20,29 +20,16 @@ public interface IAdminUserService extends ISuperService<SysUser> {
 	 * @return
 	 */
 	Result saveOrUpdateAdminInfo(SysAdminUserDto adminUserVo, SysUser sysUser);
-	SysUser selectById(Long id);
-	String resetUpdatePassword(Long id);
-	Result updatePassword(Long id, String oldPassword, String newPassword);
-
-	Result updateVerify(Long id);
-
-	boolean delUser(Long id);
 	/**
 	 * 用户分配角色
 	 * @param id
 	 * @param roleIds
 	 */
 	void setRoleToUser(Long id, Set<Long> roleIds);
-	/**
-	 * 用户角色列表
-	 * @param userId
-	 * @return
-	 */
-	List<SysRole> findRolesByUserId(Long userId);
 
     LoginAppUser findByUsername(String username);
 
-	Result login(String username, String password, String verifyCode);
-
 	SysUser getMerchantAdministrator(String siteCode);
+
+
 }

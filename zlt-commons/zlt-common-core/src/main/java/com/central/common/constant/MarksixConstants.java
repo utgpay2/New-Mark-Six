@@ -226,6 +226,8 @@ public final class MarksixConstants {
         public static final String USER_SAVE_INVITE_CODE_LOCK = "Lock:save:inviteCode:userId:{}";
         // siteid rderNo
         public static final String USER_SITEID_SUBMIT_ORDERNO_LOCK = "Lock:siteId:submit:orderNo:{}:{}";
+
+        public static final String USER_TRANSFER_LOCK = "Lock:user:transfer:{}";
     }
 
     //多语言key

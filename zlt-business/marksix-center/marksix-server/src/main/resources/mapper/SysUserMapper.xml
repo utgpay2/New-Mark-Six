@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.central.marksix.mapper.SysUserMapper">
+	<sql id="where">
+		<where>
+			t.is_del=0
+			<if test="u.id != null and u.id != ''">
+				and t.id like concat('%', #{u.id}, '%')
+			</if>
+			<if test="u.username != null and u.username != ''">
+				<if test="u.isOpen==1">
+					and t.username like concat('%', #{u.username}, '%')
+				</if>
+				<if test="u.isOpen!=1">
+					and t.username = #{u.username}
+				</if>
+			</if>
+			<if test="u.nickname != null and u.nickname != ''">
+				and t.nickname like concat('%', #{u.nickname}, '%')
+			</if>
+			<if test="u.enabled != null and u.enabled != ''">
+				and t.enabled = #{u.enabled}
+			</if>
+			<if test="u.type != null and u.type != ''">
+				and t.type = #{u.type}
+			</if>
+			<if test="u.searchKey != null and u.searchKey != '' and u.searchKey=='user_id'">
+				and t.id  like concat('%', #{u.searchValue}, '%')
+			</if>
+			<if test="u.searchKey != null and u.searchKey != '' and u.searchKey=='username'">
+				and t.username  like concat('%', #{u.searchValue}, '%')
+			</if>
+			<if test="u.searchKey != null and u.searchKey != '' and u.searchKey=='nick_name'">
+				and t.nickname  like concat('%', #{u.searchValue}, '%')
+			</if>
+			<if test="u.searchKey != null and u.searchKey != '' and u.searchKey=='mobile'">
+				and t.mobile  like concat('%', #{u.searchValue}, '%')
+			</if>
+		</where>
+	</sql>
+
+	<select id="findList" resultType="com.central.common.model.SysUser">
+		select t.*,IFNULL(m.money,0) as currentBalance from sys_user t
+		LEFT JOIN sys_user_money m on m.user_id=t.id
+		<where>
+		t.is_del=0
+			<if test="u.username != null and u.username != ''">
+				<if test="u.isOpen==1">
+					and t.username like concat('%', #{u.username}, '%')
+				</if>
+				<if test="u.isOpen!=1">
+					and t.username = #{u.username}
+				</if>
+			</if>
+			<if test="u.enabled != null and u.enabled != ''">
+				and t.enabled = #{u.enabled}
+			</if>
+			<if test="u.type != null and u.type != ''">
+				and t.type = #{u.type}
+			</if>
+		</where>
+		order by t.id desc
+	</select>
+
+	<select id="findMonthNumberInfo" resultType="Integer">
+		SELECT
+		IFNULL(COUNT( u.id ),0)
+		FROM
+			sys_user u
+	  <where>
+		  AND u.type = 'app'
+		  <if test="date != null and date != ''">
+			  AND  date_format( u.create_time, '%Y-%m' ) = #{date}
+		  </if>
+
+		  <if test="startTime != null and startTime != ''">
+			  AND  date_format( u.create_time, '%Y-%m-%d' ) <![CDATA[>=]]> #{startTime}
+		  </if>
+
+		  <if test="endTime != null and endTime != ''">
+			  AND  date_format( u.create_time,  '%Y-%m-%d' ) <![CDATA[<=]]> #{endTime}
+		  </if>
+
+		  <if test="merchantCode != null and merchantCode != ''">
+			  AND u.parent = #{merchantCode}
+		  </if>
+
+	  </where>
+
+	</select>
+
+
+
+
+
+
+
+	<select id="adminFindList" resultType="com.central.common.model.SysUser">
+		select 	r.id as roleId,r.`name` as roleName,t.* from sys_user t
+		LEFT JOIN sys_role_user u on u.user_id=t.id
+		LEFT JOIN sys_role r on r.id=u.role_id
+		<where>
+			t.is_del=0
+			<if test="u.username != null and u.username != ''">
+					and t.username like concat('%', #{u.username}, '%')
+			</if>
+			<if test="u.type != null and u.type != ''">
+				and t.type = #{u.type}
+			</if>
+			<if test="u.merchantCode != null and u.merchantCode.trim() != ''">
+				and  t.parent = #{u.merchantCode}
+			</if>
+			<if test="u.loginIp != null and u.loginIp != ''">
+				and t.login_ip = #{u.loginIp}
+			</if>
+			<if test="u.lastLoginTimeStart != null and u.lastLoginTimeStart != ''">
+				and t.last_login_time <![CDATA[>=]]> #{u.lastLoginTimeStart}
+			</if>
+			<if test="u.lastLoginTimeEnd != null and u.lastLoginTimeEnd != ''">
+				and t.last_login_time <![CDATA[<=]]> #{u.lastLoginTimeEnd}
+			</if>
+			<if test="u.roleId != null and u.roleId != ''">
+				and r.id= #{u.roleId}
+			</if>
+			<if test="u.enabled != null and u.enabled != ''">
+				and t.enabled= #{u.enabled}
+			</if>
+		</where>
+		order by t.id desc
+	</select>
+
+	<select id="findSysUserPage" resultType="com.central.common.model.SysUser">
+		select 	r.id as roleId,r.`name` as roleName,t.* from sys_user t
+		LEFT JOIN sys_role_user u on u.user_id=t.id
+		LEFT JOIN sys_role r on r.id=u.role_id
+		<where>
+			t.is_del=0 and
+			t.type in
+			<foreach collection="types" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+			<if test="u.username != null and u.username != ''">
+				and t.username like concat('%', #{u.username}, '%')
+			</if>
+			<if test="u.type != null and u.type != ''">
+				and t.type = #{u.type}
+			</if>
+			<if test="u.merchantCode != null and u.merchantCode.trim() != ''">
+				and  t.parent = #{u.merchantCode}
+			</if>
+			<if test="u.loginIp != null and u.loginIp != ''">
+				and t.login_ip = #{u.loginIp}
+			</if>
+			<if test="u.lastLoginTimeStart != null and u.lastLoginTimeStart != ''">
+				and t.last_login_time <![CDATA[>=]]> #{u.lastLoginTimeStart}
+			</if>
+			<if test="u.lastLoginTimeEnd != null and u.lastLoginTimeEnd != ''">
+				and t.last_login_time <![CDATA[<=]]> #{u.lastLoginTimeEnd}
+			</if>
+			<if test="u.roleId != null and u.roleId != ''">
+				and r.id= #{u.roleId}
+			</if>
+			<if test="u.enabled != null and u.enabled != ''">
+				and t.enabled= #{u.enabled}
+			</if>
+		</where>
+		order by t.id desc
+	</select>
+
+	<select id="findUserNum" resultType="java.lang.Integer">
+		select COUNT(1) from sys_user u
+		<where>
+			<if test="p.startTime!=null">
+				and DATE_FORMAT(u.create_time,'%Y-%m-%d %H:%i:%s') <![CDATA[ >= ]]>DATE_FORMAT(#{p.startTime},'%Y-%m-%d %H:%i:%s')
+			</if>
+			<if test="p.endTime!=null">
+				and DATE_FORMAT(u.create_time,'%Y-%m-%d %H:%i:%s') <![CDATA[ <= ]]>DATE_FORMAT(#{p.endTime},'%Y-%m-%d %H:%i:%s')
+			</if>
+			<if test="p.type != null and p.type != ''">
+				and u.type = #{p.type}
+			</if>
+			<if test="p.parent != null and p.parent != ''">
+				and u.parent = #{p.parent}
+			</if>
+			<if test="p.isDel != null and p.isDel != ''">
+				and u.is_del = #{isDel}
+			</if>
+			<if test="p.siteId != null and  p.siteId != '' and  p.siteId != 0">
+				and u.site_id = #{p.siteId}
+			</if>
+			<if test="p.isLogin != null and p.isLogin != ''">
+				and u.is_login = #{p.isLogin}
+			</if>
+		</where>;
+	</select>
+
+	<select id="findListByIds" resultType="com.central.common.model.SysUser">
+		select t.* from sys_user t
+		where t.id in
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+
+
+	<select id="getMerchantAdministrator" resultType="com.central.common.model.SysUser">
+		select t.* from sys_user t left join sys_role_user r on t.id=r.user_id
+		where t.site_code = #{siteCode} and r.role_id=3
+	</select>
+</mapper>

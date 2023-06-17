@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.central.common.model.*;
 import com.central.marksix.dto.ProxyAdminDto;
 import com.central.marksix.dto.SysAdminUserDto;
+import com.central.marksix.dto.TransferAccountsDto;
 import com.central.marksix.dto.UserDto;
 import com.central.marksix.service.*;
 import com.central.marksix.utils.MD5;
@@ -27,7 +28,7 @@ import java.util.Set;
 @RestController
 @Api(tags = "第三方api")
 @Validated
-@RequestMapping("/api/thirdParty")
+@RequestMapping("/v1/api/thirdParty")
 public class ThirdPartyController {
 
 
@@ -150,7 +151,7 @@ public class ThirdPartyController {
 
         ThirdParty thirdParty= iThirdPartyService.getOne(new QueryWrapper<ThirdParty>().eq("site_code",userDto.getSiteCode()));
         String secretKey=thirdParty.getSecretKey();
-        String sign= MD5.encrypt(userDto.getRandom()+userDto.getSiteCode()+secretKey);
+        String sign= MD5.encrypt(userDto.getRandom()+userDto.getSiteCode()+userDto.getProxyUsername()+secretKey);
         if (!userDto.getSign().equals(sign)) {
             return Result.failed("签名摘要错误");
         }
@@ -471,14 +472,129 @@ public class ThirdPartyController {
             //当前用户不是商户管理 是代理
             params.put("parentName",params.get("username").toString());
         }
-
-
-
-
         return Result.succeed(quizOrdersService.findList(params));
     }
 
 
 
+    /**
+     * 新增
+     *
+     * @param TransferAccountsDto
+     * @return
+     */
+    @ApiOperation("额度转换（自动转换给上级  会员和代理之间转换，代理和平台商户之间转换）")
+    @PostMapping("/transfer")
+    public Result transfer(@RequestBody TransferAccountsDto userDto) {
 
+        if (ObjectUtil.isEmpty(userDto)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(userDto.getUsername())) {
+            return Result.failed("用户名不能为空");
+        }
+
+        if (ObjectUtil.isEmpty(userDto.getRandom())) {
+            return Result.failed("随机字符不能为空");
+        }
+        if (ObjectUtil.isEmpty(userDto.getSiteCode())) {
+            return Result.failed("商户编码不能为空");
+        }
+
+        if (ObjectUtil.isEmpty(userDto.getSign())) {
+            return Result.failed("签名摘要不能为空");
+        }
+        Site site=iSiteService.getOne(new QueryWrapper<Site>().eq("code",userDto.getSiteCode()));
+        if (ObjectUtil.isEmpty(site)) {
+            return Result.failed("商户不存在");
+        }
+
+        ThirdParty thirdParty= iThirdPartyService.getOne(new QueryWrapper<ThirdParty>().eq("site_code",userDto.getSiteCode()));
+        String secretKey=thirdParty.getSecretKey();
+        String sign= MD5.encrypt(userDto.getRandom()+userDto.getSiteCode()+userDto.getUsername()+secretKey);
+        if (!userDto.getSign().equals(sign)) {
+            return Result.failed("签名摘要错误");
+        }
+        SysUser proxyUser;
+        if(ObjectUtil.isEmpty(userDto.getUsername())){
+            proxyUser=iAdminUserService.getMerchantAdministrator(userDto.getSiteCode());
+            if (ObjectUtil.isEmpty(proxyUser)) {
+                return Result.failed("请联系后台添加商户管理员");
+            }
+        }
+        return sysUserService.transfer(userDto);
+    }
+
+
+    /**
+     * 停用会员账号
+     *
+     * @param
+     * @return
+     */
+    @ApiOperation("获取会员余额")
+    @GetMapping("/user/balance")
+    public Result userBalance(
+            @ApiParam(value = "随机字符串", required = true) String random,
+            @ApiParam(value = "签名摘要", required = true) String sign,
+            @ApiParam(value = "登录账号", required = true) String siteCode,
+            @ApiParam(value = "用户名", required = true) String username,
+            @ApiParam(value = "会员id", required = true) Integer userId) {
+
+
+        if (ObjectUtil.isEmpty(username)) {
+            return Result.failed("用户名不能为空");
+        }
+
+        if (ObjectUtil.isEmpty(random)) {
+            return Result.failed("随机字符不能为空");
+        }
+        if (ObjectUtil.isEmpty(siteCode)) {
+            return Result.failed("商户编码不能为空");
+        }
+
+        if (ObjectUtil.isEmpty(sign)) {
+            return Result.failed("签名摘要不能为空");
+        }
+
+        if (ObjectUtil.isEmpty(userId)) {
+            return Result.failed("会员id不能为空");
+        }
+        Site site=iSiteService.getOne(new QueryWrapper<Site>().eq("code",siteCode));
+        if (ObjectUtil.isEmpty(site)) {
+            return Result.failed("商户不存在");
+        }
+
+        ThirdParty thirdParty= iThirdPartyService.getOne(new QueryWrapper<ThirdParty>().eq("site_code",siteCode));
+        String secretKey=thirdParty.getSecretKey();
+        String signGet= MD5.encrypt(random+siteCode+username+secretKey);
+        if (!signGet.equals(sign)) {
+            return Result.failed("签名摘要错误");
+        }
+
+
+        SysUser stationOwner=iAdminUserService.getMerchantAdministrator(siteCode);
+        if (ObjectUtil.isEmpty(stationOwner)) {
+            return Result.failed("请联系后台添加商户管理员");
+        }
+
+
+        QueryWrapper<SysUser> queryWrapper;
+        if(stationOwner.getUsername().equals(username)){
+            //商户管理员查询会员，直接使用商户代码
+            queryWrapper=new QueryWrapper<SysUser>().eq("site_code",siteCode).eq("id",userId);
+        }else {
+            //代理管理员查询会员，查询代理所属的会员
+            queryWrapper=new QueryWrapper<SysUser>().eq("parent_name",username).eq("id",userId);
+        }
+
+        SysUser user=iAdminUserService.getOne(queryWrapper);
+
+        if(ObjectUtil.isEmpty(user)){
+            return Result.failed("会员不存在");
+        }
+
+
+        return Result.succeed(user.getMBalance());
+    }
 }

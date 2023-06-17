@@ -282,6 +282,8 @@ public class SysAdminUserController {
     public Result  findRolesByUserId(@PathVariable Long id) {
         return Result.succeed(iAdminUserService.findRolesByUserId(id));
     }
+
+
     @ApiOperation("密码登录")
     @PostMapping("/login/password")
     public Result<String> login(
