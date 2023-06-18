@@ -45,7 +45,7 @@ public class QuizServiceImpl extends SuperServiceImpl<QuizMapper, Quiz> implemen
                 true== ObjectUtil.isEmpty(params.get("sortBy"))? SortEnum.ASC.getCode():MapUtils.getInteger(params,"sortBy"),
                 StatusEnum.ONE_TRUE.getStatus());
         List<Quiz> list = (List<Quiz>)RedisRepository.get(redisKey);
-        if (ObjectUtil.isNotEmpty(list)) {
+        if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList( params);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }

@@ -56,7 +56,7 @@ public class NumberAttributesServiceImpl extends SuperServiceImpl<NumberAttribut
         wrapper.orderByAsc(NumberAttributes::getNumber);
         String redisKey = StrUtil.format(RedisConstants.NUMBERATTRIBUTES_LIST_KEY, DateUtil.getYear(),str);
         List<NumberAttributes> list = (List<NumberAttributes>)RedisRepository.get(redisKey);
-        if (ObjectUtil.isNotEmpty(list)) {
+        if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.selectList(wrapper);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }

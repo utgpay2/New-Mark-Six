@@ -45,7 +45,7 @@ public class LotteryServiceImpl extends SuperServiceImpl<LotteryMapper, Lottery>
         String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_LIST_KEY, MapUtils.getInteger(params,"siteId"),
                 true==ObjectUtil.isEmpty(params.get("sortBy"))? SortEnum.DESC.getCode():MapUtils.getInteger(params,"sortBy"), StatusEnum.ONE_TRUE.getStatus());
         List<SiteLotteryVO> list = (List<SiteLotteryVO>)RedisRepository.get(redisKey);
-        if (ObjectUtil.isNotEmpty(list)) {
+        if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList( params);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
@@ -56,7 +56,7 @@ public class LotteryServiceImpl extends SuperServiceImpl<LotteryMapper, Lottery>
         params.put("isDisplay", StatusEnum.ONE_TRUE.getStatus());
         String redisKey = StrUtil.format(RedisConstants.LOTTERYID_LIST_KEY, MapUtils.getInteger(params,"lotteryId"), StatusEnum.ONE_TRUE.getStatus());
         List<SiteLotteryVO> list = (List<SiteLotteryVO>)RedisRepository.get(redisKey);
-        if (ObjectUtil.isNotEmpty(list)) {
+        if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList( params);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }

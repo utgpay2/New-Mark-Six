@@ -32,7 +32,7 @@ public class WnDataServiceImpl extends SuperServiceImpl<WnDataMapper, WnData> im
     public WnData lastOneWnData(Integer lotteryId){
         String redisKey = StrUtil.format(RedisConstants.LASTONE_WNDATA_KEY, lotteryId);
         WnData wnData = (WnData) RedisRepository.get(redisKey);
-        if (ObjectUtil.isNotEmpty(wnData)) {
+        if (ObjectUtil.isEmpty(wnData)) {
             wnData = baseMapper.lastOneWnData(lotteryId);
             RedisRepository.setExpire(redisKey, wnData, RedisConstants.EXPIRE_TIME_30_DAYS);
         }

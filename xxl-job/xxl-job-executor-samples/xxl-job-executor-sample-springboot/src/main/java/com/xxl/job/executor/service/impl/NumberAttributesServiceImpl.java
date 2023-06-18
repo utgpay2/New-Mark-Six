@@ -36,7 +36,7 @@ public class NumberAttributesServiceImpl extends SuperServiceImpl<NumberAttribut
 
         String redisKey = StrUtil.format(RedisConstants.NUMBERATTRIBUTES_LIST_KEY, DateUtil.getYear(),"number");
         List<NumberAttributes> list = (List<NumberAttributes>) RedisRepository.get(redisKey);
-        if (ObjectUtil.isNotEmpty(list)) {
+        if (ObjectUtil.isEmpty(list)) {
             LambdaQueryWrapper<NumberAttributes> wrapper=new LambdaQueryWrapper<>();
             wrapper.eq(NumberAttributes::getYear, DateUtil.getYear());
             list = baseMapper.selectList(wrapper);

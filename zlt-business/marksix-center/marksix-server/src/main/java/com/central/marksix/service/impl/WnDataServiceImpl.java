@@ -40,7 +40,7 @@ public class WnDataServiceImpl extends SuperServiceImpl<WnDataMapper, WnData> im
                 true==ObjectUtil.isEmpty(params.get("sortBy"))? SortEnum.ASC.getCode():MapUtils.getInteger(params,"sortBy"),
                 MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
         List<WnData> list  =  (List<WnData>)RedisRepository.get(redisKey);
-        if (ObjectUtil.isNotEmpty(list)) {
+        if (ObjectUtil.isEmpty(list)) {
             list  =  baseMapper.findList(page, params);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
@@ -50,7 +50,7 @@ public class WnDataServiceImpl extends SuperServiceImpl<WnDataMapper, WnData> im
     public WnData lastOneWnData(Integer lotteryId){
         String redisKey = StrUtil.format(RedisConstants.LASTONE_WNDATA_KEY, lotteryId);
         WnData wnData = (WnData)RedisRepository.get(redisKey);
-        if (ObjectUtil.isNotEmpty(wnData)) {
+        if (ObjectUtil.isEmpty(wnData)) {
             wnData = baseMapper.lastOneWnData(lotteryId);
             RedisRepository.setExpire(redisKey, wnData, RedisConstants.EXPIRE_TIME_30_DAYS);
         }

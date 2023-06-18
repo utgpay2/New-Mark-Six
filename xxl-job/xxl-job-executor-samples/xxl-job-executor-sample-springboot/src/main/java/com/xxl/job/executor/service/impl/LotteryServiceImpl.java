@@ -36,7 +36,7 @@ public class LotteryServiceImpl extends SuperServiceImpl<LotteryMapper, Lottery>
     public List<SiteLotteryVO> findList(Map<String, Object> params){
         String redisKey = StrUtil.format(RedisConstants.LOTTERYID_LIST_KEY, MapUtils.getInteger(params,"lotteryId"), StatusEnum.ONE_TRUE.getStatus());
         List<SiteLotteryVO> list = (List<SiteLotteryVO>)RedisRepository.get(redisKey);
-        if (ObjectUtil.isNotEmpty(list)) {
+        if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList( params);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }

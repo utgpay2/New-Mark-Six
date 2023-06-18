@@ -40,7 +40,7 @@ public class SiteCategoryLotteryServiceImpl extends SuperServiceImpl<SiteCategor
         String redisKey = StrUtil.format(RedisConstants.SITE_CATEGORY_LIST_KEY, MapUtils.getInteger(params,"siteLotteryId"),
                 true== ObjectUtil.isEmpty(params.get("sortBy"))? SortEnum.ASC.getCode():MapUtils.getInteger(params,"sortBy"));
         List<CategoryVO> list = (List<CategoryVO>)RedisRepository.get(redisKey);
-        if (ObjectUtil.isNotEmpty(list)) {
+        if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList( params);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }

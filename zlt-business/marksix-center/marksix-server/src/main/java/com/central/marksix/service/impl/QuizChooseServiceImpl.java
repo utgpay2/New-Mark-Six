@@ -53,7 +53,7 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
                 true== ObjectUtil.isEmpty(params.get("sortBy"))? SortEnum.ASC.getCode():MapUtils.getInteger(params,"sortBy"),
                 StatusEnum.ONE_TRUE.getStatus());
         List<QuizChooseVo> chooseVoList = (List<QuizChooseVo>)RedisRepository.get(redisKey);
-        if (ObjectUtil.isNotEmpty(chooseVoList)) {
+        if (ObjectUtil.isEmpty(chooseVoList)) {
             List<QuizChoose> chooseList = baseMapper.findList(params);
             chooseVoList = new ArrayList<>();
             for (QuizChoose quizChoose : chooseList) {

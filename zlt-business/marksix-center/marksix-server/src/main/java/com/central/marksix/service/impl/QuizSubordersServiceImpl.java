@@ -45,7 +45,7 @@ public class QuizSubordersServiceImpl extends SuperServiceImpl<QuizSubordersMapp
     public List<QuizSuborders> findList(Map<String, Object> params){
         String redisKey = StrUtil.format(RedisConstants.SITE_QUIZSUBORDERS_LIST_KEY, MapUtils.getInteger(params,"orderNo"));
         List<QuizSuborders> list = (List<QuizSuborders>) RedisRepository.get(redisKey);
-        if (ObjectUtil.isNotEmpty(list)) {
+        if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList( params);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }

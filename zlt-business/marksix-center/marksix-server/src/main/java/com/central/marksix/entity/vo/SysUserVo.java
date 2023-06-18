@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @ApiModel("会员信息")
 public class SysUserVo implements Serializable {
 
-    @ApiModelProperty("账号")
+    @ApiModelProperty("昵称")
     private String username;
 
     @ApiModelProperty("头像")

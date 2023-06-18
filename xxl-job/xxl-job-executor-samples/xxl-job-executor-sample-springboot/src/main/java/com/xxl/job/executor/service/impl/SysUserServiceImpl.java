@@ -35,7 +35,7 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
     public SysUser getSysUserById(Long memberId){
         String redisKey = StrUtil.format(RedisConstants.SITE_SYSUSER_KEY, memberId);
         SysUser sysUser = (SysUser)RedisRepository.get(redisKey);
-        if (ObjectUtil.isNotEmpty(sysUser)) {
+        if (ObjectUtil.isEmpty(sysUser)) {
             sysUser = this.getById(memberId);
             RedisRepository.setExpire(redisKey, sysUser, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
