@@ -169,7 +169,7 @@ public class LotteryController {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(duplexLotteryBetDto.getQuizTitle())) {
-            return Result.failed("开奖分类二类名称");
+            return Result.failed("开奖分类二类名称不能为空");
         }
         if (ObjectUtil.isEmpty(duplexLotteryBetDto.getQuizChooseDtoList())) {
             return Result.failed("号码及其属性不能为空");
@@ -197,7 +197,7 @@ public class LotteryController {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(braveryTowLotteryBetDto.getQuizTitle())) {
-            return Result.failed("开奖分类二类名称");
+            return Result.failed("开奖分类二类名称不能为空");
         }
         if (ObjectUtil.isEmpty(braveryTowLotteryBetDto.getBraveryList())) {
             return Result.failed("胆码及其属性不能为空");
