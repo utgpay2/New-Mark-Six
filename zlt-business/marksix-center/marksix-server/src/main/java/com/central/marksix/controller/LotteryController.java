@@ -229,6 +229,66 @@ public class LotteryController {
         }
         return lotteryBetCalculationService.braveryTowLotteryBetNumber(braveryTowLotteryBetDto);
     }
+    /**
+     * 生肖对碰
+     */
+    @ApiOperation(value = "生肖对碰")
+    @PostMapping("/zodiacBumpLotteryBet")
+    public Result zodiacBumpLotteryBetNumber(@RequestBody ZodiacBumpLotteryBetDto zodiacBumpLotteryBetDto) {
+        if (ObjectUtil.isEmpty(zodiacBumpLotteryBetDto)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(zodiacBumpLotteryBetDto.getQuizTitle())) {
+            return Result.failed("开奖分类二类名称不能为空");
+        }
+        if (ObjectUtil.isEmpty(zodiacBumpLotteryBetDto.getZodiacOne())) {
+            return Result.failed("生肖一不能为空");
+        }
+        if (ObjectUtil.isEmpty(zodiacBumpLotteryBetDto.getZodiacTwo())) {
+            return Result.failed("生肖二不能为空");
+        }
+        return lotteryBetCalculationService.zodiacBumpLotteryBetNumber(zodiacBumpLotteryBetDto);
+    }
+    /**
+     * 尾数对碰
+     */
+    @ApiOperation(value = "尾数对碰")
+    @PostMapping("/tailBumpLotteryBet")
+    public Result tailBumpLotteryBetNumber(@RequestBody TailBumpLotteryBetDto tailBumpLotteryBetDto) {
+        if (ObjectUtil.isEmpty(tailBumpLotteryBetDto)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(tailBumpLotteryBetDto.getQuizTitle())) {
+            return Result.failed("开奖分类二类名称不能为空");
+        }
+        if (ObjectUtil.isEmpty(tailBumpLotteryBetDto.getTailOne())) {
+            return Result.failed("尾数一不能为空");
+        }
+        if (ObjectUtil.isEmpty(tailBumpLotteryBetDto.getTailTwo())) {
+            return Result.failed("尾数二不能为空");
+        }
+        return lotteryBetCalculationService.tailBumpLotteryBetNumber(tailBumpLotteryBetDto);
+    }
+    /**
+     * 生尾对碰
+     */
+    @ApiOperation(value = "生尾对碰")
+    @PostMapping("/tailBumpLotteryBet")
+    public Result tailBumpLotteryBetNumber(@RequestBody ZodiacTailBumpLotteryBetDto zodiacTailBumpLotteryBetDto) {
+        if (ObjectUtil.isEmpty(zodiacTailBumpLotteryBetDto)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(zodiacTailBumpLotteryBetDto.getQuizTitle())) {
+            return Result.failed("开奖分类二类名称不能为空");
+        }
+        if (ObjectUtil.isEmpty(zodiacTailBumpLotteryBetDto.getZodiacOne())) {
+            return Result.failed("生肖一不能为空");
+        }
+        if (ObjectUtil.isEmpty(zodiacTailBumpLotteryBetDto.getTailTwo())) {
+            return Result.failed("尾数二不能为空");
+        }
+        return lotteryBetCalculationService.ZodiacTailBumpLotteryBetNumber(zodiacTailBumpLotteryBetDto);
+    }
 
     /**
      * 投注
