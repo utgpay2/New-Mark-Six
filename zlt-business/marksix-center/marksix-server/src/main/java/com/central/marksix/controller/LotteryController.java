@@ -273,8 +273,8 @@ public class LotteryController {
      * 生尾对碰
      */
     @ApiOperation(value = "生尾对碰")
-    @PostMapping("/tailBumpLotteryBet")
-    public Result tailBumpLotteryBetNumber(@RequestBody ZodiacTailBumpLotteryBetDto zodiacTailBumpLotteryBetDto) {
+    @PostMapping("/zodiacTailBumpLotteryBet")
+    public Result zodiacTailBumpLotteryBetNumber(@RequestBody ZodiacTailBumpLotteryBetDto zodiacTailBumpLotteryBetDto) {
         if (ObjectUtil.isEmpty(zodiacTailBumpLotteryBetDto)) {
             return Result.failed("请求参数不能为空");
         }
