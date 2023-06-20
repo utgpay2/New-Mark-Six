@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -30,7 +30,7 @@ public class SiteLotteryVO {
     private Integer sort;//排序
     private String lotteryName;//彩种名称
     private String picture;//图片地址
-    private Instant betDeadlineTime;//下注截止时间
-    private Instant betSettlementTime;//结算完成时间
+    private Time betDeadlineTime;//下注截止时间
+    private Time betSettlementTime;//结算完成时间
     private Integer status;//是否结算中(0否，1结算中)
     }
