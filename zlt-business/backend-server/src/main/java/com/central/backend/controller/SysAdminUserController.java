@@ -69,7 +69,7 @@ public class SysAdminUserController {
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
     })
     @GetMapping
-    public Result<PageResult<SysUser>> list(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
+    public Result<PageResult<SysUser>> list(@ApiIgnore @RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
@@ -240,7 +240,7 @@ public class SysAdminUserController {
 
     @GetMapping("/users/info")
     @ApiOperation(value = "查询登录用户基本信息")
-    public Result<SysUser> findUserInfoById(@LoginUser SysUser user) {
+    public Result<SysUser> findUserInfoById(@ApiIgnore @LoginUser SysUser user) {
         SysUser sysUser = iAdminUserService.selectById(user.getId());
         UserInfoVo vo = new UserInfoVo();
         BeanUtil.copyProperties(sysUser, vo);

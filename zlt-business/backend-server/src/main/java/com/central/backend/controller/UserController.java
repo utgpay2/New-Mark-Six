@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -53,7 +54,7 @@ public class UserController {
      */
     @ApiOperation("新增or更新")
     @PostMapping("/saveOrUpdateUserInfo")
-    public Result saveOrUpdateUserInfo(@RequestBody SysUser user, @LoginUser SysUser sysUser) {
+    public Result saveOrUpdateUserInfo(@RequestBody SysUser user,@ApiIgnore @LoginUser SysUser sysUser) {
 
         if (sysUser!=null){
             if (user.getId() == null) {
@@ -82,7 +83,7 @@ public class UserController {
 
     @ApiOperation(value = "修改会员状态")
     @GetMapping("/updateEnabled")
-    public Result updateEnabled(@Valid @ModelAttribute EnabledUserCo params, @LoginUser SysUser sysUser) {
+    public Result updateEnabled(@Valid @ModelAttribute EnabledUserCo params,@ApiIgnore  @LoginUser SysUser sysUser) {
         if (sysUser!=null){
             params.setUpdateBy(sysUser.getUsername());
         }
