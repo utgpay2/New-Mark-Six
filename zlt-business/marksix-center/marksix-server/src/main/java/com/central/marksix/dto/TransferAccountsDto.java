@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = false)
 public class TransferAccountsDto {
 
-    @ApiModelProperty(value = "用户名")
+    @ApiModelProperty(value = "代理用户名")
     private String username;
 
     @ApiModelProperty(value = "随机字符串")

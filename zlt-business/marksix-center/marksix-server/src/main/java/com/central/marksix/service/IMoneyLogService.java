@@ -1,9 +1,11 @@
 package com.central.marksix.service;
 
 import com.central.common.model.MoneyLog;
+import com.central.common.model.PageResult;
 import com.central.common.model.SysUser;
 import com.central.common.service.ISuperService;
 import com.central.marksix.entity.PornPageResult;
+import com.central.marksix.entity.vo.MbChangeRecordDetailsVo;
 import com.central.marksix.entity.vo.MbChangeRecordVo;
 
 import java.math.BigDecimal;
@@ -20,4 +22,6 @@ public interface IMoneyLogService extends ISuperService<MoneyLog> {
      * @return
      */
     PornPageResult<MbChangeRecordVo> getByUserId(Long userId, Integer currPage, Integer pageSize);
+
+    PornPageResult<MbChangeRecordDetailsVo> transferRecords(String username, Integer[] userIds, Integer type, Integer sort, Integer page, Integer limit);
 }

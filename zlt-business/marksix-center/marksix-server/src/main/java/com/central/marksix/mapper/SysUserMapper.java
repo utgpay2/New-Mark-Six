@@ -16,4 +16,6 @@ public interface SysUserMapper extends SuperMapper<SysUser> {
 
 
     SysUser getMerchantAdministrator(@Param("siteCode")String siteCode);
+
+    Integer[] getUserIdsByUserName(@Param("username")String username, @Param("userIds")Integer[] userIds);
 }

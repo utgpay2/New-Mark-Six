@@ -5,6 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.central.common.constant.CommonConstant;
 import com.central.common.constant.MarksixConstants;
 import com.central.common.constant.RedisConstants;
@@ -21,6 +22,7 @@ import com.central.marksix.mapper.SysRoleMenuMapper;
 import com.central.marksix.mapper.SysUserMapper;
 import com.central.marksix.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -332,6 +334,18 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
 
 
     }
+
+    //根据代理用户获取下级用户id
+    @Override
+    public Integer[] getUserIdsByUserName(String username, Integer[] userIds) {
+
+
+        Integer[] Ids = this.baseMapper.getUserIdsByUserName(username, userIds);
+
+        return Ids;
+    }
+
+
 }
 
 

@@ -10,10 +10,14 @@ import com.central.marksix.dto.ProxyAdminDto;
 import com.central.marksix.dto.SysAdminUserDto;
 import com.central.marksix.dto.TransferAccountsDto;
 import com.central.marksix.dto.UserDto;
+import com.central.marksix.entity.PornPageResult;
+import com.central.marksix.entity.vo.MbChangeRecordDetailsVo;
 import com.central.marksix.service.*;
 import com.central.marksix.utils.MD5;
 import io.swagger.annotations.*;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +52,9 @@ public class ThirdPartyController {
     @Autowired
     private IQuizOrdersService quizOrdersService;
 
+
+    @Autowired
+    private IMoneyLogService moneyLogService;
     /**
      * 新增
      *
@@ -478,7 +485,7 @@ public class ThirdPartyController {
 
 
     /**
-     * 新增
+     * 额度转换
      *
      * @param TransferAccountsDto
      * @return
@@ -538,7 +545,7 @@ public class ThirdPartyController {
             @ApiParam(value = "随机字符串", required = true) String random,
             @ApiParam(value = "签名摘要", required = true) String sign,
             @ApiParam(value = "登录账号", required = true) String siteCode,
-            @ApiParam(value = "用户名", required = true) String username,
+            @ApiParam(value = "代理用户名", required = true) String username,
             @ApiParam(value = "会员id", required = true) Integer userId) {
 
 
@@ -596,5 +603,77 @@ public class ThirdPartyController {
 
 
         return Result.succeed(user.getMBalance());
+    }
+
+
+    /**
+     * 会员上下分记录查询
+     *
+     * @param
+     * @return
+     */
+    @ApiOperation("会员上下分记录查询")
+    @GetMapping("/user/transferRecords")
+    public Result transferRecords(
+            @ApiParam(value = "随机字符串", required = true) String random,
+            @ApiParam(value = "签名摘要", required = true) String sign,
+            @ApiParam(value = "登录账号", required = true) String siteCode,
+            @ApiParam(value = "代理用户名", required = true) String username,
+            @ApiParam(value = "会员id", required = false) Integer[] userIds,
+            @ApiParam(value = "转账类型(5上分   6下分)", required = false) Integer type,
+            @ApiParam( value = "排序方式：1正序、2倒叙(默认)",required = true ,defaultValue = "1") Integer sort,
+            @ApiParam( value = "分页起始位置", required = true,defaultValue = "1" ) Integer page,
+            @ApiParam( value = "分页结束位置", required = true,defaultValue = "10")Integer limit) {
+
+
+        if (ObjectUtil.isEmpty(username)) {
+            return Result.failed("用户名不能为空");
+        }
+
+        if (ObjectUtil.isEmpty(random)) {
+            return Result.failed("随机字符不能为空");
+        }
+        if (ObjectUtil.isEmpty(siteCode)) {
+            return Result.failed("商户编码不能为空");
+        }
+
+        if (ObjectUtil.isEmpty(sign)) {
+            return Result.failed("签名摘要不能为空");
+        }
+
+
+        Site site=iSiteService.getOne(new QueryWrapper<Site>().eq("code",siteCode));
+        if (ObjectUtil.isEmpty(site)) {
+            return Result.failed("商户不存在");
+        }
+
+        ThirdParty thirdParty= iThirdPartyService.getOne(new QueryWrapper<ThirdParty>().eq("site_code",siteCode));
+        String secretKey=thirdParty.getSecretKey();
+        String signGet= MD5.encrypt(random+siteCode+username+secretKey);
+        if (!signGet.equals(sign)) {
+            return Result.failed("签名摘要错误");
+        }
+
+        SysUser stationOwner=iAdminUserService.getMerchantAdministrator(siteCode);
+        if (ObjectUtil.isEmpty(stationOwner)) {
+            return Result.failed("请联系后台添加商户管理员");
+        }
+        //过滤用户，判断是否当前代理下的用户
+        userIds= sysUserService.getUserIdsByUserName(username,userIds);
+        if(userIds.length==0){
+            return Result.succeed(
+                    PornPageResult.<MbChangeRecordDetailsVo>builder()
+                    .currPage(page)
+                    .pageSize(limit)
+                    .count(0L)
+                    .totalPage(0)
+                    .build()
+            );
+
+        }
+
+
+
+        return Result.succeed(moneyLogService.transferRecords(username,userIds,type,sort,page,limit));
     }
 }
