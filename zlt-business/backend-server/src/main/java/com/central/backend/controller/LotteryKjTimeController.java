@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 开奖时间
@@ -38,7 +39,7 @@ public class LotteryKjTimeController {
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
     })
     @GetMapping
-    public PageResult list(@RequestParam Map<String, Object> params) {
+    public PageResult list(@ApiIgnore @RequestParam Map<String, Object> params) {
         return lotteryKjTimeService.findList(params);
     }
 

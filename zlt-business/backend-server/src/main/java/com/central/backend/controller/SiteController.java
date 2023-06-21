@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -54,7 +55,7 @@ public class SiteController {
     @ApiOperation("查询站点下拉框数据")
     @ResponseBody
     @GetMapping("/findSiteBoxList")
-    public Result<List<SiteListVo>> findSiteBoxList(@LoginUser SysUser sysUser) {
+    public Result<List<SiteListVo>> findSiteBoxList(@ApiIgnore @LoginUser SysUser sysUser) {
         //根据token判断当前账号是什么角色
         Integer roleId=0;
         if (sysUser !=null ){

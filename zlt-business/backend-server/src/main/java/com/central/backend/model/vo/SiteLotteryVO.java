@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -46,7 +46,7 @@ public class SiteLotteryVO  {
     @ApiModelProperty(value = "图片地址")
     private String picture;
     @ApiModelProperty(value = "下注截止时间")
-    private Instant betDeadlineTime;
+    private Time betDeadlineTime;
     @ApiModelProperty(value = "结算完成时间")
-    private Instant betSettlementTime;
+    private Time betSettlementTime;
     }
