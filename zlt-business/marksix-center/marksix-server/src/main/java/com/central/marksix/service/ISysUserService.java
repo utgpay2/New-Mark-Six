@@ -1,8 +1,6 @@
 package com.central.marksix.service;
 
-import com.central.common.model.LoginAppUser;
-import com.central.common.model.Result;
-import com.central.common.model.SysUser;
+import com.central.common.model.*;
 import com.central.common.service.ISuperService;
 import com.central.marksix.dto.TransferAccountsDto;
 
@@ -78,4 +76,7 @@ public interface ISysUserService extends ISuperService<SysUser> {
     LoginAppUser getLoginAppUser(SysUser sysUser);
 
     Result transfer(TransferAccountsDto userDto);
+
+
+    Integer[] getUserIdsByUserName(String username, Integer[] userIds);
 }

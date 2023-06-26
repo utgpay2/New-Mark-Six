@@ -209,4 +209,17 @@
 		select t.* from sys_user t left join sys_role_user r on t.id=r.user_id
 		where t.site_code = #{siteCode} and r.role_id=3
 	</select>
+
+
+
+	<select id="getUserIdsByUserName" resultType="java.lang.Integer">
+		select t.id from sys_user t
+		where t.parent_name=#{username}
+		<if test="userIds != null  and userIds.size() > 0 ">
+			and  t.id in
+			<foreach collection="userIds" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</select>
 </mapper>

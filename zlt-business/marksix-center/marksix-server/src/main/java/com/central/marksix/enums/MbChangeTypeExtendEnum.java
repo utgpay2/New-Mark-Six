@@ -11,6 +11,8 @@ public enum MbChangeTypeExtendEnum {
     SIGN_REWARD(2, "签到", "check in", "កត់\u200Bឈ្មោះ\u200Bចូល", 1, "收入", "income", "ប្រាក់ចំណូល"),
     FILL_INVITE_CODE(3, "填写邀请码", "fill invite code", "បំពេញលេខកូដអញ្ជើញ", 1, "收入", "income", "ប្រាក់ចំណូល"),
     PROMOTION(4, "推广", "to promote", "ដើម្បីលើកកម្ពស់", 1, "收入", "income", "ប្រាក់ចំណូល"),
+    WITHDRAWAL(5, "下分", "fill invite code", "បំពេញលេខកូដអញ្ជើញ", -1, "支出", "expenses", "ប្រាក់ចំណូល"),
+    RECHARGE(6, "上分", "to promote", "ដើម្បីលើកកម្ពស់", 1, "收入", "income", "ប្រាក់ចំណូល"),
     ;
 
     private final Integer type;
