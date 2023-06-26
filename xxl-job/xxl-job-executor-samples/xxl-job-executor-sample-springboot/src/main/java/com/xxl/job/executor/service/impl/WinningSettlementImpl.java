@@ -35,6 +35,8 @@ public class WinningSettlementImpl {
     private IMoneyLogService moneyLogService;
     @Autowired
     private INumberAttributesService numberAttributesService;
+    @Autowired
+    private IQuizSubordersService quizSubordersService;
     /**
      * 模拟新增千万级订单数据
      */
@@ -607,187 +609,94 @@ public class WinningSettlementImpl {
                         }
                     }
                 }else if ("连码".equals(quizOrders.getSiteCategoryName())) {//分类一类
+                    Map<String, Object> params = new HashMap<>();
+                    params.put("orderNo",quizOrders.getOrderNo());
+                    List<QuizSuborders> quizSubordersList = quizSubordersService.findList(params);
                     if("三全中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //所投注的每三个号码为一组合，若三个号码都是开奖号码之正码，视为中奖，其余行情视为不中奖
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
-//                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,3);//计算出所有投注号码,3个号码为一组
-//                            for (String bettingNumberStr:bettingNumberHashSet) {
-//                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
-//                                if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
-//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
-//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){
-//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-//                                }
-//                            }
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("生肖对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("尾数对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("生尾对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0])
+                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])
+                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[2])){
+                                    winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                }
                         }
                     }
                     if("三中二".equals(quizOrders.getQuizTitle())) {//分类二类
                         //所投注的每三个号码为一组合，若其中2个号码都是开奖号码之正码，视为三中二奖，若3个都是开奖号码中的正码，即为三中二之中三，其余行情视为不中奖
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-//                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
-//                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,3);//计算出所有投注号码,3个号码为一组
-//                            for (String bettingNumberStr:bettingNumberHashSet) {
-//                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
-//                                //若3个都是开奖号码中的正码，即为三中二之中三
-//                                if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
-//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
-//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){
-//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-//                                }else if (!Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
-//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
-//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){//为三中二
-//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-//                                }else if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
-//                                        &&!Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
-//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){//为三中二
-//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-//                                }else if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
-//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])
-//                                        &&!Arrays.asList(wnNumbersSix).contains(bettingNumber[2])){//为三中二
-//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-//                                }
-//                            }
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("生肖对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("尾数对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("生尾对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            //若3个都是开奖号码中的正码，即为三中二之中三
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0])
+                                    &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])
+                                    &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[2])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }else if (!Arrays.asList(wnNumbersSix).contains(bettingNumberList[0])
+                                    &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])
+                                    &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[2])){//为三中二
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }else if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0])
+                                    &&!Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])
+                                    &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[2])){//为三中二
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }else if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0])
+                                    &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])
+                                    &&!Arrays.asList(wnNumbersSix).contains(bettingNumberList[2])){//为三中二
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     if("二全中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //所投注的每二个号码为一组合，若二个号码都是开奖号码之正码，视为中奖，其余行情视为不中奖（含一个正码加一个特码情形）
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-//                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
-//                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,2);//计算出所有投注号码,2个号码为一组
-//                            for (String bettingNumberStr:bettingNumberHashSet) {
-//                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
-//                                if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
-//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])){
-//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-//                                }
-//                            }
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("生肖对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("尾数对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("生尾对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList) {
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0])
+                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])){
+                                    winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                }
                         }
                     }
                     if("二中特".equals(quizOrders.getQuizTitle())) {//分类二类
                         //所投注的每二个号码为一组合，若二个号码都是开奖号码之正码，叫二中特之中二，其中一个是正码，一个是特码，视为中奖,其余行情视为不中奖二中特之中二赔率高于二中特之中特的赔率
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-//                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
-//                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,2);//计算出所有投注号码,2个号码为一组
-//                            for (String bettingNumberStr:bettingNumberHashSet) {
-//                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
-//                                if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0])
-//                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumber[1])){//二中特之中二
-//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-//                                }else {//二中特之中特
-//                                    if(seven.equals(bettingNumber[0])){
-//                                        if (Arrays.asList(wnNumbersSix).contains(bettingNumber[1]))
-//                                            winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-//                                    }else if(seven.equals(bettingNumber[1])){
-//                                        if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0]))
-//                                            winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-//                                    }
-//                                }
-//                            }
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("生肖对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("尾数对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("生尾对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList) {
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0])
+                                        &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])){//二中特之中二
+                                    winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                }else {//二中特之中特
+                                    if(seven.equals(bettingNumberList[0])){
+                                        if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[1]))
+                                            winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    }else if(seven.equals(bettingNumberList[1])){
+                                        if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0]))
+                                            winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    }
+                                }
                         }
                     }
                     if("特串".equals(quizOrders.getQuizTitle())) {//分类二类
                         //所投注的每两个号码为一组合，其中一个是正码，一个是特码，视为中奖，其余情形视为不中奖（含二个都是正码之情形）
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-//                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
-//                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,2);//计算出所有投注号码,2个号码为一组
-//                            for (String bettingNumberStr:bettingNumberHashSet) {
-//                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
-//                                if(seven.equals(bettingNumber[0])){
-//                                    if (Arrays.asList(wnNumbersSix).contains(bettingNumber[1]))
-//                                        winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-//                                }else if(seven.equals(bettingNumber[1])){
-//                                    if (Arrays.asList(wnNumbersSix).contains(bettingNumber[0]))
-//                                        winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-//                                }
-//                            }
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-//                            HashSet<String> braveryTow(String braveryNumber,String[] towNumber,int length)
-                        }
-                        if("生肖对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("尾数对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("生尾对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList) {
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if(seven.equals(bettingNumberList[0])){
+                                    if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[1]))
+                                        winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }else if(seven.equals(bettingNumberList[1])){
+                                if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0]))
+                                    winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     if("四中一".equals(quizOrders.getQuizTitle())) {//分类二类
                         //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-//                            String[] bettingNumberList = quizOrders.getBettingContent().split(",");//投注转换数组
-//                            HashSet<String> bettingNumberHashSet = duplexNumber(bettingNumberList ,2);//计算出所有投注号码,2个号码为一组
-//                            for (String bettingNumberStr:bettingNumberHashSet) {
-//                                String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
-//                                if (Arrays.asList(wnNumbers).contains(bettingNumber[0])
-//                                        ||Arrays.asList(wnNumbers).contains(bettingNumber[1])
-//                                        ||Arrays.asList(wnNumbers).contains(bettingNumber[2])
-//                                        ||Arrays.asList(wnNumbers).contains(bettingNumber[3]))
-//                                    winAmount = winAmount.add(quizOrders.getTotalPrice().multiply(quizOrders.getOdds()));
-//                            }
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("生肖对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("尾数对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("生尾对碰".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList) {
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                        ||Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                        ||Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                        ||Arrays.asList(wnNumbers).contains(bettingNumberList[3]))
+                                    winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
                         }
                     }
                 }else if ("头尾数".equals(quizOrders.getSiteCategoryName())) {//分类一类
@@ -810,209 +719,339 @@ public class WinningSettlementImpl {
                         }
                     }
                     //选择2-4个尾数为一投注组合进行投注。该注的2-4个尾数必须在当期开出的7个开奖号码相对应的尾数中，（49亦算输赢，不为和）。每个号码都有自己的赔率，下注组合的总赔率，取该组合码的最低赔率为下单赔率
-                    if("二尾连中".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                    if("二尾连中".equals(quizOrders.getQuizTitle())
+                            ||"三尾连中".equals(quizOrders.getQuizTitle())
+                            ||"四尾连中".equals(quizOrders.getQuizTitle())
+                            ||"二尾连不中".equals(quizOrders.getQuizTitle())
+                            ||"三尾连不中".equals(quizOrders.getQuizTitle())
+                            ||"四尾连不中".equals(quizOrders.getQuizTitle())) {//分类二类
+                        Map<String, Object> params = new HashMap<>();
+                        params.put("orderNo",quizOrders.getOrderNo());
+                        List<QuizSuborders> quizSubordersList = quizSubordersService.findList(params);
+                        if("二尾连中".equals(quizOrders.getQuizTitle())){
+                            for(QuizSuborders quizSuborders : quizSubordersList){
+                                    String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                                if (Arrays.asList(wnTail).contains(bettingNumberList[0])
+                                        &&Arrays.asList(wnTail).contains(bettingNumberList[1])){
+                                    winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                }
+                            }
                         }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        if("三尾连中".equals(quizOrders.getQuizTitle())){
+                            for(QuizSuborders quizSuborders : quizSubordersList){
+                                String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                                if (Arrays.asList(wnTail).contains(bettingNumberList[0])
+                                        &&Arrays.asList(wnTail).contains(bettingNumberList[1])
+                                        &&Arrays.asList(wnTail).contains(bettingNumberList[2])){
+                                    winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                }
+                            }
                         }
-                    }
-                    if("三尾连中".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        if("四尾连中".equals(quizOrders.getQuizTitle())){
+                            for(QuizSuborders quizSuborders : quizSubordersList){
+                                String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                                if (Arrays.asList(wnTail).contains(bettingNumberList[0])
+                                        &&Arrays.asList(wnTail).contains(bettingNumberList[1])
+                                        &&Arrays.asList(wnTail).contains(bettingNumberList[2])
+                                        &&Arrays.asList(wnTail).contains(bettingNumberList[3])){
+                                    winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                }
+                            }
                         }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        if("二尾连不中".equals(quizOrders.getQuizTitle())){
+                            for(QuizSuborders quizSuborders : quizSubordersList){
+                                String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                                if (!Arrays.asList(wnTail).contains(bettingNumberList[0])
+                                        &&!Arrays.asList(wnTail).contains(bettingNumberList[1])){
+                                    winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                }
+                            }
                         }
-                    }
-                    if("四尾连中".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        if("三尾连不中".equals(quizOrders.getQuizTitle())){
+                            for(QuizSuborders quizSuborders : quizSubordersList){
+                                String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                                if (!Arrays.asList(wnTail).contains(bettingNumberList[0])
+                                        &&!Arrays.asList(wnTail).contains(bettingNumberList[1])
+                                        &&!Arrays.asList(wnTail).contains(bettingNumberList[2])){
+                                    winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                }
+                            }
                         }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                    }
-                    if("二尾连不中".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                    }
-                    if("三尾连不中".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                    }
-                    if("四尾连不中".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        if("四尾连不中".equals(quizOrders.getQuizTitle())){
+                            for(QuizSuborders quizSuborders : quizSubordersList){
+                                String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                                if (!Arrays.asList(wnTail).contains(bettingNumberList[0])
+                                        &&!Arrays.asList(wnTail).contains(bettingNumberList[1])
+                                        &&!Arrays.asList(wnTail).contains(bettingNumberList[2])
+                                        &&!Arrays.asList(wnTail).contains(bettingNumberList[3])){
+                                    winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                }
+                            }
                         }
                     }
                 }else if ("多选中一".equals(quizOrders.getSiteCategoryName())) {//分类一类 每个号码都有自己的赔率，下注组合取该组合最低赔率为总赔率
                     //挑选5个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
+                    Map<String, Object> params = new HashMap<>();
+                    params.put("orderNo",quizOrders.getOrderNo());
+                    List<QuizSuborders> quizSubordersList = quizSubordersService.findList(params);
                     if("五选中一".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[3])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[4])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     //挑选6个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
                     if("六选中一".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[3])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[4])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[5])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     //挑选7个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
                     if("七选中一".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[3])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[4])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[5])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[6])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     //挑选8个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
                     if("八选中一".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[3])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[4])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[5])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[6])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[7])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     //挑选9个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
                     if("九选中一".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[3])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[4])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[5])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[6])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[7])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[8])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     //挑选10个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
                     if("十选中一".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[3])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[4])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[5])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[6])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[7])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[8])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[9])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                 }else if ("自选不中".equals(quizOrders.getSiteCategoryName())) {//分类一类
+                    Map<String, Object> params = new HashMap<>();
+                    params.put("orderNo",quizOrders.getOrderNo());
+                    List<QuizSuborders> quizSubordersList = quizSubordersService.findList(params);
                     if("五不中".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (!Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[3])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[4])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     if("六不中".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (!Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[3])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[4])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[5])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     if("七不中".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (!Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[3])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[4])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[5])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[6])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     if("八不中".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (!Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[3])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[4])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[5])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[6])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[7])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     if("九不中".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (!Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[3])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[4])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[5])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[6])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[7])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[8])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     if("十不中".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (!Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[3])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[4])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[5])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[6])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[7])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[8])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[9])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     if("十一不中".equals(quizOrders.getQuizTitle())) {//分类二类
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (!Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[3])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[4])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[5])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[6])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[7])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[8])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[9])
+                                    && !Arrays.asList(wnNumbers).contains(bettingNumberList[10])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                 }else if ("正特任中".equals(quizOrders.getSiteCategoryName())) {//分类一类
+                    Map<String, Object> params = new HashMap<>();
+                    params.put("orderNo",quizOrders.getOrderNo());
+                    List<QuizSuborders> quizSubordersList = quizSubordersService.findList(params);
                     //每个号码都有自己的赔率，下注组合的总赔率，取该组合的最低赔率
                     if("一粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            if (Arrays.asList(wnNumbers).contains(quizSuborders.getBettingContent())){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     if("二粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[1])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     if("三粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[2])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     if("四粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[3])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                     if("五粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-                        if("单式/复式".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
-                        }
-                        if("胆拖".equals(quizOrders.getQuizDetailsName())) {//分类三类
-
+                        for(QuizSuborders quizSuborders : quizSubordersList){
+                            String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
+                            if (Arrays.asList(wnNumbers).contains(bettingNumberList[0])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[3])
+                                    || Arrays.asList(wnNumbers).contains(bettingNumberList[4])){
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                            }
                         }
                     }
                 }else if ("五行".equals(quizOrders.getSiteCategoryName())) {//分类一类
