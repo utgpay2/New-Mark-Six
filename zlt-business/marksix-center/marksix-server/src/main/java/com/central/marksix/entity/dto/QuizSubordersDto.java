@@ -19,12 +19,12 @@ import java.math.BigDecimal;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 public class QuizSubordersDto {
-    @ApiModelProperty(value = "下注内容")
+    @ApiModelProperty(value = "下注内容",required = true)
     private String bettingContent;
-    @ApiModelProperty(value = "订单金额")
+    @ApiModelProperty(value = "订单金额",required = true)
     private BigDecimal totalPrice;
-    @ApiModelProperty(value = "注数")
+    @ApiModelProperty(value = "注数",required = true)
     private Integer units;
-    @ApiModelProperty(value = "赔率")
+    @ApiModelProperty(value = "赔率",required = true)
     private Integer odds;
     }

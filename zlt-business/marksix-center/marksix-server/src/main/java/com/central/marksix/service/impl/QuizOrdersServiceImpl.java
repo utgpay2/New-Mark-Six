@@ -105,10 +105,11 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 quizOrders.setCreateBy(sysUser.getUsername());
                 quizOrders.setUpdateTime(new Date());
                 quizOrders.setUpdateBy(sysUser.getUsername());
-                ordersList.add(quizOrders);
+
                 //子订单
                 List<QuizSubordersDto> subordersDtoList = ordersDto.getSubordersList();
                 for (QuizSubordersDto subordersDto : subordersDtoList) {
+                    quizOrders.setIsSubOrders(StatusEnum.ONE_TRUE.getStatus());
                     QuizSuborders quizSuborders = new QuizSuborders();
                     BeanUtil.copyProperties(subordersDto, quizSuborders);
                     quizSuborders.setOrderNo(orderSn);//父订单号
@@ -119,6 +120,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                     quizSuborders.setUpdateBy(sysUser.getUsername());
                     subordersList.add(quizSuborders);
                 }
+                ordersList.add(quizOrders);
 
                 MoneyLog moneyLog = new MoneyLog();
                 moneyLog.setUserId(sysUser.getId());
