@@ -22,45 +22,45 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 public class QuizOrdersDto{
     private static final long serialVersionUID=1L;
-    @ApiModelProperty(value = "期数" ,required = true)
+    @ApiModelProperty(value = "期数")
     private String periods;
-    @ApiModelProperty(value = "年份",required = true)
+    @ApiModelProperty(value = "年份")
     private Integer year;
-    @ApiModelProperty(value = "彩种ID",required = true)
+    @ApiModelProperty(value = "彩种ID")
     private Long lotteryId;
-    @ApiModelProperty(value = "站点彩种ID",required = true)
+    @ApiModelProperty(value = "站点彩种ID")
     private Long siteLotteryId;
-    @ApiModelProperty(value = "站点彩种名称",required = true)
+    @ApiModelProperty(value = "站点彩种名称")
     private String lotteryName;
-    @ApiModelProperty(value = "站点下注分类一类ID",required = true)
+    @ApiModelProperty(value = "站点下注分类一类ID")
     private Long siteCategoryId;
-    @ApiModelProperty(value = "站点下注分类一类名称",required = true)
+    @ApiModelProperty(value = "站点下注分类一类名称")
     private String siteCategoryName;
-    @ApiModelProperty(value = "投注内容",required = true)
+    @ApiModelProperty(value = "投注内容")
     private String bettingContent;
 
-    @ApiModelProperty(value = "开奖分类二类ID",required = true)
+    @ApiModelProperty(value = "开奖分类二类ID")
     private Long quizId;
-    @ApiModelProperty(value = "开奖分类二类名称",required = true)
+    @ApiModelProperty(value = "开奖分类二类名称")
     private String quizTitle;
-    @ApiModelProperty(value = "开奖分类三类ID",required = true)
+    @ApiModelProperty(value = "开奖分类三类ID")
     private Long quizDetailsId;
-    @ApiModelProperty(value = "开奖分类三类名称",required = true)
+    @ApiModelProperty(value = "开奖分类三类名称")
     private String quizDetailsName;
-    @ApiModelProperty(value = "开奖规则明细ID",required = true)
+    @ApiModelProperty(value = "开奖规则明细ID")
     private Long quizChooseId;
-    @ApiModelProperty(value = "开奖规则明细名称",required = true)
+    @ApiModelProperty(value = "开奖规则明细名称")
     private String quizIntroduce;
 
-    @ApiModelProperty(value = "订单金额",required = true)
+    @ApiModelProperty(value = "订单金额")
     private BigDecimal totalPrice;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     public BigDecimal getTotalPrice() {
         return totalPrice == null ? BigDecimal.ZERO.setScale(2) : totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
-    @ApiModelProperty(value = "注数",required = true)
+    @ApiModelProperty(value = "注数")
     private Integer units;
-    @ApiModelProperty(value = "赔率",required = true)
+    @ApiModelProperty(value = "赔率")
     private Double odds;
     @ApiModelProperty(value = "子订单：复式，胆拖")
     private List<QuizSubordersDto> subordersList;

@@ -108,17 +108,19 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
 
                 //子订单
                 List<QuizSubordersDto> subordersDtoList = ordersDto.getSubordersList();
-                for (QuizSubordersDto subordersDto : subordersDtoList) {
-                    quizOrders.setIsSubOrders(StatusEnum.ONE_TRUE.getStatus());
-                    QuizSuborders quizSuborders = new QuizSuborders();
-                    BeanUtil.copyProperties(subordersDto, quizSuborders);
-                    quizSuborders.setOrderNo(orderSn);//父订单号
-                    quizSuborders.setSuborderNo(SnowflakeIdWorker.createOrderSn());//子订单号
-                    quizSuborders.setCreateTime(new Date());
-                    quizSuborders.setCreateBy(sysUser.getUsername());
-                    quizSuborders.setUpdateTime(new Date());
-                    quizSuborders.setUpdateBy(sysUser.getUsername());
-                    subordersList.add(quizSuborders);
+                if(null!=subordersDtoList && subordersDtoList.size()>0) {
+                    for (QuizSubordersDto subordersDto : subordersDtoList) {
+                        quizOrders.setIsSubOrders(StatusEnum.ONE_TRUE.getStatus());
+                        QuizSuborders quizSuborders = new QuizSuborders();
+                        BeanUtil.copyProperties(subordersDto, quizSuborders);
+                        quizSuborders.setOrderNo(orderSn);//父订单号
+                        quizSuborders.setSuborderNo(SnowflakeIdWorker.createOrderSn());//子订单号
+                        quizSuborders.setCreateTime(new Date());
+                        quizSuborders.setCreateBy(sysUser.getUsername());
+                        quizSuborders.setUpdateTime(new Date());
+                        quizSuborders.setUpdateBy(sysUser.getUsername());
+                        subordersList.add(quizSuborders);
+                    }
                 }
                 ordersList.add(quizOrders);
 
