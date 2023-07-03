@@ -94,7 +94,7 @@ public class LotteryController {
     }
     @ApiOperation(value = "根据彩种ID查询最近一期开奖数据")
     @GetMapping("/lastonewndata/{id}")
-    public Result lastOneWnData(@PathVariable Integer id) {
+    public Result<WnDataVo> lastOneWnData(@PathVariable Integer id) {
         if (ObjectUtil.isEmpty(id)) {
             return Result.failed("ID不能为空");
         }
