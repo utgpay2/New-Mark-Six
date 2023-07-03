@@ -66,6 +66,7 @@ public class WnDataServiceImpl extends SuperServiceImpl<WnDataMapper, WnData> im
         String redisKey = StrUtil.format(RedisConstants.LASTONE_WNDATA_KEY, lotteryId);
         WnDataVo wnDataVo = (WnDataVo)RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(wnDataVo)) {
+            wnDataVo = new WnDataVo();
             WnData wnData = baseMapper.lastOneWnData(lotteryId);
             BeanUtils.copyProperties(wnData, wnDataVo);
             wnDataVo = this.setWnDataVo(wnDataVo, wnData.getNumbers(),wnData.getYear());
