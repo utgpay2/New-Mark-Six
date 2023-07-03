@@ -141,7 +141,7 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
         return chooseVoList;
     }
     public QuizChooseVo setQuizChooseVo(QuizChooseVo quizChooseVo, String number, NumberAttributesDto numberAttributesDto) {
-        List<NumberAttributes> numberAttributesList = numberAttributesService.findList(numberAttributesDto);
+        List<NumberAttributes> numberAttributesList = numberAttributesService.findList(numberAttributesDto,DateUtil.getYear());
         if(null!=number&&!"".equals(number)) {
             for (NumberAttributes numberAttributes : numberAttributesList) {
                 if (number.equals(numberAttributes.getNumber())) {

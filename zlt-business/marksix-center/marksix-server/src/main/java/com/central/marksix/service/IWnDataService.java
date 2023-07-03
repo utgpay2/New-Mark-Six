@@ -3,6 +3,7 @@ package com.central.marksix.service;
 import com.central.common.model.PageResult;
 import com.central.common.model.WnData;
 import com.central.common.service.ISuperService;
+import com.central.marksix.entity.vo.WnDataVo;
 
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public interface IWnDataService extends ISuperService<WnData> {
      * @param params
      * @return
      */
-    PageResult<WnData> findList(Map<String, Object> params);
-    WnData lastOneWnData(Integer lotteryId);
+    PageResult<WnDataVo> findList(Map<String, Object> params);
+    WnDataVo lastOneWnData(Integer lotteryId);
 }
 

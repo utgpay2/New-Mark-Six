@@ -8,6 +8,7 @@ import com.central.marksix.entity.vo.CategoryVO;
 import com.central.marksix.entity.vo.QuizChooseVo;
 import com.central.marksix.entity.vo.SiteLotteryVO;
 import com.central.common.model.enums.OrderStatusEnum;
+import com.central.marksix.entity.vo.WnDataVo;
 import com.central.marksix.service.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.*;
@@ -76,7 +77,7 @@ public class LotteryController {
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
     })
     @GetMapping("/wndatalist")
-    public Result<PageResult<WnData>>  wnDatalist(@ApiIgnore @RequestParam Map<String, Object> params) {
+    public Result<PageResult<WnDataVo>>  wnDatalist(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }

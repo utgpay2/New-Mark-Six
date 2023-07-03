@@ -34,7 +34,7 @@ public class NumberAttributesServiceImpl extends SuperServiceImpl<NumberAttribut
      * @return
      */
     @Override
-    public List<NumberAttributes> findList(NumberAttributesDto numberAttributesDto){
+    public List<NumberAttributes> findList(NumberAttributesDto numberAttributesDto,Integer year){
         LambdaQueryWrapper<NumberAttributes> wrapper=new LambdaQueryWrapper<>();
         String str = "number";
         if(null!= numberAttributesDto){
@@ -52,9 +52,9 @@ public class NumberAttributesServiceImpl extends SuperServiceImpl<NumberAttribut
                 str = numberAttributesDto.getFiveElements();
             }
         }
-        wrapper.eq(NumberAttributes::getYear, DateUtil.getYear());
+        wrapper.eq(NumberAttributes::getYear, year);
         wrapper.orderByAsc(NumberAttributes::getNumber);
-        String redisKey = StrUtil.format(RedisConstants.NUMBERATTRIBUTES_LIST_KEY, DateUtil.getYear(),str);
+        String redisKey = StrUtil.format(RedisConstants.NUMBERATTRIBUTES_LIST_KEY, year,str);
         List<NumberAttributes> list = (List<NumberAttributes>)RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.selectList(wrapper);

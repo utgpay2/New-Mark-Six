@@ -2,6 +2,7 @@ package com.central.marksix.service.impl;
 
 import com.central.common.model.NumberAttributes;
 import com.central.common.model.Result;
+import com.central.common.utils.DateUtil;
 import com.central.marksix.entity.dto.*;
 import com.central.marksix.entity.vo.BettingNumberGroupVo;
 import com.central.marksix.entity.vo.BettingNumberVo;
@@ -738,7 +739,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
      */
     @Override
     public Result zodiacBumpLotteryBetNumber(ZodiacBumpLotteryBetDto zodiacBumpLotteryBetDto){
-        List<NumberAttributes> numberList = numberAttributesService.findList(null);
+        List<NumberAttributes> numberList = numberAttributesService.findList(null,DateUtil.getYear());
         List<BumpBettingNumberDto> bumpBettingNumberDtoList = new ArrayList<>();
         for (NumberAttributes numberAttributes:numberList) {
             if (zodiacBumpLotteryBetDto.getZodiacOne().equals(numberAttributes.getZodiac())) {
@@ -964,7 +965,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
      */
     @Override
     public Result tailBumpLotteryBetNumber(TailBumpLotteryBetDto tailBumpLotteryBetDto){
-        List<NumberAttributes> numberList = numberAttributesService.findList(null);
+        List<NumberAttributes> numberList = numberAttributesService.findList(null,DateUtil.getYear());
         List<BumpBettingNumberDto> bumpBettingNumberDtoList = new ArrayList<>();
         for (NumberAttributes numberAttributes:numberList) {
             if (tailBumpLotteryBetDto.getTailOne()==Integer.parseInt(numberAttributes.getNumber())%10) {
@@ -1190,7 +1191,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
      */
     @Override
     public Result ZodiacTailBumpLotteryBetNumber(ZodiacTailBumpLotteryBetDto zodiacTailBumpLotteryBetDto){
-        List<NumberAttributes> numberList = numberAttributesService.findList(null);
+        List<NumberAttributes> numberList = numberAttributesService.findList(null, DateUtil.getYear());
         List<BumpBettingNumberDto> bumpBettingNumberDtoList = new ArrayList<>();
         for (NumberAttributes numberAttributes:numberList) {
             if (zodiacTailBumpLotteryBetDto.getZodiacOne().equals(numberAttributes.getZodiac())) {

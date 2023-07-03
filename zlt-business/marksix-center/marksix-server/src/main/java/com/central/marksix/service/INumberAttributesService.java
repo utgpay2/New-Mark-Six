@@ -17,7 +17,7 @@ public interface INumberAttributesService extends ISuperService<NumberAttributes
      * 列表
      * @return
      */
-    List<NumberAttributes> findList(NumberAttributesDto numberAttributesDto);
+    List<NumberAttributes> findList(NumberAttributesDto numberAttributesDto,Integer year);
 
 }
 
