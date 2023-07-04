@@ -71,7 +71,7 @@ public class WnDataServiceImpl extends SuperServiceImpl<WnDataMapper, WnData> im
             WnData wnData = baseMapper.lastOneWnData(lotteryId);
             BeanUtils.copyProperties(wnData, wnDataVo);
             wnDataVo = this.setWnDataVo(wnDataVo, wnData.getNumbers(),wnData.getYear());
-            RedisRepository.setExpire(redisKey, wnData, RedisConstants.EXPIRE_TIME_30_DAYS);
+            RedisRepository.setExpire(redisKey, wnDataVo, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
         return wnDataVo;
     }
