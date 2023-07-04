@@ -56,6 +56,7 @@ public class WnDataServiceImpl extends SuperServiceImpl<WnDataMapper, WnData> im
             for (WnData wnData :wnDataList) {
                 BeanUtils.copyProperties(wnData, wnDataVo);
                 wnDataVo = this.setWnDataVo(wnDataVo, wnData.getNumbers(),wnData.getYear());
+                wnDataVoList.add(wnDataVo);
             }
             RedisRepository.setExpire(redisKey, wnDataVoList, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
