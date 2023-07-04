@@ -53,11 +53,10 @@ public class WinningSettlementImpl {
                 quizOrders.setSiteLotteryId(1L);//站点彩种ID
                 quizOrders.setLotteryName("香港六合彩");//站点彩种名称
                 quizOrders.setSiteCategoryId(374l);//站点下注分类ID
-                quizOrders.setBettingContent("特码");//站点下注分类名称
                 quizOrders.setQuizId(1l);//开奖规则主表ID
                 quizOrders.setQuizTitle("号码");//开奖规则主表标题
-                quizOrders.setQuizChooseId(1L);//开奖规则明细ID
-                quizOrders.setQuizIntroduce("01");//开奖规则明细名称
+                quizOrders.setQuizChooseIds("1L");//开奖规则明细ID
+                quizOrders.setQuizIntroduces("01");//开奖规则明细名称
                 quizOrders.setTotalPrice(BigDecimal.valueOf(100));//订单金额
                 quizOrders.setUnits(1);//注数
                 quizOrders.setOdds(BigDecimal.valueOf(48.8));//赔率
@@ -114,7 +113,7 @@ public class WinningSettlementImpl {
             if(LotteryEnum.HONGKONG_MKS.getRemark().equals(quizOrders.getLotteryName())) {//香港六合彩
                 if ("特码".equals(quizOrders.getSiteCategoryName())) {//分类一类
                     if("特码".equals(quizOrders.getQuizTitle())){//号码
-                        if(seven.equals(quizOrders.getQuizIntroduce())){//购买的号码相同为中奖
+                        if(seven.equals(quizOrders.getQuizIntroduces())){//购买的号码相同为中奖
                             winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
                     }else if("大小单双".equals(quizOrders.getQuizTitle())){//大小单双
@@ -125,60 +124,60 @@ public class WinningSettlementImpl {
                         }
                     }else if("生肖".equals(quizOrders.getQuizTitle())){//生肖
                         //鼠、牛、虎、兔、龙、蛇、马、羊、猴、鸡、狗、猪
-                        if ("鼠".equals(quizOrders.getQuizIntroduce())) {
+                        if ("鼠".equals(quizOrders.getQuizIntroduces())) {
                             if (Arrays.asList(shuList).contains(seven))
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
-                        if ("牛".equals(quizOrders.getQuizIntroduce())) {
+                        if ("牛".equals(quizOrders.getQuizIntroduces())) {
                             if (Arrays.asList(niuList).contains(seven))
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
-                        if ("虎".equals(quizOrders.getQuizIntroduce())) {
+                        if ("虎".equals(quizOrders.getQuizIntroduces())) {
                             if (Arrays.asList(huList).contains(seven))
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
-                        if ("兔".equals(quizOrders.getQuizIntroduce())) {
+                        if ("兔".equals(quizOrders.getQuizIntroduces())) {
                             if (Arrays.asList(tuzList).contains(seven))
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
-                        if ("龙".equals(quizOrders.getQuizIntroduce())) {
+                        if ("龙".equals(quizOrders.getQuizIntroduces())) {
                             if (Arrays.asList(longList).contains(seven))
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
-                        if ("蛇".equals(quizOrders.getQuizIntroduce())) {
+                        if ("蛇".equals(quizOrders.getQuizIntroduces())) {
                             if (Arrays.asList(sheList).contains(seven))
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
-                        if ("马".equals(quizOrders.getQuizIntroduce())) {
+                        if ("马".equals(quizOrders.getQuizIntroduces())) {
                             if (Arrays.asList(maList).contains(seven))
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
-                        if ("羊".equals(quizOrders.getQuizIntroduce())) {
+                        if ("羊".equals(quizOrders.getQuizIntroduces())) {
                             if (Arrays.asList(yanList).contains(seven))
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
-                        if ("猴".equals(quizOrders.getQuizIntroduce())) {
+                        if ("猴".equals(quizOrders.getQuizIntroduces())) {
                             if (Arrays.asList(houList).contains(seven))
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
-                        if ("鸡".equals(quizOrders.getQuizIntroduce())) {
+                        if ("鸡".equals(quizOrders.getQuizIntroduces())) {
                             if (Arrays.asList(jiList).contains(seven))
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
-                        if ("狗".equals(quizOrders.getQuizIntroduce())) {
+                        if ("狗".equals(quizOrders.getQuizIntroduces())) {
                             if (Arrays.asList(gouList).contains(seven))
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
-                        if ("猪".equals(quizOrders.getQuizIntroduce())) {
+                        if ("猪".equals(quizOrders.getQuizIntroduces())) {
                             if (Arrays.asList(zhuList).contains(seven))
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
                     }else if("家野".equals(quizOrders.getQuizTitle())){//家野
-                        if ("家".equals(quizOrders.getQuizIntroduce())) {
+                        if ("家".equals(quizOrders.getQuizIntroduces())) {
                             if (Arrays.asList(jiaList).contains(seven))
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
-                        if ("野".equals(quizOrders.getQuizIntroduce())) {
+                        if ("野".equals(quizOrders.getQuizIntroduces())) {
                             if (Arrays.asList(yeList).contains(seven))
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                         }
@@ -194,7 +193,7 @@ public class WinningSettlementImpl {
                                 maList,yanList,houList,jiList,gouList,zhuList);
                     }else if("合肖".equals(quizOrders.getQuizTitle())) {
                         if(!"49".equals(seven)){
-                            if(seven.indexOf(quizOrders.getBettingContent())!=-1) {
+                            if(seven.indexOf(quizOrders.getQuizIntroduces())!=-1) {
                                 //选择2-11个生肖，所选生肖为开奖号码的特别码对应的生肖，即为中奖（和局:特别码为49，退还本金）；如投注方案为猴、虎，开奖号码为01(兔),02(虎),03(牛),04(鼠),05(猪),06(狗) + 08(猴)，即中合肖。
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
@@ -203,9 +202,9 @@ public class WinningSettlementImpl {
                         }
 
                     }else if("连肖".equals(quizOrders.getQuizTitle())) {
-                        if ("二肖连中".equals(quizOrders.getQuizIntroduce())) {
+                        if ("二肖连中".equals(quizOrders.getQuizIntroduces())) {
                             //选择2个或2个以上生肖，所选生肖与开奖号码所对应的生肖一致，即中奖；如投注方案为牛、鼠，开奖号码为：01(虎),02(牛),03(鼠),04(猪),05(狗),06(鸡) + 07(猴)，即中二连肖。
-                            String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
+                            String[] bettingZodiacStr = quizOrders.getQuizIntroduces().split(",");//投注
                             List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
@@ -214,9 +213,9 @@ public class WinningSettlementImpl {
                                 }
                             }
                         }
-                        if ("三肖连中".equals(quizOrders.getQuizIntroduce())) {
+                        if ("三肖连中".equals(quizOrders.getQuizIntroduces())) {
                             //选择3个或3个以上生肖，所选生肖与开奖号码所对应的生肖一致，即中奖；如投注方案为牛、鼠、猪，开奖号码为：01(虎),02(牛),03(鼠),04(猪),05(狗),06(鸡) + 07(猴)，即中三连肖。
-                            String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
+                            String[] bettingZodiacStr = quizOrders.getQuizIntroduces().split(",");//投注
                             List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
@@ -225,9 +224,9 @@ public class WinningSettlementImpl {
                                 }
                             }
                         }
-                        if ("四肖连中".equals(quizOrders.getQuizIntroduce())) {
+                        if ("四肖连中".equals(quizOrders.getQuizIntroduces())) {
                             //选择4个或4个以上生肖，所选生肖与开奖号码所对应的生肖一致，即中奖；如投注方案为牛、鼠、猪、狗，开奖号码为：01(虎),02(牛),03(鼠),04(猪),05(狗),06(鸡) + 07(猴)，即中四连肖。
-                            String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
+                            String[] bettingZodiacStr = quizOrders.getQuizIntroduces().split(",");//投注
                             List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
@@ -236,9 +235,9 @@ public class WinningSettlementImpl {
                                 }
                             }
                         }
-                        if ("五肖连中".equals(quizOrders.getQuizIntroduce())) {
+                        if ("五肖连中".equals(quizOrders.getQuizIntroduces())) {
                             //选择5个或5个以上生肖，所选生肖与开奖号码所对应的生肖一致，即中奖；如投注方案为牛、鼠、猪、狗、鸡，开奖号码为：01(虎),02(牛),03(鼠),04(猪),05(狗),06(鸡) + 07(猴)，即中五连肖。
-                            String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
+                            String[] bettingZodiacStr = quizOrders.getQuizIntroduces().split(",");//投注
                             List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             for(String bettingZodiac: bettingZodiacList){
                                 if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
@@ -247,8 +246,8 @@ public class WinningSettlementImpl {
                                 }
                             }
                         }
-                        if ("二肖连不中".equals(quizOrders.getQuizIntroduce())) {
-                            String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
+                        if ("二肖连不中".equals(quizOrders.getQuizIntroduces())) {
+                            String[] bettingZodiacStr = quizOrders.getQuizIntroduces().split(",");//投注
                             List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             boolean b = true;
                             for(String bettingZodiac: bettingZodiacList){
@@ -261,8 +260,8 @@ public class WinningSettlementImpl {
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
                         }
-                        if ("三肖连不中".equals(quizOrders.getQuizIntroduce())) {
-                            String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
+                        if ("三肖连不中".equals(quizOrders.getQuizIntroduces())) {
+                            String[] bettingZodiacStr = quizOrders.getQuizIntroduces().split(",");//投注
                             List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             boolean b = true;
                             for(String bettingZodiac: bettingZodiacList){
@@ -275,8 +274,8 @@ public class WinningSettlementImpl {
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
                         }
-                        if ("四肖连不中".equals(quizOrders.getQuizIntroduce())) {
-                            String[] bettingZodiacStr = quizOrders.getBettingContent().split(",");//投注
+                        if ("四肖连不中".equals(quizOrders.getQuizIntroduces())) {
+                            String[] bettingZodiacStr = quizOrders.getQuizIntroduces().split(",");//投注
                             List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             boolean b = true;
                             for(String bettingZodiac: bettingZodiacList){
@@ -294,109 +293,109 @@ public class WinningSettlementImpl {
                     if("半波".equals(quizOrders.getQuizTitle())) {
                         //以特码色波和特码单双大小为一个投注组合，当开出特码符合投注组合，即视为中奖。若开出特码为49号时，所有投注半波任意一个组合视为和局，其余情况视为不中奖。
                         if(!"49".equals(seven)){
-                            if("红大".equals(quizOrders.getQuizIntroduce())){//特别码大于或等于25
+                            if("红大".equals(quizOrders.getQuizIntroduces())){//特别码大于或等于25
                                 if (Arrays.asList(hongboList).contains(seven)){
                                     if (Integer.parseInt(seven) >= 25)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("红小".equals(quizOrders.getQuizIntroduce())){//特别码小于或等于24
+                            if("红小".equals(quizOrders.getQuizIntroduces())){//特别码小于或等于24
                                 if (Arrays.asList(hongboList).contains(seven)){
                                     if (Integer.parseInt(seven) <= 24)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("红单".equals(quizOrders.getQuizIntroduce())){//特别码为奇数
+                            if("红单".equals(quizOrders.getQuizIntroduces())){//特别码为奇数
                                 if (Arrays.asList(hongboList).contains(seven)){
                                     if (Integer.parseInt(seven) % 2 != 0)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("红双".equals(quizOrders.getQuizIntroduce())){//特别码为偶数
+                            if("红双".equals(quizOrders.getQuizIntroduces())){//特别码为偶数
                                 if (Arrays.asList(hongboList).contains(seven)){
                                     if (Integer.parseInt(seven) % 2 == 0)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("红合单".equals(quizOrders.getQuizIntroduce())){//和值为奇数
+                            if("红合单".equals(quizOrders.getQuizIntroduces())){//和值为奇数
                                 if (Arrays.asList(hongboList).contains(seven)){
                                     if ((seven_ones + seven_tens) % 2 != 0)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("红合双".equals(quizOrders.getQuizIntroduce())){//和值为偶数
+                            if("红合双".equals(quizOrders.getQuizIntroduces())){//和值为偶数
                                 if (Arrays.asList(hongboList).contains(seven)){
                                     if ((seven_ones + seven_tens) % 2 == 0)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("蓝大".equals(quizOrders.getQuizIntroduce())){//特别码大于或等于25
+                            if("蓝大".equals(quizOrders.getQuizIntroduces())){//特别码大于或等于25
                                 if (Arrays.asList(lanboList).contains(seven)){
                                     if (Integer.parseInt(seven) >= 25)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("蓝小".equals(quizOrders.getQuizIntroduce())){//特别码小于或等于24
+                            if("蓝小".equals(quizOrders.getQuizIntroduces())){//特别码小于或等于24
                                 if (Arrays.asList(lanboList).contains(seven)){
                                     if (Integer.parseInt(seven) <= 24)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("蓝单".equals(quizOrders.getQuizIntroduce())){//特别码为奇数
+                            if("蓝单".equals(quizOrders.getQuizIntroduces())){//特别码为奇数
                                 if (Arrays.asList(lanboList).contains(seven)){
                                     if (Integer.parseInt(seven) % 2 != 0)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("蓝双".equals(quizOrders.getQuizIntroduce())){//特别码为偶数
+                            if("蓝双".equals(quizOrders.getQuizIntroduces())){//特别码为偶数
                                 if (Arrays.asList(lanboList).contains(seven)){
                                     if (Integer.parseInt(seven) % 2 == 0)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("蓝合单".equals(quizOrders.getQuizIntroduce())){//和值为奇数
+                            if("蓝合单".equals(quizOrders.getQuizIntroduces())){//和值为奇数
                                 if (Arrays.asList(lanboList).contains(seven)){
                                     if ((seven_ones + seven_tens) % 2 != 0)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("蓝合双".equals(quizOrders.getQuizIntroduce())){//和值为偶数
+                            if("蓝合双".equals(quizOrders.getQuizIntroduces())){//和值为偶数
                                 if (Arrays.asList(lanboList).contains(seven)){
                                     if ((seven_ones + seven_tens) % 2 == 0)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("绿大".equals(quizOrders.getQuizIntroduce())){//特别码大于或等于25
+                            if("绿大".equals(quizOrders.getQuizIntroduces())){//特别码大于或等于25
                                 if (Arrays.asList(lvboList).contains(seven)){
                                     if (Integer.parseInt(seven) >= 25)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("绿小".equals(quizOrders.getQuizIntroduce())){//特别码小于或等于24
+                            if("绿小".equals(quizOrders.getQuizIntroduces())){//特别码小于或等于24
                                 if (Arrays.asList(lvboList).contains(seven)){
                                     if (Integer.parseInt(seven) <= 24)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("绿单".equals(quizOrders.getQuizIntroduce())){//特别码为奇数
+                            if("绿单".equals(quizOrders.getQuizIntroduces())){//特别码为奇数
                                 if (Arrays.asList(lvboList).contains(seven)){
                                     if (Integer.parseInt(seven) % 2 != 0)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("绿双".equals(quizOrders.getQuizIntroduce())){//特别码为偶数
+                            if("绿双".equals(quizOrders.getQuizIntroduces())){//特别码为偶数
                                 if (Arrays.asList(lvboList).contains(seven)){
                                     if (Integer.parseInt(seven) % 2 == 0)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("绿合单".equals(quizOrders.getQuizIntroduce())){//和值为奇数
+                            if("绿合单".equals(quizOrders.getQuizIntroduces())){//和值为奇数
                                 if (Arrays.asList(lvboList).contains(seven)){
                                     if ((seven_ones + seven_tens) % 2 != 0)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             }
-                            if("绿合双".equals(quizOrders.getQuizIntroduce())){//和值为偶数
+                            if("绿合双".equals(quizOrders.getQuizIntroduces())){//和值为偶数
                                 if (Arrays.asList(lvboList).contains(seven)){
                                     if ((seven_ones + seven_tens) % 2 == 0)
                                         winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
@@ -409,19 +408,19 @@ public class WinningSettlementImpl {
                 }else if ("正码".equals(quizOrders.getSiteCategoryName())) {//分类一类
                     if("正码".equals(quizOrders.getQuizTitle())) {//分类二类
                         if ("大小单双".equals(quizOrders.getQuizDetailsName())) {//分类三类 大小单双
-                            if ("总和大".equals(quizOrders.getQuizIntroduce())) {//所有七个开奖号码的总和大于或者等于175
+                            if ("总和大".equals(quizOrders.getQuizIntroduces())) {//所有七个开奖号码的总和大于或者等于175
                                 if (Integer.parseInt(one) + Integer.parseInt(two) + Integer.parseInt(three) + Integer.parseInt(four) + Integer.parseInt(five) + Integer.parseInt(six) + Integer.parseInt(seven) >= 175)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("总和小".equals(quizOrders.getQuizIntroduce())) {//所有七个开奖号码的总和小于或者等于174
+                            if ("总和小".equals(quizOrders.getQuizIntroduces())) {//所有七个开奖号码的总和小于或者等于174
                                 if (Integer.parseInt(one) + Integer.parseInt(two) + Integer.parseInt(three) + Integer.parseInt(four) + Integer.parseInt(five) + Integer.parseInt(six) + Integer.parseInt(seven) <= 174)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("总和单".equals(quizOrders.getQuizIntroduce())) {//所有七个开奖号码的总和值为奇数
+                            if ("总和单".equals(quizOrders.getQuizIntroduces())) {//所有七个开奖号码的总和值为奇数
                                 if ((Integer.parseInt(one) + Integer.parseInt(two) + Integer.parseInt(three) + Integer.parseInt(four) + Integer.parseInt(five) + Integer.parseInt(six) + Integer.parseInt(seven)) % 2 != 0)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("总和双".equals(quizOrders.getQuizIntroduce())) {//所有七个开奖号码的总和值为偶数
+                            if ("总和双".equals(quizOrders.getQuizIntroduces())) {//所有七个开奖号码的总和值为偶数
                                 if ((Integer.parseInt(one) + Integer.parseInt(two) + Integer.parseInt(three) + Integer.parseInt(four) + Integer.parseInt(five) + Integer.parseInt(six) + Integer.parseInt(seven)) % 2 == 0)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
@@ -491,7 +490,7 @@ public class WinningSettlementImpl {
                     if("正一特".equals(quizOrders.getQuizTitle())){//分类二类
                         if("正一特".equals(quizOrders.getQuizDetailsName())) {//分类三类
                             if (!"49".equals(one)) {
-                                if (one.equals(quizOrders.getBettingContent())) {//购买的号码相同为中奖
+                                if (one.equals(quizOrders.getQuizIntroduces())) {//购买的号码相同为中奖
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             } else {//和
@@ -511,7 +510,7 @@ public class WinningSettlementImpl {
                     if("正二特".equals(quizOrders.getQuizTitle())){//分类二类
                         if("正二特".equals(quizOrders.getQuizDetailsName())) {//分类三类
                             if (!"49".equals(two)) {
-                                if (two.equals(quizOrders.getBettingContent())) {//购买的号码相同为中奖
+                                if (two.equals(quizOrders.getQuizIntroduces())) {//购买的号码相同为中奖
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             } else {//和
@@ -531,7 +530,7 @@ public class WinningSettlementImpl {
                     if("正三特".equals(quizOrders.getQuizTitle())){//分类二类
                         if("正三特".equals(quizOrders.getQuizDetailsName())) {//分类三类
                             if (!"49".equals(three)) {
-                                if (three.equals(quizOrders.getBettingContent())) {//购买的号码相同为中奖
+                                if (three.equals(quizOrders.getQuizIntroduces())) {//购买的号码相同为中奖
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             } else {//和
@@ -551,7 +550,7 @@ public class WinningSettlementImpl {
                     if("正四特".equals(quizOrders.getQuizTitle())){//分类二类
                         if("正四特".equals(quizOrders.getQuizDetailsName())) {//分类三类
                             if (!"49".equals(four)) {
-                                if (four.equals(quizOrders.getBettingContent())) {//购买的号码相同为中奖
+                                if (four.equals(quizOrders.getQuizIntroduces())) {//购买的号码相同为中奖
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             } else {//和
@@ -571,7 +570,7 @@ public class WinningSettlementImpl {
                     if("正五特".equals(quizOrders.getQuizTitle())){//分类二类
                         if("正五特".equals(quizOrders.getQuizDetailsName())) {//分类三类
                             if (!"49".equals(five)) {
-                                if (five.equals(quizOrders.getBettingContent())) {//购买的号码相同为中奖
+                                if (five.equals(quizOrders.getQuizIntroduces())) {//购买的号码相同为中奖
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             } else {//和
@@ -591,7 +590,7 @@ public class WinningSettlementImpl {
                     if("正六特".equals(quizOrders.getQuizTitle())){//分类二类
                         if("正六特".equals(quizOrders.getQuizDetailsName())) {//分类三类
                             if (!"49".equals(six)) {
-                                if (six.equals(quizOrders.getBettingContent())) {//购买的号码相同为中奖
+                                if (six.equals(quizOrders.getQuizIntroduces())) {//购买的号码相同为中奖
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                 }
                             } else {//和
@@ -705,7 +704,7 @@ public class WinningSettlementImpl {
                         if("特码头尾数".equals(quizOrders.getQuizDetailsName())) {//分类三类
                             //0头、1头、2头、3头、4头
                             //0尾、1尾、2尾、3尾、4尾、5尾、6尾、7尾、8尾、9尾
-                            if(quizOrders.getBettingContent().equals(seven_ones+"头")||quizOrders.getBettingContent().equals(seven_ones+"尾")){
+                            if(quizOrders.getQuizIntroduces().equals(seven_ones+"头")||quizOrders.getQuizIntroduces().equals(seven_ones+"尾")){
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
                         }
@@ -713,7 +712,7 @@ public class WinningSettlementImpl {
                     if("正特尾数".equals(quizOrders.getQuizTitle())) {//分类二类
                         //对正码和特码的尾数进行下注，下注尾数必须在当期开出的正码或特码对应的尾数中即中奖，不论同尾数出现一个或者多个都只派彩一次
                         if("正特尾数".equals(quizOrders.getQuizDetailsName())) {//分类三类
-                            if(quizOrders.getBettingContent().indexOf(Arrays.toString(wnTail))!=-1) {
+                            if(quizOrders.getQuizIntroduces().indexOf(Arrays.toString(wnTail))!=-1) {
                                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
                         }
@@ -1057,23 +1056,23 @@ public class WinningSettlementImpl {
                 }else if ("五行".equals(quizOrders.getSiteCategoryName())) {//分类一类
                     if("五行".equals(quizOrders.getQuizTitle())) {//分类二类
                         if("五行".equals(quizOrders.getQuizDetailsName())) {//分类三类
-                            if ("金".equals(quizOrders.getBettingContent())) {
+                            if ("金".equals(quizOrders.getQuizIntroduces())) {
                                 if (Arrays.asList(jinList).contains(seven))
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("木".equals(quizOrders.getBettingContent())) {
+                            if ("木".equals(quizOrders.getQuizIntroduces())) {
                                 if (Arrays.asList(muList).contains(seven))
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("水".equals(quizOrders.getBettingContent())) {
+                            if ("水".equals(quizOrders.getQuizIntroduces())) {
                                 if (Arrays.asList(shuiList).contains(seven))
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("火".equals(quizOrders.getBettingContent())) {
+                            if ("火".equals(quizOrders.getQuizIntroduces())) {
                                 if (Arrays.asList(huoList).contains(seven))
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("土".equals(quizOrders.getBettingContent())) {
+                            if ("土".equals(quizOrders.getQuizIntroduces())) {
                                 if (Arrays.asList(tuList).contains(seven))
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
@@ -1082,138 +1081,138 @@ public class WinningSettlementImpl {
                 }else if ("七码".equals(quizOrders.getSiteCategoryName())) {//分类一类
                     if("七码".equals(quizOrders.getQuizTitle())) {//分类二类
                         if("单".equals(quizOrders.getQuizDetailsName())) {//分类三类
-                            if ("单0".equals(quizOrders.getBettingContent())) {
+                            if ("单0".equals(quizOrders.getQuizIntroduces())) {
                                 if(0==singlecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("单1".equals(quizOrders.getBettingContent())) {
+                            if ("单1".equals(quizOrders.getQuizIntroduces())) {
                                 if(1==singlecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("单2".equals(quizOrders.getBettingContent())) {
+                            if ("单2".equals(quizOrders.getQuizIntroduces())) {
                                 if(2==singlecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("单3".equals(quizOrders.getBettingContent())) {
+                            if ("单3".equals(quizOrders.getQuizIntroduces())) {
                                 if(3==singlecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("单4".equals(quizOrders.getBettingContent())) {
+                            if ("单4".equals(quizOrders.getQuizIntroduces())) {
                                 if(4==singlecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("单5".equals(quizOrders.getBettingContent())) {
+                            if ("单5".equals(quizOrders.getQuizIntroduces())) {
                                 if(5==singlecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("单6".equals(quizOrders.getBettingContent())) {
+                            if ("单6".equals(quizOrders.getQuizIntroduces())) {
                                 if(6==singlecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("单7".equals(quizOrders.getBettingContent())) {
+                            if ("单7".equals(quizOrders.getQuizIntroduces())) {
                                 if(7==singlecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
                         }
                         if("双".equals(quizOrders.getQuizDetailsName())) {//分类三类
-                            if ("双0".equals(quizOrders.getBettingContent())) {
+                            if ("双0".equals(quizOrders.getQuizIntroduces())) {
                                 if(0==doublecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("双1".equals(quizOrders.getBettingContent())) {
+                            if ("双1".equals(quizOrders.getQuizIntroduces())) {
                                 if(1==doublecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("双2".equals(quizOrders.getBettingContent())) {
+                            if ("双2".equals(quizOrders.getQuizIntroduces())) {
                                 if(2==doublecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("双3".equals(quizOrders.getBettingContent())) {
+                            if ("双3".equals(quizOrders.getQuizIntroduces())) {
                                 if(3==doublecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("双4".equals(quizOrders.getBettingContent())) {
+                            if ("双4".equals(quizOrders.getQuizIntroduces())) {
                                 if(4==doublecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("双5".equals(quizOrders.getBettingContent())) {
+                            if ("双5".equals(quizOrders.getQuizIntroduces())) {
                                 if(5==doublecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("双6".equals(quizOrders.getBettingContent())) {
+                            if ("双6".equals(quizOrders.getQuizIntroduces())) {
                                 if(6==doublecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("双7".equals(quizOrders.getBettingContent())) {
+                            if ("双7".equals(quizOrders.getQuizIntroduces())) {
                                 if(7==doublecount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
 
                         }
                         if("大".equals(quizOrders.getQuizDetailsName())) {//分类三类
-                            if ("大0".equals(quizOrders.getBettingContent())) {
+                            if ("大0".equals(quizOrders.getQuizIntroduces())) {
                                 if(0==bigcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("大1".equals(quizOrders.getBettingContent())) {
+                            if ("大1".equals(quizOrders.getQuizIntroduces())) {
                                 if(1==bigcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("大2".equals(quizOrders.getBettingContent())) {
+                            if ("大2".equals(quizOrders.getQuizIntroduces())) {
                                 if(2==bigcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("大3".equals(quizOrders.getBettingContent())) {
+                            if ("大3".equals(quizOrders.getQuizIntroduces())) {
                                 if(3==bigcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("大4".equals(quizOrders.getBettingContent())) {
+                            if ("大4".equals(quizOrders.getQuizIntroduces())) {
                                 if(4==bigcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("大5".equals(quizOrders.getBettingContent())) {
+                            if ("大5".equals(quizOrders.getQuizIntroduces())) {
                                 if(5==bigcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("大6".equals(quizOrders.getBettingContent())) {
+                            if ("大6".equals(quizOrders.getQuizIntroduces())) {
                                 if(6==bigcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("大7".equals(quizOrders.getBettingContent())) {
+                            if ("大7".equals(quizOrders.getQuizIntroduces())) {
                                 if(7==bigcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
                         }
                         if("小".equals(quizOrders.getQuizDetailsName())) {//分类三类
-                            if ("小0".equals(quizOrders.getBettingContent())) {
+                            if ("小0".equals(quizOrders.getQuizIntroduces())) {
                                 if(0==smallcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("小1".equals(quizOrders.getBettingContent())) {
+                            if ("小1".equals(quizOrders.getQuizIntroduces())) {
                                 if(1==smallcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("小2".equals(quizOrders.getBettingContent())) {
+                            if ("小2".equals(quizOrders.getQuizIntroduces())) {
                                 if(2==smallcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("小3".equals(quizOrders.getBettingContent())) {
+                            if ("小3".equals(quizOrders.getQuizIntroduces())) {
                                 if(3==smallcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("小4".equals(quizOrders.getBettingContent())) {
+                            if ("小4".equals(quizOrders.getQuizIntroduces())) {
                                 if(4==smallcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("小5".equals(quizOrders.getBettingContent())) {
+                            if ("小5".equals(quizOrders.getQuizIntroduces())) {
                                 if(5==smallcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("小6".equals(quizOrders.getBettingContent())) {
+                            if ("小6".equals(quizOrders.getQuizIntroduces())) {
                                 if(6==smallcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
-                            if ("小7".equals(quizOrders.getBettingContent())) {
+                            if ("小7".equals(quizOrders.getQuizIntroduces())) {
                                 if(7==smallcount)
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                             }
@@ -1288,84 +1287,84 @@ public class WinningSettlementImpl {
                                                    List<String> hongboList,List<String> lvboList,List<String> lanboList){
         BigDecimal winAmount = BigDecimal.ZERO;
         //大：特别码大于或等于25
-        if ("大".equals(quizOrders.getBettingContent())) {
+        if ("大".equals(quizOrders.getQuizIntroduces())) {
             if (Integer.parseInt(enterNumber) >= 25)
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
         //小：特别码小于或等于24
-        if ("小".equals(quizOrders.getBettingContent())) {
+        if ("小".equals(quizOrders.getQuizIntroduces())) {
             if (Integer.parseInt(enterNumber) <= 24)
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
         //单：特别码为奇数
-        if ("单".equals(quizOrders.getBettingContent())) {
+        if ("单".equals(quizOrders.getQuizIntroduces())) {
             if (Integer.parseInt(enterNumber) % 2 != 0)
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
         //双：特别码为偶数
-        if ("双".equals(quizOrders.getBettingContent())) {
+        if ("双".equals(quizOrders.getQuizIntroduces())) {
             if (Integer.parseInt(enterNumber) % 2 == 0)
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
         //合大：和值大于或等于7
-        if ("合大".equals(quizOrders.getBettingContent())) {
+        if ("合大".equals(quizOrders.getQuizIntroduces())) {
             if (onesNumber + tensNumber >= 7)
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
         //合小：和值小于或等于6合数小
-        if ("合小".equals(quizOrders.getBettingContent())) {
+        if ("合小".equals(quizOrders.getQuizIntroduces())) {
             if (onesNumber + tensNumber <= 6)
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
         //合单：和值为奇数
-        if ("合单".equals(quizOrders.getBettingContent())) {
+        if ("合单".equals(quizOrders.getQuizIntroduces())) {
             if ((onesNumber + tensNumber) % 2 != 0)
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
         //合双：和值为偶数
-        if ("合双".equals(quizOrders.getBettingContent())) {
+        if ("合双".equals(quizOrders.getQuizIntroduces())) {
             if ((onesNumber + tensNumber) % 2 == 0)
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
         //大单
-        if ("大单".equals(quizOrders.getBettingContent())) {
+        if ("大单".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(bigSingle).contains(enterNumber))
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
         //大双
-        if ("大双".equals(quizOrders.getBettingContent())) {
+        if ("大双".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(bigDouble).contains(enterNumber))
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
         //小单
-        if ("小单".equals(quizOrders.getBettingContent())) {
+        if ("小单".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(smallSingle).contains(enterNumber))
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
         //小双
-        if ("小双".equals(quizOrders.getBettingContent())) {
+        if ("小双".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(smallDouble).contains(enterNumber))
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
         //尾大：大于等于5为大
-        if ("尾大".equals(quizOrders.getBettingContent())) {
+        if ("尾大".equals(quizOrders.getQuizIntroduces())) {
             if (onesNumber <= 5)
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
         //尾小：小于等于4为小
-        if ("尾小".equals(quizOrders.getBettingContent())) {
+        if ("尾小".equals(quizOrders.getQuizIntroduces())) {
             if (onesNumber <= 4)
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
-        if ("红波".equals(quizOrders.getBettingContent())) {
+        if ("红波".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(hongboList).contains(enterNumber))
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
-        if ("蓝波".equals(quizOrders.getBettingContent())) {
+        if ("蓝波".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(lanboList).contains(enterNumber))
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
-        if ("绿波".equals(quizOrders.getBettingContent())) {
+        if ("绿波".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(lvboList).contains(enterNumber))
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
@@ -1377,7 +1376,7 @@ public class WinningSettlementImpl {
                               List<String> shuList,List<String> niuList,List<String> huList,List<String> tuzList,List<String> longList,List<String> sheList,
                               List<String> maList,List<String> yanList,List<String> houList,List<String> jiList,List<String> gouList,List<String> zhuList){
         //鼠、牛、虎、兔、龙、蛇、马、羊、猴、鸡、狗、猪
-        if ("鼠".equals(quizOrders.getQuizIntroduce())) {
+        if ("鼠".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(shuList).contains(one)){
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }else if (Arrays.asList(shuList).contains(two)){
@@ -1394,7 +1393,7 @@ public class WinningSettlementImpl {
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }
         }
-        if ("牛".equals(quizOrders.getQuizIntroduce())) {
+        if ("牛".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(niuList).contains(one)){
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }else if (Arrays.asList(niuList).contains(two)){
@@ -1411,7 +1410,7 @@ public class WinningSettlementImpl {
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }
         }
-        if ("虎".equals(quizOrders.getQuizIntroduce())) {
+        if ("虎".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(huList).contains(one)){
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }else if (Arrays.asList(huList).contains(two)){
@@ -1428,7 +1427,7 @@ public class WinningSettlementImpl {
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }
         }
-        if ("兔".equals(quizOrders.getQuizIntroduce())) {
+        if ("兔".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(tuzList).contains(one)){
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }else if (Arrays.asList(tuzList).contains(two)){
@@ -1445,7 +1444,7 @@ public class WinningSettlementImpl {
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }
         }
-        if ("龙".equals(quizOrders.getQuizIntroduce())) {
+        if ("龙".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(longList).contains(one)){
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }else if (Arrays.asList(longList).contains(two)){
@@ -1462,7 +1461,7 @@ public class WinningSettlementImpl {
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }
         }
-        if ("蛇".equals(quizOrders.getQuizIntroduce())) {
+        if ("蛇".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(sheList).contains(one)){
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }else if (Arrays.asList(sheList).contains(two)){
@@ -1479,7 +1478,7 @@ public class WinningSettlementImpl {
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }
         }
-        if ("马".equals(quizOrders.getQuizIntroduce())) {
+        if ("马".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(maList).contains(one)){
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }else if (Arrays.asList(maList).contains(two)){
@@ -1496,7 +1495,7 @@ public class WinningSettlementImpl {
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }
         }
-        if ("羊".equals(quizOrders.getQuizIntroduce())) {
+        if ("羊".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(yanList).contains(one)){
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }else if (Arrays.asList(yanList).contains(two)){
@@ -1513,7 +1512,7 @@ public class WinningSettlementImpl {
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }
         }
-        if ("猴".equals(quizOrders.getQuizIntroduce())) {
+        if ("猴".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(houList).contains(one)){
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }else if (Arrays.asList(houList).contains(two)){
@@ -1530,7 +1529,7 @@ public class WinningSettlementImpl {
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }
         }
-        if ("鸡".equals(quizOrders.getQuizIntroduce())) {
+        if ("鸡".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(jiList).contains(one)){
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }else if (Arrays.asList(jiList).contains(two)){
@@ -1547,7 +1546,7 @@ public class WinningSettlementImpl {
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }
         }
-        if ("狗".equals(quizOrders.getQuizIntroduce())) {
+        if ("狗".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(gouList).contains(one)){
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }else if (Arrays.asList(gouList).contains(two)){
@@ -1564,7 +1563,7 @@ public class WinningSettlementImpl {
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }
         }
-        if ("猪".equals(quizOrders.getQuizIntroduce())) {
+        if ("猪".equals(quizOrders.getQuizIntroduces())) {
             if (Arrays.asList(zhuList).contains(one)){
                 return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
             }else if (Arrays.asList(zhuList).contains(two)){

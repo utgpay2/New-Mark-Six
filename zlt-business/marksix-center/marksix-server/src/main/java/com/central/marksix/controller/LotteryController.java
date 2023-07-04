@@ -322,9 +322,6 @@ public class LotteryController {
             if (ObjectUtil.isEmpty(dto.getSiteCategoryName())) {
                 return Result.failed("站点下注分类一类名称不能为空");
             }
-            if (ObjectUtil.isEmpty(dto.getBettingContent())) {
-                return Result.failed("投注内容不能为空");
-            }
             if (ObjectUtil.isEmpty(dto.getQuizId())||dto.getQuizId()==0) {
                 return Result.failed("开奖分类二类ID不能为空");
             }
@@ -337,10 +334,10 @@ public class LotteryController {
             if (ObjectUtil.isEmpty(dto.getQuizDetailsName())) {
                 return Result.failed("开奖分类三类名称不能为空");
             }
-            if (ObjectUtil.isEmpty(dto.getQuizChooseId())||dto.getQuizChooseId()==0) {
+            if (ObjectUtil.isEmpty(dto.getQuizChooseIds())) {
                 return Result.failed("开奖规则明细ID不能为空");
             }
-            if (ObjectUtil.isEmpty(dto.getQuizIntroduce())) {
+            if (ObjectUtil.isEmpty(dto.getQuizIntroduces())) {
                 return Result.failed("开奖规则明细名称不能为空");
             }
             if (ObjectUtil.isEmpty(dto.getTotalPrice())||BigDecimal.ZERO.compareTo(dto.getTotalPrice())==1) {

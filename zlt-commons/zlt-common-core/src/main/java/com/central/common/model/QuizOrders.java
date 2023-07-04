@@ -43,9 +43,6 @@ public class QuizOrders extends SuperEntity {
     private Long siteCategoryId;
     @ApiModelProperty(value = "站点下注分类一类名称")
     private String siteCategoryName;
-    @ApiModelProperty(value = "投注内容")
-    private String bettingContent;
-
     @ApiModelProperty(value = "开奖分类二类ID")
     private Long quizId;
     @ApiModelProperty(value = "开奖分类二类名称")
@@ -54,10 +51,10 @@ public class QuizOrders extends SuperEntity {
     private Long quizDetailsId;
     @ApiModelProperty(value = "开奖分类三类名称")
     private String quizDetailsName;
-    @ApiModelProperty(value = "开奖规则明细ID")
-    private Long quizChooseId;
-    @ApiModelProperty(value = "开奖规则明细名称")
-    private String quizIntroduce;
+    @ApiModelProperty(value = "开奖规则明细ID 如：3172,3173,3174")
+    private String quizChooseIds;
+    @ApiModelProperty(value = "开奖规则明细名称 如：01,02,03")
+    private String quizIntroduces;
     @ApiModelProperty(value = "赔率，存在子订单时，赔率为空")
     private BigDecimal odds;
     @ApiModelProperty(value = "0 没有子订单,1 有子订单")
