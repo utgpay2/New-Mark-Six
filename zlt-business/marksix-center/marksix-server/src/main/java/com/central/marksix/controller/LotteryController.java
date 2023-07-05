@@ -405,7 +405,7 @@ public class LotteryController {
     /**
      * 查询我的投注记录
      */
-    @ApiOperation(value = "查询我的投注记录")
+    @ApiOperation(value = "统计我的投注记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "days", value = "1 今天,2 昨天,3 近七天", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "status", value = "0 全部,1 待开奖,2 已取消,3 中奖,4 未中奖", required = true, dataType = "Integer")
