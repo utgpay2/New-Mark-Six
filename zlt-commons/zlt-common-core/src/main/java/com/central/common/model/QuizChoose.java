@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 public class QuizChoose extends SuperEntity {
     private static final long serialVersionUID=1L;
     @ApiModelProperty(value = "开奖种类三类ID")
-    private Integer quizDetailsId;
+    private Long quizDetailsId;
     @ApiModelProperty(value = "标题")
     private String introduce;
     @ApiModelProperty(value = "顺序")

@@ -158,7 +158,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             return Result.succeed("投注完成");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return Result.failed("failed");
+            return Result.failed("投注失败");
         } finally {
             RedissLockUtil.unlock(lockKey);
         }
@@ -251,7 +251,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             return Result.succeed("撤销投注");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return Result.failed("failed");
+            return Result.failed("撤销投注失败");
         } finally {
             RedissLockUtil.unlock(lockKey);
         }

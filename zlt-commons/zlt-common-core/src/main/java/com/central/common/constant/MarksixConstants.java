@@ -227,6 +227,9 @@ public final class MarksixConstants {
         // siteid rderNo
         public static final String USER_SITEID_SUBMIT_ORDERNO_LOCK = "Lock:siteId:submit:orderNo:{}:{}";
 
+        public static final String USER_SITE_COPY_BETTING_LOCK = "Lock:site:copy:betting:{}:{}";
+        public static final String USER_LOTTERY_COPY_BETTING_LOCK = "Lock:lottery:copy:betting:{}:{}";
+
         public static final String USER_TRANSFER_LOCK = "Lock:user:transfer:{}";
     }
 

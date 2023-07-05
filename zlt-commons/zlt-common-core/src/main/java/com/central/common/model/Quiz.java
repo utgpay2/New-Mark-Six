@@ -27,7 +27,7 @@ public class Quiz extends SuperEntity {
     @ApiModelProperty(value = "状态 1：启用 0：禁用")
     private Integer status;
     @ApiModelProperty(value = "站点分类ID")
-    private Integer siteCategoryId;
+    private Long siteCategoryId;
     @ApiModelProperty(value = "顺序")
     private Integer sort;
     }
