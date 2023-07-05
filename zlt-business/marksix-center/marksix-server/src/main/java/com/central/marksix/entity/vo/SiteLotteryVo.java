@@ -17,7 +17,7 @@ import java.util.Date;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-public class SiteLotteryVO {
+public class SiteLotteryVo {
     @ApiModelProperty(value = "站点彩种ID")
     private Long id;
     private static final long serialVersionUID=1L;

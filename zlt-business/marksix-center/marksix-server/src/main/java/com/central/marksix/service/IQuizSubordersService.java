@@ -14,12 +14,6 @@ import java.util.Map;
  * @date 2023-06-15 20:50:53
  */
 public interface IQuizSubordersService extends ISuperService<QuizSuborders> {
-    /**
-     * 列表
-     * @param params
-     * @return
-     */
-    PageResult<QuizSuborders> findListByPage(Map<String, Object> params);
     public List<QuizSuborders> findList(Map<String, Object> params);
 }
 

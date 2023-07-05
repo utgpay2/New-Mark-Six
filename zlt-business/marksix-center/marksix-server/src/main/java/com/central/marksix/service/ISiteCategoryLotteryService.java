@@ -1,10 +1,8 @@
 package com.central.marksix.service;
 
-import com.central.common.model.Result;
 import com.central.common.model.SiteCategoryLottery;
-import com.central.common.model.SysUser;
 import com.central.common.service.ISuperService;
-import com.central.marksix.entity.vo.CategoryVO;
+import com.central.marksix.entity.vo.CategoryVo;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +19,6 @@ public interface ISiteCategoryLotteryService extends ISuperService<SiteCategoryL
      * @param params
      * @return
      */
-    List<CategoryVO> findList(Map<String, Object> params);
+    List<CategoryVo> findList(Map<String, Object> params);
 }
 

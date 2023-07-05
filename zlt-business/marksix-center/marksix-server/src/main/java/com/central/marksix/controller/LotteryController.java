@@ -4,13 +4,9 @@ import cn.hutool.core.util.ObjectUtil;
 import com.central.common.annotation.LoginUser;
 import com.central.common.model.*;
 import com.central.marksix.entity.dto.*;
-import com.central.marksix.entity.vo.CategoryVO;
-import com.central.marksix.entity.vo.QuizChooseVo;
-import com.central.marksix.entity.vo.SiteLotteryVO;
+import com.central.marksix.entity.vo.*;
 import com.central.common.model.enums.OrderStatusEnum;
-import com.central.marksix.entity.vo.WnDataVo;
 import com.central.marksix.service.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +53,7 @@ public class LotteryController {
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping
-    public Result<List<SiteLotteryVO>> list(@ApiIgnore @RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
+    public Result<List<SiteLotteryVo>> list(@ApiIgnore @RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
         if(null==params){
             params = new HashMap<>();
         }
@@ -106,7 +102,7 @@ public class LotteryController {
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/listsitecategory")
-    public Result<List<CategoryVO>> listSiteCategory(@ApiIgnore @RequestParam Map<String, Object> params) {
+    public Result<List<CategoryVo>> listSiteCategory(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
@@ -405,6 +401,29 @@ public class LotteryController {
     @PostMapping("/cancelbetting")
     public Result cancelBetting(@RequestBody List<Long> ids, @ApiIgnore @LoginUser SysUser user) {
         return siteOrderService.cancelBetting(ids,user);
+    }
+    /**
+     * 查询我的投注记录
+     */
+    @ApiOperation(value = "查询我的投注记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "days", value = "1 今天,2 昨天,3 近七天", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "status", value = "0 全部,1 待开奖,2 已取消,3 中奖,4 未中奖", required = true, dataType = "Integer")
+    })
+    @GetMapping("/statiorders")
+    public Result<StatiQuizOrdersVo> statiOrders(@ApiIgnore @RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
+        if (ObjectUtil.isEmpty(params)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("days"))) {
+            return Result.failed("时间选项不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("status"))) {
+            return Result.failed("状态选项不能为空");
+        }
+        params.put("siteId",user.getSiteId());
+        params.put("memberId",user.getId());
+        return Result.succeed(siteOrderService.statiOrders(params));
     }
     /**
      * 列表

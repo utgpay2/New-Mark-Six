@@ -6,6 +6,7 @@ import com.central.common.model.Result;
 import com.central.common.model.SysUser;
 import com.central.common.service.ISuperService;
 import com.central.marksix.entity.dto.QuizOrdersDto;
+import com.central.marksix.entity.vo.StatiQuizOrdersVo;
 
 import java.util.List;
 import java.util.Map;
@@ -14,10 +15,17 @@ public interface IQuizOrdersService extends ISuperService<QuizOrders> {
 
 
     /**
-     * 获取会员订单列表
+     * 查询我的投注
      * @return
      */
     public PageResult<QuizOrders> findList(Map<String, Object> params);
+
+    /**
+     * 统计我的投注
+     * @param params
+     * @return
+     */
+    StatiQuizOrdersVo statiOrders(Map<String, Object> params);
 
     /**
      * 下注

@@ -15,7 +15,8 @@ import com.central.common.service.impl.SuperServiceImpl;
 import com.central.common.utils.SnowflakeIdWorker;
 import com.central.marksix.entity.dto.QuizOrdersDto;
 import com.central.marksix.entity.dto.QuizSubordersDto;
-import com.central.marksix.entity.vo.SiteLotteryVO;
+import com.central.marksix.entity.vo.SiteLotteryVo;
+import com.central.marksix.entity.vo.StatiQuizOrdersVo;
 import com.central.marksix.mapper.QuizOrdersMapper;
 import com.central.marksix.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -52,8 +53,23 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
         List<QuizOrders> list = (List<QuizOrders>) RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList(page, params);
+            RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
         return PageResult.<QuizOrders>builder().data(list).count(page.getTotal()).build();
+    }
+    @Override
+    public StatiQuizOrdersVo statiOrders(Map<String, Object> params) {
+        String redisKey = StrUtil.format(RedisConstants.SITE_MYSTATIQUIZORDERS_LIST_KEY,
+                MapUtils.getInteger(params, "siteId"),
+                MapUtils.getInteger(params, "memberId"),
+                MapUtils.getInteger(params, "days"),
+                MapUtils.getInteger(params, "status"));
+        StatiQuizOrdersVo statiQuizOrdersVo = (StatiQuizOrdersVo) RedisRepository.get(redisKey);
+        if (ObjectUtil.isEmpty(statiQuizOrdersVo)) {
+            statiQuizOrdersVo = baseMapper.statiOrders(params);
+            RedisRepository.setExpire(redisKey, statiQuizOrdersVo, RedisConstants.EXPIRE_TIME_30_DAYS);
+        }
+        return statiQuizOrdersVo;
     }
 
     /**
@@ -83,8 +99,8 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             for (QuizOrdersDto ordersDto : ordersDtoList) {
                 Map<String, Object> params = new HashMap<>();
                 params.put("lotteryId", ordersDto.getLotteryId());
-                List<SiteLotteryVO> siteLotteryVOList = lotteryService.findListByLotteryId(params);
-                for (SiteLotteryVO siteLotteryVO : siteLotteryVOList) {
+                List<SiteLotteryVo> siteLotteryVoList = lotteryService.findListByLotteryId(params);
+                for (SiteLotteryVo siteLotteryVO : siteLotteryVoList) {
                     if (StatusEnum.ONE_TRUE.getStatus() == siteLotteryVO.getStatus()) {
                         return Result.failed(siteLotteryVO.getLotteryName() + "结算中，请稍后再试");
                     }
@@ -155,6 +171,9 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             //删除投注订单缓存
             String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId());
             RedisRepository.delete(ordersRedisKey + "*");
+            //删除统计投注订单缓存
+            String statiOrdersRedisKey = StrUtil.format(RedisConstants.SITE_MYSTATIQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId());
+            RedisRepository.delete(statiOrdersRedisKey + "*");
             return Result.succeed("投注完成");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -192,8 +211,8 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 }
                 Map<String, Object> params = new HashMap<>();
                 params.put("lotteryId", quizOrders.getLotteryId());
-                List<SiteLotteryVO> siteLotteryVOList = lotteryService.findListByLotteryId(params);
-                for (SiteLotteryVO siteLotteryVO : siteLotteryVOList) {
+                List<SiteLotteryVo> siteLotteryVoList = lotteryService.findListByLotteryId(params);
+                for (SiteLotteryVo siteLotteryVO : siteLotteryVoList) {
                     if (StatusEnum.ONE_TRUE.getStatus() == siteLotteryVO.getStatus()) {
                         return Result.failed(siteLotteryVO.getLotteryName() + "结算中，请稍后再试");
                     }
@@ -248,6 +267,9 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             //删除投注订单缓存
             String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId());
             RedisRepository.delete(ordersRedisKey + "*");
+            //删除统计投注订单缓存
+            String statiOrdersRedisKey = StrUtil.format(RedisConstants.SITE_MYSTATIQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId());
+            RedisRepository.delete(statiOrdersRedisKey + "*");
             return Result.succeed("撤销投注");
         } catch (Exception e) {
             log.error(e.getMessage(), e);

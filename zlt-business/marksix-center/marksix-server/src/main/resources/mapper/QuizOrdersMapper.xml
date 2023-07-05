@@ -33,4 +33,34 @@
             ORDER BY t.create_time <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1"> ASC </when><otherwise> DESC </otherwise></choose>
         </where>
     </select>
+    <select id="statiOrders" resultType="com.central.marksix.entity.vo.StatiQuizOrdersVo">
+        select SUM(t.total_price) as statiTotalPrice,SUM(t.win_mount) as statiWinMount from mks_quiz_orders t
+        <where>
+            1=1
+            <if test="p.siteId != null and p.siteId != '' and p.siteId != 0">
+                and t.site_id = #{p.siteId}
+            </if>
+            <if test="p.status != null and p.status != '' and p.status != 0">
+                and t.status = #{p.status}
+            </if>
+            <if test="p.periods != null and p.periods != ''">
+                and t.periods = #{p.periods}
+            </if>
+            <if test="p.siteLotteryId != null and p.siteLotteryId != '' and p.siteLotteryId != 0">
+                and t.site_lottery_id = #{p.siteLotteryId}
+            </if>
+            <if test="p.memberId != null and p.memberId != '' and p.memberId != 0">
+                and t.member_id = #{p.memberId}
+            </if>
+            <if test="p.days!=null and  p.days != '' and p.days == 1"><!-- 今天 -->
+                and to_days(t.create_time) = to_days(now())
+            </if>
+            <if test="p.days!=null and  p.days != '' and p.days == 2"><!-- 昨天 -->
+                and to_days(now())-to_days(t.date) =1
+            </if>
+            <if test="p.days!=null and  p.days != '' and p.days == 3"><!-- 近7天 -->
+                and to_days(now())-to_days(t.date) <![CDATA[ <= ]]> 7
+            </if>
+        </where>
+    </select>
 </mapper>

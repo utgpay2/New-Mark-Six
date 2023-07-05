@@ -16,7 +16,7 @@ import java.util.Date;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-public class CategoryVO {
+public class CategoryVo {
     private static final long serialVersionUID=1L;
     @ApiModelProperty(value = "站点分类ID")
     private Long id;

@@ -27,17 +27,6 @@ import java.util.Map;
 @Slf4j
 @Service
 public class QuizSubordersServiceImpl extends SuperServiceImpl<QuizSubordersMapper, QuizSuborders> implements IQuizSubordersService {
-    /**
-     * 列表
-     * @param params
-     * @return
-     */
-    @Override
-    public PageResult<QuizSuborders> findListByPage(Map<String, Object> params){
-        Page<QuizSuborders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
-        List<QuizSuborders> list  =  baseMapper.findList(page, params);
-        return PageResult.<QuizSuborders>builder().data(list).count(page.getTotal()).build();
-    }
 
     @Override
     public List<QuizSuborders> findList(Map<String, Object> params){

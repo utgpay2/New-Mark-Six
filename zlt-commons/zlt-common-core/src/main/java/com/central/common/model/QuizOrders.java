@@ -79,7 +79,7 @@ public class QuizOrders extends SuperEntity {
     }
     @ApiModelProperty(value = "注数")
     private Integer units;
-    @ApiModelProperty(value = "'1 待开奖,2 已取消,3 中奖,4 未中奖,5 追号中,6 追号完成,7 追号取消,8 追号用户取消,9 其他")
+    @ApiModelProperty(value = "'1 待开奖,2 已取消,3 中奖,4 未中奖")
     private Integer status;
     @ApiModelProperty(value = "会员ID")
     private Long memberId;
