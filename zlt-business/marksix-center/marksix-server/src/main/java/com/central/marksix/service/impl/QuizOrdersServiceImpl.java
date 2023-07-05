@@ -50,7 +50,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 true == ObjectUtil.isEmpty(params.get("sortBy")) ? SortEnum.ASC.getCode() : MapUtils.getInteger(params, "sortBy"),
                 MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
         List<QuizOrders> list = (List<QuizOrders>) RedisRepository.get(redisKey);
-        if (ObjectUtil.isNotEmpty(list)) {
+        if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList(page, params);
         }
         return PageResult.<QuizOrders>builder().data(list).count(page.getTotal()).build();
