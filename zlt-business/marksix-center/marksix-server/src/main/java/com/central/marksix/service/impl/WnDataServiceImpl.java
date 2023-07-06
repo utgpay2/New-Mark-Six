@@ -80,16 +80,14 @@ public class WnDataServiceImpl extends SuperServiceImpl<WnDataMapper, WnData> im
         List<NumberAttributes> numberAttributesList = numberAttributesService.findList(null,year);
         if(null!=numbers&&!"".equals(numbers)) {
             String[] wnNumbers = numbers.split(",");
+            List<NumberAttributes> numberList = new ArrayList<>();
             for (String wnNumber : wnNumbers) {
                 for (NumberAttributes numberAttributes : numberAttributesList) {
                     if (wnNumber.equals(numberAttributes.getNumber())) {
-                        List<NumberAttributes> numberList = wnDataVo.getNumberList();
-                        if (null == numberList)
-                            numberList = new ArrayList<>();
                         numberList.add(numberAttributes);
-                        wnDataVo.setNumberList(numberList);
                     }
                 }
+                wnDataVo.setNumberList(numberList);
             }
 
         }
