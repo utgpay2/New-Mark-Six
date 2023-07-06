@@ -169,11 +169,11 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             //保存子订单
             quizSubordersService.saveBatch(subordersList);
             //删除投注订单缓存
-            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId());
-            RedisRepository.delete(ordersRedisKey + "*");
+            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*");
+            RedisRepository.delete(ordersRedisKey);
             //删除统计投注订单缓存
-            String statiOrdersRedisKey = StrUtil.format(RedisConstants.SITE_MYSTATIQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId());
-            RedisRepository.delete(statiOrdersRedisKey + "*");
+            String statiOrdersRedisKey = StrUtil.format(RedisConstants.SITE_MYSTATIQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*");
+            RedisRepository.delete(statiOrdersRedisKey);
             return Result.succeed("投注完成");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -265,11 +265,11 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             //更新投注
             this.saveOrUpdateBatch(ordersList);
             //删除投注订单缓存
-            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId());
-            RedisRepository.delete(ordersRedisKey + "*");
+            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*");
+            RedisRepository.delete(ordersRedisKey);
             //删除统计投注订单缓存
-            String statiOrdersRedisKey = StrUtil.format(RedisConstants.SITE_MYSTATIQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId());
-            RedisRepository.delete(statiOrdersRedisKey + "*");
+            String statiOrdersRedisKey = StrUtil.format(RedisConstants.SITE_MYSTATIQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*");
+            RedisRepository.delete(statiOrdersRedisKey);
             return Result.succeed("撤销投注");
         } catch (Exception e) {
             log.error(e.getMessage(), e);

@@ -31,8 +31,8 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
     public void saveOrUpdateQuizOrdersBatch(List<QuizOrders> ordersList){
         this.saveBatch(ordersList);
         for(QuizOrders quizOrders:ordersList) {
-            String redisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY,quizOrders.getSiteId(),quizOrders.getMemberId());
-            RedisRepository.delete(redisKey+"*");
+            String redisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY,quizOrders.getSiteId(),quizOrders.getMemberId(),"*");
+            RedisRepository.delete(redisKey);
         }
     }
 }
