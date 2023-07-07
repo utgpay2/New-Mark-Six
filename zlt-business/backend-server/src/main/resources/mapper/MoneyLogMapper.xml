@@ -14,7 +14,7 @@
 		m.after_money as afterMoney,
 		m.create_time as createTime
 		FROM
-		kpn_money_log m
+		mks_money_log m
 		LEFT JOIN sys_user u ON u.id = m.user_id
 		<where>
 			<if test="r.userName != null and r.userName != ''">
@@ -41,7 +41,7 @@
 		count(1) AS total_number,
 		sum(ifnull(money, 0)) as money
 		FROM
-		kpn_money_log m
+		mks_money_log m
 		LEFT JOIN sys_user u ON u.id = m.user_id
 		<where>
 			1=1

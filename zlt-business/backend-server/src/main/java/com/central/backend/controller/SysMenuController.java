@@ -127,7 +127,7 @@ public class SysMenuController {
      * @param menu
      * @return
      */
-    @ApiOperation(value = "新增菜单")
+    @ApiOperation(value = "新增或修改菜单")
     @PostMapping("saveOrUpdate")
     public Result saveOrUpdate(@RequestBody SysMenu menu) {
         try {
