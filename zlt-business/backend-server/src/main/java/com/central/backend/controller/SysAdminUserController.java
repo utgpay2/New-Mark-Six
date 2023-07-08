@@ -531,4 +531,12 @@ public class SysAdminUserController {
         return Result.succeed(list);
     }
 
+
+    @ApiOperation(value = "站点编号查询站主和代理")
+    @GetMapping("/proxy/{siteCode}")
+    public Result getProxyBySiteCode(@PathVariable String siteCode) {
+
+        return iAdminUserService.getProxyBySiteCode(siteCode);
+    }
+
 }
