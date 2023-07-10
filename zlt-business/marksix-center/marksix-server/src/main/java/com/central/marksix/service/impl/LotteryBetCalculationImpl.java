@@ -171,6 +171,12 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,11,true);
         }
+        if("十二不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+            if(quizChooseDtoList.size()<12){
+                return Result.failed("选择投注号码必须大于等于12个投注号码");
+            }
+            bettingNumberHashSet = this.duplexNumber(numberStr,12,true);
+        }
         //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
         if("一粒任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
             bettingNumberHashSet = new HashSet();
@@ -351,6 +357,20 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                                                                                             list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]) + "," + String.format("%02d", str1[s]) + "," + String.format("%02d", str1[t]));
                                                                                                                                         } else {
                                                                                                                                             list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o] + "," + str1[p] + "," + str1[q] + "," + str1[r] + "," + str1[s] + "," + str1[t]);
+                                                                                                                                        }
+                                                                                                                                    } else {
+                                                                                                                                        for (int u = 0; u < str.length; u++) {
+                                                                                                                                            if (u != i && u != j && u != k && u != m && u != n && u != o && u != p && u != q && u != r && u != s && u != t) {
+                                                                                                                                                if (length == 12) {
+                                                                                                                                                    Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q]), Integer.parseInt(str[r]), Integer.parseInt(str[s]), Integer.parseInt(str[t]), Integer.parseInt(str[u])};
+                                                                                                                                                    Arrays.sort(str1);
+                                                                                                                                                    if (b) {
+                                                                                                                                                        list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]) + "," + String.format("%02d", str1[s]) + "," + String.format("%02d", str1[t])+ "," + String.format("%02d", str1[u]));
+                                                                                                                                                    } else {
+                                                                                                                                                        list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o] + "," + str1[p] + "," + str1[q] + "," + str1[r] + "," + str1[s] + "," + str1[t]+ "," + str1[u]);
+                                                                                                                                                    }
+                                                                                                                                                }
+                                                                                                                                            }
                                                                                                                                         }
                                                                                                                                     }
                                                                                                                                 }
@@ -600,6 +620,15 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 return Result.failed("选择投注胆码加拖码总数必须大于等于11个投注号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,11-braverySize,true);
+        }
+        if("十二不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+            if(braverySize>=12){
+                return Result.failed("选择投注胆码总数必须小于12个投注号码");
+            }
+            if(braverySize+towSize<12){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于12个投注号码");
+            }
+            bettingNumberHashSet = this.duplexNumber(numberStr,12-braverySize,true);
         }
         //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
         if("一粒任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类

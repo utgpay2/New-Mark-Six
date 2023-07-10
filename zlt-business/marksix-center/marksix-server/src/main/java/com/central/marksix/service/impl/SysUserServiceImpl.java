@@ -72,6 +72,8 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
         this.lambdaUpdate().eq(SysUser::getId, sysUser.getId())
                 .setSql("`m_balance` = `m_balance` + " + rewardMb)
                 .update();
+        String redisKey = StrUtil.format(RedisConstants.SITE_SYSUSER_KEY, sysUser.getId());
+        RedisRepository.delete(redisKey);
     }
 
     @Override

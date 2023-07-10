@@ -88,7 +88,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             if (!lockedSuccess) {
                 return Result.failed("加锁失败");
             }
-            SysUser sysUser = userService.getById(user.getId());
+            SysUser sysUser = userService.getSysUserById(user.getId());
             BigDecimal balance = sysUser.getMBalance();//用户余额
             BigDecimal totalPrice = BigDecimal.ZERO;//总订单金额
             List<QuizOrders> ordersList = new ArrayList<>();
@@ -169,10 +169,10 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             //保存子订单
             quizSubordersService.saveBatch(subordersList);
             //删除投注订单缓存
-            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*");
+            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*","*","*","*","*");
             RedisRepository.delete(ordersRedisKey);
             //删除统计投注订单缓存
-            String statiOrdersRedisKey = StrUtil.format(RedisConstants.SITE_MYSTATIQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*");
+            String statiOrdersRedisKey = StrUtil.format(RedisConstants.SITE_MYSTATIQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*","*");
             RedisRepository.delete(statiOrdersRedisKey);
             return Result.succeed("投注完成");
         } catch (Exception e) {
@@ -199,7 +199,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             if (!lockedSuccess) {
                 return Result.failed("加锁失败");
             }
-            SysUser sysUser = userService.getById(user.getId());
+            SysUser sysUser = userService.getSysUserById(user.getId());
             BigDecimal totalPrice = BigDecimal.ZERO;//总订单金额
             List<QuizOrders> ordersList = new ArrayList<>();
             List<MoneyLog> moneyLogList = new ArrayList<>();
@@ -265,10 +265,10 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             //更新投注
             this.saveOrUpdateBatch(ordersList);
             //删除投注订单缓存
-            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*");
+            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*","*","*","*","*");
             RedisRepository.delete(ordersRedisKey);
             //删除统计投注订单缓存
-            String statiOrdersRedisKey = StrUtil.format(RedisConstants.SITE_MYSTATIQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*");
+            String statiOrdersRedisKey = StrUtil.format(RedisConstants.SITE_MYSTATIQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*","*");
             RedisRepository.delete(statiOrdersRedisKey);
             return Result.succeed("撤销投注");
         } catch (Exception e) {
