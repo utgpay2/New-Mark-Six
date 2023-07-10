@@ -243,6 +243,14 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
         return baseMapper.getMerchantAdministrator(siteCode);
     }
 
+    @Override
+    public Result getProxyBySiteCode(String siteCode) {
+
+       List<Map> users= baseMapper.getProxyBySiteCode(siteCode);
+        return   Result.succeed(users);
+
+    }
+
     /**
      * 给用户设置角色
      */

@@ -43,4 +43,6 @@ public interface SysUserMapper extends SuperMapper<SysUser> {
 
 
     SysUser getMerchantAdministrator(@Param("siteCode")String siteCode);
+
+    List<Map> getProxyBySiteCode(@Param("siteCode")String siteCode);
 }

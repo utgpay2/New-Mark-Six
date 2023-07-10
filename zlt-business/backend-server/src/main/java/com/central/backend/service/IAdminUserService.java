@@ -46,4 +46,6 @@ public interface IAdminUserService extends ISuperService<SysUser> {
 	Result login(String username, String password,String verifyCode);
 
 	SysUser getMerchantAdministrator(String siteCode);
+
+	Result getProxyBySiteCode(String siteCode);
 }

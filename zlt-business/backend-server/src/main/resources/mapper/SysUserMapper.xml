@@ -329,4 +329,9 @@
 		select t.* from sys_user t left join sys_role_user r on t.id=r.user_id
 		where t.site_code = #{siteCode} and r.role_id=3
 	</select>
+
+	<select id="getProxyBySiteCode" resultType="java.util.Map">
+		select t.id,t.username,r.role_id,u.name as role_name from sys_user t left join sys_role_user r on t.id=r.user_id left join sys_role u on  r.role_id = u.id
+		where t.site_code = #{siteCode} and   r.role_id in  (3,11) order by t.id asc
+	</select>
 </mapper>
