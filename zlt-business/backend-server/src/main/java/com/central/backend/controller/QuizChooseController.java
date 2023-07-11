@@ -10,6 +10,7 @@ import com.central.common.annotation.LoginUser;
 import com.central.common.model.QuizChoose;
 import com.central.common.model.SysUser;
 import com.central.common.utils.StringUtils;
+import com.central.common.vo.QuizChooseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
@@ -39,18 +40,18 @@ public class QuizChooseController {
     /**
      * 列表
      */
-    @ApiOperation(value = "查询列表")
+    @ApiOperation(value = "查询彩票规则主表对应明细规则")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "quizId", value = "开奖规则主表ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "quizDetailsId", value = "开奖种类三类ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
-    @GetMapping
-    public Result<List<QuizChoose>> list(@ApiIgnore @RequestParam Map<String, Object> params) {
+    @GetMapping("/quizchooselist")
+    public Result<List<QuizChooseVo>> quizChooseList(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
-        if (ObjectUtil.isEmpty(params.get("quizId"))) {
-            return Result.failed("开奖规则主表ID");
+        if (ObjectUtil.isEmpty(params.get("quizDetailsId"))) {
+            return Result.failed("彩票规则主表id不能为空");
         }
         return Result.succeed(quizChooseService.findList(params));
     }
@@ -61,7 +62,7 @@ public class QuizChooseController {
      */
     @ApiOperation(value = "保存")
     @PostMapping
-    public Result save(@RequestBody QuizChoose quizChoose, @ApiIgnore @LoginUser SysUser user) {
+    public Result saveOrUpdateQuizChoose(@RequestBody QuizChoose quizChoose, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(quizChoose)) {
             return Result.failed("请求参数不能为空");
         }
@@ -77,17 +78,7 @@ public class QuizChooseController {
         if (ObjectUtil.isEmpty(quizChoose.getOdds())) {
             return Result.failed("赔率不能为空");
         }
-        if(StringUtils.isNotNull(quizChoose.getId())){
-            quizChoose.setUpdateBy(user.getUsername());
-            quizChoose.setUpdateTime(new Date());
-        }else {
-            quizChoose.setCreateBy(user.getUsername());
-            quizChoose.setCreateTime(new Date());
-            quizChoose.setUpdateBy(user.getUsername());
-            quizChoose.setUpdateTime(new Date());
-        }
-        quizChooseService.saveOrUpdate(quizChoose);
-        return Result.succeed("保存成功");
+        return quizChooseService.saveOrUpdateQuizChoose(quizChoose,user);
     }
 
     /**
@@ -96,7 +87,6 @@ public class QuizChooseController {
     @ApiOperation(value = "删除")
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Long id) {
-        quizChooseService.removeById(id);
-        return Result.succeed("删除成功");
+        return quizChooseService.deleteQuizChoose(id);
     }
 }

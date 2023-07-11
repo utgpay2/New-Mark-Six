@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.central.backend.model.vo.CategoryVO;
+import com.central.backend.model.vo.CategoryVo;
 import com.central.backend.service.ISiteCategoryLotteryService;
 import com.central.backend.service.ICategoryService;
 import com.central.common.annotation.LoginUser;
@@ -90,7 +90,7 @@ public class CategoryController {
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/listsitecategory")
-    public Result<List<CategoryVO>> listSiteCategory(@ApiIgnore @RequestParam Map<String, Object> params) {
+    public Result<List<CategoryVo>> listSiteCategory(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }

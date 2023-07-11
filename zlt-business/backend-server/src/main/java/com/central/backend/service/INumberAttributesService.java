@@ -1,7 +1,9 @@
 package com.central.backend.service;
 
+import com.central.common.dto.NumberAttributesDto;
 import com.central.common.model.NumberAttributes;
 import com.central.common.model.Result;
+import com.central.common.model.SysUser;
 import com.central.common.service.ISuperService;
 
 import java.util.List;
@@ -20,7 +22,8 @@ public interface INumberAttributesService extends ISuperService<NumberAttributes
      * @return
      */
     List<NumberAttributes> findList(Map<String, Object> params);
-
-    Result addOneYearOfData();
+    List<NumberAttributes> findList(NumberAttributesDto numberAttributesDto, Integer year);
+    Result deleteNumberAttributes(Long id,Integer year);
+    Result saveOrUpdateNumberAttributes(NumberAttributesDto numberAttributesDto, SysUser user);
 }
 

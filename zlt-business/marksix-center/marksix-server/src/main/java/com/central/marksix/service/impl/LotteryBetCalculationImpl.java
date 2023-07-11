@@ -6,7 +6,6 @@ import com.central.common.utils.DateUtil;
 import com.central.marksix.entity.dto.*;
 import com.central.marksix.entity.vo.BettingNumberGroupVo;
 import com.central.marksix.entity.vo.BettingNumberVo;
-import com.central.marksix.entity.vo.QuizChooseVo;
 import com.central.marksix.service.ILotteryBetCalculationService;
 import com.central.marksix.service.INumberAttributesService;
 import lombok.extern.slf4j.Slf4j;

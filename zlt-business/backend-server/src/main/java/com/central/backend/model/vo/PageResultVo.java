@@ -11,7 +11,7 @@ import lombok.Data;
  * 分页对象
  * */
 @Data
-public class PageResultVO<T>  implements Serializable {
+public class PageResultVo<T>  implements Serializable {
     private static final long serialVersionUID = -300978954545179L;
     /** 页码，默认是第一页 */
     private Integer number = 1;
@@ -23,11 +23,11 @@ public class PageResultVO<T>  implements Serializable {
     private Integer totalPages;
     private List<?> content;
 
-    public PageResultVO() {
+    public PageResultVo() {
 
     }
 
-    public PageResultVO(Integer number, Integer size, Long totalElements, List<?> content) {
+    public PageResultVo(Integer number, Integer size, Long totalElements, List<?> content) {
         this.number = number;
         this.size = size;
         this.totalElements = totalElements;
@@ -35,20 +35,20 @@ public class PageResultVO<T>  implements Serializable {
         Long totalPage = totalElements % size == 0 ? totalElements / size : totalElements / size + 1;
         this.setTotalPages(totalPage.intValue());
     }
-    public PageResultVO(Integer number, Integer size, Long totalElements, Integer totalPage, List<?> content) {
+    public PageResultVo(Integer number, Integer size, Long totalElements, Integer totalPage, List<?> content) {
         this.number = number;
         this.size = size;
         this.totalElements = totalElements;
         this.setContent(content);
         this.setTotalPages(totalPage);
     }
-    public PageResultVO(Page<T> pageage) {
+    public PageResultVo(Page<T> pageage) {
         this.number = pageage.getNumber();
         this.size = pageage.getSize();
         this.totalElements = pageage.getTotalElements();
         this.totalPages = pageage.getTotalPages();
     }
-    public PageResultVO(PageResultVO<T> pageResultVO) {
+    public PageResultVo(PageResultVo<T> pageResultVO) {
         this.number = pageResultVO.getNumber();
         this.size = pageResultVO.getSize();
         this.totalElements = pageResultVO.getTotalElements();

@@ -1,9 +1,13 @@
 package com.central.backend.controller;
 
+import java.util.List;
 import java.util.Map;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.central.backend.service.IQuizDetailsService;
+import com.central.common.annotation.LoginUser;
 import com.central.common.model.QuizDetails;
+import com.central.common.model.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
@@ -14,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 竞猜分类
@@ -32,34 +37,38 @@ public class QuizDetailsController {
     /**
      * 列表
      */
-    @ApiOperation(value = "查询列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "quizId", value = "开奖分类二类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping
-    public PageResult list(@RequestParam Map<String, Object> params) {
-        return quizDetailsService.findList(params);
+    public Result<List<QuizDetails>> list(@RequestParam Map<String, Object> params) {
+        if (ObjectUtil.isEmpty(params)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("quizId"))) {
+            return Result.failed("开奖分类二类ID");
+        }
+        return Result.succeed(quizDetailsService.findList(params));
     }
 
-    /**
-     * 查询
-     */
-    @ApiOperation(value = "查询")
-    @GetMapping("/{id}")
-    public Result findUserById(@PathVariable Long id) {
-        QuizDetails model = quizDetailsService.getById(id);
-        return Result.succeed(model, "查询成功");
-    }
+//    /**
+//     * 查询
+//     */
+//    @ApiOperation(value = "查询")
+//    @GetMapping("/{id}")
+//    public Result findUserById(@PathVariable Long id) {
+//        QuizDetails model = quizDetailsService.getById(id);
+//        return Result.succeed(model, "查询成功");
+//    }
 
     /**
      * 新增or更新
      */
     @ApiOperation(value = "保存")
     @PostMapping
-    public Result save(@RequestBody QuizDetails quizDetails) {
-        quizDetailsService.saveOrUpdate(quizDetails);
-        return Result.succeed("保存成功");
+    public Result saveOrUpdateQuizDetails(@RequestBody QuizDetails quizDetails, @ApiIgnore @LoginUser SysUser user) {
+        return quizDetailsService.saveOrUpdateQuizDetails(quizDetails,user);
     }
 
     /**
@@ -67,8 +76,7 @@ public class QuizDetailsController {
      */
     @ApiOperation(value = "删除")
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable Long id) {
-        quizDetailsService.removeById(id);
-        return Result.succeed("删除成功");
+    public Result deleteQuizDetails(@PathVariable Long id) {
+        return quizDetailsService.deleteQuizDetails(id);
     }
 }

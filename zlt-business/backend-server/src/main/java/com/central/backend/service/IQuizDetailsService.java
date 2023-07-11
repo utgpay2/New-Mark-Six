@@ -2,8 +2,11 @@ package com.central.backend.service;
 
 import com.central.common.model.PageResult;
 import com.central.common.model.QuizDetails;
+import com.central.common.model.Result;
+import com.central.common.model.SysUser;
 import com.central.common.service.ISuperService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,6 +21,8 @@ public interface IQuizDetailsService extends ISuperService<QuizDetails> {
      * @param params
      * @return
      */
-    PageResult<QuizDetails> findList(Map<String, Object> params);
+    List<QuizDetails> findList(Map<String, Object> params);
+    Result saveOrUpdateQuizDetails(QuizDetails quizDetails, SysUser user);
+    Result deleteQuizDetails(Long id);
 }
 

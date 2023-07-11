@@ -3,6 +3,7 @@ package com.central.backend.service;
 import com.central.common.model.PageResult;
 import com.central.common.model.Quiz;
 import com.central.common.model.Result;
+import com.central.common.model.SysUser;
 import com.central.common.service.ISuperService;
 
 import java.util.List;
@@ -22,5 +23,7 @@ public interface IQuizService extends ISuperService<Quiz> {
      */
     List<Quiz> findList(Map<String, Object> params);
     Result deleteQuiz(Long id);
+
+    Result saveOrUpdateQuiz(Quiz quiz, SysUser user);
 }
 

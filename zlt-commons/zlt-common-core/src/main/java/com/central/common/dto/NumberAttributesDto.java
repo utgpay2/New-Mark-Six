@@ -1,7 +1,5 @@
-package com.central.backend.model.dto;
+package com.central.common.dto;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.central.common.model.SuperEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,17 +14,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-public class NumberAttributesDto{
-    private static final long serialVersionUID=1L;
-    @ApiModelProperty(value = "号码属性表ID")
-    private Long id;
+public class NumberAttributesDto {
     @ApiModelProperty(value = "年份")
     private Integer year;
     @ApiModelProperty(value = "开奖号码")
     private String number;
     @ApiModelProperty(value = "生肖")
     private String zodiac;
-    @ApiModelProperty(value = "家或者野")
+    @ApiModelProperty(value = "家   野")
     private String poultryandbeast;
     @ApiModelProperty(value = "波色")
     private String color;

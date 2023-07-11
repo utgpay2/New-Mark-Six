@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.central.backend.mapper.FrontpageCountMapper">
-    <select id="findSummaryData" resultType="com.central.backend.model.vo.FrontpageCountVO">
+    <select id="findSummaryData" resultType="com.central.backend.model.vo.FrontpageCountVo">
         select sum(ifnull(pv, 0)) as pv_count,
                 sum(ifnull(uv, 0)) as uv_count,
                 sum(ifnull(recharge_number, 0)) as recharge_number,
@@ -20,7 +20,7 @@
         </where>
     </select>
 
-    <select id="dataTrend" resultType="com.central.backend.model.vo.FrontpageCountVO">
+    <select id="dataTrend" resultType="com.central.backend.model.vo.FrontpageCountVo">
         select sum(ifnull(pv, 0)) as pv_count,
         sum(ifnull(uv, 0)) as uv_count,
         sum(ifnull(recharge_number, 0)) as recharge_number,

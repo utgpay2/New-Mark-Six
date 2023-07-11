@@ -61,7 +61,7 @@ public class QuizController {
      */
     @ApiOperation(value = "新增or更新")
     @PostMapping
-    public Result save(@RequestBody Quiz quiz, @ApiIgnore @LoginUser SysUser user) {
+    public Result saveOrUpdateQuiz(@RequestBody Quiz quiz, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(quiz)) {
             return Result.failed("请求参数不能为空");
         }
@@ -74,16 +74,7 @@ public class QuizController {
         if (ObjectUtil.isEmpty(quiz.getSort())) {
             return Result.failed("顺序不能为空");
         }
-        if(StringUtils.isNotNull(quiz.getId())){
-            quiz.setUpdateBy(user.getUsername());
-            quiz.setUpdateTime(new Date());
-        }else {
-            quiz.setCreateBy(user.getUsername());
-            quiz.setCreateTime(new Date());
-            quiz.setUpdateBy(user.getUsername());
-            quiz.setUpdateTime(new Date());
-        }
-        quizService.saveOrUpdate(quiz);
+        quizService.saveOrUpdateQuiz(quiz,user);
         return Result.succeed("保存成功");
     }
 

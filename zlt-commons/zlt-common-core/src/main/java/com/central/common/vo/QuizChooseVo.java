@@ -1,4 +1,4 @@
-package com.central.marksix.entity.vo;
+package com.central.common.vo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

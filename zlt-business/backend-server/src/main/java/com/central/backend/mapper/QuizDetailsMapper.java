@@ -23,5 +23,5 @@ public interface QuizDetailsMapper extends SuperMapper<QuizDetails> {
      * @param params
      * @return
      */
-    List<QuizDetails> findList(Page<QuizDetails> page, @Param("p") Map<String, Object> params);
+    List<QuizDetails> findList( @Param("p") Map<String, Object> params);
 }

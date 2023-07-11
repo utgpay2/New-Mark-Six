@@ -36,7 +36,7 @@
 		</where>
 	</select>
 
-	<select id="totalNumber" resultType="com.central.backend.model.vo.MoneyLogVO">
+	<select id="totalNumber" resultType="com.central.backend.model.vo.MoneyLogVo">
 		SELECT
 		count(1) AS total_number,
 		sum(ifnull(money, 0)) as money

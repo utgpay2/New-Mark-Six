@@ -1,6 +1,6 @@
 package com.central.backend.mapper;
 
-import com.central.backend.model.vo.SiteLotteryVO;
+import com.central.backend.model.vo.SiteLotteryVo;
 import com.central.common.model.SiteLottery;
 import com.central.db.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,5 +22,5 @@ public interface SiteLotteryMapper extends SuperMapper<SiteLottery> {
      * @param params
      * @return
      */
-    List<SiteLotteryVO> findList(@Param("p") Map<String, Object> params);
+    List<SiteLotteryVo> findList(@Param("p") Map<String, Object> params);
 }

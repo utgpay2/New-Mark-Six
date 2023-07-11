@@ -1,6 +1,6 @@
 package com.central.backend.mapper;
 
-import com.central.backend.model.vo.FrontpageCountVO;
+import com.central.backend.model.vo.FrontpageCountVo;
 import com.central.common.model.RptSiteSummary;
 import com.central.db.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,7 +22,7 @@ public interface FrontpageCountMapper extends SuperMapper<RptSiteSummary> {
      * @param params
      * @return
      */
-    FrontpageCountVO findSummaryData(@Param("p") Map<String, Object> params);
+    FrontpageCountVo findSummaryData(@Param("p") Map<String, Object> params);
 
-    List<FrontpageCountVO> dataTrend(@Param("p") Map<String, Object> params);
+    List<FrontpageCountVo> dataTrend(@Param("p") Map<String, Object> params);
 }

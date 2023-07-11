@@ -2,7 +2,7 @@ package com.central.backend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.central.backend.mapper.SiteCategoryLotteryMapper;
-import com.central.backend.model.vo.CategoryVO;
+import com.central.backend.model.vo.CategoryVo;
 import com.central.backend.service.IQuizService;
 import com.central.backend.service.ISiteCategoryLotteryService;
 import com.central.common.model.*;
@@ -33,7 +33,7 @@ public class SiteCategoryLotteryServiceImpl extends SuperServiceImpl<SiteCategor
      * @return
      */
     @Override
-    public List<CategoryVO> findList(Map<String, Object> params){
+    public List<CategoryVo> findList(Map<String, Object> params){
         return baseMapper.findList( params);
     }
     @Override

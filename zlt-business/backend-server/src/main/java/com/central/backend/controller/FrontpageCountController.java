@@ -4,7 +4,7 @@
 //import java.util.Map;
 //
 //import cn.hutool.core.util.ObjectUtil;
-//import com.central.backend.model.vo.FrontpageCountVO;
+//import com.central.backend.model.vo.FrontpageCountVo;
 //import com.central.backend.service.IFrontpageCountService;
 //import com.central.common.annotation.LoginUser;
 //import com.central.common.model.SysUser;
@@ -45,7 +45,7 @@
 //        if (ObjectUtil.isEmpty(params)) {
 //            return Result.failed("请求参数不能为空");
 //        }
-//        FrontpageCountVO kpnFrontpageCountVO = kpnFrontpageCountService.findSummaryData(params,user);
+//        FrontpageCountVo kpnFrontpageCountVO = kpnFrontpageCountService.findSummaryData(params,user);
 //        return Result.succeed(kpnFrontpageCountVO, "查询成功");
 //    }
 //    /**
@@ -62,7 +62,7 @@
 //        if (ObjectUtil.isEmpty(params)) {
 //            return Result.failed("请求参数不能为空");
 //        }
-//        List<FrontpageCountVO> kpnFrontpageCountList = kpnFrontpageCountService.dataTrend(params,user);
+//        List<FrontpageCountVo> kpnFrontpageCountList = kpnFrontpageCountService.dataTrend(params,user);
 //        return Result.succeed(kpnFrontpageCountList, "查询成功");
 //    }
 ////

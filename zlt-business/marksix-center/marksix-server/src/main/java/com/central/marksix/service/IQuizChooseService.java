@@ -1,9 +1,8 @@
 package com.central.marksix.service;
 
-import com.central.common.model.PageResult;
 import com.central.common.model.QuizChoose;
 import com.central.common.service.ISuperService;
-import com.central.marksix.entity.vo.QuizChooseVo;
+import com.central.common.vo.QuizChooseVo;
 
 import java.util.List;
 import java.util.Map;

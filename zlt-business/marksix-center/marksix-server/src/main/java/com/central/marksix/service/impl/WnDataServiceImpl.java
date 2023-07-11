@@ -10,7 +10,6 @@ import com.central.common.model.WnData;
 import com.central.common.model.enums.SortEnum;
 import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
-import com.central.marksix.entity.dto.NumberAttributesDto;
 import com.central.marksix.entity.vo.WnDataVo;
 import com.central.marksix.mapper.WnDataMapper;
 import com.central.marksix.service.INumberAttributesService;

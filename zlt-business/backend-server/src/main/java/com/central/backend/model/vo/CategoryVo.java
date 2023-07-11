@@ -8,17 +8,22 @@ import lombok.Setter;
 import java.util.Date;
 
 /**
- * 
+ * 下注分类
  *
  * @author yixiu
- * @date 2023-02-03 15:50:11
+ * @date 2023-02-03 16:32:41
  */
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-public class BlackIpVO {
+public class CategoryVo {
     private static final long serialVersionUID=1L;
+    @ApiModelProperty(value = "站点分类ID")
     private Long id;
+    @ApiModelProperty(value = "分类名称")
+    private String name;
+    @ApiModelProperty(value = "描述")
+    private String remark;
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
     @ApiModelProperty(value = "更新时间")
@@ -27,14 +32,10 @@ public class BlackIpVO {
     private String createBy;
     @ApiModelProperty(value = "更新人")
     private String updateBy;
-    @ApiModelProperty(value = "会员黑名单ip段")
-    private String ipSection;
-    @ApiModelProperty(value = "站点id")
-    private Integer siteId;
-    @ApiModelProperty(value = "站点编码")
-    private String siteCode;
-    @ApiModelProperty(value = "站点名称")
-    private String siteName;
-    @ApiModelProperty(value = "备注")
-    private String remark;
+    @ApiModelProperty(value = "站点彩种ID")
+    private Integer siteLotteryId;
+    @ApiModelProperty(value = "排序")
+    private Integer sort;
+    @ApiModelProperty(value = "下注分类ID")
+    private Integer categoryId;
     }

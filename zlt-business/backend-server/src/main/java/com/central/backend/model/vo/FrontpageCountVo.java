@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-public class FrontpageCountVO {
+public class FrontpageCountVo {
     private static final long serialVersionUID=1L;
     @ApiModelProperty(value = "访问量")
     private Long pvCount;

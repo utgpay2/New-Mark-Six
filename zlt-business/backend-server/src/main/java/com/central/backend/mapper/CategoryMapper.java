@@ -1,9 +1,7 @@
 package com.central.backend.mapper;
 
-import com.central.backend.model.vo.CategoryVO;
 import com.central.common.model.Category;
 import com.central.db.mapper.SuperMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Mapper;
 

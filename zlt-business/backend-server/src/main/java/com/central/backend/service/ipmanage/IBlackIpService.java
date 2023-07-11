@@ -1,6 +1,6 @@
 package com.central.backend.service.ipmanage;
 
-import com.central.backend.model.vo.BlackIpVO;
+import com.central.backend.model.vo.BlackIpVo;
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
 import com.central.common.model.SysUser;
@@ -22,7 +22,7 @@ public interface IBlackIpService extends ISuperService<BlackIp> {
      * @param params
      * @return
      */
-    PageResult<BlackIpVO> findList(Map<String, Object> params, SysUser user);
+    PageResult<BlackIpVo> findList(Map<String, Object> params, SysUser user);
 
     /**
      * IP黑名单检查

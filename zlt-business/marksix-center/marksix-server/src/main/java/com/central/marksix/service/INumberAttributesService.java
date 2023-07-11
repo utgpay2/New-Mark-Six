@@ -2,7 +2,7 @@ package com.central.marksix.service;
 
 import com.central.common.model.NumberAttributes;
 import com.central.common.service.ISuperService;
-import com.central.marksix.entity.dto.NumberAttributesDto;
+import com.central.common.dto.NumberAttributesDto;
 
 import java.util.List;
 

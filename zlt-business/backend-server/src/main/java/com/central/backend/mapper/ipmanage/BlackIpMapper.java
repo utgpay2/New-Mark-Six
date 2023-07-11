@@ -1,6 +1,6 @@
 package com.central.backend.mapper.ipmanage;
 
-import com.central.backend.model.vo.BlackIpVO;
+import com.central.backend.model.vo.BlackIpVo;
 import com.central.common.model.ipmanage.BlackIp;
 import com.central.db.mapper.SuperMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -24,5 +24,5 @@ public interface BlackIpMapper extends SuperMapper<BlackIp> {
      * @param params
      * @return
      */
-    List<BlackIpVO> findList(Page<BlackIpVO> page, @Param("p") Map<String, Object> params);
+    List<BlackIpVo> findList(Page<BlackIpVo> page, @Param("p") Map<String, Object> params);
 }

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.central.backend.model.vo.SiteLotteryVO;
+import com.central.backend.model.vo.SiteLotteryVo;
 import com.central.backend.service.ILotteryService;
 import com.central.backend.service.ISiteLotteryService;
 import com.central.common.annotation.LoginUser;
@@ -90,7 +90,7 @@ public class LotteryController {
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/listsitelottery")
-    public Result<List<SiteLotteryVO>> listSiteLottery(@ApiIgnore @RequestParam Map<String, Object> params) {
+    public Result<List<SiteLotteryVo>> listSiteLottery(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }

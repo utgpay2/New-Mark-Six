@@ -1,6 +1,6 @@
 package com.central.backend.service;
 
-import com.central.backend.model.vo.CategoryVO;
+import com.central.backend.model.vo.CategoryVo;
 import com.central.common.model.*;
 import com.central.common.service.ISuperService;
 
@@ -19,7 +19,7 @@ public interface ISiteCategoryLotteryService extends ISuperService<SiteCategoryL
      * @param params
      * @return
      */
-    List<CategoryVO> findList(Map<String, Object> params);
+    List<CategoryVo> findList(Map<String, Object> params);
     Result deleteSiteCategory(Long id);
 
     Result saveOrUpdateSiteCategory(SiteCategoryLottery category, SysUser user);

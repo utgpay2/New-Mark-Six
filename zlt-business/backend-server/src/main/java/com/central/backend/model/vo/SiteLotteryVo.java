@@ -1,7 +1,5 @@
 package com.central.backend.model.vo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.central.common.model.SuperEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,7 +17,7 @@ import java.util.Date;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-public class SiteLotteryVO  {
+public class SiteLotteryVo {
     @ApiModelProperty(value = "站点彩种ID")
     private Long id;
     private static final long serialVersionUID=1L;

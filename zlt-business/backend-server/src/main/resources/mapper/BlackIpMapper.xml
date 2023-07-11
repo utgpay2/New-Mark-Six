@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.central.backend.mapper.ipmanage.BlackIpMapper">
-    <resultMap id="BaseResultMap" type="com.central.backend.model.vo.BlackIpVO">
+    <resultMap id="BaseResultMap" type="com.central.backend.model.vo.BlackIpVo">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="ip_section" jdbcType="VARCHAR" property="ipSection"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
@@ -14,7 +14,7 @@
         <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
-    <select id="findList" resultType="com.central.backend.model.vo.BlackIpVO">
+    <select id="findList" resultType="com.central.backend.model.vo.BlackIpVo">
         select t.id as id,t.ip_section as ipSection,
                t.remark as remark,t.site_id as siteId,
                t.site_code as siteCode,t.site_name as siteName,

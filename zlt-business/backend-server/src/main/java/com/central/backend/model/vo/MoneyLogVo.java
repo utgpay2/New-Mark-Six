@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @ApiModel("M币统计")
-public class MoneyLogVO {
+public class MoneyLogVo {
 
 
     @ApiModelProperty(value = "账变金额")

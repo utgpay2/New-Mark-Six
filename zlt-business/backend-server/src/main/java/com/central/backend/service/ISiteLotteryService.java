@@ -1,6 +1,6 @@
 package com.central.backend.service;
 
-import com.central.backend.model.vo.SiteLotteryVO;
+import com.central.backend.model.vo.SiteLotteryVo;
 import com.central.common.model.Result;
 import com.central.common.model.SiteLottery;
 import com.central.common.model.SysUser;
@@ -21,7 +21,7 @@ public interface ISiteLotteryService extends ISuperService<SiteLottery> {
      * @param params
      * @return
      */
-    List<SiteLotteryVO> findList(Map<String, Object> params);
+    List<SiteLotteryVo> findList(Map<String, Object> params);
     Result deleteSiteLottery(Long id);
 
     Result saveOrUpdateSiteLottery(SiteLottery siteLottery, SysUser user);

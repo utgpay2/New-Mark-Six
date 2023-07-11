@@ -3,7 +3,7 @@ package com.central.backend.controller.ipmanage;
 import java.util.Map;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.central.backend.model.vo.BlackIpVO;
+import com.central.backend.model.vo.BlackIpVo;
 import com.central.backend.service.ipmanage.IBlackIpService;
 import com.central.common.annotation.LoginUser;
 import com.central.common.model.SysUser;
@@ -47,7 +47,7 @@ public class BlackIpController {
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
     })
     @GetMapping
-    public Result<PageResult<BlackIpVO>> list(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
+    public Result<PageResult<BlackIpVo>> list(@RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
