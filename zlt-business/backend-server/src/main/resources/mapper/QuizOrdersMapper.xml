@@ -50,4 +50,35 @@
                 </choose>
         </where>
     </select>
+
+    <select id="userReportForms" resultType="com.central.backend.model.dto.UserReportFormsDto">
+        SELECT
+        u.username,
+        u.parent_name,
+        u.m_balance,
+        COALESCE(sum( o.total_price ),0)  as order_price,
+
+        COALESCE(sum( o.win_mount ),0) as win_mount ,
+
+        COALESCE(sum( o.win_lose_amount),0) as win_lose_amount,
+
+        COALESCE(sum( r.money ) ,0) as  recharge,
+
+        COALESCE( abs( sum( w.money )),0)  as  withdrawal,
+
+        COALESCE(sum( r.money )/sum( o.total_price ),0)  as win_rate
+        from
+        sys_user u
+        left JOIN ( select * from mks_quiz_orders where create_time between #{p.startTime} and #{p.endTime} ) o ON u.id = o.member_id
+        LEFT JOIN (select * from mks_money_log where order_type=6 and create_time between #{p.startTime} and #{p.endTime} ) r ON u.id = r.user_id
+        LEFT JOIN (select * from mks_money_log where order_type=5 and create_time between #{p.startTime} and #{p.endTime} ) w ON u.id = w.user_id
+        <where>
+            1=1
+            and
+            u.site_id=#{p.siteId}
+            and u.type='APP'
+            GROUP BY u.id ORDER BY sum( r.money ) DESC
+        </where>
+    </select>
+
 </mapper>

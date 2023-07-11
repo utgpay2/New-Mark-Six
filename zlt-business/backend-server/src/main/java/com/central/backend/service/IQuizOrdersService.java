@@ -1,9 +1,13 @@
 package com.central.backend.service;
 
+import com.central.backend.model.dto.UserReportFormsDto;
 import com.central.common.model.PageResult;
 import com.central.common.model.QuizOrders;
 import com.central.common.service.ISuperService;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,5 +23,9 @@ public interface IQuizOrdersService extends ISuperService<QuizOrders> {
      * @return
      */
     PageResult<QuizOrders> findList(Map<String, Object> params);
+
+    PageResult userReportForms(Map<String, Object> params);
+
+    void userReportFormsExport(Map<String, Object> params, HttpServletResponse httpServletResponse);
 }
 

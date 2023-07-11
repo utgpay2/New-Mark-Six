@@ -58,9 +58,9 @@ public class SiteController {
     public Result<List<SiteListVo>> findSiteBoxList(@ApiIgnore @LoginUser SysUser sysUser) {
         //根据token判断当前账号是什么角色
         Integer roleId=0;
-        if (sysUser !=null ){
+       /* if (sysUser !=null ){
             roleId= Integer.valueOf(sysUser.getRoleId());
-        }
+        }*/
         List list = siteService.findSiteBoxList(roleId);
         return Result.succeed(list);
     }
