@@ -404,7 +404,7 @@ public class LotteryController {
         return siteOrderService.cancelBetting(ids,user);
     }
     /**
-     * 查询我的投注记录
+     * 统计我的投注记录
      */
     @ApiOperation(value = "统计我的投注记录")
     @ApiImplicitParams({

@@ -21,8 +21,12 @@ public class ZodiacTailBumpLotteryBetDto {
     private Integer zodiacOne;
     @ApiModelProperty(value = "尾数二")
     private Integer tailTwo;
-    @ApiModelProperty(value = "赔率一")
+    @ApiModelProperty(value = "生肖一 赔率")
     private Double oddsOne;
-    @ApiModelProperty(value = "赔率二")
+    @ApiModelProperty(value = "生肖一 赔率2(三中二之中三，中特之中二）")
+    private Double oddsOne2;
+    @ApiModelProperty(value = "尾数二 赔率")
     private Double oddsTwo;
+    @ApiModelProperty(value = "尾数二 赔率2(三中二之中三，中特之中二）")
+    private Double oddsTwo2;
 }

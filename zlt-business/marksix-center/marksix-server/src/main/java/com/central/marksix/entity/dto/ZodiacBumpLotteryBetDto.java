@@ -23,8 +23,12 @@ public class ZodiacBumpLotteryBetDto {
     private String zodiacOne;
     @ApiModelProperty(value = "生肖二")
     private String zodiacTwo;
-    @ApiModelProperty(value = "赔率一")
+    @ApiModelProperty(value = "生肖一赔率")
     private Double oddsOne;
-    @ApiModelProperty(value = "赔率二")
+    @ApiModelProperty(value = "生肖一赔率2(三中二之中三，中特之中二）")
+    private Double oddsOne2;
+    @ApiModelProperty(value = "生肖二赔率")
     private Double oddsTwo;
+    @ApiModelProperty(value = "生肖二赔率2(三中二之中三，中特之中二）")
+    private Double oddsTwo2;
 }

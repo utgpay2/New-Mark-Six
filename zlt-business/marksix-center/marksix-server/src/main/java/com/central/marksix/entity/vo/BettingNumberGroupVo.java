@@ -19,6 +19,8 @@ import java.util.List;
 public class BettingNumberGroupVo {
     @ApiModelProperty(value = "赔率")
     private Double oddsMin;
+    @ApiModelProperty(value = "赔率2 (三中二之中三，中特之中二）")
+    private Double oddsMin2;
     @ApiModelProperty(value = "投注号")
     List<BettingNumberVo> numberVoList;
     }

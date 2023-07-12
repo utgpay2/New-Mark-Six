@@ -21,6 +21,8 @@ public class QuizChooseDto{
     private String introduce;
     @ApiModelProperty(value = "赔率")
     private Double odds;
+    @ApiModelProperty(value = "赔率2 (三中二之中三，中特之中二）")
+    private Double odds2;
     @ApiModelProperty(value = "波色")
     private String color;
     }

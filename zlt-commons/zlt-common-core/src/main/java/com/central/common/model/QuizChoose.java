@@ -28,4 +28,6 @@ public class QuizChoose extends SuperEntity {
     private Integer status;
     @ApiModelProperty(value = "赔率")
     private Double odds;
+    @ApiModelProperty(value = "赔率2(三中二之中三，中特之中二）")
+    private Double odds2;
     }

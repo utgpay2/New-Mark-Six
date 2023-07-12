@@ -27,4 +27,6 @@ public class QuizSubordersDto {
     private Integer units;
     @ApiModelProperty(value = "赔率")
     private Integer odds;
+    @ApiModelProperty(value = "赔率2(三中二之中三，中特之中二）")
+    private Double odds2;
     }

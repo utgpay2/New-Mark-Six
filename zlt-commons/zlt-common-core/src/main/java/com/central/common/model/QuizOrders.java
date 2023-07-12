@@ -55,8 +55,10 @@ public class QuizOrders extends SuperEntity {
     private String quizChooseIds;
     @ApiModelProperty(value = "开奖规则明细名称 如：01,02,03")
     private String quizIntroduces;
-    @ApiModelProperty(value = "赔率，存在子订单时，赔率为空")
+    @ApiModelProperty(value = "赔率")
     private BigDecimal odds;
+    @ApiModelProperty(value = "赔率2(三中二之中三，中特之中二）")
+    private Double odds2;
     @ApiModelProperty(value = "0 没有子订单,1 有子订单")
     private Integer isSubOrders;
     @ApiModelProperty(value = "订单金额")

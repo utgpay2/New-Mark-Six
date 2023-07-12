@@ -212,10 +212,12 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
         }
         List<BettingNumberGroupVo> bettingNumberGroupVoList = new ArrayList<>();
+        boolean b = true;
         for (String bettingNumberStr:bettingNumberHashSet) {
             BettingNumberGroupVo bettingNumberGroupVo = new BettingNumberGroupVo();
             String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
             Double[] oddsArrays = new Double[bettingNumber.length];
+            Double[] oddsArrays2 = new Double[bettingNumber.length];
             List<BettingNumberVo> numberVoList =  new ArrayList<>();
             for(int i=0;i<bettingNumber.length;i++) {
                 BettingNumberVo bettingNumberVo = new BettingNumberVo();
@@ -223,6 +225,11 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                     QuizChooseDto dto = quizChooseDtoList.get(j);
                     if(bettingNumber[i].equals(dto.getIntroduce())){
                         oddsArrays[i] = dto.getOdds();
+                        if(null!=dto.getOdds2()&&dto.getOdds()>0){
+                            oddsArrays2[i] = dto.getOdds2();
+                        }else {
+                            b = false;
+                        }
                         bettingNumberVo.setBettingNumber(bettingNumber[i]);
                         bettingNumberVo.setColor(dto.getColor());
                     }
@@ -230,6 +237,10 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 numberVoList.add(bettingNumberVo);
             }
             Double oddsMin = this.getMin(oddsArrays);//取最小值（赔率）
+            if(b){
+                Double oddsMin2 = this.getMin(oddsArrays2);//取最小值（赔率）
+                bettingNumberGroupVo.setOddsMin2(oddsMin2);
+            }
             bettingNumberGroupVo.setOddsMin(oddsMin);
             bettingNumberGroupVo.setNumberVoList(numberVoList);
             bettingNumberGroupVoList.add(bettingNumberGroupVo);
@@ -706,10 +717,12 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
         //去重集合
         HashSet<String> newBettingNumberHashSet =  new HashSet<>(list);
         List<BettingNumberGroupVo> bettingNumberGroupVoList = new ArrayList<>();
+        boolean b = true;
         for (String bettingNumberStr:newBettingNumberHashSet) {
             BettingNumberGroupVo bettingNumberGroupVo = new BettingNumberGroupVo();
             String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
             Double[] oddsArrays = new Double[bettingNumber.length];
+            Double[] oddsArrays2 = new Double[bettingNumber.length];
             List<BettingNumberVo> numberVoList =  new ArrayList<>();
             for(int i=0;i<bettingNumber.length;i++) {
 
@@ -718,6 +731,11 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                     QuizChooseDto dto = braveryList.get(j);
                     if(bettingNumber[i].equals(dto.getIntroduce())){
                         oddsArrays[i] = dto.getOdds();
+                        if(null!=dto.getOdds()&&dto.getOdds()>0){
+                            oddsArrays2[i] = dto.getOdds2();
+                        }else {
+                            b = false;
+                        }
                         bettingNumberVo.setBettingNumber(bettingNumber[i]);
                         bettingNumberVo.setColor(dto.getColor());
                         numberVoList.add(bettingNumberVo);
@@ -728,6 +746,11 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                     BettingNumberVo bettingNumberVo = new BettingNumberVo();
                     if(bettingNumber[i].equals(dto.getIntroduce())){
                         oddsArrays[i] = dto.getOdds();
+                        if(null!=dto.getOdds()&&dto.getOdds()>0){
+                            oddsArrays2[i] = dto.getOdds2();
+                        }else {
+                            b = false;
+                        }
                         bettingNumberVo.setBettingNumber(bettingNumber[i]);
                         bettingNumberVo.setColor(dto.getColor());
                         numberVoList.add(bettingNumberVo);
@@ -736,6 +759,10 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
 
             }
             Double oddsMin = this.getMin(oddsArrays);//取最小值（赔率）
+            if(b){
+                Double oddsMin2 = this.getMin(oddsArrays2);//取最小值（赔率）
+                bettingNumberGroupVo.setOddsMin2(oddsMin2);
+            }
             bettingNumberGroupVo.setOddsMin(oddsMin);
             bettingNumberGroupVo.setNumberVoList(numberVoList);
             bettingNumberGroupVoList.add(bettingNumberGroupVo);
@@ -773,6 +800,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             if (zodiacBumpLotteryBetDto.getZodiacOne().equals(numberAttributes.getZodiac())) {
                 BumpBettingNumberDto bumpBettingNumberDto = new BumpBettingNumberDto();
                 bumpBettingNumberDto.setOdds(zodiacBumpLotteryBetDto.getOddsOne());
+                bumpBettingNumberDto.setOdds2(zodiacBumpLotteryBetDto.getOddsOne2());
                 bumpBettingNumberDto.setBettingNumber(numberAttributes.getNumber());
                 bumpBettingNumberDto.setColor(numberAttributes.getColor());
                 bumpBettingNumberDtoList.add(bumpBettingNumberDto);
@@ -780,6 +808,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             if (zodiacBumpLotteryBetDto.getZodiacTwo().equals(numberAttributes.getZodiac())) {
                 BumpBettingNumberDto bumpBettingNumberDto = new BumpBettingNumberDto();
                 bumpBettingNumberDto.setOdds(zodiacBumpLotteryBetDto.getOddsTwo());
+                bumpBettingNumberDto.setOdds2(zodiacBumpLotteryBetDto.getOddsTwo2());
                 bumpBettingNumberDto.setBettingNumber(numberAttributes.getNumber());
                 bumpBettingNumberDto.setColor(numberAttributes.getColor());
                 bumpBettingNumberDtoList.add(bumpBettingNumberDto);
@@ -962,10 +991,12 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
         }
         List<BettingNumberGroupVo> bettingNumberGroupVoList = new ArrayList<>();
+        boolean b = true;
         for (String bettingNumberStr:bettingNumberHashSet) {
             BettingNumberGroupVo bettingNumberGroupVo = new BettingNumberGroupVo();
             String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
             Double[] oddsArrays = new Double[bettingNumber.length];
+            Double[] oddsArrays2 = new Double[bettingNumber.length];
             List<BettingNumberVo> numberVoList =  new ArrayList<>();
             for(int i=0;i<bettingNumber.length;i++) {
                 BettingNumberVo bettingNumberVo = new BettingNumberVo();
@@ -973,6 +1004,11 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                     BumpBettingNumberDto dto = bumpBettingNumberDtoList.get(j);
                     if(bettingNumber[i].equals(dto.getBettingNumber())){
                         oddsArrays[i] = dto.getOdds();
+                        if(null!=dto.getOdds()&&dto.getOdds()>0){
+                            oddsArrays2[i] = dto.getOdds2();
+                        }else {
+                            b = false;
+                        }
                         bettingNumberVo.setBettingNumber(bettingNumber[i]);
                         bettingNumberVo.setColor(dto.getColor());
                     }
@@ -981,6 +1017,10 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             }
             Double oddsMin = this.getMin(oddsArrays);//取最小值（赔率）
             bettingNumberGroupVo.setOddsMin(oddsMin);
+            if(b){
+                Double oddsMin2 = this.getMin(oddsArrays2);//取最小值（赔率）
+                bettingNumberGroupVo.setOddsMin2(oddsMin2);
+            }
             bettingNumberGroupVo.setNumberVoList(numberVoList);
             bettingNumberGroupVoList.add(bettingNumberGroupVo);
         }
@@ -999,6 +1039,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             if (tailBumpLotteryBetDto.getTailOne()==Integer.parseInt(numberAttributes.getNumber())%10) {
                 BumpBettingNumberDto bumpBettingNumberDto = new BumpBettingNumberDto();
                 bumpBettingNumberDto.setOdds(tailBumpLotteryBetDto.getOddsOne());
+                bumpBettingNumberDto.setOdds2(tailBumpLotteryBetDto.getOddsOne2());
                 bumpBettingNumberDto.setBettingNumber(numberAttributes.getNumber());
                 bumpBettingNumberDto.setColor(numberAttributes.getColor());
                 bumpBettingNumberDtoList.add(bumpBettingNumberDto);
@@ -1006,6 +1047,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             if (tailBumpLotteryBetDto.getTailTwo()==Integer.parseInt(numberAttributes.getNumber())%10) {
                 BumpBettingNumberDto bumpBettingNumberDto = new BumpBettingNumberDto();
                 bumpBettingNumberDto.setOdds(tailBumpLotteryBetDto.getOddsTwo());
+                bumpBettingNumberDto.setOdds2(tailBumpLotteryBetDto.getOddsTwo2());
                 bumpBettingNumberDto.setBettingNumber(numberAttributes.getNumber());
                 bumpBettingNumberDto.setColor(numberAttributes.getColor());
                 bumpBettingNumberDtoList.add(bumpBettingNumberDto);
@@ -1188,10 +1230,12 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
         }
         List<BettingNumberGroupVo> bettingNumberGroupVoList = new ArrayList<>();
+        boolean b = true;
         for (String bettingNumberStr:bettingNumberHashSet) {
             BettingNumberGroupVo bettingNumberGroupVo = new BettingNumberGroupVo();
             String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
             Double[] oddsArrays = new Double[bettingNumber.length];
+            Double[] oddsArrays2 = new Double[bettingNumber.length];
             List<BettingNumberVo> numberVoList =  new ArrayList<>();
             for(int i=0;i<bettingNumber.length;i++) {
                 BettingNumberVo bettingNumberVo = new BettingNumberVo();
@@ -1199,11 +1243,20 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                     BumpBettingNumberDto dto = bumpBettingNumberDtoList.get(j);
                     if(bettingNumber[i].equals(dto.getBettingNumber())){
                         oddsArrays[i] = dto.getOdds();
+                        if(null!=dto.getOdds()&&dto.getOdds()>0){
+                            oddsArrays2[i] = dto.getOdds2();
+                        }else {
+                            b = false;
+                        }
                         bettingNumberVo.setBettingNumber(bettingNumber[i]);
                         bettingNumberVo.setColor(dto.getColor());
                     }
                 }
                 numberVoList.add(bettingNumberVo);
+            }
+            if(b){
+                Double oddsMin2 = this.getMin(oddsArrays2);//取最小值（赔率）
+                bettingNumberGroupVo.setOddsMin2(oddsMin2);
             }
             Double oddsMin = this.getMin(oddsArrays);//取最小值（赔率）
             bettingNumberGroupVo.setOddsMin(oddsMin);
@@ -1214,7 +1267,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
     }
     /**
      * 生尾对碰
-     * @param tailBumpLotteryBetDto
+     * @param zodiacTailBumpLotteryBetDto
      * @return
      */
     @Override
@@ -1225,6 +1278,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             if (zodiacTailBumpLotteryBetDto.getZodiacOne().equals(numberAttributes.getZodiac())) {
                 BumpBettingNumberDto bumpBettingNumberDto = new BumpBettingNumberDto();
                 bumpBettingNumberDto.setOdds(zodiacTailBumpLotteryBetDto.getOddsOne());
+                bumpBettingNumberDto.setOdds2(zodiacTailBumpLotteryBetDto.getOddsOne2());
                 bumpBettingNumberDto.setBettingNumber(numberAttributes.getNumber());
                 bumpBettingNumberDto.setColor(numberAttributes.getColor());
                 bumpBettingNumberDtoList.add(bumpBettingNumberDto);
@@ -1232,6 +1286,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             if (zodiacTailBumpLotteryBetDto.getTailTwo()==Integer.parseInt(numberAttributes.getNumber())%10) {
                 BumpBettingNumberDto bumpBettingNumberDto = new BumpBettingNumberDto();
                 bumpBettingNumberDto.setOdds(zodiacTailBumpLotteryBetDto.getOddsTwo());
+                bumpBettingNumberDto.setOdds2(zodiacTailBumpLotteryBetDto.getOddsTwo2());
                 bumpBettingNumberDto.setBettingNumber(numberAttributes.getNumber());
                 bumpBettingNumberDto.setColor(numberAttributes.getColor());
                 bumpBettingNumberDtoList.add(bumpBettingNumberDto);
@@ -1414,10 +1469,12 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
         }
         List<BettingNumberGroupVo> bettingNumberGroupVoList = new ArrayList<>();
+        boolean b = true;
         for (String bettingNumberStr:bettingNumberHashSet) {
             BettingNumberGroupVo bettingNumberGroupVo = new BettingNumberGroupVo();
             String[] bettingNumber = bettingNumberStr.split(",");//每组投注号码
             Double[] oddsArrays = new Double[bettingNumber.length];
+            Double[] oddsArrays2 = new Double[bettingNumber.length];
             List<BettingNumberVo> numberVoList =  new ArrayList<>();
             for(int i=0;i<bettingNumber.length;i++) {
                 BettingNumberVo bettingNumberVo = new BettingNumberVo();
@@ -1425,11 +1482,20 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                     BumpBettingNumberDto dto = bumpBettingNumberDtoList.get(j);
                     if(bettingNumber[i].equals(dto.getBettingNumber())){
                         oddsArrays[i] = dto.getOdds();
+                        if(null!=dto.getOdds()&&dto.getOdds()>0){
+                            oddsArrays2[i] = dto.getOdds2();
+                        }else {
+                            b = false;
+                        }
                         bettingNumberVo.setBettingNumber(bettingNumber[i]);
                         bettingNumberVo.setColor(dto.getColor());
                     }
                 }
                 numberVoList.add(bettingNumberVo);
+            }
+            if(b){
+                Double oddsMin2 = this.getMin(oddsArrays2);//取最小值（赔率）
+                bettingNumberGroupVo.setOddsMin2(oddsMin2);
             }
             Double oddsMin = this.getMin(oddsArrays);//取最小值（赔率）
             bettingNumberGroupVo.setOddsMin(oddsMin);
