@@ -27,5 +27,9 @@ public interface IQuizOrdersService extends ISuperService<QuizOrders> {
     PageResult userReportForms(Map<String, Object> params);
 
     void userReportFormsExport(Map<String, Object> params, HttpServletResponse httpServletResponse);
+
+    PageResult userMoneyDetailed(Map<String, Object> params);
+
+    void userMoneyDetailedExport(Map<String, Object> params,HttpServletResponse httpServletResponse);
 }
 

@@ -26,9 +26,6 @@ public class ExcelUtils {
     public static <T> void write(HttpServletResponse response,  String sheetName,
                                  Class<T> head, List<T> data) throws IOException {
 
-
-
-
         // 设置响应头等
         response.setHeader("Content-Disposition", "attachment;filename=" +
                 URLEncoder.encode(sheetName+System.currentTimeMillis()+".xlsx", "UTF-8"));
@@ -39,10 +36,7 @@ public class ExcelUtils {
                 .autoCloseStream(false) // 不要自动关闭，交给 Servlet 自己处理
                 .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()) // 基于 column 长度，自动适配。最大 255 宽度
                 .head(head).sheet(sheetName).doWrite(data);
-
-
-
-
+        
     }
 
 }

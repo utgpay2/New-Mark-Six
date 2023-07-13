@@ -1,6 +1,8 @@
 package com.central.backend.mapper;
 
+import com.central.backend.model.dto.UserMoneyDetailedReportFormsDto;
 import com.central.backend.model.dto.UserReportFormsDto;
+import com.central.common.model.MoneyLog;
 import com.central.common.model.QuizOrders;
 import com.central.db.mapper.SuperMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -27,4 +29,6 @@ public interface QuizOrdersMapper extends SuperMapper<QuizOrders> {
     List<QuizOrders> findList(Page<QuizOrders> page, @Param("p") Map<String, Object> params);
 
     List<UserReportFormsDto> userReportForms(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
+
+    List<UserMoneyDetailedReportFormsDto> userMoneyDetailed(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
 }
