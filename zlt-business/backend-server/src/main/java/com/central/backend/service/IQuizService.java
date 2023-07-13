@@ -1,5 +1,6 @@
 package com.central.backend.service;
 
+import com.central.backend.model.dto.QuizDto;
 import com.central.common.model.PageResult;
 import com.central.common.model.Quiz;
 import com.central.common.model.Result;
@@ -22,7 +23,7 @@ public interface IQuizService extends ISuperService<Quiz> {
      * @return
      */
     List<Quiz> findList(Map<String, Object> params);
-    Result deleteQuiz(Long id);
+    Result deleteQuiz(QuizDto quizDto);
 
     Result saveOrUpdateQuiz(Quiz quiz, SysUser user);
 }

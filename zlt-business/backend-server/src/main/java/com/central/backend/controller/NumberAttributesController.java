@@ -67,8 +67,8 @@ public class NumberAttributesController {
      */
     @ApiOperation(value = "新增或修改号码属性")
     @PostMapping("/saveOrUpdate")
-    public Result saveOrUpdate(@RequestBody NumberAttributesDto numberAttributesDto, @ApiIgnore @LoginUser SysUser user) {
-        return numberAttributesService.saveOrUpdateNumberAttributes(numberAttributesDto,user);
+    public Result saveOrUpdate(@RequestBody NumberAttributes numberAttributes, @ApiIgnore @LoginUser SysUser user) {
+        return numberAttributesService.saveOrUpdateNumberAttributes(numberAttributes,user);
     }
 
     /**

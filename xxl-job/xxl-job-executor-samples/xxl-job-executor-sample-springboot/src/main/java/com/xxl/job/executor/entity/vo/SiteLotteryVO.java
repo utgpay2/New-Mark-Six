@@ -32,5 +32,6 @@ public class SiteLotteryVO {
     private String picture;//图片地址
     private Time betDeadlineTime;//下注截止时间
     private Time betSettlementTime;//结算完成时间
+    private Integer isDisplay;//是否显示(0隐藏，1显示)
     private Integer status;//是否结算中(0否，1结算中)
     }

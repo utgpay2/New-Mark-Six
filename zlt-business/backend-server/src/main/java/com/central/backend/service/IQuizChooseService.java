@@ -1,5 +1,6 @@
 package com.central.backend.service;
 
+import com.central.backend.model.dto.QuizChooseDto;
 import com.central.common.model.PageResult;
 import com.central.common.model.QuizChoose;
 import com.central.common.model.Result;
@@ -23,7 +24,7 @@ public interface IQuizChooseService extends ISuperService<QuizChoose> {
      * @return
      */
     List<QuizChooseVo> findList(Map<String, Object> params);
-    Result deleteQuizChoose(Long id);
+    Result deleteQuizChoose(QuizChooseDto quizChooseDto);
     Result saveOrUpdateQuizChoose(QuizChoose quizChoose, SysUser user);
 }
 

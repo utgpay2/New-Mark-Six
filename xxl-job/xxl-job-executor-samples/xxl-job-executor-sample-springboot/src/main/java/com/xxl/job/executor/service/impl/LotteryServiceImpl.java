@@ -34,7 +34,7 @@ public class LotteryServiceImpl extends SuperServiceImpl<LotteryMapper, Lottery>
      */
     @Override
     public List<SiteLotteryVO> findList(Map<String, Object> params){
-        String redisKey = StrUtil.format(RedisConstants.LOTTERYID_LIST_KEY, MapUtils.getInteger(params,"lotteryId"), StatusEnum.ONE_TRUE.getStatus());
+        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERYID_LIST_KEY, MapUtils.getInteger(params,"lotteryId"));
         List<SiteLotteryVO> list = (List<SiteLotteryVO>)RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList( params);
@@ -47,7 +47,7 @@ public class LotteryServiceImpl extends SuperServiceImpl<LotteryMapper, Lottery>
         this.lambdaUpdate().eq(Lottery::getId, lotteryId)
                 .setSql("`status` = "+ stauts)
                 .update();
-        String redisKey = StrUtil.format(RedisConstants.LOTTERYID_LIST_KEY, lotteryId, StatusEnum.ONE_TRUE.getStatus());
+        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERYID_LIST_KEY, lotteryId);
         RedisRepository.delete(redisKey);
     }
 }

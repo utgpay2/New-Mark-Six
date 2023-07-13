@@ -20,8 +20,7 @@ public interface ISiteCategoryLotteryService extends ISuperService<SiteCategoryL
      * @return
      */
     List<CategoryVo> findList(Map<String, Object> params);
-    Result deleteSiteCategory(Long id);
-
+    Result deleteSiteCategory(Long id,Long siteId,Long siteLotteryId);
     Result saveOrUpdateSiteCategory(SiteCategoryLottery category, SysUser user);
 }
 

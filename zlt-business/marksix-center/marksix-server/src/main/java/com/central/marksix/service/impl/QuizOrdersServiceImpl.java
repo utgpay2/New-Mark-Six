@@ -97,12 +97,10 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             List<MoneyLog> moneyLogList = new ArrayList<>();
             BigDecimal currentBalance = sysUser.getMBalance();//用户当前余额
             for (QuizOrdersDto ordersDto : ordersDtoList) {
-                Map<String, Object> params = new HashMap<>();
-                params.put("lotteryId", ordersDto.getLotteryId());
-                List<SiteLotteryVo> siteLotteryVoList = lotteryService.findListByLotteryId(params);
-                for (SiteLotteryVo siteLotteryVO : siteLotteryVoList) {
-                    if (StatusEnum.ONE_TRUE.getStatus() == siteLotteryVO.getStatus()) {
-                        return Result.failed(siteLotteryVO.getLotteryName() + "结算中，请稍后再试");
+                List<Lottery> lotteryList = lotteryService.findListByLotteryId(ordersDto.getLotteryId());
+                for (Lottery lottery : lotteryList) {
+                    if (StatusEnum.ONE_TRUE.getStatus() == lottery.getStatus()) {
+                        return Result.failed(lottery.getLotteryName() + "结算中，请稍后再试");
                     }
                 }
                 totalPrice = totalPrice.add(ordersDto.getTotalPrice());//汇总订单金额
@@ -209,12 +207,10 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 if(null == quizOrders){
                     return Result.failed("投注记录不存在");
                 }
-                Map<String, Object> params = new HashMap<>();
-                params.put("lotteryId", quizOrders.getLotteryId());
-                List<SiteLotteryVo> siteLotteryVoList = lotteryService.findListByLotteryId(params);
-                for (SiteLotteryVo siteLotteryVO : siteLotteryVoList) {
-                    if (StatusEnum.ONE_TRUE.getStatus() == siteLotteryVO.getStatus()) {
-                        return Result.failed(siteLotteryVO.getLotteryName() + "结算中，请稍后再试");
+                List<Lottery> lotteryList = lotteryService.findListByLotteryId(quizOrders.getLotteryId());
+                for (Lottery lottery : lotteryList) {
+                    if (StatusEnum.ONE_TRUE.getStatus() == lottery.getStatus()) {
+                        return Result.failed(lottery.getLotteryName() + "结算中，请稍后再试");
                     }
                 }
                 if (OrderStatusEnum.ORDER_ONE.getStatus() != quizOrders.getStatus()) {

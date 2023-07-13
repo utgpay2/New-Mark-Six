@@ -24,6 +24,6 @@ public interface INumberAttributesService extends ISuperService<NumberAttributes
     List<NumberAttributes> findList(Map<String, Object> params);
     List<NumberAttributes> findList(NumberAttributesDto numberAttributesDto, Integer year);
     Result deleteNumberAttributes(Long id,Integer year);
-    Result saveOrUpdateNumberAttributes(NumberAttributesDto numberAttributesDto, SysUser user);
+    Result saveOrUpdateNumberAttributes(NumberAttributes numberAttributes, SysUser user);
 }
 

@@ -14,8 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -34,13 +36,20 @@ public class SiteCategoryLotteryServiceImpl extends SuperServiceImpl<SiteCategor
      */
     @Override
     public List<CategoryVo> findList(Map<String, Object> params){
-        String redisKey = StrUtil.format(RedisConstants.SITE_CATEGORY_LIST_KEY, MapUtils.getInteger(params,"siteLotteryId"),
-                true== ObjectUtil.isEmpty(params.get("sortBy"))? SortEnum.ASC.getCode():MapUtils.getInteger(params,"sortBy"));
+        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_CATEGORY_LIST_KEY,
+                MapUtils.getInteger(params,"siteId"),
+                MapUtils.getInteger(params,"siteLotteryId"));
         List<CategoryVo> list = (List<CategoryVo>)RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList( params);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
-        return list;
+        Comparator<CategoryVo> comparator;
+        if(ObjectUtil.isEmpty(params.get("sortBy"))||SortEnum.DESC.getCode() != MapUtils.getInteger(params,"sortBy")){
+            comparator = Comparator.comparing(CategoryVo::getSort);//正序
+        }else {
+            comparator = Comparator.comparing(CategoryVo::getSort).reversed();//倒序
+        }
+        return list.stream().sorted(comparator).collect(Collectors.toList());
     }
 }

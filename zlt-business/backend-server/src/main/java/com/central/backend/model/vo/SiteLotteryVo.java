@@ -47,4 +47,6 @@ public class SiteLotteryVo {
     private Time betDeadlineTime;
     @ApiModelProperty(value = "结算完成时间")
     private Time betSettlementTime;
+    @ApiModelProperty(value = "是否显示(0隐藏，1显示)")
+    private Integer isDisplay;
     }

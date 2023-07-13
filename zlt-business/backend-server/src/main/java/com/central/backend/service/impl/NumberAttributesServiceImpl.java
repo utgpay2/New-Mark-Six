@@ -15,10 +15,8 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.central.common.service.impl.SuperServiceImpl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.apache.commons.collections4.MapUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -73,14 +71,15 @@ public class NumberAttributesServiceImpl extends SuperServiceImpl<NumberAttribut
     @Override
     public Result deleteNumberAttributes(Long id,Integer year){
         this.removeById(id);
-        String redisKey = StrUtil.format(RedisConstants.NUMBERATTRIBUTES_LIST_KEY, year,"*");
-        RedisRepository.delete(redisKey);
+        String redisKeyStr = StrUtil.format(RedisConstants.NUMBERATTRIBUTES_LIST_KEY,year,"*");
+        Set<String> redisKeys = RedisRepository.keys(redisKeyStr);
+        for(String redisKey:redisKeys) {
+            RedisRepository.delete(redisKey);
+        }
         return Result.succeed("删除成功");
     }
     @Override
-    public Result saveOrUpdateNumberAttributes(NumberAttributesDto numberAttributesDto, SysUser user) {
-        NumberAttributes numberAttributes = new NumberAttributes();
-        BeanUtils.copyProperties(numberAttributesDto,numberAttributes);
+    public Result saveOrUpdateNumberAttributes(NumberAttributes numberAttributes, SysUser user) {
         if (null != numberAttributes.getId() && 0 != numberAttributes.getId()) {
             numberAttributes.setUpdateTime(new Date());
             numberAttributes.setUpdateBy(null != user ? user.getUsername() : numberAttributes.getUpdateBy());
@@ -91,8 +90,11 @@ public class NumberAttributesServiceImpl extends SuperServiceImpl<NumberAttribut
             numberAttributes.setUpdateBy(null != user ? user.getUsername() : numberAttributes.getCreateBy());
         }
         this.saveOrUpdate(numberAttributes);
-        String redisKey = StrUtil.format(RedisConstants.SITE_QUIZCHOOSE_LIST_KEY, numberAttributes.getYear(),"*");
-        RedisRepository.delete(redisKey);
+        String redisKeyStr = StrUtil.format(RedisConstants.NUMBERATTRIBUTES_LIST_KEY,numberAttributes.getYear(),"*");
+        Set<String> redisKeys = RedisRepository.keys(redisKeyStr);
+        for(String redisKey:redisKeys) {
+            RedisRepository.delete(redisKey);
+        }
         return Result.succeed("保存成功");
     }
 }

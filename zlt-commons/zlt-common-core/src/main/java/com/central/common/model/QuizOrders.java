@@ -34,7 +34,7 @@ public class QuizOrders extends SuperEntity {
     @ApiModelProperty("站点名称")
     private String siteName;
     @ApiModelProperty(value = "彩种ID")
-    private Integer lotteryId;
+    private Long lotteryId;
     @ApiModelProperty(value = "站点彩种ID")
     private Long siteLotteryId;
     @ApiModelProperty(value = "站点彩种名称")

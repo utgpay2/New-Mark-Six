@@ -2,6 +2,7 @@ package com.central.marksix.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
 import com.central.common.model.Lottery;
 import com.central.common.model.enums.SortEnum;
 import com.central.common.model.enums.StatusEnum;
@@ -15,8 +16,11 @@ import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 import com.central.common.constant.RedisConstants;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -35,25 +39,31 @@ public class LotteryServiceImpl extends SuperServiceImpl<LotteryMapper, Lottery>
      */
     @Override
     public List<SiteLotteryVo> findListBySiteId(Map<String, Object> params){
-        params.put("isDisplay", StatusEnum.ONE_TRUE.getStatus());
-        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_LIST_KEY, MapUtils.getInteger(params,"siteId"),
-                true==ObjectUtil.isEmpty(params.get("sortBy"))? SortEnum.DESC.getCode():MapUtils.getInteger(params,"sortBy"), StatusEnum.ONE_TRUE.getStatus());
+        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_LIST_KEY, MapUtils.getInteger(params,"siteId"));
         List<SiteLotteryVo> list = (List<SiteLotteryVo>)RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList( params);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
-        return list;
+        Comparator<SiteLotteryVo> comparator;
+        if(ObjectUtil.isEmpty(params.get("sortBy"))||SortEnum.DESC.getCode() != MapUtils.getInteger(params,"sortBy")){
+            comparator = Comparator.comparing(SiteLotteryVo::getSort);//正序
+        }else {
+            comparator = Comparator.comparing(SiteLotteryVo::getSort).reversed();//倒序
+        }
+        return list.stream().filter(siteLotteryVo -> StatusEnum.ONE_TRUE.getStatus().equals(siteLotteryVo.getIsDisplay()))
+                .sorted(comparator)
+                .collect(Collectors.toList());
     }
     @Override
-    public List<SiteLotteryVo> findListByLotteryId(Map<String, Object> params){
-        params.put("isDisplay", StatusEnum.ONE_TRUE.getStatus());
-        String redisKey = StrUtil.format(RedisConstants.LOTTERYID_LIST_KEY, MapUtils.getInteger(params,"lotteryId"), StatusEnum.ONE_TRUE.getStatus());
-        List<SiteLotteryVo> list = (List<SiteLotteryVo>)RedisRepository.get(redisKey);
+    public List<Lottery> findListByLotteryId(Long lotteryId){
+        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERYID_OBJECT_KEY);
+        List<Lottery> list = (List<Lottery>)RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(list)) {
-            list = baseMapper.findList( params);
+            list = baseMapper.findLotteryList();
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
-        return list;
+        return list.stream().filter(lottery -> lotteryId != lottery.getId())
+                .collect(Collectors.toList());
     }
 }

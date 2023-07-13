@@ -97,64 +97,92 @@ public class LotteryController {
         }
         return Result.succeed(wnDataService.lastOneWnData(id));
     }
-    @ApiOperation(value = "查询站点下注分类-分类一类")
+    @ApiOperation(value = "查询站点彩种分类一类")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/listsitecategory")
-    public Result<List<CategoryVo>> listSiteCategory(@ApiIgnore @RequestParam Map<String, Object> params) {
+    public Result<List<CategoryVo>> listSiteCategory(@ApiIgnore @RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(params.get("siteLotteryId"))) {
             return Result.failed("站点彩种ID不能为空");
         }
+        params.put("siteId",user.getSiteId());
         return Result.succeed(categoryLotteryService.findList(params));
     }
-    @ApiOperation(value = "查询彩票规则主表-分类二类")
+    @ApiOperation(value = "查询站点彩种分类二类")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "siteCategoryId", value = "站点下注分类一类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteCategoryId", value = "站点彩种分类一类ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/quizlist")
-    public Result<List<Quiz>> quizList(@ApiIgnore @RequestParam Map<String, Object> params) {
+    public Result<List<Quiz>> quizList(@ApiIgnore @RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(params.get("siteCategoryId"))) {
-            return Result.failed("站点下注分类一类ID");
+            return Result.failed("站点彩种分类一类ID");
         }
+        if (ObjectUtil.isEmpty(params.get("siteLotteryId"))) {
+            return Result.failed("站点彩种ID不能为空");
+        }
+        params.put("siteId",user.getSiteId());
         return Result.succeed(quizService.findList(params));
     }
-    @ApiOperation(value = "查询彩票规则主表-分类三类")
+    @ApiOperation(value = "查询站点彩种分类三类")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "quizId", value = "开奖分类二类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteCategoryId", value = "站点彩种分类一类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "quizId", value = "站点彩种二类ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/quizdetailslist")
-    public Result<List<QuizDetails>> quizDetailsList(@ApiIgnore @RequestParam Map<String, Object> params) {
+    public Result<List<QuizDetails>> quizDetailsList(@ApiIgnore @RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(params.get("quizId"))) {
-            return Result.failed("开奖分类二类ID");
+            return Result.failed("站点彩种二类ID");
         }
+        if (ObjectUtil.isEmpty(params.get("siteCategoryId"))) {
+            return Result.failed("站点彩种分类一类ID");
+        }
+        if (ObjectUtil.isEmpty(params.get("siteLotteryId"))) {
+            return Result.failed("站点彩种ID不能为空");
+        }
+        params.put("siteId",user.getSiteId());
         return Result.succeed(quizDetailsService.findList(params));
     }
-    @ApiOperation(value = "查询彩票规则主表对应明细规则")
+    @ApiOperation(value = "查询站点彩种分类四类")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "quizDetailsId", value = "开奖种类三类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteCategoryId", value = "站点彩种分类一类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "quizId", value = "站点彩种二类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "quizDetailsId", value = "站点彩种三类ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/quizchooselist")
-    public Result<List<QuizChooseVo>> quizChooseList(@ApiIgnore @RequestParam Map<String, Object> params) {
+    public Result<List<QuizChooseVo>> quizChooseList(@ApiIgnore @RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(params.get("quizDetailsId"))) {
-            return Result.failed("彩票规则主表id不能为空");
+            return Result.failed("站点彩种三类ID");
         }
+        if (ObjectUtil.isEmpty(params.get("quizId"))) {
+            return Result.failed("站点彩种二类ID");
+        }
+        if (ObjectUtil.isEmpty(params.get("siteCategoryId"))) {
+            return Result.failed("站点彩种分类一类ID");
+        }
+        if (ObjectUtil.isEmpty(params.get("siteLotteryId"))) {
+            return Result.failed("站点彩种ID不能为空");
+        }
+        params.put("siteId",user.getSiteId());
         return Result.succeed(quizChooseService.findList(params));
     }
     /**

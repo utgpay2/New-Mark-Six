@@ -21,10 +21,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -49,9 +47,12 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
             params = new HashMap<>();
         }
         params.put("status", StatusEnum.ONE_TRUE.getStatus());
-        String redisKey = StrUtil.format(RedisConstants.SITE_QUIZCHOOSE_LIST_KEY, MapUtils.getInteger(params,"quizDetailsId"),
-                true== ObjectUtil.isEmpty(params.get("sortBy"))? SortEnum.ASC.getCode():MapUtils.getInteger(params,"sortBy"),
-                StatusEnum.ONE_TRUE.getStatus());
+        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_CATEGORY_QUIZ_QUIZDETAILS_QUIZCHOOSE_LIST_KEY,
+                MapUtils.getInteger(params,"siteId"),
+                MapUtils.getInteger(params,"siteLotteryId"),
+                MapUtils.getInteger(params,"siteCategoryId"),
+                MapUtils.getInteger(params,"quizId"),
+                MapUtils.getInteger(params,"quizDetailsId"));
         List<QuizChooseVo> chooseVoList = (List<QuizChooseVo>)RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(chooseVoList)) {
             List<QuizChoose> chooseList = baseMapper.findList(params);
@@ -138,7 +139,15 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
                 chooseVoList.add(quizChooseVo);
             }
         }
-        return chooseVoList;
+        Comparator<QuizChooseVo> comparator;
+        if(ObjectUtil.isEmpty(params.get("sortBy"))||SortEnum.DESC.getCode() != MapUtils.getInteger(params,"sortBy")){
+            comparator = Comparator.comparing(QuizChooseVo::getSort);//正序
+        }else {
+            comparator = Comparator.comparing(QuizChooseVo::getSort).reversed();//倒序
+        }
+        return chooseVoList.stream().filter(quizChooseVo -> StatusEnum.ONE_TRUE.getStatus().equals(quizChooseVo.getStatus()))
+                .sorted(comparator)
+                .collect(Collectors.toList());
     }
     public QuizChooseVo setQuizChooseVo(QuizChooseVo quizChooseVo, String number, NumberAttributesDto numberAttributesDto) {
         List<NumberAttributes> numberAttributesList = numberAttributesService.findList(numberAttributesDto,DateUtil.getYear());

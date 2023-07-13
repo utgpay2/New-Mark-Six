@@ -22,7 +22,7 @@ public interface ISiteLotteryService extends ISuperService<SiteLottery> {
      * @return
      */
     List<SiteLotteryVo> findList(Map<String, Object> params);
-    Result deleteSiteLottery(Long id);
+    Result deleteSiteLottery(Long id,Integer siteId);
 
     Result saveOrUpdateSiteLottery(SiteLottery siteLottery, SysUser user);
 }

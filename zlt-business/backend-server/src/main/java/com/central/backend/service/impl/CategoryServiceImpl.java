@@ -12,6 +12,7 @@ import com.central.common.model.Result;
 import com.central.common.model.SiteCategoryLottery;
 import com.central.common.model.SysUser;
 import com.central.common.model.enums.SortEnum;
+import com.central.common.model.enums.StatusEnum;
 import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -37,11 +39,10 @@ public class CategoryServiceImpl extends SuperServiceImpl<CategoryMapper, Catego
     private ISiteCategoryLotteryService categoryLotteryService;
     @Override
     public List<Category> findList(Map<String, Object> params){
-        String redisKey = StrUtil.format(RedisConstants.SITE_CATEGORY_LIST_KEY, params.get("name"),
-                true== ObjectUtil.isEmpty(params.get("sortBy"))? SortEnum.ASC.getCode():MapUtils.getInteger(params,"sortBy"));
-        List<Category> list  =  (List<Category>)RedisRepository.get(redisKey);
+        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_CATEGORY_KEY);
+        List<Category> list = (List<Category>)RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(list)) {
-            list  =  baseMapper.findList(params);
+            list = baseMapper.findList(params);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
         return list;
@@ -55,8 +56,10 @@ public class CategoryServiceImpl extends SuperServiceImpl<CategoryMapper, Catego
             return Result.failed("请删除站点下分类，再删除分类");
         }else {
             this.removeById(id);
-            String redisKey = StrUtil.format(RedisConstants.SITE_CATEGORY_LIST_KEY, "*","*");
-            RedisRepository.delete(redisKey);
+            Set<String> redisKeys = RedisRepository.keys(RedisConstants.SITE_LOTTERY_CATEGORY_KEY);
+            for(String redisKey:redisKeys) {
+                RedisRepository.delete(redisKey);
+            }
             return Result.succeed("删除成功");
         }
     }
@@ -73,8 +76,10 @@ public class CategoryServiceImpl extends SuperServiceImpl<CategoryMapper, Catego
             category.setUpdateBy(null != user ? user.getUsername() : category.getCreateBy());
         }
         this.saveOrUpdate(category);
-        String redisKey = StrUtil.format(RedisConstants.SITE_CATEGORY_LIST_KEY, "*","*");
-        RedisRepository.delete(redisKey);
+        Set<String> redisKeys = RedisRepository.keys(RedisConstants.SITE_LOTTERY_CATEGORY_KEY);
+        for(String redisKey:redisKeys) {
+            RedisRepository.delete(redisKey);
+        }
         return Result.succeed("保存成功");
     }
 }

@@ -4,21 +4,20 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.central.backend.mapper.QuizMapper;
+import com.central.backend.model.dto.QuizDto;
 import com.central.backend.service.IQuizChooseService;
 import com.central.backend.service.IQuizService;
 import com.central.common.constant.RedisConstants;
 import com.central.common.model.*;
 import com.central.common.model.enums.SortEnum;
-import com.central.common.model.enums.StatusEnum;
 import com.central.common.redis.template.RedisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.central.common.service.impl.SuperServiceImpl;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.apache.commons.collections4.MapUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,28 +40,42 @@ public class QuizServiceImpl extends SuperServiceImpl<QuizMapper, Quiz> implemen
      */
     @Override
     public List<Quiz> findList(Map<String, Object> params){
-        String redisKey = StrUtil.format(RedisConstants.SITE_QUIZ_LIST_KEY, MapUtils.getInteger(params,"siteCategoryId"),
-                true== ObjectUtil.isEmpty(params.get("sortBy"))? SortEnum.ASC.getCode():MapUtils.getInteger(params,"sortBy"));
+        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_CATEGORY_QUIZ_LIST_KEY,
+                MapUtils.getInteger(params,"siteId"),
+                MapUtils.getInteger(params,"siteLotteryId"),
+                MapUtils.getInteger(params,"siteCategoryId"));
         List<Quiz> list = (List<Quiz>) RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList( params);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
-        return list;
+        Comparator<Quiz> comparator;
+        if(ObjectUtil.isEmpty(params.get("sortBy"))||SortEnum.DESC.getCode() != MapUtils.getInteger(params,"sortBy")){
+            comparator = Comparator.comparing(Quiz::getSort);//正序
+        }else {
+            comparator = Comparator.comparing(Quiz::getSort).reversed();//倒序
+        }
+        return list.stream()
+                .sorted(comparator)
+                .collect(Collectors.toList());
     }
     @Override
-    public Result deleteQuiz(Long id){
+    public Result deleteQuiz(QuizDto quizDto){
         LambdaQueryWrapper<QuizChoose> wrapper=new LambdaQueryWrapper<>();
-        wrapper.eq(QuizChoose::getQuizDetailsId,id);
+        wrapper.eq(QuizChoose::getQuizDetailsId,quizDto.getId());
         List<QuizChoose> list = quizChooseService.getBaseMapper().selectList(wrapper);
         if(null!=list && list.size()>0){
             return Result.failed("请删除规则明细，再删除规则主表");
         }else {
-            this.removeById(id);
-            String redisKey = StrUtil.format(RedisConstants.SITE_QUIZ_LIST_KEY, "*","*");
-            RedisRepository.delete(redisKey);
-            String redisKey1 = StrUtil.format(RedisConstants.SITE_QUIZ_LIST_KEY, "*","*","*");
-            RedisRepository.delete(redisKey1);
+            this.removeById(quizDto.getId());
+            String redisKeyStr = StrUtil.format(RedisConstants.SITE_LOTTERY_CATEGORY_QUIZ_LIST_KEY,
+                    quizDto.getSiteId(),
+                    quizDto.getSiteLotteryId(),
+                    quizDto.getSiteCategoryId());
+            Set<String> redisKeys = RedisRepository.keys(redisKeyStr);
+            for(String redisKey:redisKeys) {
+                RedisRepository.delete(redisKey);
+            }
             return Result.succeed("删除成功");
         }
     }
@@ -78,10 +91,14 @@ public class QuizServiceImpl extends SuperServiceImpl<QuizMapper, Quiz> implemen
             quiz.setUpdateBy(null != user ? user.getUsername() : quiz.getCreateBy());
         }
         this.saveOrUpdate(quiz);
-        String redisKey = StrUtil.format(RedisConstants.SITE_QUIZ_LIST_KEY, "*","*");
-        RedisRepository.delete(redisKey);
-        String redisKey1 = StrUtil.format(RedisConstants.SITE_QUIZ_LIST_KEY, "*","*","*");
-        RedisRepository.delete(redisKey1);
+        String redisKeyStr = StrUtil.format(RedisConstants.SITE_LOTTERY_CATEGORY_QUIZ_LIST_KEY,
+                quiz.getSiteId(),
+                quiz.getSiteLotteryId(),
+                quiz.getSiteCategoryId());
+        Set<String> redisKeys = RedisRepository.keys(redisKeyStr);
+        for(String redisKey:redisKeys) {
+            RedisRepository.delete(redisKey);
+        }
         return Result.succeed("保存成功");
     }
 }

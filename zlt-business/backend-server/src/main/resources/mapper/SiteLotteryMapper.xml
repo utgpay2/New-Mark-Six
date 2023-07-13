@@ -3,7 +3,7 @@
 
 <mapper namespace="com.central.backend.mapper.SiteLotteryMapper">
     <select id="findList" resultType="com.central.backend.model.vo.SiteLotteryVo">
-        select ml.id as id,ml.lottery_name as lotteryName,ml.sort as sort,ml.picture as picture,
+        select ml.id as id,ml.lottery_name as lotteryName,ml.sort as sort,ml.picture as picture,ml.is_display as isDisplay,
         ml.bet_deadline_time as betDeadlineTime,ml.bet_settlement_time as betSettlementTime,
         l.create_time as createTime,l.update_time as updateTime,
         l.site_id as siteId,l.site_code as siteCode,l.site_name as siteName,

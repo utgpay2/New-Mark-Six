@@ -2,6 +2,8 @@ package com.central.backend.service;
 
 import com.central.common.model.Lottery;
 import com.central.common.model.PageResult;
+import com.central.common.model.Result;
+import com.central.common.model.SysUser;
 import com.central.common.service.ISuperService;
 
 import java.util.List;
@@ -20,5 +22,7 @@ public interface ILotteryService extends ISuperService<Lottery> {
      * @return
      */
     List<Lottery> findList(Map<String, Object> params);
+    Result deleteLottery(Long id);
+    Result saveOrUpdateLottery(Lottery lottery, SysUser user);
 }
 

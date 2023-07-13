@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.central.backend.model.dto.QuizDetailsDto;
 import com.central.backend.service.IQuizDetailsService;
 import com.central.common.annotation.LoginUser;
 import com.central.common.model.QuizDetails;
@@ -29,7 +30,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Slf4j
 @RestController
 @RequestMapping("/quizdetails")
-@Api(tags = "竞猜分类")
+@Api(tags = "站点彩种分类(三类)")
 public class QuizDetailsController {
     @Autowired
     private IQuizDetailsService quizDetailsService;
@@ -38,7 +39,10 @@ public class QuizDetailsController {
      * 列表
      */
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "quizId", value = "开奖分类二类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteCategoryId", value = "站点彩种分类(一类)ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "quizId", value = "站点彩种分类(二类)ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping
@@ -66,8 +70,29 @@ public class QuizDetailsController {
      * 新增or更新
      */
     @ApiOperation(value = "保存")
-    @PostMapping
+    @PostMapping("/saveOrUpdateQuizDetails")
     public Result saveOrUpdateQuizDetails(@RequestBody QuizDetails quizDetails, @ApiIgnore @LoginUser SysUser user) {
+        if (ObjectUtil.isEmpty(quizDetails)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizDetails.getTitle())) {
+            return Result.failed("标题不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizDetails.getSiteId())) {
+            return Result.failed("站点id不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizDetails.getSiteLotteryId())) {
+            return Result.failed("站点彩种ID不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizDetails.getSiteCategoryId())) {
+            return Result.failed("站点彩种分类(一类)不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizDetails.getQuizId())) {
+            return Result.failed("站点彩种分类(二类)id不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizDetails.getSort())) {
+            return Result.failed("顺序不能为空");
+        }
         return quizDetailsService.saveOrUpdateQuizDetails(quizDetails,user);
     }
 
@@ -75,8 +100,26 @@ public class QuizDetailsController {
      * 删除
      */
     @ApiOperation(value = "删除")
-    @DeleteMapping("/{id}")
-    public Result deleteQuizDetails(@PathVariable Long id) {
-        return quizDetailsService.deleteQuizDetails(id);
+    @PostMapping("/deleteQuizDetails")
+    public Result deleteQuizDetails(@RequestBody QuizDetailsDto quizDetailsDto) {
+        if (ObjectUtil.isEmpty(quizDetailsDto)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizDetailsDto.getId())) {
+            return Result.failed("站点彩种分类(三类)id不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizDetailsDto.getSiteId())) {
+            return Result.failed("站点id不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizDetailsDto.getSiteLotteryId())) {
+            return Result.failed("站点彩种ID不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizDetailsDto.getSiteCategoryId())) {
+            return Result.failed("站点彩种分类(一类)不能为空");
+        }
+        if (ObjectUtil.isEmpty(quizDetailsDto.getQuizId())) {
+            return Result.failed("站点彩种分类(二类)id不能为空");
+        }
+        return quizDetailsService.deleteQuizDetails(quizDetailsDto);
     }
 }
