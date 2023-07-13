@@ -52,7 +52,7 @@ public class RptSiteSummaryController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "siteId", value = "分页结束位置", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "startTime", value = "开始时间", required = true, dataType = " Date"),
             @ApiImplicitParam(name = "endTime", value = "开始时间", required = true, dataType = " Date")
 
@@ -70,7 +70,7 @@ public class RptSiteSummaryController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "siteId", value = "分页结束位置", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "startTime", value = "开始时间", required = true, dataType = " Date"),
             @ApiImplicitParam(name = "endTime", value = "开始时间", required = true, dataType = " Date")
 
@@ -80,6 +80,43 @@ public class RptSiteSummaryController {
 
         quizOrderSonService.userReportFormsExport(params,response);
 
+    }
+
+
+    /**
+     * 列表
+     */
+    @ApiOperation(value = "会员资金明细")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "startTime", value = "开始时间", required = true, dataType = " Date"),
+            @ApiImplicitParam(name = "endTime", value = "开始时间", required = true, dataType = " Date"),
+            @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = " String"),
+    })
+    @GetMapping("/userMoneyDetailed")
+    public PageResult userMoneyDetailed(@RequestParam Map<String, Object> params) {
+
+        return quizOrderSonService.userMoneyDetailed(params);
+    }
+
+    /**
+     * 列表
+     */
+    @ApiOperation(value = "会员资金明细报表导出")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "startTime", value = "开始时间", required = true, dataType = " Date"),
+            @ApiImplicitParam(name = "endTime", value = "开始时间", required = true, dataType = " Date"),
+            @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = " String"),
+    })
+    @GetMapping("/userMoneyDetailed/export")
+    public void userMoneyDetailedExport(@RequestParam Map<String, Object> params,HttpServletResponse httpServletResponse) {
+
+         quizOrderSonService.userMoneyDetailedExport(params,httpServletResponse);
     }
 
 }

@@ -76,8 +76,30 @@
             1=1
             and
             u.site_id=#{p.siteId}
-            and u.type='APP'
+            and
+            u.type='APP'
             GROUP BY u.id ORDER BY sum( r.money ) DESC
+        </where>
+    </select>
+
+
+    <select id="userMoneyDetailed" resultType="com.central.backend.model.dto.UserMoneyDetailedReportFormsDto">
+        SELECT
+        u.username,
+        m.order_no,
+        m.order_type,
+        COALESCE(abs(m.money),0) as income,
+        COALESCE(m.after_money,0)  as balance,
+        m.create_time
+        from sys_user u left join mks_money_log m on u.username=m.user_name
+        <where>
+            u.site_id=#{p.siteId}
+            and
+            m.create_time between #{p.startTime} and #{p.endTime}
+            <if test="p.username != null and p.username != ''">
+              m.user_name=#{p.username}
+            </if>
+            ORDER BY  m.create_time  asc
         </where>
     </select>
 

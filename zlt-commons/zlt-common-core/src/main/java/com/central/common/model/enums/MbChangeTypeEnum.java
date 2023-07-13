@@ -29,7 +29,7 @@ public enum MbChangeTypeEnum {
         this.addOrSub = addOrSub;
     }
 
-    private static MbChangeTypeEnum getMbChangeTypeEnumByType(Integer changeType) {
+    public static MbChangeTypeEnum getMbChangeTypeEnumByType(Integer changeType) {
         for (MbChangeTypeEnum typeEnum : values()) {
             if (typeEnum.getType().equals(changeType)) {
                 return typeEnum;
