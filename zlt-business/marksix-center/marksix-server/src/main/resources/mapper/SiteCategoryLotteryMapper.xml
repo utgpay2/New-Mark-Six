@@ -12,7 +12,7 @@
         <where>
             1=1
             <if test="p.siteLotteryId != null and  p.siteLotteryId != '' and p.siteLotteryId != 0">
-                and l.lottery_id = #{p.siteLotteryId}
+                and l.site_lottery_id = #{p.siteLotteryId}
             </if>
             <if test="p.name != null and p.name != ''">
                 and mc.name LIKE CONCAT('%',#{p.name},'%')
