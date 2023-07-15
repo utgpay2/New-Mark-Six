@@ -167,8 +167,18 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             //保存子订单
             quizSubordersService.saveBatch(subordersList);
             //删除订单缓存
-            String redisKeyStr = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_LIST_KEY);
-            Set<String> redisKeys = RedisRepository.keys(redisKeyStr);
+            //删除投注订单缓存
+            String ordersRedisKeys = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MY_LIST_KEY, user.getSiteId(), user.getId(),"*","*","*","*","*");
+            Set<String> redisKeys = RedisRepository.keys(ordersRedisKeys);
+            for(String redisKey:redisKeys) {
+                RedisRepository.delete(redisKey);
+            }
+            //删除统计投注订单缓存
+            String statiOrdersRedisKeys = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MYSTATI_LIST_KEY, user.getSiteId(), user.getId(),"*","*");
+            Set<String> statiOrdersRedisKey = RedisRepository.keys(statiOrdersRedisKeys);
+            for(String redisKey:statiOrdersRedisKey) {
+                RedisRepository.delete(redisKey);
+            }
             for(String redisKey:redisKeys) {
                 RedisRepository.delete(redisKey);
             }
@@ -260,10 +270,16 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             moneyLogService.saveBatch(moneyLogList);
             //更新投注
             this.saveOrUpdateBatch(ordersList);
-            //删除订单缓存
-            String redisKeyStr = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_LIST_KEY);
-            Set<String> redisKeys = RedisRepository.keys(redisKeyStr);
+            //删除投注订单缓存
+            String ordersRedisKeys = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MY_LIST_KEY, user.getSiteId(), user.getId(),"*","*","*","*","*");
+            Set<String> redisKeys = RedisRepository.keys(ordersRedisKeys);
             for(String redisKey:redisKeys) {
+                RedisRepository.delete(redisKey);
+            }
+            //删除统计投注订单缓存
+            String statiOrdersRedisKeys = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MYSTATI_LIST_KEY, user.getSiteId(), user.getId(),"*","*");
+            Set<String> statiOrdersRedisKey = RedisRepository.keys(statiOrdersRedisKeys);
+            for(String redisKey:statiOrdersRedisKey) {
                 RedisRepository.delete(redisKey);
             }
             return Result.succeed("撤销投注");
