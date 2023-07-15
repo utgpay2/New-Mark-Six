@@ -34,17 +34,19 @@ public interface RedisConstants {
     //- 缓存站点下彩种下分类下分类（二类）
     public static final String SITE_LOTTERY_CATEGORY_QUIZ_LIST_KEY = "SITE:LOTTERY:CATEGORY:QUIZ:{}:{}:{}";
     //- 缓存站点下彩种下分类下分类下分类（三类）
-    public static final String SITE_LOTTERY_CATEGORY_QUIZ_QUIZDETAILS_LIST_KEY = "SITE:LOTTERY:CATEGORY:QUIZ:QUIZDETAILS:LIST:{}:{}:{}:{}";
+    public static final String SITE_LOTTERY_CATEGORY_QUIZ_QUIZDETAILS_LIST_KEY = "SITE:LOTTERY:CATEGORY:QUIZ:QUIZDETAILS:{}:{}:{}:{}";
     //- 缓存竞猜奖项详情
-    public static final String SITE_LOTTERY_CATEGORY_QUIZ_QUIZDETAILS_QUIZCHOOSE_LIST_KEY = "SITE:LOTTERY:CATEGORY:QUIZ:QUIZDETAILS:QUIZCHOOSE:LIST:{}:{}:{}:{}:{}";
+    public static final String SITE_LOTTERY_CATEGORY_QUIZ_QUIZDETAILS_QUIZCHOOSE_LIST_KEY = "SITE:LOTTERY:CATEGORY:QUIZ:QUIZDETAILS:QUIZCHOOSE:{}:{}:{}:{}:{}";
     //- 缓存号码属性表
     public static final String NUMBERATTRIBUTES_LIST_KEY = "NUMBERATTRIBUTES:LIST:{}:{}";
+    //- 缓存投注记录
+    public static final String SITE_LOTTERY_ORDERS_LIST_KEY = "SITE:LOTTERY:ORDERS";
     //- 缓存我的投注记录
-    public static final String SITE_MYQUIZORDERS_LIST_KEY = "SITE:MYQUIZORDERS:LIST:{}:{}:{}:{}:{}:{}:{}";
+    public static final String SITE_LOTTERY_ORDERS_MY_LIST_KEY = "SITE:LOTTERY:ORDERS:MY:{}:{}:{}:{}:{}:{}:{}";
     //- 缓存统计我的投注记录
-    public static final String SITE_MYSTATIQUIZORDERS_LIST_KEY = "SITE:MYSTATIQUIZORDERS:LIST:{}:{}:{}:{}";
+    public static final String SITE_LOTTERY_ORDERS_MYSTATI_LIST_KEY = "SITE:LOTTERY:ORDERS:MYSTATI:{}:{}:{}:{}";
     //- 缓存子投注记录
-    public static final String SITE_QUIZSUBORDERS_LIST_KEY = "SITE:QUIZSUBORDERS:LIST:{}";
+    public static final String SITE_LOTTERY_ORDERS_SUB_LIST_KEY = "SITE:LOTTERY:ORDERS:SUB:{}";
     //- 缓存站点用户
     public static final String SITE_SYSUSER_KEY = "SITE:SYSUSER:OBJECT:{}";
     //- 缓存站点用户账变记录

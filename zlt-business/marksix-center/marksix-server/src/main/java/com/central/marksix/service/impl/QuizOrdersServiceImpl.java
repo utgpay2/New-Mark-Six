@@ -43,7 +43,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
     @Override
     public PageResult<QuizOrders> findList(Map<String, Object> params) {
         Page<QuizOrders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
-        String redisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY,
+        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MY_LIST_KEY,
                 MapUtils.getInteger(params, "siteId"),
                 MapUtils.getInteger(params, "memberId"),
                 MapUtils.getInteger(params, "days"),
@@ -59,7 +59,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
     }
     @Override
     public StatiQuizOrdersVo statiOrders(Map<String, Object> params) {
-        String redisKey = StrUtil.format(RedisConstants.SITE_MYSTATIQUIZORDERS_LIST_KEY,
+        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MYSTATI_LIST_KEY,
                 MapUtils.getInteger(params, "siteId"),
                 MapUtils.getInteger(params, "memberId"),
                 MapUtils.getInteger(params, "days"),
@@ -166,12 +166,12 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             this.saveBatch(ordersList);
             //保存子订单
             quizSubordersService.saveBatch(subordersList);
-            //删除投注订单缓存
-            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*","*","*","*","*");
-            RedisRepository.delete(ordersRedisKey);
-            //删除统计投注订单缓存
-            String statiOrdersRedisKey = StrUtil.format(RedisConstants.SITE_MYSTATIQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*","*");
-            RedisRepository.delete(statiOrdersRedisKey);
+            //删除订单缓存
+            String redisKeyStr = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_LIST_KEY);
+            Set<String> redisKeys = RedisRepository.keys(redisKeyStr);
+            for(String redisKey:redisKeys) {
+                RedisRepository.delete(redisKey);
+            }
             return Result.succeed("投注完成");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -235,7 +235,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                     }
                     quizSubordersService.updateBatchById(newQuizSubordersList);
                     //清空子订单缓存
-                    RedisRepository.delete(StrUtil.format(RedisConstants.SITE_QUIZSUBORDERS_LIST_KEY, quizOrders.getOrderNo()));
+                    RedisRepository.delete(StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_SUB_LIST_KEY, quizOrders.getOrderNo()));
                 }
 
                 MoneyLog moneyLog = new MoneyLog();
@@ -260,12 +260,12 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             moneyLogService.saveBatch(moneyLogList);
             //更新投注
             this.saveOrUpdateBatch(ordersList);
-            //删除投注订单缓存
-            String ordersRedisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*","*","*","*","*");
-            RedisRepository.delete(ordersRedisKey);
-            //删除统计投注订单缓存
-            String statiOrdersRedisKey = StrUtil.format(RedisConstants.SITE_MYSTATIQUIZORDERS_LIST_KEY, user.getSiteId(), user.getId(),"*","*");
-            RedisRepository.delete(statiOrdersRedisKey);
+            //删除订单缓存
+            String redisKeyStr = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_LIST_KEY);
+            Set<String> redisKeys = RedisRepository.keys(redisKeyStr);
+            for(String redisKey:redisKeys) {
+                RedisRepository.delete(redisKey);
+            }
             return Result.succeed("撤销投注");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
