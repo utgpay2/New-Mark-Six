@@ -36,7 +36,7 @@ public class ExcelUtils {
                 .autoCloseStream(false) // 不要自动关闭，交给 Servlet 自己处理
                 .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy()) // 基于 column 长度，自动适配。最大 255 宽度
                 .head(head).sheet(sheetName).doWrite(data);
-        
+
     }
 
 }

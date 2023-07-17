@@ -2,10 +2,14 @@ package com.central.marksix.controller;
 
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 
+import com.central.common.constant.MarksixConstants;
 import com.central.common.model.*;
+import com.central.common.model.enums.CodeEnum;
+import com.central.common.model.enums.UserTypeEnum;
 import com.central.marksix.dto.ProxyAdminDto;
 import com.central.marksix.dto.SysAdminUserDto;
 import com.central.marksix.dto.TransferAccountsDto;
@@ -14,19 +18,20 @@ import com.central.marksix.entity.PornPageResult;
 import com.central.marksix.entity.vo.MbChangeRecordDetailsVo;
 import com.central.marksix.service.*;
 import com.central.marksix.utils.MD5;
+import com.central.user.feign.UaaService;
+import com.central.user.feign.UserService;
 import io.swagger.annotations.*;
 import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -200,7 +205,7 @@ public class ThirdPartyController {
     public Result userInfo(
                             @ApiParam(value = "随机字符串", required = true) String random,
                             @ApiParam(value = "签名摘要", required = true) String sign,
-                            @ApiParam(value = "登录账号", required = true) String siteCode,
+                            @ApiParam(value = "站点编码", required = true) String siteCode,
                             @ApiParam(value = "用户名", required = true) String username,
                             @ApiParam(value = "会员id", required = true) Integer userId) {
 
@@ -269,7 +274,7 @@ public class ThirdPartyController {
     public Result userEnable(
             @ApiParam(value = "随机字符串", required = true) String random,
             @ApiParam(value = "签名摘要", required = true) String sign,
-            @ApiParam(value = "登录账号", required = true) String siteCode,
+            @ApiParam(value = "站点编码", required = true) String siteCode,
             @ApiParam(value = "用户名", required = true) String username,
             @ApiParam(value = "会员id", required = true) Integer userId) {
 
@@ -345,7 +350,7 @@ public class ThirdPartyController {
     public Result userDisable(
             @ApiParam(value = "随机字符串", required = true) String random,
             @ApiParam(value = "签名摘要", required = true) String sign,
-            @ApiParam(value = "登录账号", required = true) String siteCode,
+            @ApiParam(value = "站点编码", required = true) String siteCode,
             @ApiParam(value = "用户名", required = true) String username,
             @ApiParam(value = "会员id", required = true) Integer userId) {
 
@@ -418,7 +423,7 @@ public class ThirdPartyController {
     @ApiImplicitParams({
             @ApiImplicitParam(value = "随机字符串", required = true ,name = "random",dataType = "String"),
             @ApiImplicitParam(value = "签名摘要", required = true ,name = "sign",dataType = "String"),
-            @ApiImplicitParam(value = "登录账号", required = true ,name = "siteCode",dataType = "String"),
+            @ApiImplicitParam(value = "站点编码", required = true ,name = "siteCode",dataType = "String"),
             @ApiImplicitParam(value = "用户名", required = true ,name = "username",dataType = "String"),
             @ApiImplicitParam(value = "会员id集合", required = false ,name = "userIds",dataType = "Integer[]"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序、2倒叙(默认)", required = false, dataType = "Integer"),
@@ -544,7 +549,7 @@ public class ThirdPartyController {
     public Result userBalance(
             @ApiParam(value = "随机字符串", required = true) String random,
             @ApiParam(value = "签名摘要", required = true) String sign,
-            @ApiParam(value = "登录账号", required = true) String siteCode,
+            @ApiParam(value = "站点编码", required = true) String siteCode,
             @ApiParam(value = "代理用户名", required = true) String username,
             @ApiParam(value = "会员id", required = true) Integer userId) {
 
@@ -617,7 +622,7 @@ public class ThirdPartyController {
     public Result transferRecords(
             @ApiParam(value = "随机字符串", required = true) String random,
             @ApiParam(value = "签名摘要", required = true) String sign,
-            @ApiParam(value = "登录账号", required = true) String siteCode,
+            @ApiParam(value = "站点编码", required = true) String siteCode,
             @ApiParam(value = "代理用户名", required = true) String username,
             @ApiParam(value = "会员id", required = false) Integer[] userIds,
             @ApiParam(value = "转账类型(5上分   6下分)", required = false) Integer type,
@@ -676,4 +681,79 @@ public class ThirdPartyController {
 
         return Result.succeed(moneyLogService.transferRecords(username,userIds,type,sort,page,limit));
     }
+
+    @Autowired
+    private UaaService uaaService;
+
+    @Autowired
+    private UserService userService;
+
+
+    @Autowired
+    private ISiteService kpnSiteService;
+
+    @Value("${marksix.business.authorization:Basic d2ViQXBwOndlYkFwcA==}")
+    private String authorization;
+
+    public static final String AUTHENTICATION_MODE = "password_code";
+
+
+    @Autowired
+    ISysConfigService  sysConfigService;
+
+    @ApiOperation("登录")
+    @PostMapping("/login")
+    public Result login(@ApiParam(value = "站点编码", required = true) String siteCode,
+                        @ApiParam(value = "随机字符串", required = true) String random,
+                        @ApiParam(value = "签名摘要", required = true) String sign,
+                        @ApiParam(value = "登录账号", required = true) String username,
+                        @ApiParam(value = "平台类型，H5为1, PC为2", required = true) Integer platformType,
+                        @ApiParam(value = "密码", required = true) String password) {
+        //校验账号
+        if (StrUtil.isBlank(username)) {
+            return Result.failed("账号不能为空");
+        }
+        if (StrUtil.isBlank(password)) {
+            return Result.failed("密码不能为空");
+        }
+
+        if (ObjectUtil.isEmpty(siteCode)) {
+            return Result.failed("商户编码不能为空");
+        }
+
+        if (ObjectUtil.isEmpty(sign)) {
+            return Result.failed("签名摘要不能为空");
+        }
+
+        ThirdParty thirdParty= iThirdPartyService.getOne(new QueryWrapper<ThirdParty>().eq("site_code",siteCode));
+        String secretKey=thirdParty.getSecretKey();
+        String signGet= MD5.encrypt(random+siteCode+username+secretKey);
+        if (!signGet.equals(sign)) {
+            return Result.failed("签名摘要错误");
+        }
+
+
+        LoginAppUser sysUser = userService.findByUsername(username);
+        if (sysUser == null || null == sysUser.getUsername() || !sysUser.getEnabled()) {
+            return Result.failed("用户名或密码错误");
+        }
+        if(!UserTypeEnum.APP.name().equals(sysUser.getType())){
+            return Result.failed("非普通用户");
+        }
+
+        Result tokenResult = uaaService.login(authorization, username, password, AUTHENTICATION_MODE);
+        if (tokenResult == null || !tokenResult.getResp_code().equals(CodeEnum.SUCCESS.getCode())) {
+            log.error("登录失败: username={}, msg={}", username, tokenResult.getResp_msg());
+            return Result.failed(tokenResult.getResp_msg());
+        }
+        String accessToken = (String) (((LinkedHashMap) tokenResult.getDatas()).get(MarksixConstants.Str.ACCESS_TOKEN));
+
+        String url= sysConfigService.getUrl(platformType);
+
+        Map<String,String> data=new HashMap<>();
+        data.put("accessToken",accessToken);
+        data.put("url",url);
+        return Result.succeed(data, "succeed");
+    }
+
 }
