@@ -31,8 +31,20 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
     public void saveOrUpdateQuizOrdersBatch(List<QuizOrders> ordersList){
         this.saveBatch(ordersList);
         for(QuizOrders quizOrders:ordersList) {
-            String redisKey = StrUtil.format(RedisConstants.SITE_MYQUIZORDERS_LIST_KEY,quizOrders.getSiteId(),quizOrders.getMemberId(),"*","*","*","*","*");
-            RedisRepository.delete(redisKey);
+            //删除订单缓存
+            //删除投注订单缓存
+            String ordersRedisKeys = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MY_LIST_KEY, quizOrders.getSiteId(), quizOrders.getId(),"*","*","*","*","*");
+            Set<String> redisKeys = RedisRepository.keys(ordersRedisKeys);
+            for(String redisKey:redisKeys) {
+                RedisRepository.delete(redisKey);
+            }
+            //删除统计投注订单缓存
+            String statiOrdersRedisKeys = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MYSTATI_LIST_KEY, quizOrders.getSiteId(), quizOrders.getId(),"*","*");
+            Set<String> statiOrdersRedisKey = RedisRepository.keys(statiOrdersRedisKeys);
+            for(String redisKey:statiOrdersRedisKey) {
+                RedisRepository.delete(redisKey);
+            }
         }
     }
+
 }

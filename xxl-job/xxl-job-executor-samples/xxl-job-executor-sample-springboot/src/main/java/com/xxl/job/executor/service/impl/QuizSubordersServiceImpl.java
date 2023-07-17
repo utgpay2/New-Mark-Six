@@ -30,7 +30,7 @@ public class QuizSubordersServiceImpl extends SuperServiceImpl<QuizSubordersMapp
 
     @Override
     public List<QuizSuborders> findList(Map<String, Object> params){
-        String redisKey = StrUtil.format(RedisConstants.SITE_QUIZSUBORDERS_LIST_KEY, MapUtils.getInteger(params,"orderNo"));
+        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_SUB_LIST_KEY, MapUtils.getInteger(params,"orderNo"));
         List<QuizSuborders> list = (List<QuizSuborders>) RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList( params);

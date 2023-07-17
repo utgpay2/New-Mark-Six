@@ -5,14 +5,14 @@
     <select id="findList" resultType="com.central.marksix.entity.vo.CategoryVo">
         select mc.id as id,mc.name as name,mc.sort as sort,mc.remark as remark,
         l.create_time as createTime,l.update_time as updateTime,l.category_id as categoryId,
-        l.create_by as createBy,l.update_by as updateBy,l.site_lottery_id  as lotteryId
+        l.create_by as createBy,l.update_by as updateBy,l.site_lottery_id  as siteLotteryId
         from mks_site_category_lottery l
         LEFT JOIN mks_category mc
         ON l.category_id=mc.id
         <where>
             1=1
-            <if test="p.lotteryId != null and  p.lotteryId != '' and p.lotteryId != 0">
-                and l.lottery_id = #{p.lotteryId}
+            <if test="p.siteLotteryId != null and  p.siteLotteryId != '' and p.siteLotteryId != 0">
+                and l.site_lottery_id = #{p.siteLotteryId}
             </if>
             <if test="p.name != null and p.name != ''">
                 and mc.name LIKE CONCAT('%',#{p.name},'%')
