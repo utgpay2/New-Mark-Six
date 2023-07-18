@@ -1,5 +1,6 @@
 package com.central.backend.controller;
 
+import com.central.backend.model.dto.UserBettingDetailedReportFormsDto;
 import com.central.backend.model.dto.UserMoneyDetailedReportFormsDto;
 import com.central.backend.model.dto.UserReportFormsDto;
 import com.central.backend.service.IQuizOrdersService;
@@ -122,9 +123,10 @@ public class RptSiteSummaryController {
             @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = " String"),
     })
     @GetMapping("/userBettingDetailed")
-    public PageResult userBettingDetailed(@RequestParam Map<String, Object> params) {
+    public Result<PageResult<UserBettingDetailedReportFormsDto>> userBettingDetailed(@RequestParam Map<String, Object> params) {
 
-        return quizOrderSonService.userBettingDetailed(params);
+        return Result.succeed(quizOrderSonService.userBettingDetailed(params));
+
     }
 
     /**
@@ -140,9 +142,10 @@ public class RptSiteSummaryController {
             @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = " String"),
     })
     @GetMapping("/userBettingDetailed/export")
-    public void userBettingDetailedExport(@RequestParam Map<String, Object> params, HttpServletResponse httpServletResponse) {
+    public Result userBettingDetailedExport(@RequestParam Map<String, Object> params, HttpServletResponse httpServletResponse) {
 
-        quizOrderSonService.userMoneyDetailedExport(params, httpServletResponse);
+        quizOrderSonService.userBettingDetailedExport(params, httpServletResponse);
+        return Result.succeed();
     }
 
 }

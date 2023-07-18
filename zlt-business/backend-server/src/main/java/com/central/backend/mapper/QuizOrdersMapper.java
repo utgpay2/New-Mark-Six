@@ -1,5 +1,6 @@
 package com.central.backend.mapper;
 
+import com.central.backend.model.dto.UserBettingDetailedReportFormsDto;
 import com.central.backend.model.dto.UserMoneyDetailedReportFormsDto;
 import com.central.backend.model.dto.UserReportFormsDto;
 import com.central.common.model.MoneyLog;
@@ -31,4 +32,6 @@ public interface QuizOrdersMapper extends SuperMapper<QuizOrders> {
     List<UserReportFormsDto> userReportForms(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
 
     List<UserMoneyDetailedReportFormsDto> userMoneyDetailed(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
+
+    List<UserBettingDetailedReportFormsDto> userBettingDetailed(Page<QuizOrders> page,@Param("p")Map<String, Object> params);
 }
