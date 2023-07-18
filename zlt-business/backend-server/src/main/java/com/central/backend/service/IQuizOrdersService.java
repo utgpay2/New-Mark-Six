@@ -31,5 +31,7 @@ public interface IQuizOrdersService extends ISuperService<QuizOrders> {
     PageResult userMoneyDetailed(Map<String, Object> params);
 
     void userMoneyDetailedExport(Map<String, Object> params,HttpServletResponse httpServletResponse);
+
+    PageResult userBettingDetailed(Map<String, Object> params);
 }
 

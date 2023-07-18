@@ -122,5 +122,14 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
         }
     }
 
+    @Override
+    public PageResult userBettingDetailed(Map<String, Object> params) {
+
+       /* Page<QuizOrders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
+        List<QuizOrders> list  =  baseMapper.userBettingDetailed(page, params);
+        return PageResult.<QuizOrders>builder().data(list).count(page.getTotal()).build();*/
+       return null;
+    }
+
 
 }
