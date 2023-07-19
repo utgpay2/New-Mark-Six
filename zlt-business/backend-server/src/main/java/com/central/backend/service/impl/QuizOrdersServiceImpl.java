@@ -7,6 +7,7 @@ import com.alibaba.excel.write.metadata.WriteSheet;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.central.backend.mapper.MoneyLogMapper;
 import com.central.backend.mapper.QuizOrdersMapper;
+import com.central.backend.model.dto.UserBettingDetailedReportFormsDto;
 import com.central.backend.model.dto.UserMoneyDetailedReportFormsDto;
 import com.central.backend.model.dto.UserReportFormsDto;
 import com.central.backend.service.IQuizOrdersService;
@@ -14,6 +15,7 @@ import com.central.backend.util.ExcelUtils;
 import com.central.common.model.MoneyLog;
 import com.central.common.model.QuizOrders;
 import com.central.common.model.enums.MbChangeTypeEnum;
+import com.central.common.model.enums.OrderStatusEnum;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +62,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
     }
 
     @Override
-    public PageResult userReportForms(Map<String, Object> params) {
+    public PageResult<UserReportFormsDto> userReportForms(Map<String, Object> params) {
         Page<QuizOrders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
         List<UserReportFormsDto> list  =  baseMapper.userReportForms(page, params);
         return PageResult.<UserReportFormsDto>builder().data(list).count(page.getTotal()).build();
@@ -81,7 +83,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
     }
 
     @Override
-    public PageResult userMoneyDetailed(Map<String, Object> params) {
+    public PageResult<UserMoneyDetailedReportFormsDto> userMoneyDetailed(Map<String, Object> params) {
         Page<QuizOrders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
 
         List<UserMoneyDetailedReportFormsDto> list  =  baseMapper.userMoneyDetailed(page, params);
@@ -117,6 +119,32 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
         }
         try {
             ExcelUtils.write(httpServletResponse,"userMoneyDetailed",UserMoneyDetailedReportFormsDto.class,list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public PageResult userBettingDetailed(Map<String, Object> params) {
+
+        Page<QuizOrders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
+        List<UserBettingDetailedReportFormsDto> list  =  baseMapper.userBettingDetailed(page, params);
+        for(UserBettingDetailedReportFormsDto userbetting:list){
+            userbetting.setStatus(OrderStatusEnum.getOptions().get(Integer.parseInt(userbetting.getStatus())));
+        }
+        return PageResult.<UserBettingDetailedReportFormsDto>builder().data(list).count(page.getTotal()).build();
+
+    }
+
+    @Override
+    public void userBettingDetailedExport(Map<String, Object> params, HttpServletResponse httpServletResponse) {
+        Page<QuizOrders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
+        List<UserBettingDetailedReportFormsDto> list  =  baseMapper.userBettingDetailed(page, params);
+        for(UserBettingDetailedReportFormsDto userbetting:list){
+            userbetting.setStatus(OrderStatusEnum.getOptions().get(Integer.parseInt(userbetting.getStatus())));
+        }
+        try {
+            ExcelUtils.write(httpServletResponse,"userBettingDetailed",UserBettingDetailedReportFormsDto.class,list);
         } catch (IOException e) {
             e.printStackTrace();
         }

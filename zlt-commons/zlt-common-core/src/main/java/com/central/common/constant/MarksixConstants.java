@@ -128,6 +128,10 @@ public final class MarksixConstants {
         public static final String KPN_SITE_LIST_KEY = "KPN:SITE:LIST";
         //- 缓存站点信息 siteid
         public static final String KPN_SITE_INFO_KEY = "KPN:SITE:INFO:{}";
+
+        //- 缓存连接信息 platformType
+        public static final String MKS_URL_INFO_KEY = "MKS:URL:INFO:{}";
+
         //- 缓存站点平台配置 siteid
         public static final String KPN_SITE_PLATFORM_CONFIG_KEY = "KPN:SITE:PLATFORM:CONFIG:{}";
         //- 站点签到配置 siteId

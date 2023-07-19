@@ -103,4 +103,32 @@
         </where>
     </select>
 
+
+    <select id="userBettingDetailed" resultType="com.central.backend.model.dto.UserBettingDetailedReportFormsDto">
+        SELECT
+        o.user_name,
+        o.lottery_name,
+        CONCAT( o.site_category_name, ',', o.quiz_title, ',', o.quiz_details_name ) AS site_category_name,
+        o.periods,
+        m.numbers,
+        o.quiz_introduces,
+        o.total_price,
+        o.units,
+        o.win_mount,
+        o.`status`,
+        o.create_time,
+        o.order_no
+        FROM
+        mks_quiz_orders o left join mks_wn_data m on o.periods=m.qihao and o.lottery_id=m.lottery_id
+        <where>
+            o.site_id=#{p.siteId}
+            and
+            o.create_time between #{p.startTime} and #{p.endTime}
+            <if test="p.username != null and p.username != ''">
+                m.user_name=#{p.username}
+            </if>
+            ORDER BY  m.create_time  asc
+        </where>
+    </select>
+
 </mapper>
