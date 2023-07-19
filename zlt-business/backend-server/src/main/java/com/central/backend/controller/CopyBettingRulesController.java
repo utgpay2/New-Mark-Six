@@ -29,7 +29,7 @@ public class CopyBettingRulesController {
     @Autowired
     private ICopyBettingRulesService iCopyBettingRulesService;
 
-    @ApiOperation(value = "拷贝整个站点彩种规则到另一个站点（系统管理员权限）")
+    @ApiOperation(value = "拷贝整个站点彩种规则到另一个站点彩种规则（系统管理员权限）")
     @PostMapping("/copybettingsite")
     public Result copybettingsite(@RequestBody CopyBettingSiteDto copyBettingSiteDto, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(copyBettingSiteDto)) {
@@ -49,7 +49,7 @@ public class CopyBettingRulesController {
         }
         return iCopyBettingRulesService.copybettingsite(copyBettingSiteDto,user);
     }
-    @ApiOperation(value = "拷贝整个站点彩种规则到另一个站点（系统管理员权限）")
+    @ApiOperation(value = "拷贝彩种规则到彩种规则（系统管理员权限）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sourceSiteLotteryId", value = "源站点彩种ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "targetSiteLotteryId", value = "目标站点彩种ID", required = true, dataType = "Integer")

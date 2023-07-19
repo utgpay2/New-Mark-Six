@@ -69,7 +69,7 @@ public class QuizDetailsController {
     /**
      * 新增or更新
      */
-    @ApiOperation(value = "保存")
+    @ApiOperation(value = "新增or更新")
     @PostMapping("/saveOrUpdateQuizDetails")
     public Result saveOrUpdateQuizDetails(@RequestBody QuizDetails quizDetails, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(quizDetails)) {
