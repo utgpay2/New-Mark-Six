@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Slf4j
@@ -45,6 +46,10 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 RedisRepository.delete(redisKey);
             }
         }
+    }
+    @Override
+    public BigDecimal sumTotalPrice(Map<String, Object> params) {
+        return baseMapper.sumTotalPrice(params);
     }
 
 }

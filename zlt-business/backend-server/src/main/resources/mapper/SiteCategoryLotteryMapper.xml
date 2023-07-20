@@ -3,7 +3,7 @@
 
 <mapper namespace="com.central.backend.mapper.SiteCategoryLotteryMapper">
     <select id="findList" resultType="com.central.backend.model.vo.CategoryVo">
-        select mc.id as id,mc.name as name,mc.sort as sort,mc.remark as remark,l.site_id as siteId
+        select mc.id as id,mc.name as name,mc.sort as sort,mc.remark as remark,l.site_id as siteId,
         l.create_time as createTime,l.update_time as updateTime,l.category_id as categoryId,
         l.create_by as createBy,l.update_by as updateBy,l.site_lottery_id  as siteLotteryId
         from mks_site_category_lottery l
