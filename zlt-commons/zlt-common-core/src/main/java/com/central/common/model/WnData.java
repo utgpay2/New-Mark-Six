@@ -31,7 +31,7 @@ public class WnData  {
     @ApiModelProperty(value = "开奖号码")
     private String numbers;
     @ApiModelProperty(value = "创建时间")
-    private Integer createTime;
+    private Date createTime;
     @ApiModelProperty(value = "开奖视频")
     private String videoPath;
     @ApiModelProperty(value = "下一期开奖时间")

@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 会员资金明细报表
+ * 会员投注记录报表
  *
  */
 
