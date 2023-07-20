@@ -19,19 +19,14 @@ import java.util.Date;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @TableName("mks_wn_data")
-public class WnData  {
+public class WnData extends SuperEntity {
     private static final long serialVersionUID=1L;
-    @TableId
-    @ApiModelProperty(value = "开奖ID")
-    private Long id;
     @ApiModelProperty(value = "期号")
     private Long qihao;
     @ApiModelProperty(value = "彩种id")
     private Integer lotteryId;
     @ApiModelProperty(value = "开奖号码")
     private String numbers;
-    @ApiModelProperty(value = "创建时间")
-    private Date createTime;
     @ApiModelProperty(value = "开奖视频")
     private String videoPath;
     @ApiModelProperty(value = "下一期开奖时间")

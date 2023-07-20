@@ -6,10 +6,13 @@ import com.central.db.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
 @Mapper
 public interface QuizOrdersMapper extends SuperMapper<QuizOrders> {
     List<QuizOrders> findList(Page<QuizOrders> page,@Param("p") Map<String, Object> params);
+
+    BigDecimal sumTotalPrice(@Param("p") Map<String, Object> params);
 }

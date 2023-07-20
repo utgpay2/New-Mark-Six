@@ -51,9 +51,9 @@ public class QuizOrders extends SuperEntity {
     private Long quizDetailsId;
     @ApiModelProperty(value = "站点彩种分类三类名称")
     private String quizDetailsName;
-    @ApiModelProperty(value = "站点彩种分类三类（开奖规则明细ID 如：3172,3173,3174）")
+    @ApiModelProperty(value = "投注内容（开奖规则明细ID 如：3172,3173,3174）")
     private String quizChooseIds;
-    @ApiModelProperty(value = "站点彩种分类三类（开奖规则明细名称 如：01,02,03）")
+    @ApiModelProperty(value = "投注内容（开奖规则明细名称 如：01,02,03）")
     private String quizIntroduces;
     @ApiModelProperty(value = "赔率")
     private BigDecimal odds;

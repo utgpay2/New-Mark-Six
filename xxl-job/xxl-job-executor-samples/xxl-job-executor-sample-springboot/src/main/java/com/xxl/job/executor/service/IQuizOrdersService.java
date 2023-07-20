@@ -6,6 +6,7 @@ import com.central.common.model.Result;
 import com.central.common.model.SysUser;
 import com.central.common.service.ISuperService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -18,5 +19,6 @@ public interface IQuizOrdersService extends ISuperService<QuizOrders> {
      */
     public PageResult<QuizOrders> findList(Map<String, Object> params);
     void saveOrUpdateQuizOrdersBatch(List<QuizOrders> ordersList);
+    BigDecimal sumTotalPrice(Map<String, Object> params);
 
 }

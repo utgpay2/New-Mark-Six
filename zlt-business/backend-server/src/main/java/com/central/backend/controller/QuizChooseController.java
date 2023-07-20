@@ -31,7 +31,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Slf4j
 @RestController
 @RequestMapping("/quizchoose")
-@Api(tags = "站点彩种分类(四类)")
+@Api(tags = "站点彩种玩法规则(四类)")
 public class QuizChooseController {
     @Autowired
     private IQuizChooseService quizChooseService;
@@ -63,7 +63,7 @@ public class QuizChooseController {
     /**
      * 新增or更新
      */
-    @ApiOperation(value = "保存")
+    @ApiOperation(value = "新增or更新")
     @PostMapping("/saveOrUpdateQuizChoose")
     public Result saveOrUpdateQuizChoose(@RequestBody QuizChoose quizChoose, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(quizChoose)) {
