@@ -77,9 +77,10 @@ public class CategoryController {
     @ApiOperation(value = "删除分类（超级管理员权限）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "分类ID", required = true, dataType = "Integer")
+
     })
     @PostMapping("/deletecategory")
-    public Result deleteCategory(@PathVariable Long id) {
+    public Result deleteCategory(@RequestParam(value = "id", required = false) Long id) {
         if (ObjectUtil.isEmpty(id)) {
             return Result.failed("ID不能为空");
         }
@@ -133,11 +134,20 @@ public class CategoryController {
             @ApiImplicitParam(name = "id", value = "站点彩种分类一类ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer")
+
     })
     @PostMapping("/deletesitecategory")
-    public Result deleteSiteCategory(@PathVariable Long id,@PathVariable Long siteId,@PathVariable Long siteLotteryId) {
+    public Result deleteSiteCategory(@RequestParam(value = "id", required = false) Long id
+            ,@RequestParam(value = "siteId",  required = false) Long siteId,
+                                     @RequestParam(value = "siteLotteryId",  required = false) Long siteLotteryId) {
         if (ObjectUtil.isEmpty(id)) {
             return Result.failed("ID不能为空");
+        }
+        if (ObjectUtil.isEmpty(siteId)) {
+            return Result.failed("站点id不能为空");
+        }
+        if (ObjectUtil.isEmpty(siteLotteryId)) {
+            return Result.failed("站点彩种ID不能为空");
         }
         return categoryLotteryService.deleteSiteCategory(id,siteId,siteLotteryId);
     }
