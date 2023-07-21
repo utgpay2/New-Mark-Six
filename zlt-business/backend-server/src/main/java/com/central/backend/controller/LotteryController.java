@@ -77,7 +77,7 @@ public class LotteryController {
             @ApiImplicitParam(name = "id", value = "彩种id", required = true, dataType = "Integer")
     })
     @PostMapping("/deletelottery")
-    public Result delete(@PathVariable Long id) {
+    public Result delete(@RequestParam(value = "id", required = true)  Long id) {
         if (ObjectUtil.isEmpty(id)) {
             return Result.failed("ID不能为空");
         }
@@ -132,7 +132,7 @@ public class LotteryController {
             @ApiImplicitParam(name = "id", value = "站点彩种id", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Integer")
     })
-    public Result deleteSiteLottery(@PathVariable Long id,@PathVariable Integer siteId) {
+    public Result deleteSiteLottery(@RequestParam(value = "id", required = true)  Long id,@RequestParam(value = "siteId", required = true)  Integer siteId) {
         if (ObjectUtil.isEmpty(id)) {
             return Result.failed("站点彩种ID不能为空");
         }

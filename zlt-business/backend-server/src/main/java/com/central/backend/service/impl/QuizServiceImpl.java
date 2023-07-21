@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.central.backend.mapper.QuizMapper;
 import com.central.backend.model.dto.QuizDto;
 import com.central.backend.service.IQuizChooseService;
+import com.central.backend.service.IQuizDetailsService;
 import com.central.backend.service.IQuizService;
 import com.central.common.constant.RedisConstants;
 import com.central.common.model.*;
@@ -32,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class QuizServiceImpl extends SuperServiceImpl<QuizMapper, Quiz> implements IQuizService {
     @Autowired
-    private IQuizChooseService quizChooseService;
+    private IQuizDetailsService quizDetailsService;
     /**
      * 列表
      * @param params
@@ -61,11 +62,11 @@ public class QuizServiceImpl extends SuperServiceImpl<QuizMapper, Quiz> implemen
     }
     @Override
     public Result deleteQuiz(QuizDto quizDto){
-        LambdaQueryWrapper<QuizChoose> wrapper=new LambdaQueryWrapper<>();
-        wrapper.eq(QuizChoose::getQuizDetailsId,quizDto.getId());
-        List<QuizChoose> list = quizChooseService.getBaseMapper().selectList(wrapper);
+        LambdaQueryWrapper<QuizDetails> wrapper=new LambdaQueryWrapper<>();
+        wrapper.eq(QuizDetails::getQuizId,quizDto.getId());
+        List<QuizDetails> list = quizDetailsService.getBaseMapper().selectList(wrapper);
         if(null!=list && list.size()>0){
-            return Result.failed("请删除规则明细，再删除规则主表");
+            return Result.failed("请删除站点彩种分类(三类)，再删除彩种分类(二类)");
         }else {
             this.removeById(quizDto.getId());
             String redisKeyStr = StrUtil.format(RedisConstants.SITE_LOTTERY_CATEGORY_QUIZ_LIST_KEY,

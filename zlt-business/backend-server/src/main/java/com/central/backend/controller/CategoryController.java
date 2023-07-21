@@ -80,7 +80,7 @@ public class CategoryController {
 
     })
     @PostMapping("/deletecategory")
-    public Result deleteCategory(@RequestParam(value = "id", required = false) Long id) {
+    public Result deleteCategory(@RequestParam(value = "id", required = true) Long id) {
         if (ObjectUtil.isEmpty(id)) {
             return Result.failed("ID不能为空");
         }
@@ -137,9 +137,9 @@ public class CategoryController {
 
     })
     @PostMapping("/deletesitecategory")
-    public Result deleteSiteCategory(@RequestParam(value = "id", required = false) Long id
-            ,@RequestParam(value = "siteId",  required = false) Long siteId,
-                                     @RequestParam(value = "siteLotteryId",  required = false) Long siteLotteryId) {
+    public Result deleteSiteCategory(@RequestParam(value = "id", required = true) Long id
+            ,@RequestParam(value = "siteId",  required = true) Long siteId,
+                                     @RequestParam(value = "siteLotteryId",  required = true) Long siteLotteryId) {
         if (ObjectUtil.isEmpty(id)) {
             return Result.failed("ID不能为空");
         }

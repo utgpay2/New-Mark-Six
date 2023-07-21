@@ -46,7 +46,7 @@ public class QuizDetailsController {
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping
-    public Result<List<QuizDetails>> list(@RequestParam Map<String, Object> params) {
+    public Result<List<QuizDetails>> list(@ApiIgnore @RequestParam Map<String, Object> params) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }

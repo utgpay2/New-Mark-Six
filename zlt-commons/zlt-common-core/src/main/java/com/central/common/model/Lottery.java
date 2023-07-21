@@ -1,14 +1,11 @@
 package com.central.common.model;
 
-import com.central.common.model.SuperEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
 
-import java.sql.Time;
-import java.util.Date;
 
 /**
  * 彩种表
@@ -32,8 +29,8 @@ public class Lottery extends SuperEntity {
     private Integer status;
     @ApiModelProperty(value = "图片地址")
     private String picture;
-    @ApiModelProperty(value = "下注截止时间")
-    private Time betDeadlineTime;
-    @ApiModelProperty(value = "结算完成时间")
-    private Time betSettlementTime;
+    @ApiModelProperty(value = "下注截止时间 HH:mm:ss")
+    private String betDeadlineTime;
+    @ApiModelProperty(value = "结算完成时间 HH:mm:ss")
+    private String betSettlementTime;
     }
