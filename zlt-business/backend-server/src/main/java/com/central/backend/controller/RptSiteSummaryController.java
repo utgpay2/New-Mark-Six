@@ -63,10 +63,10 @@ public class RptSiteSummaryController {
 
     })
     @GetMapping("/user/export")
-    public Result userReportFormsExport(@RequestParam Map<String, Object> params, HttpServletResponse response) {
+    public void userReportFormsExport(@RequestParam Map<String, Object> params, HttpServletResponse response) {
 
         quizOrderSonService.userReportFormsExport(params, response);
-        return Result.succeed();
+
     }
 
 
@@ -101,10 +101,10 @@ public class RptSiteSummaryController {
             @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = " String"),
     })
     @GetMapping("/userMoneyDetailed/export")
-    public Result userMoneyDetailedExport(@RequestParam Map<String, Object> params, HttpServletResponse httpServletResponse) {
+    public void userMoneyDetailedExport(@RequestParam Map<String, Object> params, HttpServletResponse httpServletResponse) {
 
         quizOrderSonService.userMoneyDetailedExport(params, httpServletResponse);
-        return Result.succeed();
+
     }
 
 
@@ -140,10 +140,10 @@ public class RptSiteSummaryController {
             @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = " String"),
     })
     @GetMapping("/userBettingDetailed/export")
-    public Result userBettingDetailedExport(@RequestParam Map<String, Object> params, HttpServletResponse httpServletResponse) {
+    public void userBettingDetailedExport(@RequestParam Map<String, Object> params, HttpServletResponse httpServletResponse) {
 
         quizOrderSonService.userBettingDetailedExport(params, httpServletResponse);
-        return Result.succeed();
+
     }
 
 }
