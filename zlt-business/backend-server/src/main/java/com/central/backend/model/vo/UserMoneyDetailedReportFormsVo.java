@@ -1,4 +1,4 @@
-package com.central.backend.model.dto;
+package com.central.backend.model.vo;
 
 
 import com.alibaba.excel.annotation.ExcelProperty;
@@ -18,7 +18,7 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class UserMoneyDetailedReportFormsDto {
+public class UserMoneyDetailedReportFormsVo {
 
     @ApiModelProperty("用户名")
     @ExcelProperty(value = "用户名",index = 0)

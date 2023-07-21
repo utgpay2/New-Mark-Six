@@ -12,6 +12,7 @@ public enum MbChangeTypeEnum {
     RECHARGE(6, "上分", 1),
     USER_WITHDRAWAL(7, "上级上分", 1),
     USER_RECHARGE(8, "上级下分", -1),
+    STATION_OWNER_RECHARGE(10, "户主充值", 1),
     ;
 
     private final Integer type;

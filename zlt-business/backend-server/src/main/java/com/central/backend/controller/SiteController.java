@@ -3,6 +3,7 @@ package com.central.backend.controller;
 import cn.hutool.core.util.ObjectUtil;
 import com.central.backend.co.SiteCo;
 import com.central.backend.co.SiteUpdateCo;
+import com.central.backend.model.dto.SiteRechargeDto;
 import com.central.backend.service.ISiteService;
 import com.central.backend.vo.SiteListVo;
 import com.central.backend.vo.SiteVo;
@@ -49,6 +50,16 @@ public class SiteController {
             }
         });
         return Result.succeed(siteList);
+    }
+
+
+    @ApiOperation(value = "给站点授信额度（系统管理员权限）")
+    @PostMapping(value = "/recharge")
+    public Result recharge(@RequestBody SiteRechargeDto siteRechargeDto, @LoginUser SysUser sysUser) {
+        if(sysUser.getId()!=1 && sysUser.getId()!=2){
+            return Result.failed("需要系统管理员权限");
+        }
+        return  siteService.recharge(siteRechargeDto,sysUser);
     }
 
 

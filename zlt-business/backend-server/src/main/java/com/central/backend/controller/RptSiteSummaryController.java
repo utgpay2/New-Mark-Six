@@ -1,13 +1,11 @@
 package com.central.backend.controller;
 
-import com.central.backend.model.dto.UserBettingDetailedReportFormsDto;
-import com.central.backend.model.dto.UserMoneyDetailedReportFormsDto;
-import com.central.backend.model.dto.UserReportFormsDto;
+import com.central.backend.model.vo.UserBettingDetailedReportFormsVo;
+import com.central.backend.model.vo.UserMoneyDetailedReportFormsVo;
+import com.central.backend.model.vo.UserReportFormsVo;
 import com.central.backend.service.IQuizOrdersService;
 import com.central.common.model.PageResult;
-import com.central.common.model.QuizOrders;
 import com.central.common.model.Result;
-import com.central.common.model.SysUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -47,7 +45,7 @@ public class RptSiteSummaryController {
 
     })
     @GetMapping("/user")
-    public Result<PageResult<UserReportFormsDto>> userReportForms(@RequestParam Map<String, Object> params) {
+    public Result<PageResult<UserReportFormsVo>> userReportForms(@RequestParam Map<String, Object> params) {
 
         return Result.succeed(quizOrderSonService.userReportForms(params));
     }
@@ -65,10 +63,10 @@ public class RptSiteSummaryController {
 
     })
     @GetMapping("/user/export")
-    public Result userReportFormsExport(@RequestParam Map<String, Object> params, HttpServletResponse response) {
+    public void userReportFormsExport(@RequestParam Map<String, Object> params, HttpServletResponse response) {
 
         quizOrderSonService.userReportFormsExport(params, response);
-        return Result.succeed();
+
     }
 
 
@@ -85,7 +83,7 @@ public class RptSiteSummaryController {
             @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = " String"),
     })
     @GetMapping("/userMoneyDetailed")
-    public Result<PageResult<UserMoneyDetailedReportFormsDto>> userMoneyDetailed(@RequestParam Map<String, Object> params) {
+    public Result<PageResult<UserMoneyDetailedReportFormsVo>> userMoneyDetailed(@RequestParam Map<String, Object> params) {
 
         return Result.succeed(quizOrderSonService.userMoneyDetailed(params));
     }
@@ -103,10 +101,10 @@ public class RptSiteSummaryController {
             @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = " String"),
     })
     @GetMapping("/userMoneyDetailed/export")
-    public Result userMoneyDetailedExport(@RequestParam Map<String, Object> params, HttpServletResponse httpServletResponse) {
+    public void userMoneyDetailedExport(@RequestParam Map<String, Object> params, HttpServletResponse httpServletResponse) {
 
         quizOrderSonService.userMoneyDetailedExport(params, httpServletResponse);
-        return Result.succeed();
+
     }
 
 
@@ -123,7 +121,7 @@ public class RptSiteSummaryController {
             @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = " String"),
     })
     @GetMapping("/userBettingDetailed")
-    public Result<PageResult<UserBettingDetailedReportFormsDto>> userBettingDetailed(@RequestParam Map<String, Object> params) {
+    public Result<PageResult<UserBettingDetailedReportFormsVo>> userBettingDetailed(@RequestParam Map<String, Object> params) {
 
         return Result.succeed(quizOrderSonService.userBettingDetailed(params));
 
@@ -142,10 +140,10 @@ public class RptSiteSummaryController {
             @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = " String"),
     })
     @GetMapping("/userBettingDetailed/export")
-    public Result userBettingDetailedExport(@RequestParam Map<String, Object> params, HttpServletResponse httpServletResponse) {
+    public void userBettingDetailedExport(@RequestParam Map<String, Object> params, HttpServletResponse httpServletResponse) {
 
         quizOrderSonService.userBettingDetailedExport(params, httpServletResponse);
-        return Result.succeed();
+
     }
 
 }

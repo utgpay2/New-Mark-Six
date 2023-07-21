@@ -5,6 +5,7 @@ import com.central.backend.co.SiteCo;
 import com.central.backend.vo.SiteListVo;
 import com.central.backend.vo.SiteVo;
 import com.central.common.model.Site;
+import com.central.common.model.SysUser;
 import com.central.db.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +29,6 @@ public interface SiteMapper extends SuperMapper<Site> {
 
 
     List<SiteListVo>  findSiteBoxList(Integer roleId);
+
+    SysUser getStationOwner(@Param("siteId")Integer siteId);
 }

@@ -1,9 +1,8 @@
 package com.central.backend.mapper;
 
-import com.central.backend.model.dto.UserBettingDetailedReportFormsDto;
-import com.central.backend.model.dto.UserMoneyDetailedReportFormsDto;
-import com.central.backend.model.dto.UserReportFormsDto;
-import com.central.common.model.MoneyLog;
+import com.central.backend.model.vo.UserBettingDetailedReportFormsVo;
+import com.central.backend.model.vo.UserMoneyDetailedReportFormsVo;
+import com.central.backend.model.vo.UserReportFormsVo;
 import com.central.common.model.QuizOrders;
 import com.central.db.mapper.SuperMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,9 +28,9 @@ public interface QuizOrdersMapper extends SuperMapper<QuizOrders> {
      */
     List<QuizOrders> findList(Page<QuizOrders> page, @Param("p") Map<String, Object> params);
 
-    List<UserReportFormsDto> userReportForms(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
+    List<UserReportFormsVo> userReportForms(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
 
-    List<UserMoneyDetailedReportFormsDto> userMoneyDetailed(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
+    List<UserMoneyDetailedReportFormsVo> userMoneyDetailed(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
 
-    List<UserBettingDetailedReportFormsDto> userBettingDetailed(Page<QuizOrders> page,@Param("p")Map<String, Object> params);
+    List<UserBettingDetailedReportFormsVo> userBettingDetailed(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
 }

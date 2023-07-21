@@ -327,8 +327,6 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
         } finally {
             RedissLockUtil.unlock(lockKey);
         }
-
-
     }
 
     //根据代理用户获取下级用户id
