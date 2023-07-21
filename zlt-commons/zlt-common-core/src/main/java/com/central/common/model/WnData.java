@@ -1,13 +1,10 @@
 package com.central.common.model;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.central.common.model.SuperEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
-import java.util.Date;
 
 /**
  * 开奖数据
@@ -37,4 +34,4 @@ public class WnData extends SuperEntity {
     private Integer year;
     @ApiModelProperty(value = "是否结算完成(0否，1结算完成)")
     private Integer status;
-    }
+}
