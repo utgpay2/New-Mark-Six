@@ -60,6 +60,23 @@ public class ThirdPartyController {
 
     @Autowired
     private IMoneyLogService moneyLogService;
+
+
+    @Autowired
+    private UaaService uaaService;
+
+    @Autowired
+    private UserService userService;
+
+
+    @Autowired
+    private ISiteService kpnSiteService;
+
+    @Value("${marksix.business.authorization:Basic d2ViQXBwOndlYkFwcA==}")
+    private String authorization;
+
+    public static final String AUTHENTICATION_MODE = "password_code";
+
     /**
      * 新增
      *
@@ -682,20 +699,7 @@ public class ThirdPartyController {
         return Result.succeed(moneyLogService.transferRecords(username,userIds,type,sort,page,limit));
     }
 
-    @Autowired
-    private UaaService uaaService;
 
-    @Autowired
-    private UserService userService;
-
-
-    @Autowired
-    private ISiteService kpnSiteService;
-
-    @Value("${marksix.business.authorization:Basic d2ViQXBwOndlYkFwcA==}")
-    private String authorization;
-
-    public static final String AUTHENTICATION_MODE = "password_code";
 
 
     @Autowired

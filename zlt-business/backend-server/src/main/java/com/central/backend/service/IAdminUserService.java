@@ -6,6 +6,7 @@ import com.central.backend.model.dto.SysAdminUserEnabledDto;
 import com.central.common.model.*;
 import com.central.common.service.ISuperService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -48,4 +49,13 @@ public interface IAdminUserService extends ISuperService<SysUser> {
 	SysUser getMerchantAdministrator(String siteCode);
 
 	Result getProxyBySiteCode(String siteCode);
+
+
+	/**
+	 * 增加奖励M币数
+	 *
+	 * @param sysUser  登录会员
+	 * @param rewardMb 奖励M币数
+	 */
+	void addRewardMb(SysUser sysUser, BigDecimal rewardMb);
 }

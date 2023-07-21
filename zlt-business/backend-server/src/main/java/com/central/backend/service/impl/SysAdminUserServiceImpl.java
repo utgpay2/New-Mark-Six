@@ -14,6 +14,7 @@ import com.central.backend.service.*;
 import com.central.backend.util.PasswordUtil;
 import com.central.backend.util.SecureToken;
 import com.central.common.constant.CommonConstant;
+import com.central.common.constant.RedisConstants;
 import com.central.common.model.*;
 import com.central.common.model.enums.UserRegTypeEnum;
 import com.central.common.model.enums.UserTypeEnum;
@@ -32,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,6 +60,15 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
     private ISysUserService sysUserService;
     @Autowired
     RedisRepository redisRepository;
+
+    @Override
+    public void addRewardMb(SysUser sysUser, BigDecimal rewardMb) {
+        this.lambdaUpdate().eq(SysUser::getId, sysUser.getId())
+                .setSql("`m_balance` = `m_balance` + " + rewardMb)
+                .update();
+        String redisKey = StrUtil.format(RedisConstants.SITE_SYSUSER_KEY, sysUser.getId());
+        RedisRepository.delete(redisKey);
+    }
 
     @Override
     public PageResult<SysUser> findList(Map<String, Object> params, SysUser user){

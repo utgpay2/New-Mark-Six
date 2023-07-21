@@ -38,8 +38,8 @@ public class WnDataController {
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
     })
     @GetMapping
-    public PageResult list(@RequestParam Map<String, Object> params) {
-        return wnDataService.findList(params);
+    public Result<PageResult>  list(@RequestParam Map<String, Object> params) {
+        return Result.succeed(wnDataService.findList(params));
     }
 
     /**

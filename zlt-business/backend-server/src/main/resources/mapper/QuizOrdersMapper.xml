@@ -51,7 +51,7 @@
         </where>
     </select>
 
-    <select id="userReportForms" resultType="com.central.backend.model.dto.UserReportFormsDto">
+    <select id="userReportForms" resultType="com.central.backend.model.vo.UserReportFormsVo">
         SELECT
         u.username,
         u.parent_name,
@@ -83,7 +83,7 @@
     </select>
 
 
-    <select id="userMoneyDetailed" resultType="com.central.backend.model.dto.UserMoneyDetailedReportFormsDto">
+    <select id="userMoneyDetailed" resultType="com.central.backend.model.vo.UserMoneyDetailedReportFormsVo">
         SELECT
         u.username,
         m.order_no,
@@ -104,7 +104,7 @@
     </select>
 
 
-    <select id="userBettingDetailed" resultType="com.central.backend.model.dto.UserBettingDetailedReportFormsDto">
+    <select id="userBettingDetailed" resultType="com.central.backend.model.vo.UserBettingDetailedReportFormsVo">
         SELECT
         o.user_name,
         o.lottery_name,

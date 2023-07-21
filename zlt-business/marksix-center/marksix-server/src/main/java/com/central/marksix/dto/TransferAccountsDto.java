@@ -27,7 +27,7 @@ public class TransferAccountsDto {
     @ApiModelProperty(value = "金额")
     private BigDecimal amount;
 
-    @ApiModelProperty(value = "转账类型") //0给会员下分  1给会员上分
+    @ApiModelProperty(value = "转账类型 0给会员下分  1给会员上分")
     private Integer type;
 
 }

@@ -2,11 +2,13 @@ package com.central.backend.service;
 
 import com.central.backend.co.SiteCo;
 import com.central.backend.co.SiteUpdateCo;
+import com.central.backend.model.dto.SiteRechargeDto;
 import com.central.backend.vo.SiteListVo;
 import com.central.backend.vo.SiteVo;
 import com.central.common.model.Site;
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
+import com.central.common.model.SysUser;
 import com.central.common.service.ISuperService;
 
 import java.util.List;
@@ -43,4 +45,5 @@ public interface ISiteService extends ISuperService<Site> {
     List<Site> getList();
 
 
+    Result recharge(SiteRechargeDto siteRechargeDto, SysUser sysUser);
 }

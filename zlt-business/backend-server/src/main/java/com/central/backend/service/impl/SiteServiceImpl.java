@@ -1,31 +1,36 @@
 package com.central.backend.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.central.backend.co.SiteCo;
 import com.central.backend.co.SiteUpdateCo;
 import com.central.backend.mapper.SiteMapper;
+import com.central.backend.model.dto.SiteRechargeDto;
+import com.central.backend.service.IAdminUserService;
 import com.central.backend.service.IAsyncService;
+import com.central.backend.service.IMoneyLogService;
 import com.central.backend.service.ISiteService;
 import com.central.backend.util.MD5;
 import com.central.backend.vo.SiteListVo;
 import com.central.backend.vo.SiteVo;
 import com.central.common.constant.MarksixConstants;
-import com.central.common.model.Site;
-import com.central.common.model.PageResult;
-import com.central.common.model.Result;
-import com.central.common.model.ThirdParty;
+import com.central.common.model.*;
+import com.central.common.model.enums.CodeEnum;
+import com.central.common.model.enums.MbChangeTypeEnum;
+import com.central.common.redis.lock.RedissLockUtil;
 import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
+import com.central.common.utils.SnowflakeIdWorker;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.math.BigDecimal;
+import java.util.*;
 
 
 @Slf4j
@@ -40,6 +45,12 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
     @Autowired
     private ThirdPartyServiceImpl thirdPartyService;
 
+    @Autowired
+    private IMoneyLogService moneyLogService;
+
+    @Autowired
+    IAdminUserService adminUserService;
+
     @Override
     public List<Site> getList() {
         String redisKey = MarksixConstants.RedisKey.KPN_SITE_LIST_KEY;
@@ -51,6 +62,61 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
             }
         }
         return sites;
+    }
+
+    @Override
+    public Result recharge(SiteRechargeDto siteRechargeDto, SysUser sysUser) {
+        //查询商户户主
+        SysUser  user= baseMapper.getStationOwner(siteRechargeDto.getSiteId());
+        if (ObjectUtil.isEmpty(user)) {
+            return Result.failed("请添加商户管理员");
+        }
+        String lockKey = StrUtil.format(MarksixConstants.Lock.USER_TRANSFER_LOCK, user.getId());
+        try {
+            boolean lockedSuccess = RedissLockUtil.tryLock(lockKey, MarksixConstants.Lock.WAIT_TIME, MarksixConstants.Lock.LEASE_TIME);
+            if (!lockedSuccess) {
+                return Result.failed("加锁失败");
+            }
+            BigDecimal amount = siteRechargeDto.getAmount();//转账金额
+            BigDecimal currentBalance = user.getMBalance();//用户当前余额
+            BigDecimal afterMoney;
+            afterMoney=currentBalance.add(amount);
+            Date date=new Date();
+
+            //用户金额日志
+            String orderSn = SnowflakeIdWorker.createOrderSn();//订单号
+            MoneyLog moneyLog = new MoneyLog();
+            moneyLog.setUserId(user.getId());
+            moneyLog.setUserName(user.getUsername());
+            moneyLog.setOrderNo(orderSn);
+
+            moneyLog.setOrderType(MbChangeTypeEnum.STATION_OWNER_RECHARGE.getType());//账变类型
+            moneyLog.setOrderTypeName(MbChangeTypeEnum.STATION_OWNER_RECHARGE.getName());//账变类型名称
+            moneyLog.setMoney(amount);//账变金额
+
+            moneyLog.setBeforeMoney(currentBalance);//账变前金额
+            moneyLog.setAfterMoney(afterMoney);//账变后金额
+            moneyLog.setCreateTime(date);
+            moneyLog.setCreateBy(sysUser.getUsername());
+            moneyLog.setUpdateTime(date);
+            moneyLog.setUpdateBy(sysUser.getUsername());
+
+            //给户主充值
+            adminUserService.addRewardMb(user, amount);
+
+            //账变记录
+            moneyLogService.save(moneyLog);
+
+
+            return Result.succeed("充值成功");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return Result.failed("failed");
+        } finally {
+            RedissLockUtil.unlock(lockKey);
+        }
+
+
     }
 
 
