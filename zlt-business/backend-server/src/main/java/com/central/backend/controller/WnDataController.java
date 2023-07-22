@@ -2,6 +2,7 @@ package com.central.backend.controller;
 
 import java.util.Map;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.central.backend.service.IWnDataService;
 import com.central.common.model.WnData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 开奖数据
@@ -34,11 +36,23 @@ public class WnDataController {
      */
     @ApiOperation(value = "查询列表")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "qihao", value = "期号", required = false, dataType = "Long"),
+            @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序、2倒叙(默认)", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "lotteryId", value = "彩种id", required = false, dataType = "Integer"),
             @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
     })
     @GetMapping
-    public Result<PageResult>  list(@RequestParam Map<String, Object> params) {
+    public Result<PageResult>  list(@ApiIgnore @RequestParam Map<String, Object> params) {
+        if (ObjectUtil.isEmpty(params)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("page"))) {
+            return Result.failed("分页起始位置不能为空");
+        }
+        if (ObjectUtil.isEmpty(params.get("limit"))) {
+            return Result.failed("分页结束位置不能为空");
+        }
         return Result.succeed(wnDataService.findList(params));
     }
 
@@ -55,7 +69,7 @@ public class WnDataController {
     /**
      * 新增or更新
      */
-    @ApiOperation(value = "保存")
+    @ApiOperation(value = "新增or更新")
     @PostMapping
     public Result save(@RequestBody WnData wnData) {
         wnDataService.saveOrUpdate(wnData);

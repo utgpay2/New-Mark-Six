@@ -4,5 +4,15 @@
 <mapper namespace="com.central.backend.mapper.WnDataMapper">
     <select id="findList" resultType="com.central.common.model.WnData">
         select * from mks_wn_data t
+        <where>
+            1=1
+            <if test="p.lotteryId != null and p.lotteryId != '' and p.lotteryId != 0">
+                and t.lottery_id = #{p.lotteryId}
+            </if>
+            <if test="p.qihao != null and p.qihao != '' and p.qihao != 0">
+                and t.qihao = #{p.qihao}
+            </if>
+            ORDER BY t.qihao <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1"> ASC </when><otherwise> DESC </otherwise></choose>
+        </where>
     </select>
 </mapper>
