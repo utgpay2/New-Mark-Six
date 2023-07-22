@@ -72,6 +72,7 @@ public class CopyBettingRulesServiceImpl implements ICopyBettingRulesService {
                     SiteCategoryLottery newCategoryLottery = new SiteCategoryLottery();
                     newCategoryLottery.setCategoryId(categoryLottery.getCategoryId());
                     newCategoryLottery.setSiteLotteryId(newSiteLottery.getId());
+                    newCategoryLottery.setSiteId(Long.valueOf(newSiteLottery.getSiteId()));
                     newCategoryLottery.setCreateBy(user.getUsername());
                     newCategoryLottery.setCreateTime(new Date());
                     newCategoryLottery.setUpdateTime(new Date());
@@ -86,6 +87,8 @@ public class CopyBettingRulesServiceImpl implements ICopyBettingRulesService {
                         BeanUtils.copyProperties(quiz, newQuiz);
                         newQuiz.setId(null);
                         newQuiz.setSiteCategoryId(newCategoryLottery.getId());
+                        newQuiz.setSiteId(Long.valueOf(newSiteLottery.getSiteId()));
+                        newQuiz.setSiteLotteryId(newCategoryLottery.getSiteLotteryId());
                         newQuiz.setCreateBy(user.getUsername());
                         newQuiz.setCreateTime(new Date());
                         newQuiz.setUpdateTime(new Date());
@@ -100,6 +103,9 @@ public class CopyBettingRulesServiceImpl implements ICopyBettingRulesService {
                             BeanUtils.copyProperties(quizDetails, newQuizDetails);
                             newQuizDetails.setId(null);
                             newQuizDetails.setQuizId(newQuiz.getId());
+                            newQuizDetails.setSiteCategoryId(newCategoryLottery.getId());
+                            newQuiz.setSiteId(Long.valueOf(newSiteLottery.getSiteId()));
+                            newQuiz.setSiteLotteryId(newCategoryLottery.getSiteLotteryId());
                             newQuizDetails.setCreateBy(user.getUsername());
                             newQuizDetails.setCreateTime(new Date());
                             newQuizDetails.setUpdateTime(new Date());
@@ -114,6 +120,10 @@ public class CopyBettingRulesServiceImpl implements ICopyBettingRulesService {
                                 BeanUtils.copyProperties(quizChoose, newQuizChoose);
                                 newQuizChoose.setId(null);
                                 newQuizChoose.setQuizDetailsId(newQuiz.getId());
+                                newQuizChoose.setQuizId(newQuiz.getId());
+                                newQuizChoose.setSiteCategoryId(newCategoryLottery.getId());
+                                newQuiz.setSiteId(Long.valueOf(newSiteLottery.getSiteId()));
+                                newQuiz.setSiteLotteryId(newCategoryLottery.getSiteLotteryId());
                                 newQuizChoose.setCreateBy(user.getUsername());
                                 newQuizChoose.setCreateTime(new Date());
                                 newQuizChoose.setUpdateTime(new Date());
@@ -150,10 +160,12 @@ public class CopyBettingRulesServiceImpl implements ICopyBettingRulesService {
             LambdaQueryWrapper<SiteCategoryLottery> sclwrapper = new LambdaQueryWrapper<>();
             sclwrapper.eq(SiteCategoryLottery::getSiteLotteryId,sourceSiteLotteryId);
             List<SiteCategoryLottery> categoryLotteryList = siteCategoryLotteryService.list(sclwrapper);
+            SiteCategoryLottery targetSiteLottery = siteCategoryLotteryService.getById(targetSiteLotteryId);
             for(SiteCategoryLottery categoryLottery:categoryLotteryList){
                 SiteCategoryLottery newCategoryLottery = new SiteCategoryLottery();
                 newCategoryLottery.setCategoryId(categoryLottery.getCategoryId());
                 newCategoryLottery.setSiteLotteryId(targetSiteLotteryId);
+                newCategoryLottery.setSiteId(targetSiteLottery.getSiteId());
                 newCategoryLottery.setCreateBy(user.getUsername());
                 newCategoryLottery.setCreateTime(new Date());
                 newCategoryLottery.setUpdateTime(new Date());
@@ -168,6 +180,8 @@ public class CopyBettingRulesServiceImpl implements ICopyBettingRulesService {
                     BeanUtils.copyProperties(quiz, newQuiz);
                     newQuiz.setId(null);
                     newQuiz.setSiteCategoryId(newCategoryLottery.getId());
+                    newQuiz.setSiteId(targetSiteLottery.getSiteId());
+                    newQuiz.setSiteLotteryId(targetSiteLotteryId);
                     newQuiz.setCreateBy(user.getUsername());
                     newQuiz.setCreateTime(new Date());
                     newQuiz.setUpdateTime(new Date());
@@ -182,6 +196,9 @@ public class CopyBettingRulesServiceImpl implements ICopyBettingRulesService {
                         BeanUtils.copyProperties(quizDetails, newQuizDetails);
                         newQuizDetails.setId(null);
                         newQuizDetails.setQuizId(newQuiz.getId());
+                        newQuizDetails.setSiteCategoryId(newCategoryLottery.getId());
+                        newQuizDetails.setSiteId(targetSiteLottery.getSiteId());
+                        newQuizDetails.setSiteLotteryId(targetSiteLotteryId);
                         newQuizDetails.setCreateBy(user.getUsername());
                         newQuizDetails.setCreateTime(new Date());
                         newQuizDetails.setUpdateTime(new Date());
@@ -196,6 +213,10 @@ public class CopyBettingRulesServiceImpl implements ICopyBettingRulesService {
                             BeanUtils.copyProperties(quizChoose, newQuizChoose);
                             newQuizChoose.setId(null);
                             newQuizChoose.setQuizDetailsId(newQuiz.getId());
+                            newQuizChoose.setQuizId(newQuiz.getId());
+                            newQuizChoose.setSiteCategoryId(newCategoryLottery.getId());
+                            newQuizChoose.setSiteId(targetSiteLottery.getSiteId());
+                            newQuizChoose.setSiteLotteryId(targetSiteLotteryId);
                             newQuizChoose.setCreateBy(user.getUsername());
                             newQuizChoose.setCreateTime(new Date());
                             newQuizChoose.setUpdateTime(new Date());
