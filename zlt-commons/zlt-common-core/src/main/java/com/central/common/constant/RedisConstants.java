@@ -18,6 +18,8 @@ public interface RedisConstants {
     public static final String SITE_LIST_KEY = "SITE";
     //- 缓存彩种
     public static final String SITE_LOTTERY_KEY = "SITE:LOTTERY";
+    //- 缓存杀率
+    public static final String SITE_KILLODDS_KEY = "SITE:KILLODDS";
     //-彩种ID查询所有站点彩种
     public static final String SITE_LOTTERYID_LIST_KEY = "SITE:LOTTERY:ID:LIST:{}";
     public static final String SITE_LOTTERYID_OBJECT_KEY = "SITE:LOTTERY:ID:OBJECT:{}";

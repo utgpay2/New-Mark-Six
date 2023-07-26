@@ -255,7 +255,7 @@ public class DateUtil {
     }
 
     /**
-     * 获取当前日
+     * 获取当前月
      * @return
      */
     public static int getMonth() {

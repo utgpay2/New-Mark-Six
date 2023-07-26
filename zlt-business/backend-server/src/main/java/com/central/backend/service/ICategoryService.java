@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 影片标签分类
+ * 分类
  *
  * @author yixiu
  * @date 2023-02-03 16:32:41
