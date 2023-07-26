@@ -18,6 +18,9 @@
             <if test="p.siteLotteryId != null and p.siteLotteryId != '' and p.siteLotteryId != 0">
                 and t.site_lottery_id = #{p.siteLotteryId}
             </if>
+            <if test="p.lotteryId != null and p.lotteryId != '' and p.lotteryId != 0">
+                and t.lottery_id = #{p.lotteryId}
+            </if>
             <if test="p.memberId != null and p.memberId != '' and p.memberId != 0">
                 and t.member_id = #{p.memberId}
             </if>

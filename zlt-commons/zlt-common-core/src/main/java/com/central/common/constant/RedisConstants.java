@@ -26,9 +26,9 @@ public interface RedisConstants {
     //- 缓存站点下彩种
     public static final String SITE_LOTTERY_LIST_KEY = "SITE:LOTTERY:{}";
     //- 缓存--分页开查询奖号码列表
-    public static final String WNDATA_LIST_PAGE_KEY = "WNDATA:LIST:PAGE:{}:{}:{}:{}";
+    public static final String WNDATA_LIST_PAGE_KEY = "WNDATA:{}:{}:{}";
     //- 缓存--根据彩种ID查询最近一期开奖数据
-    public static final String LASTONE_WNDATA_KEY = "LASTONE:WNDATA:{}";
+    public static final String LASTONE_WNDATA_KEY = "WNDATA:{}";
     //- 缓存分类
     public static final String SITE_LOTTERY_CATEGORY_KEY = "SITE:LOTTERY:CATEGORY";
     //- 缓存站点下彩种下分类（一类）

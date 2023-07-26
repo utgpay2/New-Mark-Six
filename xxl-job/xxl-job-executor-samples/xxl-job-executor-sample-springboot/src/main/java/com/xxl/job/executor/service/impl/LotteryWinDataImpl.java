@@ -1577,12 +1577,12 @@ public class LotteryWinDataImpl {
      */
     public void winningSettlementHongkong(){
         //确定是否已经存在本期开奖号码
-
+        Integer lotteryId = LotteryEnum.HONGKONG_MKS.getStatus();
         Map<String, Object> params = new HashMap<>();
-        params.put("lotteryId", LotteryEnum.HONGKONG_MKS.getStatus());
+        params.put("lotteryId", lotteryId);
         List<SiteLotteryVO> siteLotteryVOList = lotteryService.findList(params);
         //彩种最大
-        WnData wnData = wnDataService.lastOneWnData(LotteryEnum.HONGKONG_MKS.getStatus());
+        WnData wnData = wnDataService.lastOneWnData(lotteryId);
         if(null!=wnData){
             //判断是否当前日期开奖号码
             if(DateUtil.dateToyyyyMMdd(new Date()).equals(DateUtil.dateToyyyyMMdd(wnData.getCreateTime()))){
@@ -1594,7 +1594,6 @@ public class LotteryWinDataImpl {
         String qihaoStr;//期号
         String nextQihao;//下一期号
         Integer year = DateUtil.getYear();//号码归属年份
-        Integer lotteryId = LotteryEnum.HONGKONG_MKS.getStatus();
         Integer nextTime = 0;//下期开奖时间
         if(null==wnData){
             qihaoStr = year+"001";
@@ -1651,12 +1650,10 @@ public class LotteryWinDataImpl {
         //计算出设定中奖金额（彩票销售总额*中奖率/100）
         BigDecimal totalWinAmount = totalSalesAmount.multiply(BigDecimal.valueOf(winOdds/100));
         //计算中奖金额
-        //如果中奖金额大于设定中奖金额，必须重新生成中奖号码
-        //如果中奖金额小于设定中奖金额
-        //保存开奖号码
+
         //修改投注结果
         //彩种状态修改为结算中
-        lotteryService.updateLotteryStatus(LotteryEnum.HONGKONG_MKS.getStatus(), StatusEnum.ONE_TRUE.getStatus());
+        lotteryService.updateLotteryStatus(lotteryId, StatusEnum.ONE_TRUE.getStatus());
         String[] wnNumbers = wnData.getNumbers().split(",");
         String one = wnNumbers[0];
         String two = wnNumbers[1];
@@ -1830,44 +1827,36 @@ public class LotteryWinDataImpl {
                 this.winZodiac(five,shuList,niuList,huList,tuzList,longList,sheList,maList,yanList,houList,jiList,gouList,zhuList)+","+
                 this.winZodiac(six,shuList,niuList,huList,tuzList,longList,sheList,maList,yanList,houList,jiList,gouList,zhuList)+","+
                 this.winZodiac(seven,shuList,niuList,huList,tuzList,longList,sheList,maList,yanList,houList,jiList,gouList,zhuList);
-        //按站点结算
-        for (SiteLotteryVO siteLotteryVO:siteLotteryVOList) {
-            for (int i = 1; i <= 9000; i++) {//最大数据
-                //分页查询
-                Map<String, Object> paramspage = new HashMap<>();
-                paramspage.put("page", i);//分页起始位置
-                paramspage.put("limit", 10000);//分页结束位置
-                paramspage.put("siteLotteryId", siteLotteryVO.getId());//站点彩种ID
-                paramspage.put("status", OrderStatusEnum.ORDER_ONE.getStatus());//1 待开奖,2 已取消,3 中奖,4 未中奖
-                paramspage.put("periods", wnData.getQihao());//期数
-                PageResult<QuizOrders> pageResult = siteOrderService.findList(paramspage);
-                List<QuizOrders> list = pageResult.getData();
-                if (null != list && list.size() > 0) {
-                    this.winningSettlement(list,
-                            one,two,three,four,five,six,seven,
-                            seven_ones,seven_tens,
-                            bigSingle,bigDouble,smallSingle,smallDouble,
-                            jinList,muList,shuiList,huoList,tuList,
-                            shuList,niuList,huList,tuzList,longList,sheList,maList,yanList,houList,jiList,gouList,zhuList,
-                            hongboList,lvboList,lanboList,
-                            jiaList,yeList,
-                            winZodiacStr,
-                            bigcount,smallcount,doublecount,singlecount,
+        Map<String, Object> paramspage = new HashMap<>();
+        paramspage.put("lotteryId", lotteryId);//彩种ID
+        paramspage.put("status", OrderStatusEnum.ORDER_ONE.getStatus());//1 待开奖,2 已取消,3 中奖,4 未中奖
+        paramspage.put("periods", wnData.getQihao());//期数
+        List<QuizOrders> list =  siteOrderService.findList(paramspage);
+        BigDecimal actualWinAmount = BigDecimal.ZERO;//实际中奖金额
+        if (null != list && list.size() > 0) {
+            actualWinAmount = this.winningSettlement(list,
+                    one,two,three,four,five,six,seven,
+                    seven_ones,seven_tens,
+                    bigSingle,bigDouble,smallSingle,smallDouble,
+                    jinList,muList,shuiList,huoList,tuList,
+                    shuList,niuList,huList,tuzList,longList,sheList,maList,yanList,houList,jiList,gouList,zhuList,
+                    hongboList,lvboList,lanboList,
+                    jiaList,yeList,
+                    winZodiacStr,
+                    bigcount,smallcount,doublecount,singlecount,
 //                            head0,head1,head2,head3,head4,
 //                            tail0,tail1,tail2,tail3,tail4,tail5,tail6,tail7,tail8,tail9,
-                            wnTail,
-                            wnNumbersSix,
-                            wnNumbers);
-                } else {
-                    break;
-                }
-            }
+                    wnTail,
+                    wnNumbersSix,
+                    wnNumbers);
         }
-        //修改开彩结果为结算完成
-        wnData.setStatus(StatusEnum.ONE_TRUE.getStatus());
-        wnDataService.updateWnDataStatus(wnData);
-        //彩种状态修改为结算完成
-        lotteryService.updateLotteryStatus(LotteryEnum.HONGKONG_MKS.getStatus(), StatusEnum.ZERO_FALSE.getStatus());
+
+        //如果实际中奖金额小于设定中奖金额
+        if(totalWinAmount.compareTo(actualWinAmount)==1){
+            wnDataService.saveWnData(wnData);
+        }else {//如果实际中奖金额大于设定中奖金额，必须重新生成中奖号码
+            this.winningSettlementHongkong();
+        }
     }
     /**
      * 澳门六合彩结算

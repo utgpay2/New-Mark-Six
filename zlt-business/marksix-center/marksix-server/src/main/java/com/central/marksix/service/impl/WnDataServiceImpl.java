@@ -21,8 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -45,7 +47,6 @@ public class WnDataServiceImpl extends SuperServiceImpl<WnDataMapper, WnData> im
     public PageResult<WnDataVo> findList(Map<String, Object> params){
         Page<WnData> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
         String redisKey = StrUtil.format(RedisConstants.WNDATA_LIST_PAGE_KEY, MapUtils.getInteger(params,"lotteryId"),
-                true==ObjectUtil.isEmpty(params.get("sortBy"))? SortEnum.ASC.getCode():MapUtils.getInteger(params,"sortBy"),
                 MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
         List<WnDataVo> wnDataVoList  =  (List<WnDataVo>)RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(wnDataVoList)) {
@@ -59,7 +60,15 @@ public class WnDataServiceImpl extends SuperServiceImpl<WnDataMapper, WnData> im
             }
             RedisRepository.setExpire(redisKey, wnDataVoList, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
-        return PageResult.<WnDataVo>builder().data(wnDataVoList).count(page.getTotal()).build();
+        Comparator<WnDataVo> comparator;
+        if(ObjectUtil.isEmpty(params.get("sortBy"))||SortEnum.DESC.getCode() != MapUtils.getInteger(params,"sortBy")){
+            comparator = Comparator.comparing(WnDataVo::getQihao);//正序
+        }else {
+            comparator = Comparator.comparing(WnDataVo::getQihao).reversed();//倒序
+        }
+        return PageResult.<WnDataVo>builder().data(wnDataVoList.stream()
+                .sorted(comparator)
+                .collect(Collectors.toList())).count(page.getTotal()).build();
     }
     @Override
     public WnDataVo lastOneWnData(Integer lotteryId){

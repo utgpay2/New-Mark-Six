@@ -1869,7 +1869,7 @@ public class WinningSettlementImpl {
                 paramspage.put("siteLotteryId", siteLotteryVO.getId());//站点彩种ID
                 paramspage.put("status", OrderStatusEnum.ORDER_ONE.getStatus());//1 待开奖,2 已取消,3 中奖,4 未中奖
                 paramspage.put("periods", wnData.getQihao());//期数
-                PageResult<QuizOrders> pageResult = siteOrderService.findList(paramspage);
+                PageResult<QuizOrders> pageResult = siteOrderService.findListByPage(paramspage);
                 List<QuizOrders> list = pageResult.getData();
                 if (null != list && list.size() > 0) {
                     this.winningSettlement(list,

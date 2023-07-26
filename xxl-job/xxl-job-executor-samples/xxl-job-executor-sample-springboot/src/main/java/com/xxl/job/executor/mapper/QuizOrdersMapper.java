@@ -13,6 +13,6 @@ import java.util.Map;
 @Mapper
 public interface QuizOrdersMapper extends SuperMapper<QuizOrders> {
     List<QuizOrders> findList(Page<QuizOrders> page,@Param("p") Map<String, Object> params);
-
+    List<QuizOrders> findList(@Param("p") Map<String, Object> params);
     BigDecimal sumTotalPrice(@Param("p") Map<String, Object> params);
 }

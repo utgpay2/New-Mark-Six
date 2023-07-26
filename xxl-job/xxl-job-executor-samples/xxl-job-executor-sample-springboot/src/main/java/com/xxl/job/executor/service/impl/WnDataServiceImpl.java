@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -43,7 +44,19 @@ public class WnDataServiceImpl extends SuperServiceImpl<WnDataMapper, WnData> im
         this.lambdaUpdate().eq(WnData::getId, wnData.getId())
                 .setSql("`status` = "+ wnData.getStatus())
                 .update();
-        String redisKey = StrUtil.format(RedisConstants.LASTONE_WNDATA_KEY, wnData.getLotteryId());
-        RedisRepository.delete(redisKey);
+        String redisKeyStr = StrUtil.format(RedisConstants.LASTONE_WNDATA_KEY, wnData.getLotteryId());
+        Set<String> redisKeys = RedisRepository.keys(redisKeyStr);
+        for(String redisKey:redisKeys) {
+            RedisRepository.delete(redisKey);
+        }
+    }
+    @Override
+    public void saveWnData(WnData wnData) {
+        this.save(wnData);
+        String redisKeyStr = StrUtil.format(RedisConstants.LASTONE_WNDATA_KEY, wnData.getLotteryId());
+        Set<String> redisKeys = RedisRepository.keys(redisKeyStr);
+        for(String redisKey:redisKeys) {
+            RedisRepository.delete(redisKey);
+        }
     }
 }

@@ -22,10 +22,15 @@ import java.util.*;
 @Service
 public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, QuizOrders> implements IQuizOrdersService {
     @Override
-    public PageResult<QuizOrders> findList(Map<String, Object> params) {
+    public PageResult<QuizOrders> findListByPage(Map<String, Object> params) {
         Page<QuizOrders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
         List<QuizOrders> list  =  baseMapper.findList(page, params);
         return PageResult.<QuizOrders>builder().data(list).count(page.getTotal()).build();
+    }
+
+    @Override
+    public List<QuizOrders> findList(Map<String, Object> params) {
+        return baseMapper.findList(params);
     }
 
     @Override

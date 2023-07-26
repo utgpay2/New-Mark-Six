@@ -1,6 +1,8 @@
 package com.central.backend.service;
 
 import com.central.common.model.PageResult;
+import com.central.common.model.Result;
+import com.central.common.model.SysUser;
 import com.central.common.model.WnData;
 import com.central.common.service.ISuperService;
 
@@ -19,5 +21,7 @@ public interface IWnDataService extends ISuperService<WnData> {
      * @return
      */
     PageResult<WnData> findList(Map<String, Object> params);
+    Result saveOrUpdateWnData(WnData wnData, SysUser user);
+    Result deleteWnData(Long id,Integer lotteryId);
 }
 
