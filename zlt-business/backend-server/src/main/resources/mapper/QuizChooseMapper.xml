@@ -6,8 +6,11 @@
         select * from mks_quiz_choose t
         <where>
             1=1
-            <if test="p.quizId != null and  p.quizId != '' and p.quizId != 0">
-                and t.quiz_id = #{p.quizId}
+            <if test="p.quizDetailsId != null and  p.quizDetailsId != '' and  p.quizDetailsId != 0">
+                and t.quiz_details_id = #{p.quizDetailsId}
+            </if>
+            <if test="p.status != null and  p.status != ''">
+                and t.status = #{p.status}
             </if>
             ORDER BY t.sort <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 2"> DESC </when><otherwise> ASC </otherwise></choose>
         </where>

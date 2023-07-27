@@ -4,5 +4,15 @@
 <mapper namespace="com.central.backend.mapper.QuizMapper">
     <select id="findList" resultType="com.central.common.model.Quiz">
         select * from mks_quiz t
+        <where>
+            1=1
+            <if test="p.siteCategoryId != null and  p.siteCategoryId != '' and  p.siteCategoryId != 0">
+                and t.site_category_id = #{p.siteCategoryId}
+            </if>
+            <if test="p.status != null and  p.status != ''">
+                and t.status = #{p.status}
+            </if>
+            ORDER BY t.sort <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 2"> DESC </when><otherwise> ASC </otherwise></choose>
+        </where>
     </select>
 </mapper>
