@@ -5,9 +5,10 @@ package com.central.common.model.enums;
  */
 public enum LotteryEnum {
     HONGKONG_MKS(1, "香港六合彩"),
-    MACAO_MKS(1, "澳门六合彩"),
-    TAIWAN_MKS(1, "台湾六合彩"),
-    SINGAPORE_MKS(1, "新加坡六合彩");
+    MACAO_MKS(2, "澳门六合彩"),
+    TAIWAN_MKS(3, "台湾六合彩"),
+    SINGAPORE_MKS(4, "新加坡六合彩"),
+    NEWHONGKONG_MKS(5, "新香港六合彩");
 
     private final Integer status;
     private final String remark;

@@ -124,9 +124,12 @@ public class DateUtil {
         SimpleDateFormat formatter = new SimpleDateFormat(DateUtil.format); //定义将日期格式要换成的格式
         return formatter.format(time);
     }
-
     public static String dateToyyyyMMdd(Date time) {
         SimpleDateFormat formatter = new SimpleDateFormat(DateUtil.YYYYMMDD); //定义将日期格式要换成的格式
+        return formatter.format(time);
+    }
+    public static String dateToyyyyMMddHHmmss(Date time) {
+        SimpleDateFormat formatter = new SimpleDateFormat(DateUtil.patten); //定义将日期格式要换成的格式
         return formatter.format(time);
     }
 

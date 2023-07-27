@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class LotteryWinDataImpl {
+public class LotteryWinDataImpl implements ILotteryWinDataService {
     @Autowired
     private ILotteryService lotteryService;
     @Autowired
@@ -1573,11 +1573,11 @@ public class LotteryWinDataImpl {
         return "";
     }
     /**
-     * 香港六合彩结算(自开)
+     * 六合彩开奖(自开)
      */
-    public void winningSettlementHongkong(){
+    @Override
+    public void markSixLottery(Integer lotteryId){
         //确定是否已经存在本期开奖号码
-        Integer lotteryId = LotteryEnum.HONGKONG_MKS.getStatus();
         Map<String, Object> params = new HashMap<>();
         params.put("lotteryId", lotteryId);
         List<SiteLotteryVO> siteLotteryVOList = lotteryService.findList(params);
@@ -1855,29 +1855,8 @@ public class LotteryWinDataImpl {
         if(totalWinAmount.compareTo(actualWinAmount)==1){
             wnDataService.saveWnData(wnData);
         }else {//如果实际中奖金额大于设定中奖金额，必须重新生成中奖号码
-            this.winningSettlementHongkong();
+            this.markSixLottery(lotteryId);
         }
-    }
-    /**
-     * 澳门六合彩结算
-     */
-    public void winningSettlementMacao(){
-        //
-
-    }
-    /**
-     * 台湾六合彩结算
-     */
-    public void winningSettlementTaiwan(){
-        //
-
-    }
-    /**
-     * 新加坡六合彩结算
-     */
-    public void winningSettlementSingapore(){
-        //
-
     }
     public List<String> getBettingComList(String[] bettingCom,int length) {
         List<String> bettingZodiacList = new ArrayList<>();

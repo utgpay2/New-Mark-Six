@@ -22,7 +22,7 @@ import java.util.*;
  */
 @Slf4j
 @Service
-public class WinningSettlementImpl {
+public class WinningSettlementImpl implements IWinningSettlementService{
     @Autowired
     private ILotteryService lotteryService;
     @Autowired
@@ -40,6 +40,7 @@ public class WinningSettlementImpl {
     /**
      * 模拟新增千万级订单数据
      */
+    @Override
     public void add(){
         System.out.println("开始时间："+ DateUtil.dateToHHmmss(new Date()));
         for (int i=0;i<2000;i++){
@@ -1673,19 +1674,20 @@ public class WinningSettlementImpl {
     /**
      * 香港六合彩结算
      */
-    public void winningSettlementHongkong(){
+    @Override
+    public void winningSettlement(Integer lotteryId){
 
         Map<String, Object> params = new HashMap<>();
-        params.put("lotteryId", LotteryEnum.HONGKONG_MKS.getStatus());
+        params.put("lotteryId", lotteryId);
         List<SiteLotteryVO> siteLotteryVOList = lotteryService.findList(params);
         //彩种最大
-        WnData wnData = wnDataService.lastOneWnData(LotteryEnum.HONGKONG_MKS.getStatus());
+        WnData wnData = wnDataService.lastOneWnData(lotteryId);
         if(StatusEnum.ONE_TRUE.getStatus()==wnData.getStatus()){
             //已经结算完成
             return;
         }
         //彩种状态修改为结算中
-        lotteryService.updateLotteryStatus(LotteryEnum.HONGKONG_MKS.getStatus(), StatusEnum.ONE_TRUE.getStatus());
+        lotteryService.updateLotteryStatus(lotteryId, StatusEnum.ONE_TRUE.getStatus());
         String[] wnNumbers = wnData.getNumbers().split(",");
         String one = wnNumbers[0];
         String two = wnNumbers[1];
@@ -1896,28 +1898,7 @@ public class WinningSettlementImpl {
         wnData.setStatus(StatusEnum.ONE_TRUE.getStatus());
         wnDataService.updateWnDataStatus(wnData);
         //彩种状态修改为结算完成
-        lotteryService.updateLotteryStatus(LotteryEnum.HONGKONG_MKS.getStatus(), StatusEnum.ZERO_FALSE.getStatus());
-    }
-    /**
-     * 澳门六合彩结算
-     */
-    public void winningSettlementMacao(){
-        //
-
-    }
-    /**
-     * 台湾六合彩结算
-     */
-    public void winningSettlementTaiwan(){
-        //
-
-    }
-    /**
-     * 新加坡六合彩结算
-     */
-    public void winningSettlementSingapore(){
-        //
-
+        lotteryService.updateLotteryStatus(lotteryId, StatusEnum.ZERO_FALSE.getStatus());
     }
     public List<String> getBettingComList(String[] bettingCom,int length) {
         List<String> bettingZodiacList = new ArrayList<>();
