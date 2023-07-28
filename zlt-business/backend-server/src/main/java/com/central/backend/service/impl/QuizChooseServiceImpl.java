@@ -135,6 +135,7 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
                 }
                 chooseVoList.add(quizChooseVo);
             }
+            RedisRepository.setExpire(redisKey, chooseVoList, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
         Comparator<QuizChooseVo> comparator;
         if(ObjectUtil.isEmpty(params.get("sortBy"))||SortEnum.DESC.getCode() != MapUtils.getInteger(params,"sortBy")){
