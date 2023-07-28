@@ -32,18 +32,18 @@ public class MacauMarkSixLotterySettlementXxlJob {
     private IWinningSettlementService iWinningSettlementService;
 
     /**
-     * 澳门六合彩开奖结算
+     * 澳门六合彩结算
      */
     @XxlJob("macauMarkSixLotterySettlementJobHandler")
     public void macauMarkSixLotterySettlementJobHandler() throws Exception {
-        XxlJobHelper.log("澳门六合彩开奖结算开始=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
+        XxlJobHelper.log("澳门六合彩结算开始=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
         try {
             iWinningSettlementService.winningSettlement(LotteryEnum.MACAO_MKS.getStatus());
         } catch (Exception e) {
             XxlJobHelper.log(e);
             XxlJobHelper.handleFail("Macau Mark Six Lottery Settlement Failed");
         }
-        XxlJobHelper.log("澳门六合彩开奖结算结束=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
+        XxlJobHelper.log("澳门六合彩结算结束=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
     }
 
 

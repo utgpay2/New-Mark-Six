@@ -31,18 +31,18 @@ public class SingaporeMarkSixLotterySettlementXxlJob {
     @Autowired
     private IWinningSettlementService iWinningSettlementService;
     /**
-     * 新加坡六合彩开奖结算
+     * 新加坡六合彩结算
      */
     @XxlJob("singaporeMarkSixLotterySettlementJobHandler")
     public void singaporeMarkSixLotterySettlementJobHandler() throws Exception {
-        XxlJobHelper.log("新加坡六合彩开奖结算开始=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
+        XxlJobHelper.log("新加坡六合彩结算开始=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
         try {
             iWinningSettlementService.winningSettlement(LotteryEnum.SINGAPORE_MKS.getStatus());
         } catch (Exception e) {
             XxlJobHelper.log(e);
             XxlJobHelper.handleFail("Singapore Mark Six Lottery Settlement Failed");
         }
-        XxlJobHelper.log("新加坡六合彩开奖结算结束=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
+        XxlJobHelper.log("新加坡六合彩结算结束=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
     }
 
 

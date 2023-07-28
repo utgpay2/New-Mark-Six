@@ -31,18 +31,18 @@ public class TaiwanMarkSixLotterySettlementXxlJob {
     @Autowired
     private IWinningSettlementService iWinningSettlementService;
     /**
-     * 台湾六合彩开奖结算
+     * 台湾六合彩结算
      */
     @XxlJob("taiwanMarkSixLotterySettlementJobHandler")
     public void taiwanMarkSixLotterySettlementJobHandler() throws Exception {
-        XxlJobHelper.log("台湾六合彩开奖结算开始=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
+        XxlJobHelper.log("台湾六合彩结算开始=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
         try {
             iWinningSettlementService.winningSettlement(LotteryEnum.TAIWAN_MKS.getStatus());
         } catch (Exception e) {
             XxlJobHelper.log(e);
             XxlJobHelper.handleFail("Taiwan Mark Six Lottery Settlement Failed");
         }
-        XxlJobHelper.log("台湾六合彩开奖结算结束=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
+        XxlJobHelper.log("台湾六合彩结算结束=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
     }
 
 

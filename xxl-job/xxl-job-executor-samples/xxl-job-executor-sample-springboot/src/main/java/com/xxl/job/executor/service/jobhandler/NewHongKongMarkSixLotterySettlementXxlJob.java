@@ -32,18 +32,18 @@ public class NewHongKongMarkSixLotterySettlementXxlJob {
     private IWinningSettlementService iWinningSettlementService;
 
     /**
-     * 新香港六合彩开奖结算
+     * 新香港六合彩结算
      */
     @XxlJob("newHongKongMarkSixLotterySettlementJobHandler")
     public void newHongKongMarkSixLotterySettlementJobHandler() throws Exception {
-        XxlJobHelper.log("新香港六合彩开奖结算开始=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
+        XxlJobHelper.log("新香港六合彩结算开始=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
         try {
             iWinningSettlementService.winningSettlement(LotteryEnum.NEWHONGKONG_MKS.getStatus());
         } catch (Exception e) {
             XxlJobHelper.log(e);
             XxlJobHelper.handleFail("New HK Mark Six Lottery Settlement Failed");
         }
-        XxlJobHelper.log("新香港六合彩开奖结算结束=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
+        XxlJobHelper.log("新香港六合彩结算结束=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
     }
 
 

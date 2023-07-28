@@ -47,7 +47,7 @@ public class KillOddsController {
     /**
      * 新增or更新
      */
-    @ApiOperation(value = "新增or更新分类（超级管理员权限）")
+    @ApiOperation(value = "新增or更新杀率（系统管理员权限）")
     @PostMapping("/saveorupdatekillodds")
     public Result saveOrUpdateKillOdds(@RequestBody KillOdds killOdds, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(killOdds)) {

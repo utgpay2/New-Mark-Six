@@ -34,8 +34,8 @@ public class NewHongKongMarkSixLotteryXxlJob {
     /**
      * 新香港六合彩开奖
      */
-    @XxlJob("newHongKongMarkSixLotterySettlementJobHandler")
-    public void newHongKongMarkSixLotterySettlementJobHandler() throws Exception {
+    @XxlJob("newHongKongMarkSixLotteryJobHandler")
+    public void newHongKongMarkSixLotteryJobHandler() throws Exception {
         XxlJobHelper.log("新香港六合彩开奖开始=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
         try {
             iLotteryWinDataService.markSixLottery(LotteryEnum.NEWHONGKONG_MKS.getStatus());

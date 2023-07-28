@@ -31,18 +31,18 @@ public class HongKongMarkSixLotterySettlementXxlJob {
     private IWinningSettlementService iWinningSettlementService;
 
     /**
-     * 香港六合彩开奖结算
+     * 香港六合彩结算
      */
     @XxlJob("hongKongMarkSixLotterySettlementJobHandler")
     public void hongKongMarkSixLotterySettlementJobHandler() throws Exception {
-        XxlJobHelper.log("香港六合彩开奖结算开始=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
+        XxlJobHelper.log("香港六合彩结算开始=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
         try {
             iWinningSettlementService.winningSettlement(LotteryEnum.HONGKONG_MKS.getStatus());
         } catch (Exception e) {
             XxlJobHelper.log(e);
             XxlJobHelper.handleFail("HK Mark Six Lottery Settlement Failed");
         }
-        XxlJobHelper.log("香港六合彩开奖结算结束=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
+        XxlJobHelper.log("香港六合彩结算结束=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
     }
 
 

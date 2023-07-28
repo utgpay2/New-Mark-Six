@@ -44,7 +44,7 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
         if(null == params){
             params = new HashMap<>();
         }
-        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_CATEGORY_QUIZ_QUIZDETAILS_LIST_KEY,
+        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_CATEGORY_QUIZ_QUIZDETAILS_QUIZCHOOSE_LIST_KEY,
         MapUtils.getInteger(params,"siteId"),
                 MapUtils.getInteger(params,"siteLotteryId"),
                 MapUtils.getInteger(params,"siteCategoryId"),
