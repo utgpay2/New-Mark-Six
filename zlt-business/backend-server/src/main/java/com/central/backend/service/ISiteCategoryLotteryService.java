@@ -1,6 +1,6 @@
 package com.central.backend.service;
 
-import com.central.backend.model.vo.CategoryVo;
+import com.central.common.vo.CategoryVo;
 import com.central.common.model.*;
 import com.central.common.service.ISuperService;
 

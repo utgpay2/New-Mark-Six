@@ -1,4 +1,4 @@
-package com.central.backend.model.vo;
+package com.central.common.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
@@ -49,4 +49,6 @@ public class SiteLotteryVo {
     private Time betSettlementTime;
     @ApiModelProperty(value = "是否显示(0隐藏，1显示)")
     private Integer isDisplay;
+    @ApiModelProperty(value = "是否结算中(0否，1结算中)")
+    private Integer status;
     }

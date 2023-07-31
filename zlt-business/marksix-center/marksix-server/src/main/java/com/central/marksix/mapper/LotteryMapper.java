@@ -1,8 +1,8 @@
 package com.central.marksix.mapper;
 
 import com.central.common.model.Lottery;
+import com.central.common.vo.SiteLotteryVo;
 import com.central.db.mapper.SuperMapper;
-import com.central.marksix.entity.vo.SiteLotteryVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

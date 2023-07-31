@@ -2,9 +2,9 @@ package com.xxl.job.executor.mapper;
 
 import com.central.common.model.Lottery;
 import com.central.db.mapper.SuperMapper;
-import com.xxl.job.executor.entity.vo.SiteLotteryVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import com.central.common.vo.SiteLotteryVo;
 
 import java.util.List;
 import java.util.Map;
@@ -22,5 +22,5 @@ public interface LotteryMapper extends SuperMapper<Lottery> {
      * @param params
      * @return
      */
-    List<SiteLotteryVO> findList(@Param("p") Map<String, Object> params);
+    List<SiteLotteryVo> findList(@Param("p") Map<String, Object> params);
 }

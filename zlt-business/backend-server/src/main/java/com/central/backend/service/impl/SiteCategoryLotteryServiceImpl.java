@@ -4,7 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.central.backend.mapper.SiteCategoryLotteryMapper;
-import com.central.backend.model.vo.CategoryVo;
+import com.central.common.vo.CategoryVo;
 import com.central.backend.service.IQuizService;
 import com.central.backend.service.ISiteCategoryLotteryService;
 import com.central.common.constant.RedisConstants;

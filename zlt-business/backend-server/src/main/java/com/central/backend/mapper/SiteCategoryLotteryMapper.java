@@ -1,6 +1,6 @@
 package com.central.backend.mapper;
 
-import com.central.backend.model.vo.CategoryVo;
+import com.central.common.vo.CategoryVo;
 import com.central.common.model.SiteCategoryLottery;
 import com.central.db.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Param;

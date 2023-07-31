@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.central.backend.model.vo.CategoryVo;
+import com.central.common.vo.CategoryVo;
 import com.central.backend.service.ISiteCategoryLotteryService;
 import com.central.backend.service.ICategoryService;
 import com.central.common.annotation.LoginUser;

@@ -2,7 +2,7 @@ package com.xxl.job.executor.service;
 
 import com.central.common.model.Lottery;
 import com.central.common.service.ISuperService;
-import com.xxl.job.executor.entity.vo.SiteLotteryVO;
+import com.central.common.vo.SiteLotteryVo;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ public interface ILotteryService extends ISuperService<Lottery> {
      * @param params
      * @return
      */
-    List<SiteLotteryVO> findList(Map<String, Object> params);
+    List<SiteLotteryVo> findList(Map<String, Object> params);
     public void updateLotteryStatus(Integer lotteryId, Integer stauts);
 }
 

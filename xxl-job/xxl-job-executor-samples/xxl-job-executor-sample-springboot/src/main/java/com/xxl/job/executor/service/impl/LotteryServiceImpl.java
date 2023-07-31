@@ -7,6 +7,7 @@ import com.central.common.model.Lottery;
 import com.central.common.model.enums.StatusEnum;
 import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
+import com.central.common.vo.SiteLotteryVo;
 import com.xxl.job.executor.entity.vo.SiteLotteryVO;
 import com.xxl.job.executor.mapper.LotteryMapper;
 import com.xxl.job.executor.service.ILotteryService;
@@ -33,9 +34,9 @@ public class LotteryServiceImpl extends SuperServiceImpl<LotteryMapper, Lottery>
      * @return
      */
     @Override
-    public List<SiteLotteryVO> findList(Map<String, Object> params){
+    public List<SiteLotteryVo> findList(Map<String, Object> params){
         String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERYID_LIST_KEY, MapUtils.getInteger(params,"lotteryId"));
-        List<SiteLotteryVO> list = (List<SiteLotteryVO>)RedisRepository.get(redisKey);
+        List<SiteLotteryVo> list = (List<SiteLotteryVo>)RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList( params);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);

@@ -2,13 +2,12 @@ package com.central.marksix.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
 import com.central.common.model.Lottery;
 import com.central.common.model.enums.SortEnum;
 import com.central.common.model.enums.StatusEnum;
 import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
-import com.central.marksix.entity.vo.SiteLotteryVo;
+import com.central.common.vo.SiteLotteryVo;
 import com.central.marksix.mapper.LotteryMapper;
 import com.central.marksix.service.ILotteryService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,6 @@ import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 import com.central.common.constant.RedisConstants;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;

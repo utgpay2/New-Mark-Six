@@ -2,7 +2,7 @@ package com.central.marksix.service;
 
 import com.central.common.model.Lottery;
 import com.central.common.service.ISuperService;
-import com.central.marksix.entity.vo.SiteLotteryVo;
+import com.central.common.vo.SiteLotteryVo;
 
 import java.util.List;
 import java.util.Map;

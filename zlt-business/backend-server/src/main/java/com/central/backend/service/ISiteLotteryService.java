@@ -1,6 +1,6 @@
 package com.central.backend.service;
 
-import com.central.backend.model.vo.SiteLotteryVo;
+import com.central.common.vo.SiteLotteryVo;
 import com.central.common.model.Result;
 import com.central.common.model.SiteLottery;
 import com.central.common.model.SysUser;

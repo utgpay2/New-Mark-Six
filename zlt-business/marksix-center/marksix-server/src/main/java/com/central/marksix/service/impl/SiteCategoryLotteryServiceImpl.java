@@ -7,7 +7,7 @@ import com.central.common.model.SiteCategoryLottery;
 import com.central.common.model.enums.SortEnum;
 import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
-import com.central.marksix.entity.vo.CategoryVo;
+import com.central.common.vo.CategoryVo;
 import com.central.marksix.mapper.SiteCategoryLotteryMapper;
 import com.central.marksix.service.ISiteCategoryLotteryService;
 import lombok.extern.slf4j.Slf4j;

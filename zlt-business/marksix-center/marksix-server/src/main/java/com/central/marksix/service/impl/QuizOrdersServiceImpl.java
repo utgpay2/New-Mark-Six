@@ -15,7 +15,6 @@ import com.central.common.service.impl.SuperServiceImpl;
 import com.central.common.utils.SnowflakeIdWorker;
 import com.central.marksix.entity.dto.QuizOrdersDto;
 import com.central.marksix.entity.dto.QuizSubordersDto;
-import com.central.marksix.entity.vo.SiteLotteryVo;
 import com.central.marksix.entity.vo.StatiQuizOrdersVo;
 import com.central.marksix.mapper.QuizOrdersMapper;
 import com.central.marksix.service.*;

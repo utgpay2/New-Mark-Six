@@ -27,6 +27,14 @@ public class QuizChooseVo{
 
     @ApiModelProperty(value = "奖项详情")
     private Long id;
+    @ApiModelProperty(value = "站点id")
+    private Long siteId;
+    @ApiModelProperty(value = "站点彩种ID")
+    private Long siteLotteryId;
+    @ApiModelProperty(value = "站点彩种分类(一类)ID")
+    private Long siteCategoryId;
+    @ApiModelProperty(value = "站点彩种分类(二类)ID")
+    private Long quizId;
     @ApiModelProperty(value = "站点彩种分类三类ID")
     private Integer quizDetailsId;
     @ApiModelProperty(value = "标题")

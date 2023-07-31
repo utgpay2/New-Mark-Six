@@ -2,15 +2,12 @@ package com.central.marksix.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.central.common.constant.RedisConstants;
-import com.central.common.model.PageResult;
 import com.central.common.model.Quiz;
 import com.central.common.model.enums.SortEnum;
 import com.central.common.model.enums.StatusEnum;
 import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
-import com.central.marksix.entity.vo.SiteLotteryVo;
 import com.central.marksix.mapper.QuizMapper;
 import com.central.marksix.service.IQuizService;
 import lombok.extern.slf4j.Slf4j;

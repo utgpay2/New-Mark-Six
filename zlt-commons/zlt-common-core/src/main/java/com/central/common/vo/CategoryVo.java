@@ -1,4 +1,4 @@
-package com.central.backend.model.vo;
+package com.central.common.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
