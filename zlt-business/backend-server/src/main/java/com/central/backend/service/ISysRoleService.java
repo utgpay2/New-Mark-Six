@@ -4,6 +4,7 @@ import com.central.backend.vo.SysRoleVo;
 import com.central.common.model.PageResult;
 import com.central.common.model.Result;
 import com.central.common.model.SysRole;
+import com.central.common.model.SysUser;
 import com.central.common.service.ISuperService;
 import com.central.backend.co.RolePageCo;
 
@@ -43,4 +44,5 @@ public interface ISysRoleService extends ISuperService<SysRole> {
 	SysRole findSysRoleByName(String name);
 
 	SysRole findSysRoleByCode(String code);
+
 }

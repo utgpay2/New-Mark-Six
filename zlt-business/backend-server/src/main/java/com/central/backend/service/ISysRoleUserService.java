@@ -2,6 +2,7 @@ package com.central.backend.service;
 
 import com.central.backend.co.SysRoleUser;
 import com.central.common.model.SysRole;
+import com.central.common.model.SysUser;
 import com.central.common.service.ISuperService;
 
 import java.util.List;
@@ -33,4 +34,6 @@ public interface ISysRoleUserService extends ISuperService<SysRoleUser> {
 	 * @return
 	 */
 	List<SysRole> findRolesByUserIds(List<Long> userIds);
+
+    SysUser getStationOwenrBySiteId(Integer siteId);
 }

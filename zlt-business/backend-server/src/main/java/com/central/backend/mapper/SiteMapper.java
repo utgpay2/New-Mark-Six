@@ -31,4 +31,6 @@ public interface SiteMapper extends SuperMapper<Site> {
     List<SiteListVo>  findSiteBoxList(Integer roleId);
 
     SysUser getStationOwner(@Param("siteId")Integer siteId);
+
+    List<SysUser> getProxys(Page<SysUser> page, @Param("p") Map<String, Object> params);
 }

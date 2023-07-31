@@ -23,4 +23,10 @@
 	<select id="findRolesId"  resultType="Integer">
 		select COUNT(1) from sys_role_user where role_id=#{roleId}
 	</select>
+
+
+	<select id="getStationOwenrBySiteId" resultType="com.central.common.model.SysUser">
+		SELECT * from sys_user s left join sys_role_user r on s.id=r.user_id
+		where s.site_id=#{siteId} and r.role_id=3
+	</select>
 </mapper>

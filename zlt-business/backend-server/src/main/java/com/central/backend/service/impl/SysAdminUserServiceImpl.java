@@ -351,6 +351,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 user.setParentName(sysUser.getUsername());
 
             }
+            user.setUsername(adminUserVo.getSiteCode()+"_"+adminUserVo.getUsername());
             user.setNickname(adminUserVo.getUsername());
             user.setType(UserTypeEnum.BACKEND.name());
             user.setIsReg(UserRegTypeEnum.ADMIN_CREATE.getType());

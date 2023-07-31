@@ -2,6 +2,7 @@ package com.central.backend.mapper;
 
 import com.central.backend.co.SysRoleUser;
 import com.central.common.model.SysRole;
+import com.central.common.model.SysUser;
 import com.central.db.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -44,4 +45,7 @@ public interface SysUserRoleMapper extends SuperMapper<SysRoleUser> {
 
 
     Integer findRolesId(@Param("roleId") Long roleId);
+
+
+    SysUser getStationOwenrBySiteId(@Param("siteId")Integer siteId);
 }
