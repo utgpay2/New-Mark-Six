@@ -1,10 +1,13 @@
 package com.central.backend.controller;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.central.backend.co.SiteCo;
 import com.central.backend.co.SiteUpdateCo;
 import com.central.backend.model.dto.ProxyRechargeDto;
 import com.central.backend.model.dto.SiteRechargeDto;
+import com.central.backend.model.dto.SysAdminUserDto;
+import com.central.backend.service.IAdminUserService;
 import com.central.backend.service.ISiteService;
 import com.central.backend.service.ISysRoleService;
 import com.central.backend.service.ISysRoleUserService;
@@ -12,10 +15,8 @@ import com.central.backend.vo.SiteListVo;
 import com.central.backend.vo.SiteVo;
 import com.central.common.annotation.LoginUser;
 import com.central.common.constant.MarksixConstants;
-import com.central.common.model.Site;
-import com.central.common.model.PageResult;
-import com.central.common.model.Result;
-import com.central.common.model.SysUser;
+import com.central.common.dto.ProxyAdminDto;
+import com.central.common.model.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -28,8 +29,10 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -42,10 +45,11 @@ public class SiteController {
     private ISiteService siteService;
 
 
-
-
     @Autowired
     ISysRoleUserService iSysRoleUserService;
+
+    @Autowired
+    IAdminUserService iAdminUserService;
 
     @Value("${zlt.minio.externalEndpoint}")
     private String externalEndpoint;
@@ -72,6 +76,64 @@ public class SiteController {
         }
         return  siteService.recharge(siteRechargeDto,sysUser);
     }
+
+
+
+    /**
+     * 新增
+     *
+     * @param ProxyAdminDto
+     * @return
+     */
+    @ApiOperation(value ="新增代理")
+    @PostMapping(value ="/saveProxy")
+    public Result saveProxy(@RequestBody ProxyAdminDto proxyAdminDto,@LoginUser SysUser sysUser) {
+
+        if (ObjectUtil.isEmpty(proxyAdminDto)) {
+            return Result.failed("请求参数不能为空");
+        }
+        if (ObjectUtil.isEmpty(proxyAdminDto.getUsername())) {
+            return Result.failed("用户名不能为空");
+        }
+
+        if (ObjectUtil.isEmpty(proxyAdminDto.getPassword())) {
+            return Result.failed("密码不能为空");
+        }
+
+
+        if (ObjectUtil.isEmpty(proxyAdminDto.getSiteCode())) {
+            return Result.failed("商户编码不能为空");
+        }
+
+
+        Site site=siteService.getOne(new QueryWrapper<Site>().eq("code",proxyAdminDto.getSiteCode()));
+        if (ObjectUtil.isEmpty(site)) {
+            return Result.failed("商户不存在");
+        }
+
+        //查询商户户主
+        SysUser user=iSysRoleUserService.getStationOwenrBySiteId( sysUser.getSiteId().intValue());
+
+        if(user==null ||( !user.getId().equals(sysUser.getId()) && sysUser.getId()!=1 && sysUser.getId()!=2)){
+
+            return Result.failed("需要商户户主权限！");
+        }
+
+        SysAdminUserDto sysAdminUserDto=new SysAdminUserDto();
+
+        sysAdminUserDto.setEnabled(true);
+        sysAdminUserDto.setPassword(proxyAdminDto.getPassword());
+        sysAdminUserDto.setUsername(proxyAdminDto.getUsername());
+        Set set=new HashSet<Long>();
+        set.add(11L);
+        sysAdminUserDto.setRoleIds(set);
+        sysAdminUserDto.setSiteCode(proxyAdminDto.getSiteCode());
+        sysAdminUserDto.setSiteId(site.getId());
+        sysAdminUserDto.setSiteName(site.getName());
+
+        return iAdminUserService.saveOrUpdateAdminInfo(sysAdminUserDto,sysUser);
+    }
+
 
     @ApiOperation("获取代理列表")
     @ApiImplicitParams({

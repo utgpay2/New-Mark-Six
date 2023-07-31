@@ -7,10 +7,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 
 import com.central.common.constant.MarksixConstants;
+import com.central.common.dto.ProxyAdminDto;
 import com.central.common.model.*;
 import com.central.common.model.enums.CodeEnum;
 import com.central.common.model.enums.UserTypeEnum;
-import com.central.marksix.dto.ProxyAdminDto;
 import com.central.marksix.dto.SysAdminUserDto;
 import com.central.marksix.dto.TransferAccountsDto;
 import com.central.marksix.dto.UserDto;
@@ -21,12 +21,9 @@ import com.central.marksix.utils.MD5;
 import com.central.user.feign.UaaService;
 import com.central.user.feign.UserService;
 import io.swagger.annotations.*;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;

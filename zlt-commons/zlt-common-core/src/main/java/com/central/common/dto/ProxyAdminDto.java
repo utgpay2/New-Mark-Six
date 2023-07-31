@@ -1,4 +1,4 @@
-package com.central.marksix.dto;
+package com.central.common.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
