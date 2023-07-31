@@ -7,7 +7,7 @@ import com.central.common.model.enums.OrderStatusEnum;
 import com.central.common.model.enums.StatusEnum;
 import com.central.common.utils.DateUtil;
 import com.central.common.utils.SnowflakeIdWorker;
-import com.xxl.job.executor.entity.vo.SiteLotteryVO;
+import com.central.common.vo.SiteLotteryVo;
 import com.xxl.job.executor.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1679,7 +1679,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
 
         Map<String, Object> params = new HashMap<>();
         params.put("lotteryId", lotteryId);
-        List<SiteLotteryVO> siteLotteryVOList = lotteryService.findList(params);
+        List<SiteLotteryVo> siteLotteryVOList = lotteryService.findList(params);
         //彩种最大
         WnData wnData = wnDataService.lastOneWnData(lotteryId);
         if(StatusEnum.ONE_TRUE.getStatus()==wnData.getStatus()){
@@ -1862,7 +1862,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                 this.winZodiac(six,shuList,niuList,huList,tuzList,longList,sheList,maList,yanList,houList,jiList,gouList,zhuList)+","+
                 this.winZodiac(seven,shuList,niuList,huList,tuzList,longList,sheList,maList,yanList,houList,jiList,gouList,zhuList);
         //按站点结算
-        for (SiteLotteryVO siteLotteryVO:siteLotteryVOList) {
+        for (SiteLotteryVo siteLotteryVO:siteLotteryVOList) {
             for (int i = 1; i <= 9000; i++) {//最大数据
                 //分页查询
                 Map<String, Object> paramspage = new HashMap<>();

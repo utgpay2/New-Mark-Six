@@ -2,12 +2,9 @@ package com.xxl.job.executor.service.impl;
 
 import com.central.common.model.*;
 import com.central.common.model.enums.LotteryEnum;
-import com.central.common.model.enums.MbChangeTypeEnum;
 import com.central.common.model.enums.OrderStatusEnum;
 import com.central.common.model.enums.StatusEnum;
 import com.central.common.utils.DateUtil;
-import com.central.common.utils.SnowflakeIdWorker;
-import com.xxl.job.executor.entity.vo.SiteLotteryVO;
 import com.xxl.job.executor.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +29,6 @@ public class LotteryWinDataImpl implements ILotteryWinDataService {
     private IWnDataService wnDataService;
     @Autowired
     private ISysUserService userService;
-    @Autowired
-    private IMoneyLogService moneyLogService;
     @Autowired
     private INumberAttributesService numberAttributesService;
     @Autowired
@@ -1580,7 +1575,6 @@ public class LotteryWinDataImpl implements ILotteryWinDataService {
         //确定是否已经存在本期开奖号码
         Map<String, Object> params = new HashMap<>();
         params.put("lotteryId", lotteryId);
-        List<SiteLotteryVO> siteLotteryVOList = lotteryService.findList(params);
         //彩种最大
         WnData wnData = wnDataService.lastOneWnData(lotteryId);
         if(null!=wnData){
