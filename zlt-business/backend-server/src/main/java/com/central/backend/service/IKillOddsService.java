@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public interface IKillOddsService extends ISuperService<KillOdds> {
 
-    List<KillOdds> findList(Map<String, Object> params);
+    List<KillOdds> findList();
     Result saveOrUpdateKillOdds(KillOdds killOdds, SysUser user);
 
 

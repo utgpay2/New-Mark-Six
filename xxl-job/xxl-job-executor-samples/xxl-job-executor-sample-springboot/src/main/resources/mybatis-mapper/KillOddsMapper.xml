@@ -4,12 +4,6 @@
 <mapper namespace="com.xxl.job.executor.mapper.KillOddsMapper">
     <select id="findList" resultType="com.central.common.model.KillOdds">
         select * from mks_kill_odds t
-        <where>
-            1=1
-            <if test="p.lotteryId != null and  p.lotteryId != '' and  p.lotteryId != 0">
-                and t.lottery_id = #{p.lotteryId}
-            </if>
-        </where>
     </select>
 
 </mapper>
