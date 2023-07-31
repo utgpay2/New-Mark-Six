@@ -8,7 +8,6 @@ import com.central.common.model.enums.StatusEnum;
 import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
 import com.central.common.vo.SiteLotteryVo;
-import com.xxl.job.executor.entity.vo.SiteLotteryVO;
 import com.xxl.job.executor.mapper.LotteryMapper;
 import com.xxl.job.executor.service.ILotteryService;
 import lombok.extern.slf4j.Slf4j;
