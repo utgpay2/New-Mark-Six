@@ -2,6 +2,7 @@ package com.central.backend.service;
 
 import com.central.backend.co.SiteCo;
 import com.central.backend.co.SiteUpdateCo;
+import com.central.backend.model.dto.ProxyRechargeDto;
 import com.central.backend.model.dto.SiteRechargeDto;
 import com.central.backend.vo.SiteListVo;
 import com.central.backend.vo.SiteVo;
@@ -46,4 +47,8 @@ public interface ISiteService extends ISuperService<Site> {
 
 
     Result recharge(SiteRechargeDto siteRechargeDto, SysUser sysUser);
+
+    PageResult getProxys(Map<String, Object> params, SysUser sysUser);
+
+    Result rechargeProxy(ProxyRechargeDto proxyRechargeDto, SysUser sysUser);
 }

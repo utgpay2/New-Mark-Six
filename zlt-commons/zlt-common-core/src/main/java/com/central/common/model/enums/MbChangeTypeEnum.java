@@ -13,6 +13,10 @@ public enum MbChangeTypeEnum {
     USER_WITHDRAWAL(7, "上级上分", 1),
     USER_RECHARGE(8, "上级下分", -1),
     STATION_OWNER_RECHARGE(10, "户主充值", 1),
+    PROXY_WITHDRAWAL(11, "收回授信额度", -1),
+    PROXY_RECHARGE(12, "给与授信额度",1),
+    OWNER_WITHDRAWAL(13, "收回授信额度", 1),
+    OWNER_RECHARGE(14, "给与授信额度",-1),
     ;
 
     private final Integer type;

@@ -4,6 +4,7 @@ import com.central.backend.co.SysRoleUser;
 import com.central.backend.mapper.SysUserRoleMapper;
 import com.central.backend.service.ISysRoleUserService;
 import com.central.common.model.SysRole;
+import com.central.common.model.SysUser;
 import com.central.common.service.impl.SuperServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,11 @@ public class SysRoleUserServiceImpl extends SuperServiceImpl<SysUserRoleMapper, 
 	@Override
 	public List<SysRole> findRolesByUserIds(List<Long> userIds) {
 		return sysUserRoleMapper.findRolesByUserIds(userIds);
+	}
+
+	@Override
+	public SysUser getStationOwenrBySiteId(Integer siteId) {
+
+		return baseMapper.getStationOwenrBySiteId(siteId);
 	}
 }

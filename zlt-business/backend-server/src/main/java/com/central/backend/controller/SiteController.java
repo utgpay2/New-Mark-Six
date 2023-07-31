@@ -3,8 +3,11 @@ package com.central.backend.controller;
 import cn.hutool.core.util.ObjectUtil;
 import com.central.backend.co.SiteCo;
 import com.central.backend.co.SiteUpdateCo;
+import com.central.backend.model.dto.ProxyRechargeDto;
 import com.central.backend.model.dto.SiteRechargeDto;
 import com.central.backend.service.ISiteService;
+import com.central.backend.service.ISysRoleService;
+import com.central.backend.service.ISysRoleUserService;
 import com.central.backend.vo.SiteListVo;
 import com.central.backend.vo.SiteVo;
 import com.central.common.annotation.LoginUser;
@@ -14,6 +17,8 @@ import com.central.common.model.PageResult;
 import com.central.common.model.Result;
 import com.central.common.model.SysUser;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +29,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -35,6 +41,11 @@ public class SiteController {
     @Autowired
     private ISiteService siteService;
 
+
+
+
+    @Autowired
+    ISysRoleUserService iSysRoleUserService;
 
     @Value("${zlt.minio.externalEndpoint}")
     private String externalEndpoint;
@@ -60,6 +71,37 @@ public class SiteController {
             return Result.failed("需要系统管理员权限");
         }
         return  siteService.recharge(siteRechargeDto,sysUser);
+    }
+
+    @ApiOperation("获取代理列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Integer")
+    })
+    @GetMapping("/getProxys")
+    public Result<PageResult<SysUser>> getProxys(@RequestParam Map<String, Object> params,@ApiIgnore @LoginUser SysUser sysUser) {
+        //查询商户户主
+        SysUser user=iSysRoleUserService.getStationOwenrBySiteId((Integer) params.get("siteId"));
+
+        if(user==null ||( !user.getId().equals(sysUser.getId()) && sysUser.getId()!=1 && sysUser.getId()!=2)){
+            return Result.failed("需要商户户主权限！");
+        }
+        return Result.succeed(siteService.getProxys(params,sysUser));
+    }
+
+
+    @ApiOperation(value = "给代理授信额度或收回授信额度（商户户主权限）")
+    @PostMapping(value = "/recharge/proxy")
+    public Result rechargeProxy(@RequestBody ProxyRechargeDto proxyRechargeDto, @LoginUser SysUser sysUser) {
+        //查询商户户主
+        SysUser user=iSysRoleUserService.getStationOwenrBySiteId( sysUser.getSiteId().intValue());
+
+        if(user==null ||( !user.getId().equals(sysUser.getId()) && sysUser.getId()!=1 && sysUser.getId()!=2)){
+
+            return Result.failed("需要商户户主权限！");
+        }
+        return  siteService.rechargeProxy(proxyRechargeDto,sysUser);
     }
 
 
