@@ -101,15 +101,7 @@ public class SiteController {
         }
 
 
-        if (ObjectUtil.isEmpty(proxyAdminDto.getSiteCode())) {
-            return Result.failed("商户编码不能为空");
-        }
 
-
-        Site site=siteService.getOne(new QueryWrapper<Site>().eq("code",proxyAdminDto.getSiteCode()));
-        if (ObjectUtil.isEmpty(site)) {
-            return Result.failed("商户不存在");
-        }
 
         //查询商户户主
         SysUser user=iSysRoleUserService.getStationOwenrBySiteId( sysUser.getSiteId().intValue());
@@ -119,18 +111,20 @@ public class SiteController {
             return Result.failed("需要商户户主权限！");
         }
 
+
         SysAdminUserDto sysAdminUserDto=new SysAdminUserDto();
 
         sysAdminUserDto.setEnabled(true);
         sysAdminUserDto.setPassword(proxyAdminDto.getPassword());
+
         sysAdminUserDto.setUsername(proxyAdminDto.getUsername());
         Set set=new HashSet<Long>();
         set.add(11L);
         sysAdminUserDto.setRoleIds(set);
         sysAdminUserDto.setSiteCode(proxyAdminDto.getSiteCode());
-        sysAdminUserDto.setSiteId(site.getId());
-        sysAdminUserDto.setSiteName(site.getName());
-
+        sysAdminUserDto.setSiteId(user.getSiteId());
+        sysAdminUserDto.setSiteName(user.getSiteName());
+        sysAdminUserDto.setSiteCode(user.getSiteCode());
         return iAdminUserService.saveOrUpdateAdminInfo(sysAdminUserDto,sysUser);
     }
 
