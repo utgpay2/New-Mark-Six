@@ -27,11 +27,11 @@ import java.util.stream.Collectors;
 @Service
 public class KillOddsServiceImpl extends SuperServiceImpl<KillOddsMapper, KillOdds> implements IKillOddsService {
     @Override
-    public List<KillOdds> findList(Map<String, Object> params){
+    public List<KillOdds> findList(){
         String redisKey = StrUtil.format(RedisConstants.SITE_KILLODDS_KEY);
         List<KillOdds> list = (List<KillOdds>)RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(list)) {
-            list = baseMapper.findList(params);
+            list = baseMapper.findList();
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
         return list;
@@ -43,7 +43,7 @@ public class KillOddsServiceImpl extends SuperServiceImpl<KillOddsMapper, KillOd
             killOdds.setUpdateTime(new Date());
             killOdds.setUpdateBy(null != user ? user.getUsername() : killOdds.getUpdateBy());
         } else {
-            List<KillOdds> list = this.findList(null);
+            List<KillOdds> list = this.findList();
             if(null!=list && list.size()>0){
                 list = list.stream().filter(killOdds1 -> killOdds.getLotteryId()==killOdds1.getLotteryId())
                         .collect(Collectors.toList());

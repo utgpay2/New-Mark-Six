@@ -36,7 +36,7 @@ public class QuizChooseVo{
     @ApiModelProperty(value = "站点彩种分类(二类)ID")
     private Long quizId;
     @ApiModelProperty(value = "站点彩种分类三类ID")
-    private Integer quizDetailsId;
+    private Long quizDetailsId;
     @ApiModelProperty(value = "标题")
     private String introduce;
     @ApiModelProperty(value = "顺序")

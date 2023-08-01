@@ -39,8 +39,8 @@ public class KillOddsController {
      */
     @ApiOperation(value = "查询杀率")
     @GetMapping("/list")
-    public Result<List<KillOdds>> listAll(@ApiIgnore @RequestParam Map<String, Object> params) {
-        return Result.succeed(killOddsService.findList(params));
+    public Result<List<KillOdds>> listAll() {
+        return Result.succeed(killOddsService.findList());
     }
 
 

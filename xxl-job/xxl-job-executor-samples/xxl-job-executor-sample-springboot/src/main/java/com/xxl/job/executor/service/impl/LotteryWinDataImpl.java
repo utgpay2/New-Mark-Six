@@ -1633,7 +1633,7 @@ public class LotteryWinDataImpl implements ILotteryWinDataService {
         paramssumTotalPrice.put("periods", wnData.getQihao());//期数
         BigDecimal totalSalesAmount = siteOrderService.sumTotalPrice(paramssumTotalPrice);
         //杀率0到100
-        List<KillOdds> killOddsList = killOddsService.findList(null);
+        List<KillOdds> killOddsList = killOddsService.findList();
         if(null!=killOddsList && killOddsList.size()>0) {
             killOddsList = killOddsList.stream().filter(killOdds1 -> lotteryId == killOdds1.getLotteryId())
                     .collect(Collectors.toList());

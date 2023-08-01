@@ -21,6 +21,6 @@ public interface KillOddsMapper extends SuperMapper<KillOdds> {
      * @param params
      * @return
      */
-    List<KillOdds> findList(@Param("p") Map<String, Object> params);
+    List<KillOdds> findList();
 
 }

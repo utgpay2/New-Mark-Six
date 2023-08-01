@@ -29,11 +29,11 @@ import java.util.Map;
 @Service
 public class KillOddsServiceImpl extends SuperServiceImpl<KillOddsMapper, KillOdds> implements IKillOddsService {
     @Override
-    public List<KillOdds> findList(Map<String, Object> params){
+    public List<KillOdds> findList(){
         String redisKey = StrUtil.format(RedisConstants.SITE_KILLODDS_KEY);
         List<KillOdds> list = (List<KillOdds>)RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(list)) {
-            list = baseMapper.findList(params);
+            list = baseMapper.findList();
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
         return list;
