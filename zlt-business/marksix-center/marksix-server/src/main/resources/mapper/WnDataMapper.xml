@@ -16,6 +16,7 @@
         select * from mks_wn_data t
         <where>
             qihao = (SELECT max(qihao) FROM `mks_wn_data` WHERE lottery_id=#{lotteryId})
+            and lottery_id=#{lotteryId}
         </where>
     </select>
 </mapper>
