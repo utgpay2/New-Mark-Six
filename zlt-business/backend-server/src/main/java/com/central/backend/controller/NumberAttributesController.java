@@ -75,7 +75,7 @@ public class NumberAttributesController {
      * 删除
      */
     @ApiOperation(value = "删除")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/{year}")
     public Result delete(@PathVariable Long id,@PathVariable Integer year) {
         return numberAttributesService.deleteNumberAttributes(id,year);
     }
