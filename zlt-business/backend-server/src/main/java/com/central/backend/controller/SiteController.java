@@ -138,7 +138,7 @@ public class SiteController {
     @GetMapping("/getProxys")
     public Result<PageResult<SysUser>> getProxys(@RequestParam Map<String, Object> params,@ApiIgnore @LoginUser SysUser sysUser) {
         //查询商户户主
-        SysUser user=iSysRoleUserService.getStationOwenrBySiteId((Integer) params.get("siteId"));
+        SysUser user=iSysRoleUserService.getStationOwenrBySiteId(Integer.parseInt(params.get("siteId").toString()));
 
         if(user==null ||( !user.getId().equals(sysUser.getId()) && sysUser.getId()!=1 && sysUser.getId()!=2)){
             return Result.failed("需要商户户主权限！");
