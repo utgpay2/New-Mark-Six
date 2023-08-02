@@ -25,16 +25,16 @@ public class SysConfigServiceImpl extends SuperServiceImpl<SysConfigMapper, SysC
     public String getUrl(Integer platformType) {
 
 
-        String urlKey = StrUtil.format(MarksixConstants.RedisKey.MKS_URL_INFO_KEY, platformType);
+        //String urlKey = StrUtil.format(MarksixConstants.RedisKey.MKS_URL_INFO_KEY, platformType);
         String url;
-        if (!RedisRepository.exists(urlKey)) {
+        //if (!RedisRepository.exists(urlKey)) {
             SysConfig sysConfig= this.getOne(new QueryWrapper<SysConfig>().
                     eq("type",platformType).orderByDesc("access_weight","id").last(" limit 1"));
              url=sysConfig.getUrl() + (StringUtils.hasText(sysConfig.getParam())?  "?"+sysConfig.getParam():"");
-             RedisRepository.setExpire(urlKey, url, MarksixConstants.RedisKey.EXPIRE_TIME_30_DAYS);
-        }else {
+             //RedisRepository.setExpire(urlKey, url, MarksixConstants.RedisKey.EXPIRE_TIME_30_DAYS);
+        /*}else {
              url =  RedisRepository.get(urlKey).toString();
-        }
+        }*/
 
         return url;
     }
