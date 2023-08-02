@@ -14,6 +14,7 @@ import com.central.common.model.enums.UserTypeEnum;
 import com.central.marksix.dto.SysAdminUserDto;
 import com.central.marksix.dto.TransferAccountsDto;
 import com.central.marksix.dto.UserDto;
+import com.central.marksix.dto.UserLoginDto;
 import com.central.marksix.entity.PornPageResult;
 import com.central.marksix.entity.vo.MbChangeRecordDetailsVo;
 import com.central.marksix.service.*;
@@ -704,37 +705,32 @@ public class ThirdPartyController {
 
     @ApiOperation("登录")
     @PostMapping("/login")
-    public Result login(@ApiParam(value = "站点编码", required = true) String siteCode,
-                        @ApiParam(value = "随机字符串", required = true) String random,
-                        @ApiParam(value = "签名摘要", required = true) String sign,
-                        @ApiParam(value = "登录账号", required = true) String username,
-                        @ApiParam(value = "平台类型，H5为1, PC为2", required = true) Integer platformType,
-                        @ApiParam(value = "密码", required = true) String password) {
+    public Result login(@RequestBody UserLoginDto userLoginDto) {
         //校验账号
-        if (StrUtil.isBlank(username)) {
+        if (StrUtil.isBlank(userLoginDto.getUsername())) {
             return Result.failed("账号不能为空");
         }
-        if (StrUtil.isBlank(password)) {
+        if (StrUtil.isBlank(userLoginDto.getPassword())) {
             return Result.failed("密码不能为空");
         }
 
-        if (ObjectUtil.isEmpty(siteCode)) {
+        if (ObjectUtil.isEmpty(userLoginDto.getSiteCode())) {
             return Result.failed("商户编码不能为空");
         }
 
-        if (ObjectUtil.isEmpty(sign)) {
+        if (ObjectUtil.isEmpty(userLoginDto.getSign())) {
             return Result.failed("签名摘要不能为空");
         }
 
-        ThirdParty thirdParty= iThirdPartyService.getOne(new QueryWrapper<ThirdParty>().eq("site_code",siteCode));
+        ThirdParty thirdParty= iThirdPartyService.getOne(new QueryWrapper<ThirdParty>().eq("site_code",userLoginDto.getSiteCode()));
         String secretKey=thirdParty.getSecretKey();
-        String signGet= MD5.encrypt(random+siteCode+username+secretKey);
-        if (!signGet.equals(sign)) {
+        String signGet= MD5.encrypt(userLoginDto.getRandom()+userLoginDto.getSiteCode()+userLoginDto.getUsername()+secretKey);
+        if (!signGet.equals(userLoginDto.getSign())) {
             return Result.failed("签名摘要错误");
         }
 
 
-        LoginAppUser sysUser = userService.findByUsername(username);
+        LoginAppUser sysUser = userService.findByUsername(userLoginDto.getUsername());
         if (sysUser == null || null == sysUser.getUsername() || !sysUser.getEnabled()) {
             return Result.failed("用户名或密码错误");
         }
@@ -742,18 +738,19 @@ public class ThirdPartyController {
             return Result.failed("非普通用户");
         }
 
-        Result tokenResult = uaaService.login(authorization, username, password, AUTHENTICATION_MODE);
+        Result tokenResult = uaaService.login(authorization, userLoginDto.getUsername(), userLoginDto.getPassword(), AUTHENTICATION_MODE);
         if (tokenResult == null || !tokenResult.getResp_code().equals(CodeEnum.SUCCESS.getCode())) {
-            log.error("登录失败: username={}, msg={}", username, tokenResult.getResp_msg());
+            log.error("登录失败: username={}, msg={}", userLoginDto.getUsername(), tokenResult.getResp_msg());
             return Result.failed(tokenResult.getResp_msg());
         }
         String accessToken = (String) (((LinkedHashMap) tokenResult.getDatas()).get(MarksixConstants.Str.ACCESS_TOKEN));
 
-        String url= sysConfigService.getUrl(platformType);
+        String url= sysConfigService.getUrl(userLoginDto.getPlatformType());
 
         Map<String,String> data=new HashMap<>();
         data.put("accessToken",accessToken);
-        data.put("url",url);
+        data.put("url",url+userLoginDto.getLotteryId());
+
         return Result.succeed(data, "succeed");
     }
 
