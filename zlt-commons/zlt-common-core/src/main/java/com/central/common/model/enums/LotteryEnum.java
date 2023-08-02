@@ -8,7 +8,7 @@ public enum LotteryEnum {
     MACAO_MKS(2, "澳门六合彩"),
     TAIWAN_MKS(3, "台湾六合彩"),
     SINGAPORE_MKS(4, "新加坡六合彩"),
-    NEWHONGKONG_MKS(5, "新香港六合彩");
+    NEWHONGKONG_MKS(5, "香港天天彩");
 
     private final Integer status;
     private final String remark;
