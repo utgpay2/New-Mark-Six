@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 
+import com.central.common.constant.CommonConstant;
 import com.central.common.constant.MarksixConstants;
 import com.central.common.dto.ProxyAdminDto;
 import com.central.common.model.*;
@@ -157,9 +158,9 @@ public class ThirdPartyController {
             return Result.failed("用户名不能为空");
         }
 
-        if (ObjectUtil.isEmpty(userDto.getPassword())) {
+        /*if (ObjectUtil.isEmpty(userDto.getPassword())) {
             return Result.failed("密码不能为空");
-        }
+        }*/
 
         if (ObjectUtil.isEmpty(userDto.getRandom())) {
             return Result.failed("随机字符不能为空");
@@ -710,9 +711,9 @@ public class ThirdPartyController {
         if (StrUtil.isBlank(userLoginDto.getUsername())) {
             return Result.failed("账号不能为空");
         }
-        if (StrUtil.isBlank(userLoginDto.getPassword())) {
+        /*if (StrUtil.isBlank(userLoginDto.getPassword())) {
             return Result.failed("密码不能为空");
-        }
+        }*/
 
         if (ObjectUtil.isEmpty(userLoginDto.getSiteCode())) {
             return Result.failed("商户编码不能为空");
@@ -738,20 +739,17 @@ public class ThirdPartyController {
             return Result.failed("非普通用户");
         }
 
-        Result tokenResult = uaaService.login(authorization, userLoginDto.getUsername(), userLoginDto.getPassword(), AUTHENTICATION_MODE);
+        Result tokenResult = uaaService.login(authorization, userLoginDto.getUsername(), CommonConstant.DEF_USER_PASSWORD, AUTHENTICATION_MODE);
         if (tokenResult == null || !tokenResult.getResp_code().equals(CodeEnum.SUCCESS.getCode())) {
             log.error("登录失败: username={}, msg={}", userLoginDto.getUsername(), tokenResult.getResp_msg());
             return Result.failed(tokenResult.getResp_msg());
         }
         String accessToken = (String) (((LinkedHashMap) tokenResult.getDatas()).get(MarksixConstants.Str.ACCESS_TOKEN));
 
-        String url= sysConfigService.getUrl(userLoginDto.getPlatformType());
+        String url= sysConfigService.getUrl(userLoginDto.getPlatformType())+userLoginDto.getLotteryId()+"&Authorization="+accessToken;
 
-        Map<String,String> data=new HashMap<>();
-        data.put("accessToken",accessToken);
-        data.put("url",url+userLoginDto.getLotteryId());
 
-        return Result.succeed(data, "succeed");
+        return Result.succeed(url, "succeed");
     }
 
 }
