@@ -49,7 +49,7 @@ public class LotteryServiceImpl extends SuperServiceImpl<LotteryMapper, Lottery>
         }else {
             comparator = Comparator.comparing(SiteLotteryVo::getSort).reversed();//倒序
         }
-        return list.stream().filter(siteLotteryVo -> StatusEnum.ONE_TRUE.getStatus().equals(siteLotteryVo.getIsDisplay()))
+        return list.stream().filter(siteLotteryVo -> StatusEnum.ONE_TRUE.getStatus()==siteLotteryVo.getIsDisplay())
                 .sorted(comparator)
                 .collect(Collectors.toList());
     }

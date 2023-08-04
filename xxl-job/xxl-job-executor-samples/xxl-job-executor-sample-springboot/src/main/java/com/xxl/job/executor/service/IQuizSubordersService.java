@@ -15,5 +15,6 @@ import java.util.Map;
  */
 public interface IQuizSubordersService extends ISuperService<QuizSuborders> {
     public List<QuizSuborders> findList(Map<String, Object> params);
+    public void saveOrUpdateQuizSubordersBatch(List<QuizSuborders> quizSubordersList);
 }
 

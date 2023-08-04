@@ -53,8 +53,8 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                 quizOrders.setYear(2023);//年份
                 quizOrders.setSiteLotteryId(1L);//站点彩种ID
                 quizOrders.setLotteryName("香港六合彩");//站点彩种名称
-                quizOrders.setSiteCategoryId(374l);//站点下注分类ID
-                quizOrders.setQuizId(1l);//开奖规则主表ID
+                quizOrders.setSiteCategoryId(374L);//站点下注分类ID
+                quizOrders.setQuizId(1L);//开奖规则主表ID
                 quizOrders.setQuizTitle("号码");//开奖规则主表标题
                 quizOrders.setQuizChooseIds("1L");//开奖规则明细ID
                 quizOrders.setQuizIntroduces("01");//开奖规则明细名称
@@ -67,7 +67,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                 quizOrders.setSiteId(1L);//站点id
                 quizOrders.setSiteCode("mks_site01");//站点编码
                 quizOrders.setSiteName("总站");//站点名称
-                quizOrders.setMemberId(143l);//会员ID
+                quizOrders.setMemberId(143L);//会员ID
                 quizOrders.setUserName("mks_site02_admin");//用户名
                 quizOrders.setParentId(2L);//上级id
                 quizOrders.setParentName("admin");//上级账号
@@ -84,7 +84,6 @@ public class WinningSettlementImpl implements IWinningSettlementService{
     }
     /**
      * 结算
-     * @return
      */
     @Transactional(rollbackFor={RuntimeException.class,Exception.class})
     public void winningSettlement(List<QuizOrders> list,
@@ -103,12 +102,14 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                   String[] wnTail,
                                   String[] wnNumbersSix,
                                   String[] wnNumbers){
-        List<QuizOrders> ordersList = new ArrayList<>();
+        List<QuizOrders> ordersList = new ArrayList<>();//总订单
+        List<QuizSuborders> subordersList = new ArrayList<>();//子订单
         List<MoneyLog> moneyLogList = new ArrayList<>();
         for (QuizOrders quizOrders: list){
             SysUser sysUser = userService.getSysUserById(quizOrders.getMemberId());
             BigDecimal currentBalance = sysUser.getMBalance();//用户当前余额
             quizOrders.setUpdateTime(new Date());
+            quizOrders.setSettlementTime(new Date());//结算时间
             quizOrders.setUpdateBy(sysUser.getUsername());
             BigDecimal winAmount = BigDecimal.ZERO;
             if(LotteryEnum.HONGKONG_MKS.getRemark().equals(quizOrders.getLotteryName())) {//香港六合彩
@@ -266,7 +267,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             String[] bettingZodiacStr = quizOrders.getQuizIntroduces().split(",");//投注
                             List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             for(String bettingZodiac: bettingZodiacList){
-                                if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
+                                if(bettingZodiac.contains(winZodiacStr)) {
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                     break;
                                 }
@@ -288,7 +289,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             String[] bettingZodiacStr = quizOrders.getQuizIntroduces().split(",");//投注
                             List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             for(String bettingZodiac: bettingZodiacList){
-                                if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
+                                if(bettingZodiac.contains(winZodiacStr)) {
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                     break;
                                 }
@@ -299,7 +300,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             String[] bettingZodiacStr = quizOrders.getQuizIntroduces().split(",");//投注
                             List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             for(String bettingZodiac: bettingZodiacList){
-                                if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
+                                if(bettingZodiac.contains(winZodiacStr)) {
                                     winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
                                     break;
                                 }
@@ -310,7 +311,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             boolean b = true;
                             for(String bettingZodiac: bettingZodiacList){
-                                if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
+                                if(bettingZodiac.contains(winZodiacStr)) {
                                     b = false;
                                     break;
                                 }
@@ -324,7 +325,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             boolean b = true;
                             for(String bettingZodiac: bettingZodiacList){
-                                if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
+                                if(bettingZodiac.contains(winZodiacStr)) {
                                     b = false;
                                     break;
                                 }
@@ -338,7 +339,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             List<String> bettingZodiacList = this.getBettingComList(bettingZodiacStr,bettingZodiacStr.length);
                             boolean b = true;
                             for(String bettingZodiac: bettingZodiacList){
-                                if(bettingZodiac.indexOf(winZodiacStr)!=-1) {
+                                if(bettingZodiac.contains(winZodiacStr)) {
                                     b = false;
                                     break;
                                 }
@@ -678,7 +679,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                         &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])
                                         &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[2])){
                                     winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
-                                }
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
+                            }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("三中二".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -690,19 +699,33 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])
                                     &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[2])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds2()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
                             }else if (!Arrays.asList(wnNumbersSix).contains(bettingNumberList[0])
                                     &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])
                                     &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[2])){//为三中二
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
                             }else if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0])
                                     &&!Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])
                                     &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[2])){//为三中二
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
                             }else if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0])
                                     &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])
                                     &&!Arrays.asList(wnNumbersSix).contains(bettingNumberList[2])){//为三中二
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("二全中".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -712,7 +735,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0])
                                         &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])){
                                     winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
-                                }
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
+                            }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("二中特".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -722,15 +753,34 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0])
                                         &&Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])){//二中特之中二
                                     winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds2()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
                                 }else {//二中特之中特
-                                    if(seven.equals(bettingNumberList[0])){
-                                        if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[1]))
-                                            winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
-                                    }else if(seven.equals(bettingNumberList[1])){
-                                        if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0]))
-                                            winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    if(seven.equals(bettingNumberList[0])||seven.equals(bettingNumberList[1])) {
+                                        if (seven.equals(bettingNumberList[0])) {
+                                            if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])) {
+                                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                                            }
+                                        } else if (seven.equals(bettingNumberList[1])) {
+                                            if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0])) {
+                                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                                            }
+                                        }else {
+                                            quizSuborders.setWinMount(BigDecimal.ZERO);
+                                            quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
+                                        }
+                                    }else {
+                                        quizSuborders.setWinMount(BigDecimal.ZERO);
+                                        quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                                     }
-                                }
+                            }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("特串".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -738,12 +788,30 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                         for(QuizSuborders quizSuborders : quizSubordersList) {
                             String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
                             if(seven.equals(bettingNumberList[0])){
-                                    if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[1]))
+                                    if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[1])) {
                                         winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                        quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                        quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                                    }else {
+                                        quizSuborders.setWinMount(BigDecimal.ZERO);
+                                        quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
+                                    }
                             }else if(seven.equals(bettingNumberList[1])){
-                                if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0]))
+                                if (Arrays.asList(wnNumbersSix).contains(bettingNumberList[0])){
                                     winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                                }else {
+                                    quizSuborders.setWinMount(BigDecimal.ZERO);
+                                    quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
+                                }
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("四中一".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -753,8 +821,17 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             if (Arrays.asList(wnNumbers).contains(bettingNumberList[0])
                                         ||Arrays.asList(wnNumbers).contains(bettingNumberList[1])
                                         ||Arrays.asList(wnNumbers).contains(bettingNumberList[2])
-                                        ||Arrays.asList(wnNumbers).contains(bettingNumberList[3]))
-                                    winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                        ||Arrays.asList(wnNumbers).contains(bettingNumberList[3])) {
+                                winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
+                            }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                 }else if ("头尾数".equals(quizOrders.getSiteCategoryName())) {//分类一类
@@ -792,7 +869,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                 if (Arrays.asList(wnTail).contains(bettingNumberList[0])
                                         &&Arrays.asList(wnTail).contains(bettingNumberList[1])){
                                     winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                                }else {
+                                    quizSuborders.setWinMount(BigDecimal.ZERO);
+                                    quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                                 }
+                                quizSuborders.setUpdateBy(sysUser.getUsername());
+                                quizSuborders.setUpdateTime(new Date());
+                                subordersList.add(quizSuborders);
                             }
                         }
                         if("三尾连中".equals(quizOrders.getQuizTitle())){
@@ -802,7 +887,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                         &&Arrays.asList(wnTail).contains(bettingNumberList[1])
                                         &&Arrays.asList(wnTail).contains(bettingNumberList[2])){
                                     winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                                }else {
+                                    quizSuborders.setWinMount(BigDecimal.ZERO);
+                                    quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                                 }
+                                quizSuborders.setUpdateBy(sysUser.getUsername());
+                                quizSuborders.setUpdateTime(new Date());
+                                subordersList.add(quizSuborders);
                             }
                         }
                         if("四尾连中".equals(quizOrders.getQuizTitle())){
@@ -813,7 +906,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                         &&Arrays.asList(wnTail).contains(bettingNumberList[2])
                                         &&Arrays.asList(wnTail).contains(bettingNumberList[3])){
                                     winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                                }else {
+                                    quizSuborders.setWinMount(BigDecimal.ZERO);
+                                    quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                                 }
+                                quizSuborders.setUpdateBy(sysUser.getUsername());
+                                quizSuborders.setUpdateTime(new Date());
+                                subordersList.add(quizSuborders);
                             }
                         }
                         if("二尾连不中".equals(quizOrders.getQuizTitle())){
@@ -822,7 +923,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                 if (!Arrays.asList(wnTail).contains(bettingNumberList[0])
                                         &&!Arrays.asList(wnTail).contains(bettingNumberList[1])){
                                     winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                                }else {
+                                    quizSuborders.setWinMount(BigDecimal.ZERO);
+                                    quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                                 }
+                                quizSuborders.setUpdateBy(sysUser.getUsername());
+                                quizSuborders.setUpdateTime(new Date());
+                                subordersList.add(quizSuborders);
                             }
                         }
                         if("三尾连不中".equals(quizOrders.getQuizTitle())){
@@ -832,7 +941,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                         &&!Arrays.asList(wnTail).contains(bettingNumberList[1])
                                         &&!Arrays.asList(wnTail).contains(bettingNumberList[2])){
                                     winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                                }else {
+                                    quizSuborders.setWinMount(BigDecimal.ZERO);
+                                    quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                                 }
+                                quizSuborders.setUpdateBy(sysUser.getUsername());
+                                quizSuborders.setUpdateTime(new Date());
+                                subordersList.add(quizSuborders);
                             }
                         }
                         if("四尾连不中".equals(quizOrders.getQuizTitle())){
@@ -843,7 +960,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                         &&!Arrays.asList(wnTail).contains(bettingNumberList[2])
                                         &&!Arrays.asList(wnTail).contains(bettingNumberList[3])){
                                     winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                    quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                                }else {
+                                    quizSuborders.setWinMount(BigDecimal.ZERO);
+                                    quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                                 }
+                                quizSuborders.setUpdateBy(sysUser.getUsername());
+                                quizSuborders.setUpdateTime(new Date());
+                                subordersList.add(quizSuborders);
                             }
                         }
                     }
@@ -861,7 +986,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[3])
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[4])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     //挑选6个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
@@ -875,7 +1008,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[4])
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[5])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     //挑选7个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
@@ -890,7 +1031,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[5])
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[6])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     //挑选8个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
@@ -906,7 +1055,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[6])
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[7])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     //挑选9个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
@@ -923,7 +1080,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[7])
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[8])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     //挑选10个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
@@ -941,7 +1106,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[8])
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[9])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                 }else if ("自选不中".equals(quizOrders.getSiteCategoryName())) {//分类一类
@@ -957,7 +1130,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     && !Arrays.asList(wnNumbers).contains(bettingNumberList[3])
                                     && !Arrays.asList(wnNumbers).contains(bettingNumberList[4])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("六不中".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -970,7 +1151,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     && !Arrays.asList(wnNumbers).contains(bettingNumberList[4])
                                     && !Arrays.asList(wnNumbers).contains(bettingNumberList[5])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("七不中".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -984,7 +1173,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     && !Arrays.asList(wnNumbers).contains(bettingNumberList[5])
                                     && !Arrays.asList(wnNumbers).contains(bettingNumberList[6])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("八不中".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -999,7 +1196,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     && !Arrays.asList(wnNumbers).contains(bettingNumberList[6])
                                     && !Arrays.asList(wnNumbers).contains(bettingNumberList[7])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("九不中".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -1015,7 +1220,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     && !Arrays.asList(wnNumbers).contains(bettingNumberList[7])
                                     && !Arrays.asList(wnNumbers).contains(bettingNumberList[8])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("十不中".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -1032,7 +1245,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     && !Arrays.asList(wnNumbers).contains(bettingNumberList[8])
                                     && !Arrays.asList(wnNumbers).contains(bettingNumberList[9])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("十一不中".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -1050,7 +1271,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     && !Arrays.asList(wnNumbers).contains(bettingNumberList[9])
                                     && !Arrays.asList(wnNumbers).contains(bettingNumberList[10])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                 }else if ("正特任中".equals(quizOrders.getSiteCategoryName())) {//分类一类
@@ -1063,7 +1292,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                         for(QuizSuborders quizSuborders : quizSubordersList){
                             if (Arrays.asList(wnNumbers).contains(quizSuborders.getBettingContent())){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("二粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -1073,7 +1310,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             if (Arrays.asList(wnNumbers).contains(bettingNumberList[0])
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[1])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("三粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -1084,7 +1329,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[1])
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[2])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("四粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -1096,7 +1349,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[2])
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[3])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                     if("五粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
@@ -1109,7 +1370,15 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[3])
                                     || Arrays.asList(wnNumbers).contains(bettingNumberList[4])){
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
+                            }else {
+                                quizSuborders.setWinMount(BigDecimal.ZERO);
+                                quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().negate());
                             }
+                            quizSuborders.setUpdateBy(sysUser.getUsername());
+                            quizSuborders.setUpdateTime(new Date());
+                            subordersList.add(quizSuborders);
                         }
                     }
                 }else if ("五行".equals(quizOrders.getSiteCategoryName())) {//分类一类
@@ -1339,6 +1608,10 @@ public class WinningSettlementImpl implements IWinningSettlementService{
         }
         //更新投注
         siteOrderService.saveOrUpdateQuizOrdersBatch(ordersList);
+        if(null!=subordersList && subordersList.size()>0) {
+            //批量更新子单
+            quizSubordersService.saveOrUpdateQuizSubordersBatch(subordersList);
+        }
     }
     private BigDecimal daxiaodangshuanghonglvlanbo(QuizOrders quizOrders,String enterNumber,
                                                    Integer onesNumber,Integer tensNumber,

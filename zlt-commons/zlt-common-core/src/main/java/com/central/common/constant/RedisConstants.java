@@ -42,7 +42,7 @@ public interface RedisConstants {
     //- 缓存号码属性表
     public static final String NUMBERATTRIBUTES_LIST_KEY = "NUMBERATTRIBUTES:LIST:{}:{}";
     //- 缓存我的投注记录
-    public static final String SITE_LOTTERY_ORDERS_MY_LIST_KEY = "SITE:LOTTERY:ORDERS:MY:{}:{}:{}:{}:{}:{}:{}";
+    public static final String SITE_LOTTERY_ORDERS_MY_LIST_KEY = "SITE:LOTTERY:ORDERS:MY:{}:{}:{}:{}:{}";
     //- 缓存统计我的投注记录
     public static final String SITE_LOTTERY_ORDERS_MYSTATI_LIST_KEY = "SITE:LOTTERY:ORDERS:MYSTATI:{}:{}:{}:{}";
     //- 缓存子投注记录

@@ -57,7 +57,7 @@ public class QuizDetailsServiceImpl extends SuperServiceImpl<QuizDetailsMapper, 
         }else {
             comparator = Comparator.comparing(QuizDetails::getSort).reversed();//倒序
         }
-        return list.stream().filter(quizDetails -> StatusEnum.ONE_TRUE.getStatus().equals(quizDetails.getStatus()))
+        return list.stream().filter(quizDetails -> StatusEnum.ONE_TRUE.getStatus()== quizDetails.getStatus())
                 .sorted(comparator)
                 .collect(Collectors.toList());
     }

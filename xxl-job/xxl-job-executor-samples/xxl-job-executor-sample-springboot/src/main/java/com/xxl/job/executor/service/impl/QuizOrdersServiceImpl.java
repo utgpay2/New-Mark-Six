@@ -39,7 +39,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
         for(QuizOrders quizOrders:ordersList) {
             //删除订单缓存
             //删除投注订单缓存
-            String ordersRedisKeys = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MY_LIST_KEY, quizOrders.getSiteId(), quizOrders.getId(),"*","*","*","*","*");
+            String ordersRedisKeys = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MY_LIST_KEY, quizOrders.getSiteId(), quizOrders.getId(),"*","*","*");
             Set<String> redisKeys = RedisRepository.keys(ordersRedisKeys);
             for(String redisKey:redisKeys) {
                 RedisRepository.delete(redisKey);
