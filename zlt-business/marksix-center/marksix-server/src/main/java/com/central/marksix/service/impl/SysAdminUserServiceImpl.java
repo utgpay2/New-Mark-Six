@@ -212,7 +212,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
             //userInfo.setMobile(user.getMobile());
             userInfo.setUpdateBy(null!=sysUser?sysUser.getUpdateBy():"");
             //用户名
-            userInfo.setUsername(adminUserVo.getUsername());
+            userInfo.setUsername(adminUserVo.getSiteCode()+"_"+adminUserVo.getUsername());
             //状态：0/false.禁用，1/true.启用")
             userInfo.setEnabled(adminUserVo.getEnabled());
             //备注

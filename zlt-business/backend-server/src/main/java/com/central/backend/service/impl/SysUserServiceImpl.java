@@ -486,6 +486,7 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
     public Result saveOrUpdateUserInfo(SysUser user) {
         boolean insert =false;
         //新增
+        user.setUsername(user.getSiteCode()+"_"+user.getUsername());
         if (user.getId() == null) {
             LambdaQueryWrapper<SysUser> wrapper=new LambdaQueryWrapper<>();
             if (StringUtils.isNotBlank(user.getUsername())){

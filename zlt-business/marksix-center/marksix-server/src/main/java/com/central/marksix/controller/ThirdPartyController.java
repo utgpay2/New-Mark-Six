@@ -198,7 +198,7 @@ public class ThirdPartyController {
 
         user.setEnabled(true);
         user.setPassword(userDto.getPassword());
-        user.setUsername(userDto.getUsername());
+        user.setUsername(userDto.getSiteCode()+"_"+userDto.getUsername());
         user.setParentId(proxyUser.getId());
         user.setParentName(proxyUser.getUsername());
         user.setSiteCode(site.getCode());
@@ -747,7 +747,7 @@ public class ThirdPartyController {
         }
         String accessToken = (String) (((LinkedHashMap) tokenResult.getDatas()).get(MarksixConstants.Str.ACCESS_TOKEN));
 
-        String url= sysConfigService.getUrl(userLoginDto.getPlatformType())+userLoginDto.getLotteryId()+"&Authorization="+accessToken;
+        String url= sysConfigService.getUrl(userLoginDto.getPlatformType())+userLoginDto.getLotteryId()+"&Authorization=Bearer "+accessToken;
 
 
         return Result.succeed(url, "succeed");
