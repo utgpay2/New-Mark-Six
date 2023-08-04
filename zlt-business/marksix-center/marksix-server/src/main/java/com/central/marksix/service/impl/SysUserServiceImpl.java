@@ -261,25 +261,17 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
             BigDecimal afterMoney;
             BigDecimal parentAfterMoney;
             if(transferAccountsDto.getType()==0){//0给会员下分
-                if(currentBalance.compareTo(amount)!=1){
+                if(currentBalance.compareTo(amount)==-1){
                     return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "会员余额不足", null);
                 }
                 afterMoney=currentBalance.subtract(amount);
                 parentAfterMoney=parentCurrentBalance.add(amount);
             }else {//1给会员上分
-                if(1==user.getParentId()||2==user.getParentId()){//上级是系统管理员或者超级管理员
-                    if(currentBalance.compareTo(amount)!=1){
-                        return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "会员余额不足", null);
-                    }
-                    afterMoney=currentBalance.subtract(amount);
-                    parentAfterMoney=parentCurrentBalance.add(amount);
-                }else {
-                    if (parentCurrentBalance.compareTo(amount) != 1) {
-                        return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "代理余额不足", null);
-                    }
-                    parentAfterMoney = parentCurrentBalance.subtract(amount);
-                    afterMoney = currentBalance.add(amount);
+                if (parentCurrentBalance.compareTo(amount) == -1) {
+                    return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "代理余额不足", null);
                 }
+                parentAfterMoney = parentCurrentBalance.subtract(amount);
+                afterMoney = currentBalance.add(amount);
             }
             List<MoneyLog> moneyLogList = new ArrayList<>();
             Date date=new Date();
