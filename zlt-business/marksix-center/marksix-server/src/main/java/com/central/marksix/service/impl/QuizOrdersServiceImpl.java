@@ -140,6 +140,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 quizOrders.setCreateBy(sysUser.getUsername());
                 quizOrders.setUpdateTime(new Date());
                 quizOrders.setUpdateBy(sysUser.getUsername());
+                quizOrders.setIsTestAccount(user.getIsTestAccount());
 
                 //子订单
                 List<QuizSubordersDto> subordersDtoList = ordersDto.getSubordersList();

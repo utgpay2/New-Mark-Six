@@ -168,6 +168,9 @@ public class ThirdPartyController {
         if (ObjectUtil.isEmpty(userDto.getSiteCode())) {
             return Result.failed("商户编码不能为空");
         }
+        if (ObjectUtil.isEmpty(userDto.getIsTestAccount())) {
+            return Result.failed("账号类型不能为空，0:正式账号 1:测试账号");
+        }
 
         if (ObjectUtil.isEmpty(userDto.getSign())) {
             return Result.failed("签名摘要不能为空");
@@ -206,6 +209,7 @@ public class ThirdPartyController {
         user.setSiteName(site.getName());
         user.setCreateBy(proxyUser.getUsername());
         user.setUpdateBy(proxyUser.getUsername());
+        user.setIsTestAccount(userDto.getIsTestAccount());
         return sysUserService.saveOrUpdateUserInfo(user);
     }
 
@@ -213,7 +217,7 @@ public class ThirdPartyController {
     /**
      * 新增
      *
-     * @param ProxyAdminDto
+     * @param
      * @return
      */
     @ApiOperation("查询会员信息")

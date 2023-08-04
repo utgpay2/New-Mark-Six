@@ -82,7 +82,7 @@ public class SiteController {
     /**
      * 新增
      *
-     * @param ProxyAdminDto
+     * @param 
      * @return
      */
     @ApiOperation(value ="新增代理")

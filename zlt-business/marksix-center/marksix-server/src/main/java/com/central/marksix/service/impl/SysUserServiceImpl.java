@@ -77,6 +77,15 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
     }
 
     @Override
+    public void addRewardTestMb(SysUser sysUser, BigDecimal rewardTestMb) {
+        this.lambdaUpdate().eq(SysUser::getId, sysUser.getId())
+                .setSql("`m_test_balance` = `m_test_balance` + " + rewardTestMb)
+                .update();
+        String redisKey = StrUtil.format(RedisConstants.SITE_SYSUSER_KEY, sysUser.getId());
+        RedisRepository.delete(redisKey);
+    }
+
+    @Override
     public Integer getPromotionMemberCount(String promotionCode) {
 
         return this.lambdaQuery().eq(SysUser::getInviteCode, promotionCode).count();
@@ -240,23 +249,37 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
                 return Result.failed("加锁失败");
             }
             BigDecimal amount = transferAccountsDto.getAmount();//转账金额
-            BigDecimal currentBalance = user.getMBalance();//用户当前余额
-            BigDecimal parentCurrentBalance = parentUser.getMBalance();//用户当前余额
-
+            BigDecimal currentBalance = BigDecimal.ZERO;
+            BigDecimal parentCurrentBalance = BigDecimal.ZERO;
+            if(StatusEnum.ZERO_FALSE.getStatus()==user.getIsTestAccount()){//正式账号
+                currentBalance = user.getMBalance();//用户当前余额
+                parentCurrentBalance = parentUser.getMBalance();//上级用户测试余额
+            }else {
+                currentBalance = user.getMTestBalance();//测试余额
+                parentCurrentBalance = parentUser.getMBalance();//上级用户测试余额
+            }
             BigDecimal afterMoney;
             BigDecimal parentAfterMoney;
-            if(transferAccountsDto.getType()==0){
+            if(transferAccountsDto.getType()==0){//0给会员下分
                 if(currentBalance.compareTo(amount)!=1){
                     return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "会员余额不足", null);
                 }
                 afterMoney=currentBalance.subtract(amount);
                 parentAfterMoney=parentCurrentBalance.add(amount);
-            }else {
-                if(parentCurrentBalance.compareTo(amount)!=1){
-                    return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "代理余额不足", null);
+            }else {//1给会员上分
+                if(1==user.getParentId()||2==user.getParentId()){//上级是系统管理员或者超级管理员
+                    if(currentBalance.compareTo(amount)!=1){
+                        return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "会员余额不足", null);
+                    }
+                    afterMoney=currentBalance.subtract(amount);
+                    parentAfterMoney=parentCurrentBalance.add(amount);
+                }else {
+                    if (parentCurrentBalance.compareTo(amount) != 1) {
+                        return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "代理余额不足", null);
+                    }
+                    parentAfterMoney = parentCurrentBalance.subtract(amount);
+                    afterMoney = currentBalance.add(amount);
                 }
-                parentAfterMoney=parentCurrentBalance.subtract(amount);
-                afterMoney=currentBalance.add(amount);
             }
             List<MoneyLog> moneyLogList = new ArrayList<>();
             Date date=new Date();
@@ -306,20 +329,27 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
             moneyLog1.setUpdateBy(user.getUsername());
             moneyLogList.add(moneyLog1);
 
-
-
             if(transferAccountsDto.getType()==0){
-                addRewardMb(user, amount.negate());
-                addRewardMb(parentUser, amount);
+                if(StatusEnum.ZERO_FALSE.getStatus()==user.getIsTestAccount()) {//正式账号
+                    addRewardMb(user, amount.negate());
+                    addRewardMb(parentUser, amount);
+                }else {
+                    addRewardMb(user, amount);
+                    addRewardTestMb(parentUser, amount.negate());
+                }
             }else {
-                addRewardMb(user, amount);
-                addRewardMb(parentUser, amount.negate());
+                if(StatusEnum.ZERO_FALSE.getStatus()==user.getIsTestAccount()){//正式账号
+                    addRewardMb(user, amount);
+                    addRewardMb(parentUser, amount.negate());
+                }else {
+                    addRewardMb(user, amount);
+                    addRewardTestMb(parentUser, amount.negate());
+                }
+
             }
 
             //账变记录
             moneyLogService.saveBatch(moneyLogList);
-
-
             return Result.succeed("转换成功");
         } catch (Exception e) {
             log.error(e.getMessage(), e);

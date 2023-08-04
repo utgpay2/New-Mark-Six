@@ -30,6 +30,7 @@ public interface ISysUserService extends ISuperService<SysUser> {
      * @param rewardMb 奖励M币数
      */
     void addRewardMb(SysUser sysUser, BigDecimal rewardMb);
+    public void addRewardTestMb(SysUser sysUser, BigDecimal rewardTestMb);
 
     /**
      * 获取总推广人数

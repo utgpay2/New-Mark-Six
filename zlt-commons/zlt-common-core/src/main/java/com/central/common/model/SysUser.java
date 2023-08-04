@@ -52,6 +52,8 @@ public class SysUser extends SuperEntity {
     private String type;
     @ApiModelProperty("M币余额")
     private BigDecimal mBalance;
+    @ApiModelProperty("M币测试余额")
+    private BigDecimal mTestBalance;
     @ApiModelProperty(value = "备注")
     private String remark;
     @ApiModelProperty(value = "状态：0/false.禁用，1/true.启用")

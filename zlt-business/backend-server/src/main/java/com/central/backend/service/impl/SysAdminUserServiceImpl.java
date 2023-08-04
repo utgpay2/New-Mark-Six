@@ -71,6 +71,15 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
     }
 
     @Override
+    public void addRewardTestMb(SysUser sysUser, BigDecimal rewardTestMb) {
+        this.lambdaUpdate().eq(SysUser::getId, sysUser.getId())
+                .setSql("`m_test_balance` = `m_test_balance` + " + rewardTestMb)
+                .update();
+        String redisKey = StrUtil.format(RedisConstants.SITE_SYSUSER_KEY, sysUser.getId());
+        RedisRepository.delete(redisKey);
+    }
+
+    @Override
     public PageResult<SysUser> findList(Map<String, Object> params, SysUser user){
         LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<SysUser>();
         if(null!=user && user.getSiteId()!=null && user.getSiteId()!=0){//
