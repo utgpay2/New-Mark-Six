@@ -56,6 +56,17 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
         }
         return PageResult.<QuizOrders>builder().data(list).count(page.getTotal()).build();
     }
+
+    @Override
+    public PageResult<QuizOrders> findPage(Map<String, Object> params) {
+        Page<QuizOrders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
+
+        List<QuizOrders> list =  baseMapper.findPage(page, params);
+
+        return PageResult.<QuizOrders>builder().data(list).count(page.getTotal()).build();
+    }
+
+
     @Override
     public StatiQuizOrdersVo statiOrders(Map<String, Object> params) {
         String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MYSTATI_LIST_KEY,
@@ -70,6 +81,8 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
         }
         return statiQuizOrdersVo;
     }
+
+
 
     /**
      * 投注
@@ -290,4 +303,6 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
         }
 
     }
+
+
 }

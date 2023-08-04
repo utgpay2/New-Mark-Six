@@ -63,4 +63,41 @@
             </if>
         </where>
     </select>
+
+
+    <select id="findPage" resultType="com.central.common.model.QuizOrders">
+        select t.* from sys_user u left join mks_quiz_orders t on  t.member_id=u.id
+        <where>
+            1=1 and t.update_time  between #{p.startTime} and #{p.endTime}
+            <if test="p.userIds != null ">
+                n.number in
+                <foreach item='item' index='index' collection='p.userIds' open='(' separator=',' close=')'>
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test="p.parentName != null and p.parentName != '' and p.parentName != 0">
+                and u.parent_name = #{p.parentName}
+            </if>
+            <if test="p.siteCode != null and p.siteCode != '' ">
+                and t.site_code = #{p.siteCode}
+            </if>
+            <if test="p.status != null and p.status != '' and p.status != 0">
+                and t.status = #{p.status}
+            </if>
+
+            <if test="p.periods != null and p.periods != ''">
+                and t.periods = #{p.periods}
+            </if>
+            <if test="p.siteLotteryId != null and p.siteLotteryId != '' and p.siteLotteryId != 0">
+                and t.site_lottery_id = #{p.siteLotteryId}
+            </if>
+
+            ORDER BY t.update_time
+            <choose>
+                <when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1">ASC </when>
+                <otherwise> DESC </otherwise>
+            </choose>
+        </where>
+    </select>
 </mapper>

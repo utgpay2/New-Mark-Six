@@ -42,4 +42,6 @@ public interface IQuizOrdersService extends ISuperService<QuizOrders> {
      * @return
      */
     public Result cancelBetting(List<Long> ids, SysUser user);
+
+    public PageResult<QuizOrders> findPage(Map<String, Object> params);
 }

@@ -443,7 +443,8 @@ public class ThirdPartyController {
             @ApiImplicitParam(value = "用户名", required = true ,name = "username",dataType = "String"),
             @ApiImplicitParam(value = "会员id集合", required = false ,name = "userIds",dataType = "Integer[]"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序、2倒叙(默认)", required = false, dataType = "Integer"),
-            @ApiImplicitParam(name = "days", value = "1 今天,2 昨天,3 近七天", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "startTime", value = "开始时间", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "endTime", value = "结束时间", required = true, dataType = "String"),
             @ApiImplicitParam(name = "status", value = "1 待开奖,2 已取消,3 中奖,4 未中奖", required = false, dataType = "Integer"),
             @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer"),
@@ -500,7 +501,7 @@ public class ThirdPartyController {
             //当前用户不是商户管理 是代理
             params.put("parentName",params.get("username").toString());
         }
-        return Result.succeed(quizOrdersService.findList(params));
+        return Result.succeed(quizOrdersService.findPage(params));
     }
 
 
