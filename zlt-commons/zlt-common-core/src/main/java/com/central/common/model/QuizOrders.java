@@ -1,6 +1,5 @@
 package com.central.common.model;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 
@@ -63,6 +63,8 @@ public class QuizOrders extends SuperEntity {
     private Integer isSubOrders;
     @ApiModelProperty(value = "订单金额")
     private BigDecimal totalPrice;
+    @ApiModelProperty(value = "是否测试账号 0:正式账号 1:测试账号")
+    private Integer isTestAccount;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     public BigDecimal getTotalPrice() {
         return totalPrice == null ? BigDecimal.ZERO.setScale(2) : totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
@@ -91,4 +93,13 @@ public class QuizOrders extends SuperEntity {
     private Long parentId;
     @ApiModelProperty("上级账号")
     private String parentName;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @ApiModelProperty(value = "投注时间")
+    private Date bettingTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @ApiModelProperty(value = "撤销时间")
+    private Date cancelTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @ApiModelProperty(value = "结算时间")
+    private Date settlementTime;
     }

@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -46,14 +47,21 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 MapUtils.getInteger(params, "siteId"),
                 MapUtils.getInteger(params, "memberId"),
                 MapUtils.getInteger(params, "days"),
-                MapUtils.getInteger(params, "status"),
-                true == ObjectUtil.isEmpty(params.get("sortBy")) ? SortEnum.ASC.getCode() : MapUtils.getInteger(params, "sortBy"),
                 MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
         List<QuizOrders> list = (List<QuizOrders>) RedisRepository.get(redisKey);
         if (ObjectUtil.isEmpty(list)) {
             list = baseMapper.findList(page, params);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
+        Comparator<QuizOrders> comparator;
+        if(ObjectUtil.isEmpty(params.get("sortBy"))||SortEnum.DESC.getCode() != MapUtils.getInteger(params,"sortBy")){
+            comparator = Comparator.comparing(QuizOrders::getUpdateTime);//正序
+        }else {
+            comparator = Comparator.comparing(QuizOrders::getUpdateTime).reversed();//倒序
+        }
+        list = list.stream().filter(quizDetails -> MapUtils.getInteger(params, "status")==quizDetails.getStatus())
+                .sorted(comparator)
+                .collect(Collectors.toList());
         return PageResult.<QuizOrders>builder().data(list).count(page.getTotal()).build();
     }
 
@@ -128,6 +136,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 quizOrders.setParentId(sysUser.getParentId());//上级id
                 quizOrders.setParentName(sysUser.getParentName());//上级账号
                 quizOrders.setCreateTime(new Date());
+                quizOrders.setBettingTime(new Date());
                 quizOrders.setCreateBy(sysUser.getUsername());
                 quizOrders.setUpdateTime(new Date());
                 quizOrders.setUpdateBy(sysUser.getUsername());
@@ -180,7 +189,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             quizSubordersService.saveBatch(subordersList);
             //删除订单缓存
             //删除投注订单缓存
-            String ordersRedisKeys = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MY_LIST_KEY, user.getSiteId(), user.getId(),"*","*","*","*","*");
+            String ordersRedisKeys = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MY_LIST_KEY, user.getSiteId(), user.getId(),"*","*","*");
             Set<String> redisKeys = RedisRepository.keys(ordersRedisKeys);
             for(String redisKey:redisKeys) {
                 RedisRepository.delete(redisKey);
@@ -240,6 +249,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 }
                 totalPrice = totalPrice.add(quizOrders.getTotalPrice());//汇总订单金额
                 quizOrders.setUpdateTime(new Date());
+                quizOrders.setCancelTime(new Date());
                 quizOrders.setUpdateBy(sysUser.getUsername());
                 quizOrders.setStatus(OrderStatusEnum.ORDER_TWO.getStatus());
                 ordersList.add(quizOrders);
@@ -283,7 +293,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             //更新投注
             this.saveOrUpdateBatch(ordersList);
             //删除投注订单缓存
-            String ordersRedisKeys = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MY_LIST_KEY, user.getSiteId(), user.getId(),"*","*","*","*","*");
+            String ordersRedisKeys = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MY_LIST_KEY, user.getSiteId(), user.getId(),"*","*","*");
             Set<String> redisKeys = RedisRepository.keys(ordersRedisKeys);
             for(String redisKey:redisKeys) {
                 RedisRepository.delete(redisKey);

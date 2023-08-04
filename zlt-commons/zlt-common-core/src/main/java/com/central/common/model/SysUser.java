@@ -72,6 +72,8 @@ public class SysUser extends SuperEntity {
     private Integer verify;
     @ApiModelProperty(value = "创建方式 0:注册, 1:后台创建")
     private Integer isReg;
+    @ApiModelProperty(value = "是否测试账号 0:正式账号 1:测试账号")
+    private Integer isTestAccount;
 
     @TableField(exist = false)
     private List<SysRole> roles;

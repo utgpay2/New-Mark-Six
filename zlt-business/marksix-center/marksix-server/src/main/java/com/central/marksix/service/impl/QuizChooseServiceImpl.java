@@ -146,7 +146,7 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
         }else {
             comparator = Comparator.comparing(QuizChooseVo::getSort).reversed();//倒序
         }
-        return chooseVoList.stream().filter(quizChooseVo -> StatusEnum.ONE_TRUE.getStatus().equals(quizChooseVo.getStatus()))
+        return chooseVoList.stream().filter(quizChooseVo -> StatusEnum.ONE_TRUE.getStatus()==quizChooseVo.getStatus())
                 .sorted(comparator)
                 .collect(Collectors.toList());
     }

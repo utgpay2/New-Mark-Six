@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -37,5 +38,17 @@ public class QuizSubordersServiceImpl extends SuperServiceImpl<QuizSubordersMapp
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
         return list;
+    }
+    @Override
+    public void saveOrUpdateQuizSubordersBatch(List<QuizSuborders> quizSubordersList){
+        this.saveBatch(quizSubordersList);
+        for(QuizSuborders quizSuborders:quizSubordersList) {
+            //删除子订单缓存
+            String ordersRedisKeys = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_SUB_LIST_KEY, quizSuborders.getOrderNo());
+            Set<String> redisKeys = RedisRepository.keys(ordersRedisKeys);
+            for(String redisKey:redisKeys) {
+                RedisRepository.delete(redisKey);
+            }
+        }
     }
 }
