@@ -36,5 +36,6 @@ public class SysAdminUserDto {
     private String remark;
     @ApiModelProperty(value = "角色ID")
     private Set<Long> roleIds;
-
+    @ApiModelProperty(value = "昵称")
+    private String nickname;
 }

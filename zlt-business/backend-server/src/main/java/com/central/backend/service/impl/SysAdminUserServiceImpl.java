@@ -344,7 +344,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
             }
             if(b){
                 if(adminUserVo.getSiteId()!=0){
-                    return Result.failed("设置超级管理员或者系统管理员时，商户ID必须为0");
+                    return Result.failed("商户管理员不能授予系统管理员或者超级系统管理员权限");
                 }
                 //商户id
                 user.setSiteId(0L);
@@ -352,6 +352,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 user.setSiteCode("0");
                 //商户名称
                 user.setSiteName("0");
+                user.setUsername(adminUserVo.getUsername());
             }else {
                 Site site = iSiteService.getById(adminUserVo.getSiteId());
                 if(null == site){
@@ -363,6 +364,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                     user.setSiteCode(site.getCode());
                     //商户名称
                     user.setSiteName(site.getName());
+                    user.setUsername(site.getCode()+"_"+adminUserVo.getUsername());
                 }
             }
 //            else {//商户管理员
@@ -375,7 +377,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 user.setParentName(sysUser.getUsername());
 
             }
-            user.setUsername(adminUserVo.getSiteCode()+"_"+adminUserVo.getUsername());
+
             user.setNickname(adminUserVo.getUsername());
             user.setType(UserTypeEnum.BACKEND.name());
             user.setIsReg(UserRegTypeEnum.ADMIN_CREATE.getType());
@@ -406,7 +408,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
             }
             if(b){
                 if(adminUserVo.getSiteId()!=0){
-                    return Result.failed("设置超级管理员或者系统管理员时，商户ID必须为0");
+                    return Result.failed("商户管理员不能授予系统管理员或者超级系统管理员权限");
                 }
                 //商户id
                 userInfo.setSiteId(0L);
@@ -414,6 +416,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 userInfo.setSiteCode("0");
                 //商户名称
                 userInfo.setSiteName("0");
+                user.setUsername(adminUserVo.getUsername());
             }else {
                 Site site = iSiteService.getById(adminUserVo.getSiteId());
                 if(null == site){
@@ -425,6 +428,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                     userInfo.setSiteCode(site.getCode());
                     //商户名称
                     userInfo.setSiteName(site.getName());
+                    user.setUsername(site.getCode()+"_"+adminUserVo.getUsername());
                 }
             }
             if(null!=sysUser){
@@ -434,7 +438,6 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 userInfo.setParentName(sysUser.getUsername());
 
             }
-            userInfo.setUsername(adminUserVo.getSiteCode()+"_"+adminUserVo.getUsername());
             userInfo.setNickname(adminUserVo.getUsername());
             userInfo.setType(UserTypeEnum.BACKEND.name());
             userInfo.setIsReg(UserRegTypeEnum.ADMIN_CREATE.getType());
