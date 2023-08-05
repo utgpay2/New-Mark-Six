@@ -174,7 +174,7 @@ public class SysAdminUserController {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(adminUserVo.getSiteId())) {
-            return Result.failed("商户ID不能为空");
+            adminUserVo.setSiteId(0L);
         }
         if (ObjectUtil.isEmpty(adminUserVo.getUsername())) {
             return Result.failed("用户名不能为空");
