@@ -343,12 +343,27 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 }
             }
             if(b){
+                if(adminUserVo.getSiteId()!=0){
+                    return Result.failed("设置超级管理员或者系统管理员时，商户ID必须为0");
+                }
                 //站点id
                 user.setSiteId(0L);
                 //站点编码
                 user.setSiteCode("0");
                 //站点名称
                 user.setSiteName("0");
+            }else {
+                Site site = iSiteService.getById(adminUserVo.getSiteId());
+                if(null == site){
+                    return Result.failed("请先添加商户");
+                }else {
+                    //站点id
+                    user.setSiteId(site.getId());
+                    //站点编码
+                    user.setSiteCode(site.getCode());
+                    //站点名称
+                    user.setSiteName(site.getName());
+                }
             }
 //            else {//商户管理员
 //                user.setUsername(user.getSiteCode() + "_" +adminUserVo.getUsername());
@@ -390,18 +405,41 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 }
             }
             if(b){
+                if(adminUserVo.getSiteId()!=0){
+                    return Result.failed("设置超级管理员或者系统管理员时，商户ID必须为0");
+                }
                 //站点id
-                user.setSiteId(0L);
+                userInfo.setSiteId(0L);
                 //站点编码
-                user.setSiteCode("0");
+                userInfo.setSiteCode("0");
                 //站点名称
-                user.setSiteName("0");
+                userInfo.setSiteName("0");
+            }else {
+                Site site = iSiteService.getById(adminUserVo.getSiteId());
+                if(null == site){
+                    return Result.failed("请先添加商户");
+                }else {
+                    //站点id
+                    userInfo.setSiteId(site.getId());
+                    //站点编码
+                    userInfo.setSiteCode(site.getCode());
+                    //站点名称
+                    userInfo.setSiteName(site.getName());
+                }
             }
-//            else {//商户管理员
-//                user.setUsername(user.getSiteCode() + "_" +adminUserVo.getUsername());
-//            }
+            if(null!=sysUser){
+                //上级id
+                userInfo.setParentId(sysUser.getId());
+                //上级账号
+                userInfo.setParentName(sysUser.getUsername());
 
-            //userInfo.setMobile(user.getMobile());
+            }
+            userInfo.setUsername(adminUserVo.getSiteCode()+"_"+adminUserVo.getUsername());
+            userInfo.setNickname(adminUserVo.getUsername());
+            userInfo.setType(UserTypeEnum.BACKEND.name());
+            userInfo.setIsReg(UserRegTypeEnum.ADMIN_CREATE.getType());
+            userInfo.setEnabled(Boolean.TRUE);
+            userInfo.setUpdateTime(new Date());
             userInfo.setUpdateBy(null!=sysUser?sysUser.getUpdateBy():"");
             //用户名
             userInfo.setUsername(adminUserVo.getUsername());

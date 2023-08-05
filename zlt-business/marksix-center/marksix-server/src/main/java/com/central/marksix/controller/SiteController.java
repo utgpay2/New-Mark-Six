@@ -228,6 +228,9 @@ public class SiteController {
                                 @ApiParam(value = "登录账号", required = true) String username,
                                 @ApiParam(value = "密码", required = true) String password) {
         //校验账号
+        if (ObjectUtil.isEmpty(sid)) {
+            return Result.failed("站点id不能为空");
+        }
         if (StrUtil.isBlank(username)) {
             return Result.failed("账号不能为空");
         }
