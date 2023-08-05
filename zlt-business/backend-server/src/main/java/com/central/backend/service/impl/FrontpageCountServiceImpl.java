@@ -61,7 +61,7 @@ public class FrontpageCountServiceImpl extends SuperServiceImpl<FrontpageCountMa
         if(null!=user&&null!=user.getSiteId()&&0!=user.getSiteId()) {
             Object obj = RedisRepository.get(StrUtil.format(onlineUsersKey , user.getSiteId()));//实时在线人数
             onlineUsers = null!=obj?(Long) obj:0L;
-        }else {//所有站点在线人数
+        }else {//所有商户在线人数
             Map<String, Object> siteparams = new HashMap<>();
             List<Site> siteList = iSiteService.findKpnSiteList(siteparams);
             for (Site site : siteList){

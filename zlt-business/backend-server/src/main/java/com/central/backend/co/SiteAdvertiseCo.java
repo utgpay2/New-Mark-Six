@@ -13,7 +13,7 @@ public class SiteAdvertiseCo extends PageCo {
     @ApiModelProperty(value = "广告名称")
     private String name;
 
-    @ApiModelProperty(value = "站点id",required = true)
+    @ApiModelProperty(value = "商户id",required = true)
     private Long siteId;
 
 

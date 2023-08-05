@@ -11,15 +11,15 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @TableName("mks_third_party")
-@ApiModel("站点三方密钥")
+@ApiModel("商户三方密钥")
 public class ThirdParty extends SuperEntity{
 
-    @ApiModelProperty(value = "站点编码")
+    @ApiModelProperty(value = "商户编码")
     private String siteCode;
 
     @ApiModelProperty(value = "三方密钥")
     private String secretKey;
 
-    @ApiModelProperty(value = "站点id")
+    @ApiModelProperty(value = "商户id")
     private Long siteId;
 }

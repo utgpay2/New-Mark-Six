@@ -10,7 +10,7 @@ import lombok.Data;
 public class MoneyLogCo extends PageCo {
 
 
-    @ApiModelProperty(value = "站点Id",required = true)
+    @ApiModelProperty(value = "商户Id",required = true)
     private Long siteId;
 
     @ApiModelProperty(value = "会员账号")

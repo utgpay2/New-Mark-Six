@@ -28,13 +28,13 @@ public class QuizOrdersDto{
     private Integer year;
     @ApiModelProperty(value = "彩种ID")
     private Long lotteryId;
-    @ApiModelProperty(value = "站点彩种ID")
+    @ApiModelProperty(value = "商户彩种ID")
     private Long siteLotteryId;
-    @ApiModelProperty(value = "站点彩种名称")
+    @ApiModelProperty(value = "商户彩种名称")
     private String lotteryName;
-    @ApiModelProperty(value = "站点下注分类一类ID")
+    @ApiModelProperty(value = "商户下注分类一类ID")
     private Long siteCategoryId;
-    @ApiModelProperty(value = "站点下注分类一类名称")
+    @ApiModelProperty(value = "商户下注分类一类名称")
     private String siteCategoryName;
     @ApiModelProperty(value = "开奖分类二类ID")
     private Long quizId;

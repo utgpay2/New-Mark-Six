@@ -8,7 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@ApiModel("站点频道")
+@ApiModel("商户频道")
 public class SiteChannelVo extends LanguageNameMulti implements Serializable {
     @ApiModelProperty(value = "主键")
     private Long id;

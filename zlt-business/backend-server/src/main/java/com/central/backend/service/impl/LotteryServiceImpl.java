@@ -57,7 +57,7 @@ public class LotteryServiceImpl extends SuperServiceImpl<LotteryMapper, Lottery>
         wrapper.eq(SiteLottery::getLotteryId,id);
         List<SiteLottery> list = siteLotteryService.getBaseMapper().selectList(wrapper);
         if(null!=list && list.size()>0){
-            return Result.failed("请删除站点下彩种，再删除彩种");
+            return Result.failed("请删除商户下彩种，再删除彩种");
         }else {
             this.removeById(id);
             String redisKeyStr = StrUtil.format(RedisConstants.SITE_LIST_KEY);

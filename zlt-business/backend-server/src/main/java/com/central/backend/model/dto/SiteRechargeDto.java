@@ -12,8 +12,8 @@ import java.math.BigDecimal;
 @ApiModel
 public class SiteRechargeDto {
 
-    @ApiModelProperty(value = "站点id" , required = true)
-    @NotNull(message = "站点id不能为空")
+    @ApiModelProperty(value = "商户id" , required = true)
+    @NotNull(message = "商户id不能为空")
     private Integer siteId;
 
     @ApiModelProperty(value = "正式授信金额" , required = true)

@@ -346,22 +346,22 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 if(adminUserVo.getSiteId()!=0){
                     return Result.failed("设置超级管理员或者系统管理员时，商户ID必须为0");
                 }
-                //站点id
+                //商户id
                 user.setSiteId(0L);
-                //站点编码
+                //商户编码
                 user.setSiteCode("0");
-                //站点名称
+                //商户名称
                 user.setSiteName("0");
             }else {
                 Site site = iSiteService.getById(adminUserVo.getSiteId());
                 if(null == site){
                     return Result.failed("请先添加商户");
                 }else {
-                    //站点id
+                    //商户id
                     user.setSiteId(site.getId());
-                    //站点编码
+                    //商户编码
                     user.setSiteCode(site.getCode());
-                    //站点名称
+                    //商户名称
                     user.setSiteName(site.getName());
                 }
             }
@@ -408,22 +408,22 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 if(adminUserVo.getSiteId()!=0){
                     return Result.failed("设置超级管理员或者系统管理员时，商户ID必须为0");
                 }
-                //站点id
+                //商户id
                 userInfo.setSiteId(0L);
-                //站点编码
+                //商户编码
                 userInfo.setSiteCode("0");
-                //站点名称
+                //商户名称
                 userInfo.setSiteName("0");
             }else {
                 Site site = iSiteService.getById(adminUserVo.getSiteId());
                 if(null == site){
                     return Result.failed("请先添加商户");
                 }else {
-                    //站点id
+                    //商户id
                     userInfo.setSiteId(site.getId());
-                    //站点编码
+                    //商户编码
                     userInfo.setSiteCode(site.getCode());
-                    //站点名称
+                    //商户名称
                     userInfo.setSiteName(site.getName());
                 }
             }

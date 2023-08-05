@@ -175,7 +175,7 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
         SysUser user = adminUserService.getById(proxyRechargeDto.getUserId());
          sysUser = adminUserService.getById(sysUser.getId());
         if(!user.getParentId().equals(sysUser.getId())){
-            return Result.failed("请指定站点内代理！");
+            return Result.failed("请指定商户内代理！");
         }
 
         String lockKey = StrUtil.format(MarksixConstants.Lock.USER_TRANSFER_LOCK, user.getId());
@@ -396,7 +396,7 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
             insert = super.updateById(site);
         }
         if (insert) {
-            // add by year 删除站点信息缓存
+            // add by year 删除商户信息缓存
             asyncService.deleteSiteInfoCache(site.getId());
             return Result.succeed(site, "操作成功");
         }
@@ -408,7 +408,7 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
         Long id = params.getId();
         Site siteInfo = baseMapper.selectById(id);
         if (siteInfo == null) {
-            return Result.failed("此站点不存在");
+            return Result.failed("此商户不存在");
         }
         if (params.getStatus() != null) {
             siteInfo.setStatus(params.getStatus());
@@ -419,7 +419,7 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
         siteInfo.setUpdateBy(params.getUpdateBy());
         int i = baseMapper.updateById(siteInfo);
 
-        // add by year 删除站点信息缓存
+        // add by year 删除商户信息缓存
         if (i > 0) {
             asyncService.deleteSiteInfoCache(siteInfo.getId());
         }

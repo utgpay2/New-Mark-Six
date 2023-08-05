@@ -7,9 +7,9 @@ import com.central.common.service.ISuperService;
 public interface ISitePlatformService extends ISuperService<SitePlatform> {
 
     /**
-     * 获取站点平台配置
+     * 获取商户平台配置
      *
-     * @param sid 站点id
+     * @param sid 商户id
      * @return
      */
     SitePlatform getBySiteId(Long sid);

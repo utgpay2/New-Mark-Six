@@ -16,10 +16,10 @@ public class UserListInfoVo {
     @ApiModelProperty(value = "序号")
     private String id;
 
-    @ApiModelProperty(value = "站点平台")
+    @ApiModelProperty(value = "商户平台")
     private String siteName;
 
-    @ApiModelProperty(value = "站点code")
+    @ApiModelProperty(value = "商户code")
     private String siteCode;
 
     @ApiModelProperty(value = "会员账号")

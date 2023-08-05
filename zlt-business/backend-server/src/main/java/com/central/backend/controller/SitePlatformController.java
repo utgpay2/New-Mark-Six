@@ -38,7 +38,7 @@
 //    @ResponseBody
 //    @GetMapping("/findPlatformInfo")
 //    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Long"),
+//            @ApiImplicitParam(name = "siteId", value = "商户id", required = true, dataType = "Long"),
 //    })
 //    public Result<SitePlatform> findPlatformInfo(@RequestParam("siteId") Long siteId) {
 //        SitePlatform promotion = sitePlatformService.findPromotionInfo(siteId);
@@ -60,11 +60,11 @@
 //            }
 //        }
 //        if (ObjectUtil.isEmpty(info.getSiteId())) {
-//            return Result.failed("站点id不能为空");
+//            return Result.failed("商户id不能为空");
 //        }
 //        Boolean aBoolean = sitePlatformService.saveOrUpdatePlatform(info);
 //
-//        //add by year 删除站点平台配置缓存
+//        //add by year 删除商户平台配置缓存
 //        if(aBoolean){
 //            asyncService.deleteSitePlatformCache(info.getSiteId());
 //        }

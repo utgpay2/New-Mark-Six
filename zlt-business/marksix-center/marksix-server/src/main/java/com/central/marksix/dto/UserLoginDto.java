@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class UserLoginDto {
 
-    @ApiModelProperty(value = "站点编码")
+    @ApiModelProperty(value = "商户编码")
     String siteCode;
 
     @ApiModelProperty(value = "随机字符串")

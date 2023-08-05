@@ -11,25 +11,25 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @TableName("mks_site")
-@ApiModel("站点信息")
+@ApiModel("商户信息")
 public class Site extends SuperEntity{
 
-    @ApiModelProperty(value = "站点编码")
+    @ApiModelProperty(value = "商户编码")
     private String code;
 
-    @ApiModelProperty(value = "站点名称")
+    @ApiModelProperty(value = "商户名称")
     private String name;
 
-    @ApiModelProperty(value = "站点logo地址")
+    @ApiModelProperty(value = "商户logo地址")
     private String logoUrl;
 
     @ApiModelProperty(value = "域名")
     private String domains;
 
-    @ApiModelProperty(value = "站点状态 0关闭,1开启")
+    @ApiModelProperty(value = "商户状态 0关闭,1开启")
     private Boolean status;
 
-    @ApiModelProperty(value = "站点维护状态 0未维护,1维护中")
+    @ApiModelProperty(value = "商户维护状态 0未维护,1维护中")
     private Boolean repairStatus;
 
     @ApiModelProperty(value = "币种编码")

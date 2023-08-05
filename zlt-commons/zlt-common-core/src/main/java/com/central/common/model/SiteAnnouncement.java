@@ -16,13 +16,13 @@ import lombok.EqualsAndHashCode;
 @ApiModel("公告实体")
 public class SiteAnnouncement extends SuperEntity {
 
-	@ApiModelProperty(value = "站点id")
+	@ApiModelProperty(value = "商户id")
 	private Long siteId;
 
-	@ApiModelProperty(value = "站点编码")
+	@ApiModelProperty(value = "商户编码")
 	private String siteCode;
 
-	@ApiModelProperty(value = "站点名称")
+	@ApiModelProperty(value = "商户名称")
 	private String siteName;
 
 	@ApiModelProperty(value = "公告标题(中文)")

@@ -11,7 +11,7 @@ import java.util.List;
 
 
 /**
- * 站点客服配置
+ * 商户客服配置
  */
 @Slf4j
 @Service

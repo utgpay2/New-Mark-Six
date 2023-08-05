@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 /**
- * 站点app更新配置
+ * 商户app更新配置
  *
  * @author yixiu
  * @date 2023-02-21 19:46:07

@@ -422,7 +422,7 @@
 //            @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
 //            @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer"),
 //            @ApiImplicitParam(name = "periods", value = "期数", required = false, dataType = "String"),
-//            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = false, dataType = "Integer")
+//            @ApiImplicitParam(name = "siteLotteryId", value = "商户彩种ID", required = false, dataType = "Integer")
 //    })
 //    @GetMapping("/queryorders")
 //    public Result<PageResult<QuizOrders>> queryBettingOrders(@ApiIgnore @RequestParam Map<String, Object> params) {

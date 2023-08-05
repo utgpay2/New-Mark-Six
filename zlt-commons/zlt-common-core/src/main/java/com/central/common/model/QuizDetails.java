@@ -26,13 +26,13 @@ public class QuizDetails extends SuperEntity {
     private String picture;
     @ApiModelProperty(value = "状态 1：启用 0：禁用")
     private Integer status;
-    @ApiModelProperty(value = "站点id")
+    @ApiModelProperty(value = "商户id")
     private Long siteId;
-    @ApiModelProperty(value = "站点彩种ID")
+    @ApiModelProperty(value = "商户彩种ID")
     private Long siteLotteryId;
-    @ApiModelProperty(value = "站点彩种分类(一类)ID")
+    @ApiModelProperty(value = "商户彩种分类(一类)ID")
     private Long siteCategoryId;
-    @ApiModelProperty(value = "站点彩种分类(二类)ID")
+    @ApiModelProperty(value = "商户彩种分类(二类)ID")
     private Long quizId;
     @ApiModelProperty(value = "顺序")
     private Integer sort;

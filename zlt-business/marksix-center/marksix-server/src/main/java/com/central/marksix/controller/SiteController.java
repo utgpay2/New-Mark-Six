@@ -31,13 +31,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 站点相关
+ * 商户相关
  */
 @Slf4j
 @RefreshScope
 @RestController
 @RequestMapping("/v1/site")
-@Api(tags = "站点相关api接口")
+@Api(tags = "商户相关api接口")
 public class SiteController {
 
     @Autowired
@@ -79,19 +79,19 @@ public class SiteController {
     public static final String AUTHENTICATION_MODE = "password_code";
 
     /**
-     * 获取站点信息
+     * 获取商户信息
      *
      * @param request
      * @return
      */
     @GetMapping("/info")
-    @ApiOperation(value = "获取站点信息")
+    @ApiOperation(value = "获取商户信息")
     public Result<SiteVo> getSiteInfo(HttpServletRequest request) {
         try {
             String referer = request.getHeader(MarksixConstants.Str.REFERER);
             String host = request.getHeader(MarksixConstants.Str.REHOST);
             String sid = request.getHeader(MarksixConstants.Str.SID);
-            log.info("获取站点信息 -> sid: {},referer: {},host: {}", sid, referer, host);
+            log.info("获取商户信息 -> sid: {},referer: {},host: {}", sid, referer, host);
 
             Site site = null;
             if (StrUtil.isBlank(sid)) {
@@ -104,9 +104,9 @@ public class SiteController {
             }
 
             if (ObjectUtil.isEmpty(site)) {
-                return Result.failed("站点不存在");
+                return Result.failed("商户不存在");
             }
-            //站点信息
+            //商户信息
             SiteVo siteVo = new SiteVo();
             siteVo.setSid(site.getId());
             siteVo.setCurrencyCode(site.getCurrencyCode());
@@ -123,7 +123,7 @@ public class SiteController {
 
     @GetMapping("/heartbeat")
     @ApiOperation(value = "心跳,1分钟一次")
-    public Result<SiteConfigInfoVo> heartbeat(@ApiParam(value = "站点id", required = true)
+    public Result<SiteConfigInfoVo> heartbeat(@ApiParam(value = "商户id", required = true)
                                               @RequestHeader(value = "sid") Long sid,
                                               @ApiParam("在线唯一标识 已登录的使用username,未登录的用uuid")
                                               @RequestParam String uniqueOnlineId) {
@@ -140,7 +140,7 @@ public class SiteController {
 
             //线路
             Map<String, List<String>> kpnLineVos = kpnLineService.getLines();
-            //站点平台配置
+            //商户平台配置
             SitePlatform sitePlatform = sitePlatformService.getBySiteId(sid);
             //防走失
             SiteConfigInfoVo siteConfigInfoVo = SiteConfigInfoVo.builder().kpnLineVos(kpnLineVos).tryTime(sitePlatform.getTryTime()).lostDomain(sitePlatform.getLostDomain()).build();
@@ -152,13 +152,13 @@ public class SiteController {
         }
     }
 //    /**
-//     * 获取站点线路
+//     * 获取商户线路
 //     *
-//     * @param sid 站点id
+//     * @param sid 商户id
 //     * @return
 //     */
 //    @GetMapping("/lines")
-//    @ApiOperation(value = "获取站点线路")
+//    @ApiOperation(value = "获取商户线路")
 //    public Result<Map<String, List<String>>> getLines(@RequestHeader(value = "sid", required = false) Long sid) {
 //        try {
 //            Map<String, List<String>> kpnLineVos = kpnLineService.getLines();
@@ -171,12 +171,12 @@ public class SiteController {
 
 
     /**
-     * 获取站点广告
+     * 获取商户广告
      *
      * @return
      */
     @GetMapping("/pictures")
-    @ApiOperation(value = "获取站点广告")
+    @ApiOperation(value = "获取商户广告")
     public Result<List<SiteAdvertiseVo>> getSiteAdvertise(@RequestHeader(value = "sid") Long sid,
                                                           @ApiParam(value = "设备类型 H5/PC", required = true) String deviceType,
                                                           @ApiParam(value = "投放位置 1首页轮播图,2首页平台展示,3首页专题广告,4福利,5游戏轮播图,6游戏广告", required = true) Integer position) {
@@ -201,7 +201,7 @@ public class SiteController {
     }
 
     /**
-     * 获取站点广告
+     * 获取商户广告
      *
      * @return
      */
@@ -222,14 +222,14 @@ public class SiteController {
     //todo lk
     @ApiOperation("登录")
     @PostMapping("/login")
-    public Result<String> login(@ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid,
+    public Result<String> login(@ApiParam(value = "商户id", required = true) @RequestHeader("sid") Long sid,
 //                                @ApiParam(value = "图形验证码id", required = true) String verifyCodeId,
 //                                @ApiParam(value = "验证码", required = true) String verifyCode,
                                 @ApiParam(value = "登录账号", required = true) String username,
                                 @ApiParam(value = "密码", required = true) String password) {
         //校验账号
         if (ObjectUtil.isEmpty(sid)) {
-            return Result.failed("站点id不能为空");
+            return Result.failed("商户id不能为空");
         }
         if (StrUtil.isBlank(username)) {
             return Result.failed("账号不能为空");
@@ -274,7 +274,7 @@ public class SiteController {
 
     @ApiOperation("注册")
     @PostMapping("/register")
-    public Result<String> register(@ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid,
+    public Result<String> register(@ApiParam(value = "商户id", required = true) @RequestHeader("sid") Long sid,
                                    @ApiParam(value = "邀请码") String inviteCode,
                                    @ApiParam(value = "登录账号", required = true) String username,
                                    @ApiParam(value = "密码", required = true) String password) {
@@ -375,9 +375,9 @@ public class SiteController {
     }
 
     /**
-     * 获取站点客服信息
+     * 获取商户客服信息
      */
-    @ApiOperation(value = "站点客服信息")
+    @ApiOperation(value = "商户客服信息")
     @GetMapping("/getSiteServes")
     public Result<List<SiteServeVo>> getSiteServes(@RequestHeader(value = "sid") Long sid) {
         try {

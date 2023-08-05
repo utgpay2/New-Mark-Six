@@ -7,7 +7,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@ApiModel("站点客服")
+@ApiModel("商户客服")
 public class SiteServeVo implements Serializable {
 
     @ApiModelProperty("客服平台")

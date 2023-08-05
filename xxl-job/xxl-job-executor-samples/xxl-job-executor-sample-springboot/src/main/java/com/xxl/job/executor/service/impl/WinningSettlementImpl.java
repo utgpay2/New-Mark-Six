@@ -51,9 +51,9 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                 QuizOrders quizOrders = new QuizOrders();
                 quizOrders.setPeriods("2023008");//期数
                 quizOrders.setYear(2023);//年份
-                quizOrders.setSiteLotteryId(1L);//站点彩种ID
-                quizOrders.setLotteryName("香港六合彩");//站点彩种名称
-                quizOrders.setSiteCategoryId(374L);//站点下注分类ID
+                quizOrders.setSiteLotteryId(1L);//商户彩种ID
+                quizOrders.setLotteryName("香港六合彩");//商户彩种名称
+                quizOrders.setSiteCategoryId(374L);//商户下注分类ID
                 quizOrders.setQuizId(1L);//开奖规则主表ID
                 quizOrders.setQuizTitle("号码");//开奖规则主表标题
                 quizOrders.setQuizChooseIds("1L");//开奖规则明细ID
@@ -64,9 +64,9 @@ public class WinningSettlementImpl implements IWinningSettlementService{
 
                 String orderSn = SnowflakeIdWorker.createOrderSn();//订单号
                 quizOrders.setOrderNo(orderSn);
-                quizOrders.setSiteId(1L);//站点id
-                quizOrders.setSiteCode("mks_site01");//站点编码
-                quizOrders.setSiteName("总站");//站点名称
+                quizOrders.setSiteId(1L);//商户id
+                quizOrders.setSiteCode("mks_site01");//商户编码
+                quizOrders.setSiteName("总站");//商户名称
                 quizOrders.setMemberId(143L);//会员ID
                 quizOrders.setUserName("mks_site02_admin");//用户名
                 quizOrders.setParentId(2L);//上级id
@@ -2134,14 +2134,14 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                 this.winZodiac(five,shuList,niuList,huList,tuzList,longList,sheList,maList,yanList,houList,jiList,gouList,zhuList)+","+
                 this.winZodiac(six,shuList,niuList,huList,tuzList,longList,sheList,maList,yanList,houList,jiList,gouList,zhuList)+","+
                 this.winZodiac(seven,shuList,niuList,huList,tuzList,longList,sheList,maList,yanList,houList,jiList,gouList,zhuList);
-        //按站点结算
+        //按商户结算
         for (SiteLotteryVo siteLotteryVO:siteLotteryVOList) {
             for (int i = 1; i <= 9000; i++) {//最大数据
                 //分页查询
                 Map<String, Object> paramspage = new HashMap<>();
                 paramspage.put("page", i);//分页起始位置
                 paramspage.put("limit", 10000);//分页结束位置
-                paramspage.put("siteLotteryId", siteLotteryVO.getId());//站点彩种ID
+                paramspage.put("siteLotteryId", siteLotteryVO.getId());//商户彩种ID
                 paramspage.put("status", OrderStatusEnum.ORDER_ONE.getStatus());//1 待开奖,2 已取消,3 中奖,4 未中奖
                 paramspage.put("periods", wnData.getQihao());//期数
                 PageResult<QuizOrders> pageResult = siteOrderService.findListByPage(paramspage);

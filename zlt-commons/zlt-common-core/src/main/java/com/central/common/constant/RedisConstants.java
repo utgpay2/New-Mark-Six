@@ -14,16 +14,16 @@ public interface RedisConstants {
     public static final Long EXPIRE_TIME_7_DAYS = 7 * 24 * 60 * 60L;
     //缓存时间 1天
     public static final Long EXPIRE_TIME_1_DAYS = 1 * 24 * 60 * 60L;
-    //- 缓存站点
+    //- 缓存商户
     public static final String SITE_LIST_KEY = "SITE";
     //- 缓存彩种
     public static final String SITE_LOTTERY_KEY = "SITE:LOTTERY";
     //- 缓存杀率
     public static final String SITE_KILLODDS_KEY = "SITE:KILLODDS";
-    //-彩种ID查询所有站点彩种
+    //-彩种ID查询所有商户彩种
     public static final String SITE_LOTTERYID_LIST_KEY = "SITE:LOTTERY:ID:LIST:{}";
     public static final String SITE_LOTTERYID_OBJECT_KEY = "SITE:LOTTERY:ID:OBJECT:{}";
-    //- 缓存站点下彩种
+    //- 缓存商户下彩种
     public static final String SITE_LOTTERY_LIST_KEY = "SITE:LOTTERY:{}";
     //- 缓存--分页开查询奖号码列表
     public static final String WNDATA_LIST_PAGE_KEY = "WNDATA:{}:{}:{}";
@@ -31,11 +31,11 @@ public interface RedisConstants {
     public static final String LASTONE_WNDATA_KEY = "WNDATA:{}";
     //- 缓存分类
     public static final String SITE_LOTTERY_CATEGORY_KEY = "SITE:LOTTERY:CATEGORY";
-    //- 缓存站点下彩种下分类（一类）
+    //- 缓存商户下彩种下分类（一类）
     public static final String SITE_LOTTERY_CATEGORY_LIST_KEY = "SITE:LOTTERY:CATEGORY:{}:{}";
-    //- 缓存站点下彩种下分类下分类（二类）
+    //- 缓存商户下彩种下分类下分类（二类）
     public static final String SITE_LOTTERY_CATEGORY_QUIZ_LIST_KEY = "SITE:LOTTERY:CATEGORY:QUIZ:{}:{}:{}";
-    //- 缓存站点下彩种下分类下分类下分类（三类）
+    //- 缓存商户下彩种下分类下分类下分类（三类）
     public static final String SITE_LOTTERY_CATEGORY_QUIZ_QUIZDETAILS_LIST_KEY = "SITE:LOTTERY:CATEGORY:QUIZ:QUIZDETAILS:{}:{}:{}:{}";
     //- 缓存竞猜奖项详情
     public static final String SITE_LOTTERY_CATEGORY_QUIZ_QUIZDETAILS_QUIZCHOOSE_LIST_KEY = "SITE:LOTTERY:CATEGORY:QUIZ:QUIZDETAILS:QUIZCHOOSE:{}:{}:{}:{}:{}";
@@ -47,8 +47,8 @@ public interface RedisConstants {
     public static final String SITE_LOTTERY_ORDERS_MYSTATI_LIST_KEY = "SITE:LOTTERY:ORDERS:MYSTATI:{}:{}:{}:{}";
     //- 缓存子投注记录
     public static final String SITE_LOTTERY_ORDERS_SUB_LIST_KEY = "SITE:LOTTERY:ORDERS:SUB:{}";
-    //- 缓存站点用户
+    //- 缓存商户用户
     public static final String SITE_SYSUSER_KEY = "SITE:SYSUSER:OBJECT:{}";
-    //- 缓存站点用户账变记录
+    //- 缓存商户用户账变记录
     public static final String SITE_MONEYLOG_KEY = "SITE:MONEYLOG:OBJECT:{}";
 }

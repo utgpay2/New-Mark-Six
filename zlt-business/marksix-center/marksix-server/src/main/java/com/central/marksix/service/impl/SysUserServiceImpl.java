@@ -128,7 +128,7 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
         } while (!succeed);
 
 
-        //增加站点统计-新增会员数
+        //增加商户统计-新增会员数
         siteSummaryService.addNewUserNum(sid, siteInfo.getCode(), siteInfo.getName());
 
 

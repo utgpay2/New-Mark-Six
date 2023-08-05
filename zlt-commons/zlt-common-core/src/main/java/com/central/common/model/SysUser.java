@@ -22,11 +22,11 @@ import java.util.List;
 @ApiModel("用户实体")
 public class SysUser extends SuperEntity {
 
-    @ApiModelProperty("站点id")
+    @ApiModelProperty("商户id")
     private Long siteId;
-    @ApiModelProperty("站点编码")
+    @ApiModelProperty("商户编码")
     private String siteCode;
-    @ApiModelProperty("站点名称")
+    @ApiModelProperty("商户名称")
     private String siteName;
     @ApiModelProperty("上级id")
     private Long parentId;

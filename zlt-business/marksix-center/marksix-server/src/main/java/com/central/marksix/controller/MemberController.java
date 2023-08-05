@@ -148,7 +148,7 @@ public class MemberController {
         }
     }
 
-//    @ApiOperation("获取站点支付银行卡")
+//    @ApiOperation("获取商户支付银行卡")
 //    @GetMapping("/bank/cards")
 //    public Result<SitePayResultVo> getSiteBankCards(@ApiIgnore @LoginUser SysUser user,
 //                                                    @ApiParam("产品id") Long productId) {

@@ -59,7 +59,7 @@
 //                    RedisRepository.setExpire(redisKey, movieBaseVo, MarksixConstants.RedisKey.EXPIRE_TIME_30_DAYS);
 //                }
 //
-//                //刷新站点最热
+//                //刷新商户最热
 //                movieIds = siteMovieService.getSiteMovieIdsOrderByVv(sid, false);
 //                if (CollectionUtil.isEmpty(movieIds)) {
 //                    continue;
@@ -70,7 +70,7 @@
 //                    RedisRepository.leftPushAll(siteAllVvRedisKey, movieIds.stream().map(String::valueOf).collect(Collectors.toList()));
 //                }
 //
-//                //刷新站点VIP最热
+//                //刷新商户VIP最热
 //                movieIds = siteMovieService.getSiteMovieIdsOrderByVv(sid, true);
 //                String siteVipVvRedisKey = StrUtil.format(MarksixConstants.RedisKey.KPN_SITE_VIP_MOVIEID_VV, sid);
 //                RedisRepository.delete(siteVipVvRedisKey);

@@ -40,7 +40,7 @@ public interface ISiteService extends ISuperService<Site> {
     List<SiteListVo> findSiteBoxList(Integer roleId);
 
     /**
-     * 获取站点列表
+     * 获取商户列表
      * @return
      */
     List<Site> getList();
