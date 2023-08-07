@@ -18,7 +18,7 @@ public interface IQuizOrdersService extends ISuperService<QuizOrders> {
      * 查询我的投注
      * @return
      */
-    public PageResult<QuizOrders> findList(Map<String, Object> params);
+    public PageResult<QuizOrders> findList(Map<String, Object> params,Integer status);
 
     /**
      * 统计我的投注

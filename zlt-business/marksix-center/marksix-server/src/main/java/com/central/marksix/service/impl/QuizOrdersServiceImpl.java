@@ -41,7 +41,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
     private IQuizSubordersService quizSubordersService;
 
     @Override
-    public PageResult<QuizOrders> findList(Map<String, Object> params) {
+    public PageResult<QuizOrders> findList(Map<String, Object> params,Integer status) {
         Page<QuizOrders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
         String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MY_LIST_KEY,
                 MapUtils.getInteger(params, "siteId"),
@@ -59,9 +59,16 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
         }else {
             comparator = Comparator.comparing(QuizOrders::getUpdateTime).reversed();//倒序
         }
-        list = list.stream().filter(quizDetails -> MapUtils.getInteger(params, "status")==quizDetails.getStatus())
-                .sorted(comparator)
-                .collect(Collectors.toList());
+        if(status != 0){
+            list = list.stream().filter(quizDetails -> status==quizDetails.getStatus())
+                    .sorted(comparator)
+                    .collect(Collectors.toList());
+        }else {
+            list = list.stream()
+                    .sorted(comparator)
+                    .collect(Collectors.toList());
+        }
+
         return PageResult.<QuizOrders>builder().data(list).count(page.getTotal()).build();
     }
 

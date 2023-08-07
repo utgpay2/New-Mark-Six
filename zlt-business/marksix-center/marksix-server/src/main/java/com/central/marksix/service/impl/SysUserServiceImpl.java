@@ -253,10 +253,10 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
             BigDecimal parentCurrentBalance = BigDecimal.ZERO;
             if(StatusEnum.ZERO_FALSE.getStatus()==user.getIsTestAccount()){//正式账号
                 currentBalance = user.getMBalance();//用户当前余额
-                parentCurrentBalance = parentUser.getMBalance();//上级用户测试余额
+                parentCurrentBalance = parentUser.getMBalance();//上级用户余额
             }else {
-                currentBalance = user.getMTestBalance();//测试余额
-                parentCurrentBalance = parentUser.getMBalance();//上级用户测试余额
+                currentBalance = user.getMBalance();//用户当前余额
+                parentCurrentBalance = parentUser.getMTestBalance();//上级用户测试余额
             }
             BigDecimal afterMoney;
             BigDecimal parentAfterMoney;
@@ -321,15 +321,15 @@ public class SysUserServiceImpl extends SuperServiceImpl<SysUserMapper, SysUser>
             moneyLog1.setUpdateBy(user.getUsername());
             moneyLogList.add(moneyLog1);
 
-            if(transferAccountsDto.getType()==0){
+            if(transferAccountsDto.getType()==0){//下分
                 if(StatusEnum.ZERO_FALSE.getStatus()==user.getIsTestAccount()) {//正式账号
                     addRewardMb(user, amount.negate());
                     addRewardMb(parentUser, amount);
                 }else {
-                    addRewardMb(user, amount);
-                    addRewardTestMb(parentUser, amount.negate());
+                    addRewardMb(user, amount.negate());
+                    addRewardTestMb(parentUser, amount);
                 }
-            }else {
+            }else {//上分
                 if(StatusEnum.ZERO_FALSE.getStatus()==user.getIsTestAccount()){//正式账号
                     addRewardMb(user, amount);
                     addRewardMb(parentUser, amount.negate());
