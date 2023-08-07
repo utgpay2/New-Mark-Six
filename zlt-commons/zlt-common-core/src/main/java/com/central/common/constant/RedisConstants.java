@@ -20,9 +20,6 @@ public interface RedisConstants {
     public static final String SITE_LOTTERY_KEY = "SITE:LOTTERY";
     //- 缓存杀率
     public static final String SITE_KILLODDS_KEY = "SITE:KILLODDS";
-    //-彩种ID查询所有商户彩种
-    public static final String SITE_LOTTERYID_LIST_KEY = "SITE:LOTTERY:ID:LIST:{}";
-    public static final String SITE_LOTTERYID_OBJECT_KEY = "SITE:LOTTERY:ID:OBJECT:{}";
     //- 缓存商户下彩种
     public static final String SITE_LOTTERY_LIST_KEY = "SITE:LOTTERY:{}";
     //- 缓存--分页开查询奖号码列表

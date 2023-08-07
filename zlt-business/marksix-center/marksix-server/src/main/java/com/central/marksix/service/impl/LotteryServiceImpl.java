@@ -2,7 +2,9 @@ package com.central.marksix.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.central.common.model.Lottery;
+import com.central.common.model.QuizChoose;
 import com.central.common.model.enums.SortEnum;
 import com.central.common.model.enums.StatusEnum;
 import com.central.common.redis.template.RedisRepository;
@@ -51,17 +53,6 @@ public class LotteryServiceImpl extends SuperServiceImpl<LotteryMapper, Lottery>
         }
         return list.stream().filter(siteLotteryVo -> StatusEnum.ONE_TRUE.getStatus()==siteLotteryVo.getIsDisplay())
                 .sorted(comparator)
-                .collect(Collectors.toList());
-    }
-    @Override
-    public List<Lottery> findListByLotteryId(Long lotteryId){
-        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERYID_OBJECT_KEY);
-        List<Lottery> list = (List<Lottery>)RedisRepository.get(redisKey);
-        if (ObjectUtil.isEmpty(list)) {
-            list = baseMapper.findLotteryList();
-            RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
-        }
-        return list.stream().filter(lottery -> lotteryId != lottery.getId())
                 .collect(Collectors.toList());
     }
 }

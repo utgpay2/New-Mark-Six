@@ -117,11 +117,9 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             List<MoneyLog> moneyLogList = new ArrayList<>();
             BigDecimal currentBalance = sysUser.getMBalance();//用户当前余额
             for (QuizOrdersDto ordersDto : ordersDtoList) {
-                List<Lottery> lotteryList = lotteryService.findListByLotteryId(ordersDto.getLotteryId());
-                for (Lottery lottery : lotteryList) {
-                    if (StatusEnum.ONE_TRUE.getStatus() == lottery.getStatus()) {
-                        return Result.failed(lottery.getLotteryName() + "结算中，请稍后再试");
-                    }
+                Lottery lottery = lotteryService.getById(ordersDto.getLotteryId());
+                if (StatusEnum.ONE_TRUE.getStatus() == lottery.getStatus()) {
+                    return Result.failed(lottery.getLotteryName() + "结算中，请稍后再试");
                 }
                 totalPrice = totalPrice.add(ordersDto.getTotalPrice());//汇总订单金额
                 QuizOrders quizOrders = new QuizOrders();
@@ -239,11 +237,9 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 if(null == quizOrders){
                     return Result.failed("投注记录不存在");
                 }
-                List<Lottery> lotteryList = lotteryService.findListByLotteryId(quizOrders.getLotteryId());
-                for (Lottery lottery : lotteryList) {
-                    if (StatusEnum.ONE_TRUE.getStatus() == lottery.getStatus()) {
-                        return Result.failed(lottery.getLotteryName() + "结算中，请稍后再试");
-                    }
+                Lottery lottery = lotteryService.getById(quizOrders.getLotteryId());
+                if (StatusEnum.ONE_TRUE.getStatus() == lottery.getStatus()) {
+                    return Result.failed(lottery.getLotteryName() + "结算中，请稍后再试");
                 }
                 if (OrderStatusEnum.ORDER_ONE.getStatus() != quizOrders.getStatus()) {
                     return Result.failed("状态不正确不允许撤销");

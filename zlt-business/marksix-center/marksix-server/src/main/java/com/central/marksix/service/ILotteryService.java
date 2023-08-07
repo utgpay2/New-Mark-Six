@@ -20,6 +20,5 @@ public interface ILotteryService extends ISuperService<Lottery> {
      * @return
      */
     List<SiteLotteryVo> findListBySiteId(Map<String, Object> params);
-    List<Lottery> findListByLotteryId(Long lotteryId);
 }
 

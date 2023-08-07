@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -33,20 +34,16 @@ public class LotteryServiceImpl extends SuperServiceImpl<LotteryMapper, Lottery>
      */
     @Override
     public List<SiteLotteryVo> findList(Map<String, Object> params){
-        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERYID_LIST_KEY, MapUtils.getInteger(params,"lotteryId"));
-        List<SiteLotteryVo> list = (List<SiteLotteryVo>)RedisRepository.get(redisKey);
-        if (ObjectUtil.isEmpty(list)) {
-            list = baseMapper.findList( params);
-            RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
-        }
-        return list;
+        return baseMapper.findList( params);
     }
     @Override
     public void updateLotteryStatus(Integer lotteryId, Integer stauts) {
         this.lambdaUpdate().eq(Lottery::getId, lotteryId)
                 .setSql("`status` = "+ stauts)
                 .update();
-        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERYID_LIST_KEY, lotteryId);
-        RedisRepository.delete(redisKey);
+        Set<String> redisKeys = RedisRepository.keys(StrUtil.format(RedisConstants.SITE_LOTTERY_KEY));
+        for(String redisKey:redisKeys) {
+            RedisRepository.delete(redisKey);
+        }
     }
 }
