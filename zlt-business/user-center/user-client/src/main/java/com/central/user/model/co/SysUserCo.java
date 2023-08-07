@@ -66,7 +66,7 @@ public class SysUserCo {
     private String roleId;
 
     @ApiModelProperty(value = "最后登录时间")
-    private String lastLoginTime;
+    private String loginTime;
 
     @ApiModelProperty(value = "更新人")
     private String updateBy;
