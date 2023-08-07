@@ -736,7 +736,7 @@ public class ThirdPartyController {
         }
 
 
-        LoginAppUser sysUser = userService.findByUsername(userLoginDto.getUsername());
+        LoginAppUser sysUser = userService.findByUsername(userLoginDto.getSiteCode()+"_"+userLoginDto.getUsername());
         if (sysUser == null || null == sysUser.getUsername() || !sysUser.getEnabled()) {
             return Result.failed("用户名或密码错误");
         }
@@ -744,7 +744,7 @@ public class ThirdPartyController {
             return Result.failed("非普通用户");
         }
 
-        Result tokenResult = uaaService.login(authorization, userLoginDto.getUsername(), CommonConstant.DEF_USER_PASSWORD, AUTHENTICATION_MODE);
+        Result tokenResult = uaaService.login(authorization, userLoginDto.getSiteCode()+"_"+userLoginDto.getUsername(), CommonConstant.DEF_USER_PASSWORD, AUTHENTICATION_MODE);
         if (tokenResult == null || !tokenResult.getResp_code().equals(CodeEnum.SUCCESS.getCode())) {
             log.error("登录失败: username={}, msg={}", userLoginDto.getUsername(), tokenResult.getResp_msg());
             return Result.failed(tokenResult.getResp_msg());
