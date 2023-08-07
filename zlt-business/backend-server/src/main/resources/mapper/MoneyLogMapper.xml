@@ -23,7 +23,7 @@
 			<if test="r.orderNo != null and r.orderNo != ''">
 				and m.order_no = #{r.orderNo}
 			</if>
-			<if test="r.siteId != null ">
+			<if test="r.siteId != null and  r.siteId != '' and  r.siteId != '0'">
 				and u.site_id = #{r.siteId}
 			</if>
 			<if test="r.startTime != null and r.startTime != ''">
