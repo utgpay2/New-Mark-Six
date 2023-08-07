@@ -751,7 +751,7 @@ public class ThirdPartyController {
         }
         String accessToken = (String) (((LinkedHashMap) tokenResult.getDatas()).get(MarksixConstants.Str.ACCESS_TOKEN));
 
-        String url= sysConfigService.getUrl(userLoginDto.getPlatformType())+userLoginDto.getLotteryId()+"&Authorization="+accessToken;
+        String url= sysConfigService.getUrl(userLoginDto.getPlatformType())+userLoginDto.getLotteryId()+"&Authorization="+accessToken+"&platformType="+userLoginDto.getPlatformType();
 
 
         return Result.succeed(url, "succeed");
