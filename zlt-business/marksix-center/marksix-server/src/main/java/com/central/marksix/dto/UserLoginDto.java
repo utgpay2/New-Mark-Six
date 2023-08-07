@@ -27,6 +27,8 @@ public class UserLoginDto {
             ;
     @ApiModelProperty(value = "平台类型，H5为1, PC为2")
     Integer platformType;
+    @ApiModelProperty(value = "来源 app 或 web")
+    String source;
 
     @ApiModelProperty(value = "密码")
     String password;

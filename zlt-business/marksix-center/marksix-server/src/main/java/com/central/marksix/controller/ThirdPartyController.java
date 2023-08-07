@@ -727,6 +727,12 @@ public class ThirdPartyController {
         if (ObjectUtil.isEmpty(userLoginDto.getSign())) {
             return Result.failed("签名摘要不能为空");
         }
+        if (ObjectUtil.isEmpty(userLoginDto.getPlatformType())) {
+            return Result.failed("平台类型不能为空");
+        }
+        if (ObjectUtil.isEmpty(userLoginDto.getSource())) {
+            return Result.failed("来源不能为空");
+        }
 
         ThirdParty thirdParty= iThirdPartyService.getOne(new QueryWrapper<ThirdParty>().eq("site_code",userLoginDto.getSiteCode()));
         String secretKey=thirdParty.getSecretKey();
@@ -751,7 +757,7 @@ public class ThirdPartyController {
         }
         String accessToken = (String) (((LinkedHashMap) tokenResult.getDatas()).get(MarksixConstants.Str.ACCESS_TOKEN));
 
-        String url= sysConfigService.getUrl(userLoginDto.getPlatformType())+userLoginDto.getLotteryId()+"&Authorization="+accessToken+"&platformType="+userLoginDto.getPlatformType();
+        String url= sysConfigService.getUrl(userLoginDto.getPlatformType())+userLoginDto.getLotteryId()+"&Authorization="+accessToken+"&platformType="+userLoginDto.getPlatformType()+"&source="+userLoginDto.getSource();
 
 
         return Result.succeed(url, "succeed");
