@@ -408,8 +408,7 @@ public class LotteryController {
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer")
     })
     @GetMapping("/queryorders")
-    public Result<PageResult<QuizOrders>> queryBettingOrders(@ApiIgnore @RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user
-            ,@RequestParam(value = "status", required = true) Integer status) {
+    public Result<PageResult<QuizOrders>> queryBettingOrders(@ApiIgnore @RequestParam Map<String, Object> params, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(params)) {
             return Result.failed("请求参数不能为空");
         }
@@ -419,7 +418,7 @@ public class LotteryController {
         if (ObjectUtil.isEmpty(params.get("days"))) {
             return Result.failed("时间选项不能为空");
         }
-        if (ObjectUtil.isEmpty(status)) {
+        if (ObjectUtil.isEmpty(params.get("status"))) {
             return Result.failed("状态选项不能为空");
         }
         if (ObjectUtil.isEmpty(params.get("limit"))) {
@@ -427,7 +426,7 @@ public class LotteryController {
         }
         params.put("siteId",user.getSiteId());
         params.put("memberId",user.getId());
-        return Result.succeed(siteOrderService.findList(params,status));
+        return Result.succeed(siteOrderService.findList(params));
     }
     @ApiOperation(value = "撤销投注")
     @PostMapping("/cancelbetting")

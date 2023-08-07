@@ -41,7 +41,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
     private IQuizSubordersService quizSubordersService;
 
     @Override
-    public PageResult<QuizOrders> findList(Map<String, Object> params,Integer status) {
+    public PageResult<QuizOrders> findList(Map<String, Object> params) {
         Page<QuizOrders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
         String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MY_LIST_KEY,
                 MapUtils.getInteger(params, "siteId"),
@@ -49,7 +49,9 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 MapUtils.getInteger(params, "days"),
                 MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
         List<QuizOrders> list = (List<QuizOrders>) RedisRepository.get(redisKey);
+        Integer status = MapUtils.getInteger(params, "status");
         if (ObjectUtil.isEmpty(list)) {
+            params.put("status","");
             list = baseMapper.findList(page, params);
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
