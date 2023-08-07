@@ -21,7 +21,7 @@
 //import springfox.documentation.annotations.ApiIgnore;
 //
 ///**
-// * 站点客服配置
+// * 商户客服配置
 // *
 // * @author yixiu
 // * @date 2023-02-21 19:46:07
@@ -29,7 +29,7 @@
 //@Slf4j
 //@RestController
 //@RequestMapping("/kpnsiteserve")
-//@Api(tags = "站点客服配置")
+//@Api(tags = "商户客服配置")
 //public class KpnSiteServeController {
 //    @Autowired
 //    private ISiteServeService kpnSiteServeService;

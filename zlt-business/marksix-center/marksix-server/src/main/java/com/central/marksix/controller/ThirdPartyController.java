@@ -168,6 +168,9 @@ public class ThirdPartyController {
         if (ObjectUtil.isEmpty(userDto.getSiteCode())) {
             return Result.failed("商户编码不能为空");
         }
+        if (ObjectUtil.isEmpty(userDto.getIsTestAccount())) {
+            return Result.failed("账号类型不能为空，0:正式账号 1:测试账号");
+        }
 
         if (ObjectUtil.isEmpty(userDto.getSign())) {
             return Result.failed("签名摘要不能为空");
@@ -206,6 +209,7 @@ public class ThirdPartyController {
         user.setSiteName(site.getName());
         user.setCreateBy(proxyUser.getUsername());
         user.setUpdateBy(proxyUser.getUsername());
+        user.setIsTestAccount(userDto.getIsTestAccount());
         return sysUserService.saveOrUpdateUserInfo(user);
     }
 
@@ -213,7 +217,7 @@ public class ThirdPartyController {
     /**
      * 新增
      *
-     * @param ProxyAdminDto
+     * @param
      * @return
      */
     @ApiOperation("查询会员信息")
@@ -221,7 +225,7 @@ public class ThirdPartyController {
     public Result userInfo(
                             @ApiParam(value = "随机字符串", required = true) String random,
                             @ApiParam(value = "签名摘要", required = true) String sign,
-                            @ApiParam(value = "站点编码", required = true) String siteCode,
+                            @ApiParam(value = "商户编码", required = true) String siteCode,
                             @ApiParam(value = "用户名", required = true) String username,
                             @ApiParam(value = "会员id", required = true) Integer userId) {
 
@@ -290,7 +294,7 @@ public class ThirdPartyController {
     public Result userEnable(
             @ApiParam(value = "随机字符串", required = true) String random,
             @ApiParam(value = "签名摘要", required = true) String sign,
-            @ApiParam(value = "站点编码", required = true) String siteCode,
+            @ApiParam(value = "商户编码", required = true) String siteCode,
             @ApiParam(value = "用户名", required = true) String username,
             @ApiParam(value = "会员id", required = true) Integer userId) {
 
@@ -366,7 +370,7 @@ public class ThirdPartyController {
     public Result userDisable(
             @ApiParam(value = "随机字符串", required = true) String random,
             @ApiParam(value = "签名摘要", required = true) String sign,
-            @ApiParam(value = "站点编码", required = true) String siteCode,
+            @ApiParam(value = "商户编码", required = true) String siteCode,
             @ApiParam(value = "用户名", required = true) String username,
             @ApiParam(value = "会员id", required = true) Integer userId) {
 
@@ -439,7 +443,7 @@ public class ThirdPartyController {
     @ApiImplicitParams({
             @ApiImplicitParam(value = "随机字符串", required = true ,name = "random",dataType = "String"),
             @ApiImplicitParam(value = "签名摘要", required = true ,name = "sign",dataType = "String"),
-            @ApiImplicitParam(value = "站点编码", required = true ,name = "siteCode",dataType = "String"),
+            @ApiImplicitParam(value = "商户编码", required = true ,name = "siteCode",dataType = "String"),
             @ApiImplicitParam(value = "用户名", required = true ,name = "username",dataType = "String"),
             @ApiImplicitParam(value = "会员id集合", required = false ,name = "userIds",dataType = "Integer[]"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序、2倒叙(默认)", required = false, dataType = "Integer"),
@@ -449,7 +453,7 @@ public class ThirdPartyController {
             @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "periods", value = "期数", required = false, dataType = "String"),
-            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = false, dataType = "Integer")
+            @ApiImplicitParam(name = "siteLotteryId", value = "商户彩种ID", required = false, dataType = "Integer")
     })
     @GetMapping("/queryorders")
     public Result<PageResult<QuizOrders>> queryBettingOrders(@ApiIgnore @RequestParam Map<String, Object> params) {
@@ -566,7 +570,7 @@ public class ThirdPartyController {
     public Result userBalance(
             @ApiParam(value = "随机字符串", required = true) String random,
             @ApiParam(value = "签名摘要", required = true) String sign,
-            @ApiParam(value = "站点编码", required = true) String siteCode,
+            @ApiParam(value = "商户编码", required = true) String siteCode,
             @ApiParam(value = "代理用户名", required = true) String username,
             @ApiParam(value = "会员id", required = true) Integer userId) {
 
@@ -639,7 +643,7 @@ public class ThirdPartyController {
     public Result transferRecords(
             @ApiParam(value = "随机字符串", required = true) String random,
             @ApiParam(value = "签名摘要", required = true) String sign,
-            @ApiParam(value = "站点编码", required = true) String siteCode,
+            @ApiParam(value = "商户编码", required = true) String siteCode,
             @ApiParam(value = "代理用户名", required = true) String username,
             @ApiParam(value = "会员id", required = false) Integer[] userIds,
             @ApiParam(value = "转账类型(5上分   6下分)", required = false) Integer type,
@@ -747,7 +751,7 @@ public class ThirdPartyController {
         }
         String accessToken = (String) (((LinkedHashMap) tokenResult.getDatas()).get(MarksixConstants.Str.ACCESS_TOKEN));
 
-        String url= sysConfigService.getUrl(userLoginDto.getPlatformType())+userLoginDto.getLotteryId()+"&Authorization=Bearer "+accessToken;
+        String url= sysConfigService.getUrl(userLoginDto.getPlatformType())+userLoginDto.getLotteryId()+"&Authorization="+accessToken;
 
 
         return Result.succeed(url, "succeed");

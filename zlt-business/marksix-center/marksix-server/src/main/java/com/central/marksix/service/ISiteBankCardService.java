@@ -8,9 +8,9 @@ import java.util.List;
 public interface ISiteBankCardService extends ISuperService<SiteBankCard> {
 
     /**
-     * 获取站点支付卡
+     * 获取商户支付卡
      *
-     * @param siteId 站点id
+     * @param siteId 商户id
      * @return
      */
     List<SiteBankCard> getBySiteId(Long siteId);

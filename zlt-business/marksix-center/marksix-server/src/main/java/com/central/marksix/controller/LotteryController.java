@@ -99,9 +99,9 @@ public class LotteryController {
         }
         return Result.succeed(wnDataService.lastOneWnData(id));
     }
-    @ApiOperation(value = "查询站点彩种分类一类")
+    @ApiOperation(value = "查询商户彩种分类一类")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteLotteryId", value = "商户彩种ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/listsitecategory")
@@ -110,15 +110,15 @@ public class LotteryController {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(params.get("siteLotteryId"))) {
-            return Result.failed("站点彩种ID不能为空");
+            return Result.failed("商户彩种ID不能为空");
         }
         params.put("siteId",user.getSiteId());
         return Result.succeed(categoryLotteryService.findList(params));
     }
-    @ApiOperation(value = "查询站点彩种分类二类")
+    @ApiOperation(value = "查询商户彩种分类二类")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "siteCategoryId", value = "站点彩种分类一类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteLotteryId", value = "商户彩种ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteCategoryId", value = "商户彩种分类一类ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/quizlist")
@@ -127,19 +127,19 @@ public class LotteryController {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(params.get("siteCategoryId"))) {
-            return Result.failed("站点彩种分类一类ID");
+            return Result.failed("商户彩种分类一类ID");
         }
         if (ObjectUtil.isEmpty(params.get("siteLotteryId"))) {
-            return Result.failed("站点彩种ID不能为空");
+            return Result.failed("商户彩种ID不能为空");
         }
         params.put("siteId",user.getSiteId());
         return Result.succeed(quizService.findList(params));
     }
-    @ApiOperation(value = "查询站点彩种分类三类")
+    @ApiOperation(value = "查询商户彩种分类三类")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "siteCategoryId", value = "站点彩种分类一类ID", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "quizId", value = "站点彩种二类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteLotteryId", value = "商户彩种ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteCategoryId", value = "商户彩种分类一类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "quizId", value = "商户彩种二类ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/quizdetailslist")
@@ -148,23 +148,23 @@ public class LotteryController {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(params.get("quizId"))) {
-            return Result.failed("站点彩种二类ID");
+            return Result.failed("商户彩种二类ID");
         }
         if (ObjectUtil.isEmpty(params.get("siteCategoryId"))) {
-            return Result.failed("站点彩种分类一类ID");
+            return Result.failed("商户彩种分类一类ID");
         }
         if (ObjectUtil.isEmpty(params.get("siteLotteryId"))) {
-            return Result.failed("站点彩种ID不能为空");
+            return Result.failed("商户彩种ID不能为空");
         }
         params.put("siteId",user.getSiteId());
         return Result.succeed(quizDetailsService.findList(params));
     }
-    @ApiOperation(value = "查询站点彩种分类四类")
+    @ApiOperation(value = "查询商户彩种分类四类")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "siteCategoryId", value = "站点彩种分类一类ID", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "quizId", value = "站点彩种二类ID", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "quizDetailsId", value = "站点彩种三类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteLotteryId", value = "商户彩种ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteCategoryId", value = "商户彩种分类一类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "quizId", value = "商户彩种二类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "quizDetailsId", value = "商户彩种三类ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/quizchooselist")
@@ -173,16 +173,16 @@ public class LotteryController {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(params.get("quizDetailsId"))) {
-            return Result.failed("站点彩种三类ID");
+            return Result.failed("商户彩种三类ID");
         }
         if (ObjectUtil.isEmpty(params.get("quizId"))) {
-            return Result.failed("站点彩种二类ID");
+            return Result.failed("商户彩种二类ID");
         }
         if (ObjectUtil.isEmpty(params.get("siteCategoryId"))) {
-            return Result.failed("站点彩种分类一类ID");
+            return Result.failed("商户彩种分类一类ID");
         }
         if (ObjectUtil.isEmpty(params.get("siteLotteryId"))) {
-            return Result.failed("站点彩种ID不能为空");
+            return Result.failed("商户彩种ID不能为空");
         }
         params.put("siteId",user.getSiteId());
         return Result.succeed(quizChooseService.findList(params));
@@ -338,16 +338,16 @@ public class LotteryController {
                 return Result.failed("彩种ID不能为空");
             }
             if (ObjectUtil.isEmpty(dto.getSiteLotteryId())||dto.getSiteLotteryId()==0) {
-                return Result.failed("站点彩种ID不能为空");
+                return Result.failed("商户彩种ID不能为空");
             }
             if (ObjectUtil.isEmpty(dto.getLotteryName())) {
-                return Result.failed("站点彩种名称不能为空");
+                return Result.failed("商户彩种名称不能为空");
             }
             if (ObjectUtil.isEmpty(dto.getSiteCategoryId())||dto.getSiteCategoryId()==0) {
-                return Result.failed("站点下注分类一类ID不能为空");
+                return Result.failed("商户下注分类一类ID不能为空");
             }
             if (ObjectUtil.isEmpty(dto.getSiteCategoryName())) {
-                return Result.failed("站点下注分类一类名称不能为空");
+                return Result.failed("商户下注分类一类名称不能为空");
             }
             if (ObjectUtil.isEmpty(dto.getQuizId())||dto.getQuizId()==0) {
                 return Result.failed("开奖分类二类ID不能为空");

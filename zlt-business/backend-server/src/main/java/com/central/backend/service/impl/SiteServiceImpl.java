@@ -69,6 +69,7 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
     }
 
     @Override
+    @Transactional(rollbackFor={RuntimeException.class,Exception.class})
     public Result recharge(SiteRechargeDto siteRechargeDto, SysUser sysUser) {
         //查询商户户主
         SysUser  user= baseMapper.getStationOwner(siteRechargeDto.getSiteId());
@@ -82,34 +83,68 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
                 return Result.failed("加锁失败");
             }
             BigDecimal amount = siteRechargeDto.getAmount();//转账金额
-            BigDecimal currentBalance = user.getMBalance();//用户当前余额
-            BigDecimal afterMoney;
-            afterMoney=currentBalance.add(amount);
-            Date date=new Date();
+            BigDecimal testAmount = siteRechargeDto.getTestAmount();//转账金额
+            if(BigDecimal.ZERO.compareTo(amount)!=0){
+                BigDecimal currentBalance = user.getMBalance();//用户当前余额
+                BigDecimal afterMoney;
+                afterMoney=currentBalance.add(amount);
+                Date date=new Date();
 
-            //用户金额日志
-            String orderSn = SnowflakeIdWorker.createOrderSn();//订单号
-            MoneyLog moneyLog = new MoneyLog();
-            moneyLog.setUserId(user.getId());
-            moneyLog.setUserName(user.getUsername());
-            moneyLog.setOrderNo(orderSn);
+                //用户金额日志
+                String orderSn = SnowflakeIdWorker.createOrderSn();//订单号
+                MoneyLog moneyLog = new MoneyLog();
+                moneyLog.setUserId(user.getId());
+                moneyLog.setUserName(user.getUsername());
+                moneyLog.setOrderNo(orderSn);
 
-            moneyLog.setOrderType(MbChangeTypeEnum.STATION_OWNER_RECHARGE.getType());//账变类型
-            moneyLog.setOrderTypeName(MbChangeTypeEnum.STATION_OWNER_RECHARGE.getName());//账变类型名称
-            moneyLog.setMoney(amount);//账变金额
+                moneyLog.setOrderType(MbChangeTypeEnum.STATION_OWNER_RECHARGE.getType());//账变类型
+                moneyLog.setOrderTypeName(MbChangeTypeEnum.STATION_OWNER_RECHARGE.getName());//账变类型名称
+                moneyLog.setMoney(amount);//账变金额
 
-            moneyLog.setBeforeMoney(currentBalance);//账变前金额
-            moneyLog.setAfterMoney(afterMoney);//账变后金额
-            moneyLog.setCreateTime(date);
-            moneyLog.setCreateBy(sysUser.getUsername());
-            moneyLog.setUpdateTime(date);
-            moneyLog.setUpdateBy(sysUser.getUsername());
+                moneyLog.setBeforeMoney(currentBalance);//账变前金额
+                moneyLog.setAfterMoney(afterMoney);//账变后金额
+                moneyLog.setCreateTime(date);
+                moneyLog.setCreateBy(sysUser.getUsername());
+                moneyLog.setUpdateTime(date);
+                moneyLog.setUpdateBy(sysUser.getUsername());
 
-            //给户主充值
-            adminUserService.addRewardMb(user, amount);
+                //给户主充值
+                adminUserService.addRewardMb(user, amount);
 
-            //账变记录
-            moneyLogService.save(moneyLog);
+                //账变记录
+                moneyLogService.save(moneyLog);
+            }
+            if(BigDecimal.ZERO.compareTo(testAmount)!=0){
+                BigDecimal currentTestBalance = user.getMTestBalance();//用户当前测试余额
+                BigDecimal afterMoney;
+                afterMoney=currentTestBalance.add(testAmount);
+                Date date=new Date();
+
+                //用户金额日志
+                String orderSn = SnowflakeIdWorker.createOrderSn();//订单号
+                MoneyLog moneyLog = new MoneyLog();
+                moneyLog.setUserId(user.getId());
+                moneyLog.setUserName(user.getUsername());
+                moneyLog.setOrderNo(orderSn);
+
+                moneyLog.setOrderType(MbChangeTypeEnum.STATION_OWNER_RECHARGE_TEST.getType());//账变类型
+                moneyLog.setOrderTypeName(MbChangeTypeEnum.STATION_OWNER_RECHARGE_TEST.getName());//账变类型名称
+                moneyLog.setMoney(testAmount);//账变金额
+
+                moneyLog.setBeforeMoney(currentTestBalance);//账变前金额
+                moneyLog.setAfterMoney(afterMoney);//账变后金额
+                moneyLog.setCreateTime(date);
+                moneyLog.setCreateBy(sysUser.getUsername());
+                moneyLog.setUpdateTime(date);
+                moneyLog.setUpdateBy(sysUser.getUsername());
+
+                //给户主充值
+                adminUserService.addRewardTestMb(user, testAmount);
+
+                //账变记录
+                moneyLogService.save(moneyLog);
+            }
+
 
 
             return Result.succeed("充值成功");
@@ -135,11 +170,12 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
     }
 
     @Override
+    @Transactional(rollbackFor={RuntimeException.class,Exception.class})
     public Result rechargeProxy(ProxyRechargeDto proxyRechargeDto, SysUser sysUser) {
         SysUser user = adminUserService.getById(proxyRechargeDto.getUserId());
          sysUser = adminUserService.getById(sysUser.getId());
         if(!user.getParentId().equals(sysUser.getId())){
-            return Result.failed("请指定站点内代理！");
+            return Result.failed("请指定商户内代理！");
         }
 
         String lockKey = StrUtil.format(MarksixConstants.Lock.USER_TRANSFER_LOCK, user.getId());
@@ -149,85 +185,166 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
                 return Result.failed("加锁失败");
             }
             BigDecimal amount = proxyRechargeDto.getAmount();//转账金额
-            BigDecimal currentBalance = user.getMBalance();//用户当前余额
-            BigDecimal parentCurrentBalance = sysUser.getMBalance();//用户当前余额
+            if(BigDecimal.ZERO.compareTo(amount)!=0) {
+                BigDecimal currentBalance = user.getMBalance();//用户当前余额
+                BigDecimal parentCurrentBalance = sysUser.getMBalance();//用户当前余额
 
-            BigDecimal afterMoney;
-            BigDecimal parentAfterMoney;
-            if(proxyRechargeDto.getType()==0){
-                if(currentBalance.compareTo(amount)!=1){
-                    return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "代理余额不足", null);
+                BigDecimal afterMoney;
+                BigDecimal parentAfterMoney;
+                if (proxyRechargeDto.getType() == 0) {
+                    if (currentBalance.compareTo(amount) != 1) {
+                        return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "代理余额不足", null);
+                    }
+                    afterMoney = currentBalance.subtract(amount);
+                    parentAfterMoney = parentCurrentBalance.add(amount);
+                } else {
+                    if (parentCurrentBalance.compareTo(amount) != 1) {
+                        return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "站主余额不足", null);
+                    }
+                    parentAfterMoney = parentCurrentBalance.subtract(amount);
+                    afterMoney = currentBalance.add(amount);
                 }
-                afterMoney=currentBalance.subtract(amount);
-                parentAfterMoney=parentCurrentBalance.add(amount);
-            }else {
-                if(parentCurrentBalance.compareTo(amount)!=1){
-                    return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "站主余额不足", null);
+                List<MoneyLog> moneyLogList = new ArrayList<>();
+                Date date = new Date();
+
+                //代理金额日志
+                String orderSn = SnowflakeIdWorker.createOrderSn();//订单号
+                MoneyLog moneyLog = new MoneyLog();
+                moneyLog.setUserId(user.getId());
+                moneyLog.setUserName(user.getUsername());
+                moneyLog.setOrderNo(orderSn);
+                if (proxyRechargeDto.getType() == 0) {
+                    moneyLog.setOrderType(MbChangeTypeEnum.PROXY_WITHDRAWAL.getType());//账变类型
+                    moneyLog.setOrderTypeName(MbChangeTypeEnum.PROXY_WITHDRAWAL.getName());//账变类型名称
+                    moneyLog.setMoney(amount.negate());//账变金额
+                } else {
+                    moneyLog.setOrderType(MbChangeTypeEnum.PROXY_RECHARGE.getType());//账变类型
+                    moneyLog.setOrderTypeName(MbChangeTypeEnum.PROXY_RECHARGE.getName());//账变类型名称
+                    moneyLog.setMoney(amount);//账变金额
                 }
-                parentAfterMoney=parentCurrentBalance.subtract(amount);
-                afterMoney=currentBalance.add(amount);
-            }
-            List<MoneyLog> moneyLogList = new ArrayList<>();
-            Date date=new Date();
+                moneyLog.setBeforeMoney(currentBalance);//账变前金额
+                moneyLog.setAfterMoney(afterMoney);//账变后金额
+                moneyLog.setCreateTime(date);
+                moneyLog.setCreateBy(user.getUsername());
+                moneyLog.setUpdateTime(date);
+                moneyLog.setUpdateBy(user.getUsername());
+                moneyLogList.add(moneyLog);
 
-            //代理金额日志
-            String orderSn = SnowflakeIdWorker.createOrderSn();//订单号
-            MoneyLog moneyLog = new MoneyLog();
-            moneyLog.setUserId(user.getId());
-            moneyLog.setUserName(user.getUsername());
-            moneyLog.setOrderNo(orderSn);
-            if(proxyRechargeDto.getType()==0){
-                moneyLog.setOrderType(MbChangeTypeEnum.PROXY_WITHDRAWAL.getType());//账变类型
-                moneyLog.setOrderTypeName(MbChangeTypeEnum.PROXY_WITHDRAWAL.getName());//账变类型名称
-                moneyLog.setMoney(amount.negate());//账变金额
-            }else {
-                moneyLog.setOrderType(MbChangeTypeEnum.PROXY_RECHARGE.getType());//账变类型
-                moneyLog.setOrderTypeName(MbChangeTypeEnum.PROXY_RECHARGE.getName());//账变类型名称
-                moneyLog.setMoney(amount);//账变金额
-            }
-            moneyLog.setBeforeMoney(currentBalance);//账变前金额
-            moneyLog.setAfterMoney(afterMoney);//账变后金额
-            moneyLog.setCreateTime(date);
-            moneyLog.setCreateBy(user.getUsername());
-            moneyLog.setUpdateTime(date);
-            moneyLog.setUpdateBy(user.getUsername());
-            moneyLogList.add(moneyLog);
-
-            //开户商金额日志
-            MoneyLog moneyLog1 = new MoneyLog();
-            moneyLog1.setUserId(sysUser.getId());
-            moneyLog1.setUserName(sysUser.getUsername());
-            moneyLog1.setOrderNo(orderSn);
-            if(proxyRechargeDto.getType()==0){
-                moneyLog1.setOrderType(MbChangeTypeEnum.OWNER_WITHDRAWAL.getType());//账变类型
-                moneyLog1.setOrderTypeName(MbChangeTypeEnum.OWNER_WITHDRAWAL.getName());//账变类型名称
-                moneyLog1.setMoney(amount);//账变金额
-            }else {
-                moneyLog1.setOrderType(MbChangeTypeEnum.OWNER_RECHARGE.getType());//账变类型
-                moneyLog1.setOrderTypeName(MbChangeTypeEnum.OWNER_RECHARGE.getName());//账变类型名称
-                moneyLog1.setMoney(amount.negate());//账变金额
-            }
-            moneyLog1.setBeforeMoney(parentCurrentBalance);//账变前金额
-            moneyLog1.setAfterMoney(parentAfterMoney);//账变后金额
-            moneyLog1.setCreateTime(date);
-            moneyLog1.setCreateBy(user.getUsername());
-            moneyLog1.setUpdateTime(date);
-            moneyLog1.setUpdateBy(user.getUsername());
-            moneyLogList.add(moneyLog1);
+                //开户商金额日志
+                MoneyLog moneyLog1 = new MoneyLog();
+                moneyLog1.setUserId(sysUser.getId());
+                moneyLog1.setUserName(sysUser.getUsername());
+                moneyLog1.setOrderNo(orderSn);
+                if (proxyRechargeDto.getType() == 0) {
+                    moneyLog1.setOrderType(MbChangeTypeEnum.OWNER_WITHDRAWAL.getType());//账变类型
+                    moneyLog1.setOrderTypeName(MbChangeTypeEnum.OWNER_WITHDRAWAL.getName());//账变类型名称
+                    moneyLog1.setMoney(amount);//账变金额
+                } else {
+                    moneyLog1.setOrderType(MbChangeTypeEnum.OWNER_RECHARGE.getType());//账变类型
+                    moneyLog1.setOrderTypeName(MbChangeTypeEnum.OWNER_RECHARGE.getName());//账变类型名称
+                    moneyLog1.setMoney(amount.negate());//账变金额
+                }
+                moneyLog1.setBeforeMoney(parentCurrentBalance);//账变前金额
+                moneyLog1.setAfterMoney(parentAfterMoney);//账变后金额
+                moneyLog1.setCreateTime(date);
+                moneyLog1.setCreateBy(user.getUsername());
+                moneyLog1.setUpdateTime(date);
+                moneyLog1.setUpdateBy(user.getUsername());
+                moneyLogList.add(moneyLog1);
 
 
+                if (proxyRechargeDto.getType() == 0) {
+                    adminUserService.addRewardMb(user, amount.negate());
+                    adminUserService.addRewardMb(sysUser, amount);
+                } else {
+                    adminUserService.addRewardMb(user, amount);
+                    adminUserService.addRewardMb(sysUser, amount.negate());
+                }
 
-            if(proxyRechargeDto.getType()==0){
-                adminUserService.addRewardMb(user, amount.negate());
-                adminUserService.addRewardMb(sysUser, amount);
-            }else {
-                adminUserService.addRewardMb(user, amount);
-                adminUserService.addRewardMb(sysUser, amount.negate());
+                //账变记录
+                moneyLogService.saveBatch(moneyLogList);
             }
 
-            //账变记录
-            moneyLogService.saveBatch(moneyLogList);
+            BigDecimal testAmount = proxyRechargeDto.getTestAmount();//转账测试金额
+            if(BigDecimal.ZERO.compareTo(testAmount)!=0) {
+                BigDecimal currentTestBalance = user.getMTestBalance();//用户当前余额
+                BigDecimal parentCurrentBalance = sysUser.getMBalance();//用户当前余额
 
+                BigDecimal afterMoney;
+                BigDecimal parentAfterMoney;
+                if (proxyRechargeDto.getType() == 0) {
+                    if (currentTestBalance.compareTo(testAmount) != 1) {
+                        return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "代理余额不足", null);
+                    }
+                    afterMoney = currentTestBalance.subtract(testAmount);
+                    parentAfterMoney = parentCurrentBalance.add(testAmount);
+                } else {
+                    if (parentCurrentBalance.compareTo(testAmount) != 1) {
+                        return Result.failed(CodeEnum.MB_NOT_ENOUGH.getCode(), "站主余额不足", null);
+                    }
+                    parentAfterMoney = parentCurrentBalance.subtract(testAmount);
+                    afterMoney = currentTestBalance.add(testAmount);
+                }
+                List<MoneyLog> moneyLogList = new ArrayList<>();
+                Date date = new Date();
+
+                //代理金额日志
+                String orderSn = SnowflakeIdWorker.createOrderSn();//订单号
+                MoneyLog moneyLog = new MoneyLog();
+                moneyLog.setUserId(user.getId());
+                moneyLog.setUserName(user.getUsername());
+                moneyLog.setOrderNo(orderSn);
+                if (proxyRechargeDto.getType() == 0) {
+                    moneyLog.setOrderType(MbChangeTypeEnum.PROXY_WITHDRAWAL_TEST.getType());//账变类型
+                    moneyLog.setOrderTypeName(MbChangeTypeEnum.PROXY_WITHDRAWAL_TEST.getName());//账变类型名称
+                    moneyLog.setMoney(testAmount.negate());//账变金额
+                } else {
+                    moneyLog.setOrderType(MbChangeTypeEnum.PROXY_RECHARGE_TEST.getType());//账变类型
+                    moneyLog.setOrderTypeName(MbChangeTypeEnum.PROXY_RECHARGE_TEST.getName());//账变类型名称
+                    moneyLog.setMoney(testAmount);//账变金额
+                }
+                moneyLog.setBeforeMoney(currentTestBalance);//账变前金额
+                moneyLog.setAfterMoney(afterMoney);//账变后金额
+                moneyLog.setCreateTime(date);
+                moneyLog.setCreateBy(user.getUsername());
+                moneyLog.setUpdateTime(date);
+                moneyLog.setUpdateBy(user.getUsername());
+                moneyLogList.add(moneyLog);
+
+                //开户商金额日志
+                MoneyLog moneyLog1 = new MoneyLog();
+                moneyLog1.setUserId(sysUser.getId());
+                moneyLog1.setUserName(sysUser.getUsername());
+                moneyLog1.setOrderNo(orderSn);
+                if (proxyRechargeDto.getType() == 0) {
+                    moneyLog1.setOrderType(MbChangeTypeEnum.OWNER_WITHDRAWAL_TEST.getType());//账变类型
+                    moneyLog1.setOrderTypeName(MbChangeTypeEnum.OWNER_WITHDRAWAL_TEST.getName());//账变类型名称
+                    moneyLog1.setMoney(testAmount);//账变金额
+                } else {
+                    moneyLog1.setOrderType(MbChangeTypeEnum.OWNER_RECHARGE_TEST.getType());//账变类型
+                    moneyLog1.setOrderTypeName(MbChangeTypeEnum.OWNER_RECHARGE_TEST.getName());//账变类型名称
+                    moneyLog1.setMoney(testAmount.negate());//账变金额
+                }
+                moneyLog1.setBeforeMoney(parentCurrentBalance);//账变前金额
+                moneyLog1.setAfterMoney(parentAfterMoney);//账变后金额
+                moneyLog1.setCreateTime(date);
+                moneyLog1.setCreateBy(user.getUsername());
+                moneyLog1.setUpdateTime(date);
+                moneyLog1.setUpdateBy(user.getUsername());
+                moneyLogList.add(moneyLog1);
+
+
+                if (proxyRechargeDto.getType() == 0) {
+                    adminUserService.addRewardTestMb(user, testAmount.negate());
+                    adminUserService.addRewardTestMb(sysUser, testAmount);
+                } else {
+                    adminUserService.addRewardTestMb(user, testAmount);
+                    adminUserService.addRewardTestMb(sysUser, testAmount.negate());
+                }
+
+                //账变记录
+                moneyLogService.saveBatch(moneyLogList);
+            }
 
             return Result.succeed("操作成功");
         } catch (Exception e) {
@@ -279,7 +396,7 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
             insert = super.updateById(site);
         }
         if (insert) {
-            // add by year 删除站点信息缓存
+            // add by year 删除商户信息缓存
             asyncService.deleteSiteInfoCache(site.getId());
             return Result.succeed(site, "操作成功");
         }
@@ -291,7 +408,7 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
         Long id = params.getId();
         Site siteInfo = baseMapper.selectById(id);
         if (siteInfo == null) {
-            return Result.failed("此站点不存在");
+            return Result.failed("此商户不存在");
         }
         if (params.getStatus() != null) {
             siteInfo.setStatus(params.getStatus());
@@ -302,7 +419,7 @@ public class SiteServiceImpl extends SuperServiceImpl<SiteMapper, Site> implemen
         siteInfo.setUpdateBy(params.getUpdateBy());
         int i = baseMapper.updateById(siteInfo);
 
-        // add by year 删除站点信息缓存
+        // add by year 删除商户信息缓存
         if (i > 0) {
             asyncService.deleteSiteInfoCache(siteInfo.getId());
         }

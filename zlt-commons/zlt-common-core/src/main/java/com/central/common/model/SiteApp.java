@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.Max;
 
 /**
- * 站点app更新配置
+ * 商户app更新配置
  *
  * @author yixiu
  * @date 2023-02-21 19:46:07
@@ -20,11 +20,11 @@ import javax.validation.constraints.Max;
 @TableName("kpn_site_app")
 public class SiteApp extends SuperEntity {
     private static final long serialVersionUID=1L;
-    @ApiModelProperty(value = "站点id")
+    @ApiModelProperty(value = "商户id")
     private Integer siteId;
-    @ApiModelProperty(value = "站点编码")
+    @ApiModelProperty(value = "商户编码")
     private String siteCode;
-    @ApiModelProperty(value = "站点名称")
+    @ApiModelProperty(value = "商户名称")
     private String siteName;
     @ApiModelProperty(value = "终端类型 android,ios")
     private String type;

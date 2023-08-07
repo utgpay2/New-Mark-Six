@@ -30,6 +30,7 @@ public interface ISysUserService extends ISuperService<SysUser> {
      * @param rewardMb 奖励M币数
      */
     void addRewardMb(SysUser sysUser, BigDecimal rewardMb);
+    public void addRewardTestMb(SysUser sysUser, BigDecimal rewardTestMb);
 
     /**
      * 获取总推广人数
@@ -42,7 +43,7 @@ public interface ISysUserService extends ISuperService<SysUser> {
     /**
      * 注册
      *
-     * @param sid         站点id
+     * @param sid         商户id
      * @param promoteUser 推广人
      * @param username    账号
      * @param password    密码
@@ -52,7 +53,7 @@ public interface ISysUserService extends ISuperService<SysUser> {
     /**
      * 填写邀请码
      *
-     * @param sid         站点id
+     * @param sid         商户id
      * @param userId      会员id
      * @param promoteUser 推广会员
      * @param inviteCode  邀请码

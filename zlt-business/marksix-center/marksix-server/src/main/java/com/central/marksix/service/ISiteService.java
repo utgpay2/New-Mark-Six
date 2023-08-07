@@ -9,7 +9,7 @@ import java.util.List;
 public interface ISiteService extends ISuperService<Site> {
 
     /**
-     * 查询所有启用站点
+     * 查询所有启用商户
      * @return
      */
     List<Site> getList();

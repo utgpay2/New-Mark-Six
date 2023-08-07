@@ -10,7 +10,7 @@ import lombok.Data;
 public class SiteAnnouncementCo extends PageCo {
 
 
-    @ApiModelProperty(value = "站点id",required = true)
+    @ApiModelProperty(value = "商户id",required = true)
     private Long siteId;
 
     @ApiModelProperty(value = "操作人")

@@ -1,7 +1,7 @@
 package com.central.marksix.enums;
 
 /**
- * 站点专题状态
+ * 商户专题状态
  */
 public enum DeviceTypeEnum {
     H5(1, "H5"),

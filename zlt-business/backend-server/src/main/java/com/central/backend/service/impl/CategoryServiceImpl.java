@@ -53,7 +53,7 @@ public class CategoryServiceImpl extends SuperServiceImpl<CategoryMapper, Catego
         wrapper.eq(SiteCategoryLottery::getCategoryId,id);
         List<SiteCategoryLottery> list = categoryLotteryService.getBaseMapper().selectList(wrapper);
         if(null!=list && list.size()>0){
-            return Result.failed("请删除站点下分类，再删除分类");
+            return Result.failed("请删除商户下分类，再删除分类");
         }else {
             this.removeById(id);
             Set<String> redisKeys = RedisRepository.keys(RedisConstants.SITE_LOTTERY_CATEGORY_KEY);

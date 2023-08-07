@@ -18,7 +18,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 public class CategoryVo {
     private static final long serialVersionUID=1L;
-    @ApiModelProperty(value = "站点彩种分类一类ID")
+    @ApiModelProperty(value = "商户彩种分类一类ID")
     private Long id;
     @ApiModelProperty(value = "分类名称")
     private String name;
@@ -32,12 +32,12 @@ public class CategoryVo {
     private String createBy;
     @ApiModelProperty(value = "更新人")
     private String updateBy;
-    @ApiModelProperty(value = "站点彩种ID")
+    @ApiModelProperty(value = "商户彩种ID")
     private Integer siteLotteryId;
     @ApiModelProperty(value = "排序")
     private Integer sort;
     @ApiModelProperty(value = "分类ID")
     private Integer categoryId;
-    @ApiModelProperty(value = "站点ID")
+    @ApiModelProperty(value = "商户ID")
     private Long siteId;
     }

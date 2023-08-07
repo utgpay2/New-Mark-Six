@@ -128,9 +128,9 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 BeanUtil.copyProperties(ordersDto, quizOrders);
                 String orderSn = SnowflakeIdWorker.createOrderSn();//订单号
                 quizOrders.setOrderNo(orderSn);
-                quizOrders.setSiteId(sysUser.getSiteId());//站点id
-                quizOrders.setSiteCode(sysUser.getSiteCode());//站点编码
-                quizOrders.setSiteName(sysUser.getSiteName());//站点名称
+                quizOrders.setSiteId(sysUser.getSiteId());//商户id
+                quizOrders.setSiteCode(sysUser.getSiteCode());//商户编码
+                quizOrders.setSiteName(sysUser.getSiteName());//商户名称
                 quizOrders.setMemberId(sysUser.getId());//会员ID
                 quizOrders.setUserName(sysUser.getUsername());//用户名
                 quizOrders.setParentId(sysUser.getParentId());//上级id
@@ -140,6 +140,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 quizOrders.setCreateBy(sysUser.getUsername());
                 quizOrders.setUpdateTime(new Date());
                 quizOrders.setUpdateBy(sysUser.getUsername());
+                quizOrders.setIsTestAccount(user.getIsTestAccount());
 
                 //子订单
                 List<QuizSubordersDto> subordersDtoList = ordersDto.getSubordersList();

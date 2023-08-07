@@ -18,16 +18,16 @@ import java.util.Date;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 public class SiteLotteryVo {
-    @ApiModelProperty(value = "站点彩种ID")
+    @ApiModelProperty(value = "商户彩种ID")
     private Long id;
     private static final long serialVersionUID=1L;
     @ApiModelProperty(value = "彩种ID")
     private Integer lotteryId;
-    @ApiModelProperty(value = "站点id")
+    @ApiModelProperty(value = "商户id")
     private Integer siteId;
-    @ApiModelProperty(value = "站点编码")
+    @ApiModelProperty(value = "商户编码")
     private String siteCode;
-    @ApiModelProperty(value = "站点名称")
+    @ApiModelProperty(value = "商户名称")
     private String siteName;
     @ApiModelProperty(value = "创建时间")
     private Date createTime;

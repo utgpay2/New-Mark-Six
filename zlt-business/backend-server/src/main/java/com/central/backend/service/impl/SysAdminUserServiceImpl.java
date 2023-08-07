@@ -71,6 +71,15 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
     }
 
     @Override
+    public void addRewardTestMb(SysUser sysUser, BigDecimal rewardTestMb) {
+        this.lambdaUpdate().eq(SysUser::getId, sysUser.getId())
+                .setSql("`m_test_balance` = `m_test_balance` + " + rewardTestMb)
+                .update();
+        String redisKey = StrUtil.format(RedisConstants.SITE_SYSUSER_KEY, sysUser.getId());
+        RedisRepository.delete(redisKey);
+    }
+
+    @Override
     public PageResult<SysUser> findList(Map<String, Object> params, SysUser user){
         LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<SysUser>();
         if(null!=user && user.getSiteId()!=null && user.getSiteId()!=0){//
@@ -334,12 +343,29 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 }
             }
             if(b){
-                //站点id
+                if(adminUserVo.getSiteId()!=0){
+                    return Result.failed("商户管理员不能授予系统管理员或者超级系统管理员权限");
+                }
+                //商户id
                 user.setSiteId(0L);
-                //站点编码
+                //商户编码
                 user.setSiteCode("0");
-                //站点名称
+                //商户名称
                 user.setSiteName("0");
+                user.setUsername(adminUserVo.getUsername());
+            }else {
+                Site site = iSiteService.getById(adminUserVo.getSiteId());
+                if(null == site){
+                    return Result.failed("请先添加商户");
+                }else {
+                    //商户id
+                    user.setSiteId(site.getId());
+                    //商户编码
+                    user.setSiteCode(site.getCode());
+                    //商户名称
+                    user.setSiteName(site.getName());
+                    user.setUsername(site.getCode()+"_"+adminUserVo.getUsername());
+                }
             }
 //            else {//商户管理员
 //                user.setUsername(user.getSiteCode() + "_" +adminUserVo.getUsername());
@@ -351,7 +377,7 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 user.setParentName(sysUser.getUsername());
 
             }
-            user.setUsername(adminUserVo.getSiteCode()+"_"+adminUserVo.getUsername());
+
             user.setNickname(adminUserVo.getUsername());
             user.setType(UserTypeEnum.BACKEND.name());
             user.setIsReg(UserRegTypeEnum.ADMIN_CREATE.getType());
@@ -381,18 +407,42 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 }
             }
             if(b){
-                //站点id
-                user.setSiteId(0L);
-                //站点编码
-                user.setSiteCode("0");
-                //站点名称
-                user.setSiteName("0");
+                if(adminUserVo.getSiteId()!=0){
+                    return Result.failed("商户管理员不能授予系统管理员或者超级系统管理员权限");
+                }
+                //商户id
+                userInfo.setSiteId(0L);
+                //商户编码
+                userInfo.setSiteCode("0");
+                //商户名称
+                userInfo.setSiteName("0");
+                user.setUsername(adminUserVo.getUsername());
+            }else {
+                Site site = iSiteService.getById(adminUserVo.getSiteId());
+                if(null == site){
+                    return Result.failed("请先添加商户");
+                }else {
+                    //商户id
+                    userInfo.setSiteId(site.getId());
+                    //商户编码
+                    userInfo.setSiteCode(site.getCode());
+                    //商户名称
+                    userInfo.setSiteName(site.getName());
+                    user.setUsername(site.getCode()+"_"+adminUserVo.getUsername());
+                }
             }
-//            else {//商户管理员
-//                user.setUsername(user.getSiteCode() + "_" +adminUserVo.getUsername());
-//            }
+            if(null!=sysUser){
+                //上级id
+                userInfo.setParentId(sysUser.getId());
+                //上级账号
+                userInfo.setParentName(sysUser.getUsername());
 
-            //userInfo.setMobile(user.getMobile());
+            }
+            userInfo.setNickname(adminUserVo.getUsername());
+            userInfo.setType(UserTypeEnum.BACKEND.name());
+            userInfo.setIsReg(UserRegTypeEnum.ADMIN_CREATE.getType());
+            userInfo.setEnabled(Boolean.TRUE);
+            userInfo.setUpdateTime(new Date());
             userInfo.setUpdateBy(null!=sysUser?sysUser.getUpdateBy():"");
             //用户名
             userInfo.setUsername(adminUserVo.getUsername());

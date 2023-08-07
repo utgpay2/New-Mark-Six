@@ -37,7 +37,7 @@ public class CopyBettingRulesServiceImpl implements ICopyBettingRulesService {
     private IQuizChooseService quizChooseService;
 
     /**
-     * 整个站点拷贝彩种规则
+     * 整个商户拷贝彩种规则
      * @param copyBettingSiteDto
      * @param user
      */

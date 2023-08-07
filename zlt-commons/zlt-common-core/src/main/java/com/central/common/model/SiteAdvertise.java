@@ -14,16 +14,16 @@ import java.util.Date;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @TableName("kpn_site_advertise")
-@ApiModel("站点广告")
+@ApiModel("商户广告")
 public class SiteAdvertise extends SuperEntity {
 
-    @ApiModelProperty(value = "站点id")
+    @ApiModelProperty(value = "商户id")
     private Long siteId;
 
-    @ApiModelProperty(value = "站点编码")
+    @ApiModelProperty(value = "商户编码")
     private String siteCode;
 
-    @ApiModelProperty(value = "站点名称")
+    @ApiModelProperty(value = "商户名称")
     private String siteName;
 
     @ApiModelProperty(value = "广告名称中文")

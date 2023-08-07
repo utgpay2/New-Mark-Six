@@ -7,13 +7,13 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@ApiModel("站点信息")
+@ApiModel("商户信息")
 public class SiteVo implements Serializable {
 
-    @ApiModelProperty("站点id")
+    @ApiModelProperty("商户id")
     private Long sid;
 
-    @ApiModelProperty("站点logo")
+    @ApiModelProperty("商户logo")
     private String logoUrl;
 
     @ApiModelProperty("币种")

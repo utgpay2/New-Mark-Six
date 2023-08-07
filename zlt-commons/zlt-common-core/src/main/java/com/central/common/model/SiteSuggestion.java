@@ -15,13 +15,13 @@ import lombok.EqualsAndHashCode;
 @TableName("kpn_site_suggestion")
 @ApiModel("意见反馈")
 public class SiteSuggestion extends SuperEntity {
-	@ApiModelProperty(value = "站点id")
+	@ApiModelProperty(value = "商户id")
 	private Long siteId;
 
-	@ApiModelProperty(value = "站点编码")
+	@ApiModelProperty(value = "商户编码")
 	private String siteCode;
 
-	@ApiModelProperty(value = "站点名称")
+	@ApiModelProperty(value = "商户名称")
 	private String siteName;
 
 	@ApiModelProperty(value = "会员id")

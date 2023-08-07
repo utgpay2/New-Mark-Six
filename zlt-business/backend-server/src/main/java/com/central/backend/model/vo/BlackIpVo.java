@@ -29,11 +29,11 @@ public class BlackIpVo {
     private String updateBy;
     @ApiModelProperty(value = "会员黑名单ip段")
     private String ipSection;
-    @ApiModelProperty(value = "站点id")
+    @ApiModelProperty(value = "商户id")
     private Integer siteId;
-    @ApiModelProperty(value = "站点编码")
+    @ApiModelProperty(value = "商户编码")
     private String siteCode;
-    @ApiModelProperty(value = "站点名称")
+    @ApiModelProperty(value = "商户名称")
     private String siteName;
     @ApiModelProperty(value = "备注")
     private String remark;

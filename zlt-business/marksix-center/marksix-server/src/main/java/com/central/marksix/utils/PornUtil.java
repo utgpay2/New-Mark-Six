@@ -12,7 +12,7 @@ public class PornUtil {
 
     /**
      * 关键词搜索影片
-     * @param sid 站点id
+     * @param sid 商户id
      * @param keywords 搜索关键词
      * @return
      */

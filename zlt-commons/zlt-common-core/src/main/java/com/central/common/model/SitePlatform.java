@@ -13,16 +13,16 @@ import java.math.BigDecimal;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @TableName("kpn_site_platform")
-@ApiModel("站点平台配置")
+@ApiModel("商户平台配置")
 public class SitePlatform extends SuperEntity{
 
-    @ApiModelProperty(value = "站点id")
+    @ApiModelProperty(value = "商户id")
     private Long siteId;
 
-    @ApiModelProperty(value = "站点编码")
+    @ApiModelProperty(value = "商户编码")
     private String siteCode;
 
-    @ApiModelProperty(value = "站点名称")
+    @ApiModelProperty(value = "商户名称")
     private String siteName;
 
     @ApiModelProperty(value = "兑换M币数")

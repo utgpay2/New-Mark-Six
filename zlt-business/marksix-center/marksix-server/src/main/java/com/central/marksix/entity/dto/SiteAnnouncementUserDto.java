@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel("用户是否已读站点公告")
+@ApiModel("用户是否已读商户公告")
 @Data
 public class SiteAnnouncementUserDto {
     @ApiModelProperty(value = "公告id")

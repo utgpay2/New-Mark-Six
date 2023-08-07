@@ -173,6 +173,9 @@ public class SysAdminUserController {
         if (ObjectUtil.isEmpty(adminUserVo)) {
             return Result.failed("请求参数不能为空");
         }
+        if (ObjectUtil.isEmpty(adminUserVo.getSiteId())) {
+            adminUserVo.setSiteId(0L);
+        }
         if (ObjectUtil.isEmpty(adminUserVo.getUsername())) {
             return Result.failed("用户名不能为空");
         }
@@ -287,7 +290,7 @@ public class SysAdminUserController {
     @ApiOperation("密码登录")
     @PostMapping("/login/password")
     public Result<String> login(
-//            @ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid,
+//            @ApiParam(value = "商户id", required = true) @RequestHeader("sid") Long sid,
 //                                @ApiParam(value = "图形验证码id", required = true) String verifyCodeId,
 //                                @ApiParam(value = "验证码", required = true) String verifyCode,
                                 @ApiParam(value = "登录账号", required = true) String username,
@@ -339,7 +342,7 @@ public class SysAdminUserController {
     @ApiOperation("google登录")
     @PostMapping("/login/logingoogle")
     public Result<String> login(
-//            @ApiParam(value = "站点id", required = true) @RequestHeader("sid") Long sid,
+//            @ApiParam(value = "商户id", required = true) @RequestHeader("sid") Long sid,
                                 //@ApiParam(value = "图形验证码id", required = false) String verifyCodeId,
                                 @ApiParam(value = "验证码", required = false) String verifyCode,
                                 @ApiParam(value = "登录账号", required = true) String username,
@@ -532,7 +535,7 @@ public class SysAdminUserController {
     }
 
 
-    @ApiOperation(value = "站点编号查询站主和代理")
+    @ApiOperation(value = "商户编号查询站主和代理")
     @GetMapping("/proxy/{siteCode}")
     public Result getProxyBySiteCode(@PathVariable String siteCode) {
 

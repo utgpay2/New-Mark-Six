@@ -151,11 +151,11 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 }
             }
             if(b){
-                //站点id
+                //商户id
                 user.setSiteId(0L);
-                //站点编码
+                //商户编码
                 user.setSiteCode("0");
-                //站点名称
+                //商户名称
                 user.setSiteName("0");
             }
 //            else {//商户管理员
@@ -198,11 +198,11 @@ public class SysAdminUserServiceImpl extends SuperServiceImpl<SysUserMapper, Sys
                 }
             }
             if(b){
-                //站点id
+                //商户id
                 user.setSiteId(0L);
-                //站点编码
+                //商户编码
                 user.setSiteCode("0");
-                //站点名称
+                //商户名称
                 user.setSiteName("0");
             }
 //            else {//商户管理员

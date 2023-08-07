@@ -14,7 +14,7 @@ public class ProxyAdminDto {
     private String password;
     @ApiModelProperty(value = "随机字符串")
     private String random;
-    @ApiModelProperty(value = "站点编码")
+    @ApiModelProperty(value = "商户编码")
     private String siteCode;
     @ApiModelProperty(value = "签名摘要")
     private String sign;

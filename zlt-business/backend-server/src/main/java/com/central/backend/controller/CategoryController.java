@@ -86,10 +86,10 @@ public class CategoryController {
         }
         return categoryService.deleteCategory(id);
     }
-    @ApiOperation(value = "查询站点彩种下注分类一类（系统管理员权限）")
+    @ApiOperation(value = "查询商户彩种下注分类一类（系统管理员权限）")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteId", value = "商户id", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteLotteryId", value = "商户彩种ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/listsitecategory")
@@ -98,17 +98,17 @@ public class CategoryController {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(params.get("siteId"))) {
-            return Result.failed("站点ID不能为空");
+            return Result.failed("商户ID不能为空");
         }
         if (ObjectUtil.isEmpty(params.get("siteLotteryId"))) {
-            return Result.failed("站点彩种ID不能为空");
+            return Result.failed("商户彩种ID不能为空");
         }
         return Result.succeed(categoryLotteryService.findList(params));
     }
     /**
      * 新增or更新
      */
-    @ApiOperation(value = "新增or更新站点彩种分类一类（系统管理员权限）")
+    @ApiOperation(value = "新增or更新商户彩种分类一类（系统管理员权限）")
     @PostMapping("/saveorupdatesitecategory")
     public Result saveOrUpdateSiteCategory(@RequestBody SiteCategoryLottery category, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(category)) {
@@ -118,10 +118,10 @@ public class CategoryController {
             return Result.failed("分类ID不能为空");
         }
         if (ObjectUtil.isEmpty(category.getSiteId())) {
-            return Result.failed("站点ID不能为空");
+            return Result.failed("商户ID不能为空");
         }
         if (ObjectUtil.isEmpty(category.getSiteLotteryId())) {
-            return Result.failed("站点彩种ID不能为空");
+            return Result.failed("商户彩种ID不能为空");
         }
         return categoryLotteryService.saveOrUpdateSiteCategory(category,user);
     }
@@ -129,11 +129,11 @@ public class CategoryController {
     /**
      * 删除
      */
-    @ApiOperation(value = "删除站点彩种分类一类（系统管理员权限）")
+    @ApiOperation(value = "删除商户彩种分类一类（系统管理员权限）")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "站点彩种分类一类ID", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "id", value = "商户彩种分类一类ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteId", value = "商户id", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteLotteryId", value = "商户彩种ID", required = true, dataType = "Integer")
 
     })
     @PostMapping("/deletesitecategory")
@@ -144,10 +144,10 @@ public class CategoryController {
             return Result.failed("ID不能为空");
         }
         if (ObjectUtil.isEmpty(siteId)) {
-            return Result.failed("站点id不能为空");
+            return Result.failed("商户id不能为空");
         }
         if (ObjectUtil.isEmpty(siteLotteryId)) {
-            return Result.failed("站点彩种ID不能为空");
+            return Result.failed("商户彩种ID不能为空");
         }
         return categoryLotteryService.deleteSiteCategory(id,siteId,siteLotteryId);
     }

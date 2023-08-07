@@ -84,9 +84,9 @@ public class LotteryController {
         return lotteryService.deleteLottery(id);
     }
 
-    @ApiOperation(value = "查询站点彩种（系统管理员权限）")
+    @ApiOperation(value = "查询商户彩种（系统管理员权限）")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteId", value = "商户id", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/listsitelottery")
@@ -95,27 +95,27 @@ public class LotteryController {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(params.get("siteId"))) {
-            return Result.failed("站点id不能为空");
+            return Result.failed("商户id不能为空");
         }
         return Result.succeed(siteLotteryService.findList(params));
     }
     /**
      * 新增or更新
      */
-    @ApiOperation(value = "新增or更新站点彩种（系统管理员权限）")
+    @ApiOperation(value = "新增or更新商户彩种（系统管理员权限）")
     @PostMapping("/saveorupdatesitelottery")
     public Result saveOrUpdateSiteLottery(@RequestBody SiteLottery lottery, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(lottery)) {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(lottery.getSiteId())) {
-            return Result.failed("站点id不能为空");
+            return Result.failed("商户id不能为空");
         }
         if (ObjectUtil.isEmpty(lottery.getSiteName())) {
-            return Result.failed("站点名称不能为空");
+            return Result.failed("商户名称不能为空");
         }
         if (ObjectUtil.isEmpty(lottery.getSiteCode())) {
-            return Result.failed("站点编码不能为空");
+            return Result.failed("商户编码不能为空");
         }
         if (ObjectUtil.isEmpty(lottery.getLotteryId())) {
             return Result.failed("彩种ID不能为空");
@@ -126,18 +126,18 @@ public class LotteryController {
     /**
      * 删除
      */
-    @ApiOperation(value = "删除站点彩种（系统管理员权限）")
+    @ApiOperation(value = "删除商户彩种（系统管理员权限）")
     @PostMapping("/deletesitelottery")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "站点彩种id", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "id", value = "商户彩种id", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteId", value = "商户id", required = true, dataType = "Integer")
     })
     public Result deleteSiteLottery(@RequestParam(value = "id", required = true)  Long id,@RequestParam(value = "siteId", required = true)  Integer siteId) {
         if (ObjectUtil.isEmpty(id)) {
-            return Result.failed("站点彩种ID不能为空");
+            return Result.failed("商户彩种ID不能为空");
         }
         if (ObjectUtil.isEmpty(siteId)) {
-            return Result.failed("站点ID不能为空");
+            return Result.failed("商户ID不能为空");
         }
         return siteLotteryService.deleteSiteLottery(id,siteId);
     }

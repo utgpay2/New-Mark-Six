@@ -10,11 +10,11 @@ import lombok.Data;
 public class SiteCo extends PageCo {
 
 
-    @ApiModelProperty(value = "站点名称")
+    @ApiModelProperty(value = "商户名称")
     private String name;
 
 
-    @ApiModelProperty(value = "站点状态 0/false:关闭,1/true:开启")
+    @ApiModelProperty(value = "商户状态 0/false:关闭,1/true:开启")
     private Boolean status;
 
     @ApiModelProperty(value = "开始时间")

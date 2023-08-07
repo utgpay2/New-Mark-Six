@@ -16,10 +16,13 @@ public class ProxyRechargeDto {
     @NotNull(message = "代理id不能为空")
     private Integer userId;
 
-    @ApiModelProperty(value = "金额" , required = true)
-    @NotNull(message = "金额不能为空")
+    @ApiModelProperty(value = "正式授信金额" , required = true)
+    @NotNull(message = "正式授信金额不能为空")
     private BigDecimal amount;
 
+    @ApiModelProperty(value = "测试授信金额" , required = true)
+    @NotNull(message = "测试授信金额不能为空")
+    private BigDecimal testAmount;
 
     @ApiModelProperty(value = "转账类型 0收回代理授信额度  1给代理授信额度")
     private Integer type;

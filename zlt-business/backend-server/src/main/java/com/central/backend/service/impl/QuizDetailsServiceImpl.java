@@ -69,7 +69,7 @@ public class QuizDetailsServiceImpl extends SuperServiceImpl<QuizDetailsMapper, 
         wrapper.eq(QuizChoose::getQuizDetailsId,quizDetailsDto.getId());
         List<QuizChoose> list = quizChooseService.getBaseMapper().selectList(wrapper);
         if(null!=list && list.size()>0){
-            return Result.failed("请删除规则明细，再删除站点彩种分类(三类)");
+            return Result.failed("请删除规则明细，再删除商户彩种分类(三类)");
         }else {
             this.removeById(quizDetailsDto.getId());
             String redisKeyStr = StrUtil.format(RedisConstants.SITE_LOTTERY_CATEGORY_QUIZ_QUIZDETAILS_LIST_KEY,

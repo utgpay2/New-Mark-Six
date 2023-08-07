@@ -36,7 +36,7 @@ import java.util.Set;
 
 @Slf4j
 @RestController
-@Api(tags = "站点管理api")
+@Api(tags = "商户管理api")
 @Validated
 @RequestMapping("/site")
 public class SiteController {
@@ -54,7 +54,7 @@ public class SiteController {
     @Value("${zlt.minio.externalEndpoint}")
     private String externalEndpoint;
 
-    @ApiOperation("查询站点列表")
+    @ApiOperation("查询商户列表")
     @ResponseBody
     @GetMapping("/findSiteList")
     public Result<PageResult<Site>> findSiteList(@ModelAttribute SiteCo params) {
@@ -68,7 +68,7 @@ public class SiteController {
     }
 
 
-    @ApiOperation(value = "给站点授信额度（系统管理员权限）")
+    @ApiOperation(value = "给商户授信额度（系统管理员权限）")
     @PostMapping(value = "/recharge")
     public Result recharge(@RequestBody SiteRechargeDto siteRechargeDto, @LoginUser SysUser sysUser) {
         if(sysUser.getId()!=1 && sysUser.getId()!=2){
@@ -82,7 +82,7 @@ public class SiteController {
     /**
      * 新增
      *
-     * @param ProxyAdminDto
+     * @param 
      * @return
      */
     @ApiOperation(value ="新增代理")
@@ -133,7 +133,7 @@ public class SiteController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "limit", value = "分页结束位置", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "siteId", value = "商户id", required = true, dataType = "Integer")
     })
     @GetMapping("/getProxys")
     public Result<PageResult<SysUser>> getProxys(@RequestParam Map<String, Object> params,@ApiIgnore @LoginUser SysUser sysUser) {
@@ -161,7 +161,7 @@ public class SiteController {
     }
 
 
-    @ApiOperation("查询站点下拉框数据")
+    @ApiOperation("查询商户下拉框数据")
     @ResponseBody
     @GetMapping("/findSiteBoxList")
     public Result<List<SiteListVo>> findSiteBoxList(@ApiIgnore @LoginUser SysUser sysUser) {
@@ -174,7 +174,7 @@ public class SiteController {
         return Result.succeed(list);
     }
 
-    @ApiOperation(value = "站点总计")
+    @ApiOperation(value = "商户总计")
     @GetMapping("/findSiteTotal")
     public Result<SiteVo> findSiteTotal() {
         SiteVo siteTotal = siteService.findSiteTotal();
@@ -183,7 +183,7 @@ public class SiteController {
 
 
 
-    @ApiOperation(value = "新增or更新站点")
+    @ApiOperation(value = "新增or更新商户")
     @PostMapping(value = "/saveOrUpdateSite")
     public Result saveOrUpdateSite(@RequestBody Site site, @LoginUser SysUser sysUser) {
         if (sysUser!=null) {
@@ -195,13 +195,13 @@ public class SiteController {
             }
         }
         if (ObjectUtil.isEmpty(site.getName())) {
-            return Result.failed("站点名称不能为空");
+            return Result.failed("商户名称不能为空");
         }
         if (ObjectUtil.isEmpty(site.getCode())) {
-            return Result.failed("站点编码不能为空");
+            return Result.failed("商户编码不能为空");
         }
         if (ObjectUtil.isEmpty(site.getLogoUrl())) {
-            return Result.failed("站点logo不能为空");
+            return Result.failed("商户logo不能为空");
         }
         if (ObjectUtil.isEmpty(site.getCurrencyCode())) {
             return Result.failed("币种不能为空");
@@ -213,7 +213,7 @@ public class SiteController {
     }
 
 
-    @ApiOperation(value = "修改站点状态")
+    @ApiOperation(value = "修改商户状态")
     @GetMapping("/updateEnabledSite")
     public Result updateEnabledSite(@Valid @ModelAttribute SiteUpdateCo params, @LoginUser SysUser sysUser) {
         if (sysUser!=null) {
@@ -226,7 +226,7 @@ public class SiteController {
 
 
 
-    @ApiOperation(value = "随机生成站点编号")
+    @ApiOperation(value = "随机生成商户编号")
     @GetMapping("/randomNumber")
     public Result randomNumber() {
         String name =siteService.getStringRandom(6);

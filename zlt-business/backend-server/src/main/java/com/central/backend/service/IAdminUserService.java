@@ -58,4 +58,6 @@ public interface IAdminUserService extends ISuperService<SysUser> {
 	 * @param rewardMb 奖励M币数
 	 */
 	void addRewardMb(SysUser sysUser, BigDecimal rewardMb);
+
+	void addRewardTestMb(SysUser sysUser, BigDecimal rewardMb);
 }

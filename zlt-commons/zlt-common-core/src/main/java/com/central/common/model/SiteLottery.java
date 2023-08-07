@@ -21,10 +21,10 @@ public class SiteLottery extends SuperEntity {
     private static final long serialVersionUID=1L;
     @ApiModelProperty(value = "彩种ID")
     private Integer lotteryId;
-    @ApiModelProperty(value = "站点id")
+    @ApiModelProperty(value = "商户id")
     private Integer siteId;
-    @ApiModelProperty(value = "站点编码")
+    @ApiModelProperty(value = "商户编码")
     private String siteCode;
-    @ApiModelProperty(value = "站点名称")
+    @ApiModelProperty(value = "商户名称")
     private String siteName;
     }

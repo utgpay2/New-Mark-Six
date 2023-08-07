@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@ApiModel("站点广告")
+@ApiModel("商户广告")
 public class SiteAdvertiseVo extends LanguageNameMulti implements Serializable {
     @ApiModelProperty(value = "广告Id")
     private Long id;

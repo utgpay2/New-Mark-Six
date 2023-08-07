@@ -27,15 +27,15 @@ public class QuizChooseVo{
 
     @ApiModelProperty(value = "奖项详情")
     private Long id;
-    @ApiModelProperty(value = "站点id")
+    @ApiModelProperty(value = "商户id")
     private Long siteId;
-    @ApiModelProperty(value = "站点彩种ID")
+    @ApiModelProperty(value = "商户彩种ID")
     private Long siteLotteryId;
-    @ApiModelProperty(value = "站点彩种分类(一类)ID")
+    @ApiModelProperty(value = "商户彩种分类(一类)ID")
     private Long siteCategoryId;
-    @ApiModelProperty(value = "站点彩种分类(二类)ID")
+    @ApiModelProperty(value = "商户彩种分类(二类)ID")
     private Long quizId;
-    @ApiModelProperty(value = "站点彩种分类三类ID")
+    @ApiModelProperty(value = "商户彩种分类三类ID")
     private Long quizDetailsId;
     @ApiModelProperty(value = "标题")
     private String introduce;

@@ -15,7 +15,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("站点配置信息")
+@ApiModel("商户配置信息")
 public class SiteConfigInfoVo implements Serializable {
 
     @ApiModelProperty("线路信息")

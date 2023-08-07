@@ -27,29 +27,29 @@ public class QuizOrders extends SuperEntity {
     private String periods;
     @ApiModelProperty(value = "年份")
     private Integer year;
-    @ApiModelProperty("站点id")
+    @ApiModelProperty("商户id")
     private Long siteId;
-    @ApiModelProperty("站点编码")
+    @ApiModelProperty("商户编码")
     private String siteCode;
-    @ApiModelProperty("站点名称")
+    @ApiModelProperty("商户名称")
     private String siteName;
     @ApiModelProperty(value = "彩种ID")
     private Long lotteryId;
-    @ApiModelProperty(value = "站点彩种ID")
+    @ApiModelProperty(value = "商户彩种ID")
     private Long siteLotteryId;
-    @ApiModelProperty(value = "站点彩种名称")
+    @ApiModelProperty(value = "商户彩种名称")
     private String lotteryName;
-    @ApiModelProperty(value = "站点彩种分类一类ID")
+    @ApiModelProperty(value = "商户彩种分类一类ID")
     private Long siteCategoryId;
-    @ApiModelProperty(value = "站点彩种分类一类名称")
+    @ApiModelProperty(value = "商户彩种分类一类名称")
     private String siteCategoryName;
-    @ApiModelProperty(value = "站点彩种分类二类ID")
+    @ApiModelProperty(value = "商户彩种分类二类ID")
     private Long quizId;
-    @ApiModelProperty(value = "站点彩种分类二类名称")
+    @ApiModelProperty(value = "商户彩种分类二类名称")
     private String quizTitle;
-    @ApiModelProperty(value = "站点彩种分类三类ID")
+    @ApiModelProperty(value = "商户彩种分类三类ID")
     private Long quizDetailsId;
-    @ApiModelProperty(value = "站点彩种分类三类名称")
+    @ApiModelProperty(value = "商户彩种分类三类名称")
     private String quizDetailsName;
     @ApiModelProperty(value = "投注内容（开奖规则明细ID 如：3172,3173,3174）")
     private String quizChooseIds;

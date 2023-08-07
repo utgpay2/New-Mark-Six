@@ -30,17 +30,17 @@ public interface SecurityConstants {
     String USER_TYPE_HEADER = "x-user-type-header";
 
     /**
-     * 用户所属站点id信息头
+     * 用户所属商户id信息头
      */
     String USER_SITE_ID_HEADER = "x-user-site_id-header";
 
     /**
-     * 用户所属站点code信息头
+     * 用户所属商户code信息头
      */
     String USER_SITE_CODE_HEADER = "x-user-site_code-header";
 
     /**
-     * 用户所属站点code信息头
+     * 用户所属商户code信息头
      */
     String USER_SITE_NAME_HEADER = "x-user-site_name-header";
 

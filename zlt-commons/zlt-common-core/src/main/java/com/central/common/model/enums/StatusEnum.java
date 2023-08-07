@@ -1,7 +1,7 @@
 package com.central.common.model.enums;
 
 /**
- * 站点专题状态
+ * 商户专题状态
  */
 public enum StatusEnum {
     ZERO_FALSE(0, "否"),

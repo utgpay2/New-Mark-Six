@@ -14,9 +14,9 @@ public interface IAsyncService {
     void setVipExpire(Date newVipExpire, Long userId);
 
     /**
-     * 删除站点信息缓存
+     * 删除商户信息缓存
      *
-     * @param sid 站点id
+     * @param sid 商户id
      */
     void deleteSiteInfoCache(Long sid);
 
@@ -26,16 +26,16 @@ public interface IAsyncService {
     void deleteLinesCache();
 
     /**
-     * 站点id
+     * 商户id
      *
-     * @param sid 站点id
+     * @param sid 商户id
      */
     void deleteSitePlatformCache(Long sid);
 
     /**
-     * 删除站点签到配置缓存
+     * 删除商户签到配置缓存
      *
-     * @param sid 站点id
+     * @param sid 商户id
      */
     void deleteSiteSignConfigCache(Long sid);
 

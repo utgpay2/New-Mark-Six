@@ -29,38 +29,38 @@ public class CopyBettingRulesController {
     @Autowired
     private ICopyBettingRulesService iCopyBettingRulesService;
 
-    @ApiOperation(value = "拷贝整个站点彩种规则到另一个站点彩种规则（系统管理员权限）")
+    @ApiOperation(value = "拷贝整个商户彩种规则到另一个商户彩种规则（系统管理员权限）")
     @PostMapping("/copybettingsite")
     public Result copybettingsite(@RequestBody CopyBettingSiteDto copyBettingSiteDto, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(copyBettingSiteDto)) {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(copyBettingSiteDto.getSourceSiteId())) {
-            return Result.failed("源站点ID不能为空");
+            return Result.failed("源商户ID不能为空");
         }
         if (ObjectUtil.isEmpty(copyBettingSiteDto.getTargetSiteId())) {
-            return Result.failed("目标站点ID不能为空");
+            return Result.failed("目标商户ID不能为空");
         }
         if (ObjectUtil.isEmpty(copyBettingSiteDto.getTargetSiteCode())) {
-            return Result.failed("目标站点编码不能为空");
+            return Result.failed("目标商户编码不能为空");
         }
         if (ObjectUtil.isEmpty(copyBettingSiteDto.getTargetSiteName())) {
-            return Result.failed("目标站点名称不能为空");
+            return Result.failed("目标商户名称不能为空");
         }
         return iCopyBettingRulesService.copybettingsite(copyBettingSiteDto,user);
     }
     @ApiOperation(value = "拷贝彩种规则到彩种规则（系统管理员权限）")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "sourceSiteLotteryId", value = "源站点彩种ID", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "targetSiteLotteryId", value = "目标站点彩种ID", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "sourceSiteLotteryId", value = "源商户彩种ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "targetSiteLotteryId", value = "目标商户彩种ID", required = true, dataType = "Integer")
     })
     @PostMapping("/copybettinglottery")
     public Result copybettinglottery(@RequestParam Long sourceSiteLotteryId,@RequestParam Long targetSiteLotteryId, @ApiIgnore @LoginUser SysUser user) {
         if (ObjectUtil.isEmpty(sourceSiteLotteryId)&&0!=sourceSiteLotteryId) {
-            return Result.failed("源站点彩种ID不能为空");
+            return Result.failed("源商户彩种ID不能为空");
         }
         if (ObjectUtil.isEmpty(targetSiteLotteryId)&&0!=targetSiteLotteryId) {
-            return Result.failed("目标站点彩种ID不能为空");
+            return Result.failed("目标商户彩种ID不能为空");
         }
         return iCopyBettingRulesService.copybettinglottery(sourceSiteLotteryId,targetSiteLotteryId,user);
     }

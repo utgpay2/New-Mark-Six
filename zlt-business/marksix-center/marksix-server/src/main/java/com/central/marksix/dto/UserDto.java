@@ -11,5 +11,7 @@ public class UserDto  extends ProxyAdminDto {
 
     @ApiModelProperty(value = "代理用户名")
     String proxyUsername;
+    @ApiModelProperty(value = "是否测试账号 0:正式账号 1:测试账号")
+    private Integer isTestAccount;
 
 }

@@ -31,7 +31,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Slf4j
 @RestController
 @RequestMapping("/quizchoose")
-@Api(tags = "站点彩种玩法规则(四类)")
+@Api(tags = "商户彩种玩法规则(四类)")
 public class QuizChooseController {
     @Autowired
     private IQuizChooseService quizChooseService;
@@ -41,11 +41,11 @@ public class QuizChooseController {
      */
     @ApiOperation(value = "查询彩票规则主表对应明细规则")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "siteId", value = "站点id", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "siteLotteryId", value = "站点彩种ID", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "siteCategoryId", value = "站点彩种分类(一类)ID", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "quizId", value = "站点彩种分类(二类)ID", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "quizDetailsId", value = "站点彩种分类(三类)ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteId", value = "商户id", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteLotteryId", value = "商户彩种ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "siteCategoryId", value = "商户彩种分类(一类)ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "quizId", value = "商户彩种分类(二类)ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "quizDetailsId", value = "商户彩种分类(三类)ID", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序(默认)、2倒叙", required = false, dataType = "Integer")
     })
     @GetMapping("/quizchooselist")
@@ -70,7 +70,7 @@ public class QuizChooseController {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(quizChoose.getQuizDetailsId())) {
-            return Result.failed("站点彩种分类(三类)ID");
+            return Result.failed("商户彩种分类(三类)ID");
         }
         if (ObjectUtil.isEmpty(quizChoose.getIntroduce())) {
             return Result.failed("标题不能为空");
@@ -82,16 +82,16 @@ public class QuizChooseController {
             return Result.failed("赔率不能为空");
         }
         if (ObjectUtil.isEmpty(quizChoose.getSiteId())) {
-            return Result.failed("站点id不能为空");
+            return Result.failed("商户id不能为空");
         }
         if (ObjectUtil.isEmpty(quizChoose.getSiteLotteryId())) {
-            return Result.failed("站点彩种ID不能为空");
+            return Result.failed("商户彩种ID不能为空");
         }
         if (ObjectUtil.isEmpty(quizChoose.getSiteCategoryId())) {
-            return Result.failed("站点彩种分类(一类)不能为空");
+            return Result.failed("商户彩种分类(一类)不能为空");
         }
         if (ObjectUtil.isEmpty(quizChoose.getQuizId())) {
-            return Result.failed("站点彩种分类(二类)id不能为空");
+            return Result.failed("商户彩种分类(二类)id不能为空");
         }
         return quizChooseService.saveOrUpdateQuizChoose(quizChoose,user);
     }
@@ -106,22 +106,22 @@ public class QuizChooseController {
             return Result.failed("请求参数不能为空");
         }
         if (ObjectUtil.isEmpty(quizChooseDto.getId())) {
-            return Result.failed("站点彩种分类(四类)id不能为空");
+            return Result.failed("商户彩种分类(四类)id不能为空");
         }
         if (ObjectUtil.isEmpty(quizChooseDto.getQuizDetailsId())) {
-            return Result.failed("站点彩种分类(三类)id不能为空");
+            return Result.failed("商户彩种分类(三类)id不能为空");
         }
         if (ObjectUtil.isEmpty(quizChooseDto.getSiteId())) {
-            return Result.failed("站点id不能为空");
+            return Result.failed("商户id不能为空");
         }
         if (ObjectUtil.isEmpty(quizChooseDto.getSiteLotteryId())) {
-            return Result.failed("站点彩种ID不能为空");
+            return Result.failed("商户彩种ID不能为空");
         }
         if (ObjectUtil.isEmpty(quizChooseDto.getSiteCategoryId())) {
-            return Result.failed("站点彩种分类(一类)不能为空");
+            return Result.failed("商户彩种分类(一类)不能为空");
         }
         if (ObjectUtil.isEmpty(quizChooseDto.getQuizId())) {
-            return Result.failed("站点彩种分类(二类)id不能为空");
+            return Result.failed("商户彩种分类(二类)id不能为空");
         }
         return quizChooseService.deleteQuizChoose(quizChooseDto);
     }
