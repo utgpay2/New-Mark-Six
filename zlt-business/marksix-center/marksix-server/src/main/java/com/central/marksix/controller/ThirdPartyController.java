@@ -79,7 +79,6 @@ public class ThirdPartyController {
     /**
      * 新增
      *
-     * @param ProxyAdminDto
      * @return
      */
     @ApiOperation("新增代理")
@@ -144,7 +143,6 @@ public class ThirdPartyController {
     /**
      * 新增
      *
-     * @param UserDto
      * @return
      */
     @ApiOperation("新增用户")
@@ -513,7 +511,6 @@ public class ThirdPartyController {
     /**
      * 额度转换
      *
-     * @param TransferAccountsDto
      * @return
      */
     @ApiOperation("额度转换（自动转换给上级  会员和代理之间转换，代理和平台商户之间转换）")
