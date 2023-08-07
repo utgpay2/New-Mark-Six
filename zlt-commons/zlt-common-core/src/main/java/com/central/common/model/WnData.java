@@ -34,4 +34,6 @@ public class WnData extends SuperEntity {
     private Integer year;
     @ApiModelProperty(value = "是否结算完成(0否，1结算完成)")
     private Integer status;
+    @ApiModelProperty(value = "是否显示(0隐藏，1显示)")
+    private Integer isDisplay;
 }

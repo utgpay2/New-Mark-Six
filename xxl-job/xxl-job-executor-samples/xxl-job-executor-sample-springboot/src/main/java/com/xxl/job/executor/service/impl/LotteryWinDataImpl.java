@@ -1647,7 +1647,7 @@ public class LotteryWinDataImpl implements ILotteryWinDataService {
 
         //修改投注结果
         //彩种状态修改为结算中
-        lotteryService.updateLotteryStatus(lotteryId, StatusEnum.ONE_TRUE.getStatus());
+//        lotteryService.updateLotteryStatus(lotteryId, StatusEnum.ONE_TRUE.getStatus());
         String[] wnNumbers = wnData.getNumbers().split(",");
         String one = wnNumbers[0];
         String two = wnNumbers[1];

@@ -1955,10 +1955,19 @@ public class WinningSettlementImpl implements IWinningSettlementService{
         List<SiteLotteryVo> siteLotteryVOList = lotteryService.findList(params);
         //彩种最大
         WnData wnData = wnDataService.lastOneWnData(lotteryId);
+        if(null!=wnData){
+            //判断是否当前日期开奖号码
+            if(!DateUtil.dateToyyyyMMdd(new Date()).equals(DateUtil.dateToyyyyMMdd(wnData.getCreateTime()))){
+                return;
+            }
+
+        }
         if(StatusEnum.ONE_TRUE.getStatus()==wnData.getStatus()){
             //已经结算完成
             return;
         }
+        wnData.setIsDisplay(StatusEnum.ONE_TRUE.getStatus());
+        wnDataService.updateWnData(wnData);
         //彩种状态修改为结算中
         lotteryService.updateLotteryStatus(lotteryId, StatusEnum.ONE_TRUE.getStatus());
         String[] wnNumbers = wnData.getNumbers().split(",");
@@ -2169,7 +2178,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
         }
         //修改开彩结果为结算完成
         wnData.setStatus(StatusEnum.ONE_TRUE.getStatus());
-        wnDataService.updateWnDataStatus(wnData);
+        wnDataService.updateWnData(wnData);
         //彩种状态修改为结算完成
         lotteryService.updateLotteryStatus(lotteryId, StatusEnum.ZERO_FALSE.getStatus());
     }

@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public interface IWnDataService extends ISuperService<WnData> {
     WnData lastOneWnData(Integer lotteryId);
-    void updateWnDataStatus(WnData wnData);
+    void updateWnData(WnData wnData);
     void saveWnData(WnData wnData);
 }
 

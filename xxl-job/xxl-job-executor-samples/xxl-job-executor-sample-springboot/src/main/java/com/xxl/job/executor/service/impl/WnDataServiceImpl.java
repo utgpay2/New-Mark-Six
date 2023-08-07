@@ -40,10 +40,8 @@ public class WnDataServiceImpl extends SuperServiceImpl<WnDataMapper, WnData> im
         return wnData;
     }
     @Override
-    public void updateWnDataStatus(WnData wnData) {
-        this.lambdaUpdate().eq(WnData::getId, wnData.getId())
-                .setSql("`status` = "+ wnData.getStatus())
-                .update();
+    public void updateWnData(WnData wnData) {
+        this.updateById(wnData);
         String redisKeyStr = StrUtil.format(RedisConstants.LASTONE_WNDATA_KEY, wnData.getLotteryId());
         Set<String> redisKeys = RedisRepository.keys(redisKeyStr);
         for(String redisKey:redisKeys) {

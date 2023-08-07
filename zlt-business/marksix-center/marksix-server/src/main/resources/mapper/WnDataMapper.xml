@@ -5,7 +5,7 @@
     <select id="findList" resultType="com.central.common.model.WnData">
         select * from mks_wn_data t
         <where>
-            1=1
+            is_display =0
             <if test="p.lotteryId != null and p.lotteryId != '' and p.lotteryId != 0">
                 and t.lottery_id = #{p.lotteryId}
             </if>
@@ -16,7 +16,7 @@
         select * from mks_wn_data t
         <where>
             qihao = (SELECT max(qihao) FROM `mks_wn_data` WHERE lottery_id=#{lotteryId})
-            and lottery_id=#{lotteryId}
+            and lottery_id=#{lotteryId} and is_display =0
         </where>
     </select>
 </mapper>
