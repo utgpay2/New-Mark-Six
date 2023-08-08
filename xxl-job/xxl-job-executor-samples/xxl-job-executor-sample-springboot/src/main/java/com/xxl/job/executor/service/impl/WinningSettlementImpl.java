@@ -191,7 +191,14 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                         }
                     }
                 }else if ("生肖".equals(quizOrders.getSiteCategoryName())) {//分类一类
-                    if("特肖".equals(quizOrders.getQuizTitle())) {//分类二类
+                    if ("正肖".equals(quizOrders.getQuizTitle())) {//分类二类
+                        if ("正肖".equals(quizOrders.getQuizDetailsName())) {//分类三类
+                            winAmount = winAmount.add(zhengxiao(quizOrders,
+                                    one, two, three, four, five, six,
+                                    shuList, niuList, huList, tuzList, longList, sheList,
+                                    maList, yanList, houList, jiList, gouList, zhuList));
+                        }
+                    }else if("特肖".equals(quizOrders.getQuizTitle())) {//分类二类
                         if ("特肖".equals(quizOrders.getQuizDetailsName())) {//分类三类 生肖
                             //鼠、牛、虎、兔、龙、蛇、马、羊、猴、鸡、狗、猪
                             if ("鼠".equals(quizOrders.getQuizIntroduces())) {
@@ -814,14 +821,14 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             subordersList.add(quizSuborders);
                         }
                     }
-                    if("四中一".equals(quizOrders.getQuizTitle())) {//分类二类
+                    if("四全中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
                         for(QuizSuborders quizSuborders : quizSubordersList) {
                             String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
                             if (Arrays.asList(wnNumbers).contains(bettingNumberList[0])
-                                        ||Arrays.asList(wnNumbers).contains(bettingNumberList[1])
-                                        ||Arrays.asList(wnNumbers).contains(bettingNumberList[2])
-                                        ||Arrays.asList(wnNumbers).contains(bettingNumberList[3])) {
+                                    && Arrays.asList(wnNumbers).contains(bettingNumberList[1])
+                                    && Arrays.asList(wnNumbers).contains(bettingNumberList[2])
+                                    && Arrays.asList(wnNumbers).contains(bettingNumberList[3])) {
                                 winAmount = winAmount.add(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
                                 quizSuborders.setWinMount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()));
                                 quizSuborders.setWinLoseAmount(quizSuborders.getTotalPrice().multiply(quizSuborders.getOdds()).subtract(quizSuborders.getTotalPrice()));
@@ -1287,7 +1294,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                     params.put("orderNo",quizOrders.getOrderNo());
                     List<QuizSuborders> quizSubordersList = quizSubordersService.findList(params);
                     //每个号码都有自己的赔率，下注组合的总赔率，取该组合的最低赔率
-                    if("一粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
+                    if("正特一任中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
                         for(QuizSuborders quizSuborders : quizSubordersList){
                             if (Arrays.asList(wnNumbers).contains(quizSuborders.getBettingContent())){
@@ -1303,7 +1310,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             subordersList.add(quizSuborders);
                         }
                     }
-                    if("二粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
+                    if("正特二任中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
                         for(QuizSuborders quizSuborders : quizSubordersList){
                             String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
@@ -1321,7 +1328,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             subordersList.add(quizSuborders);
                         }
                     }
-                    if("三粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
+                    if("正特三任中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
                         for(QuizSuborders quizSuborders : quizSubordersList){
                             String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
@@ -1340,7 +1347,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             subordersList.add(quizSuborders);
                         }
                     }
-                    if("四粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
+                    if("正特四任中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
                         for(QuizSuborders quizSuborders : quizSubordersList){
                             String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
@@ -1360,7 +1367,7 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                             subordersList.add(quizSuborders);
                         }
                     }
-                    if("五粒任中".equals(quizOrders.getQuizTitle())) {//分类二类
+                    if("正特五任中".equals(quizOrders.getQuizTitle())) {//分类二类
                         //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
                         for(QuizSuborders quizSuborders : quizSubordersList){
                             String[] bettingNumberList = quizSuborders.getBettingContent().split(",");//投注转换数组
@@ -1701,6 +1708,201 @@ public class WinningSettlementImpl implements IWinningSettlementService{
                 winAmount = quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
         }
         return winAmount;
+    }
+    private BigDecimal zhengxiao(QuizOrders quizOrders,
+                                 String one,String two,String three,String four,String five,String six,
+                                 List<String> shuList,List<String> niuList,List<String> huList,List<String> tuzList,List<String> longList,List<String> sheList,
+                                 List<String> maList,List<String> yanList,List<String> houList,List<String> jiList,List<String> gouList,List<String> zhuList){
+        int n = 0;
+        //鼠、牛、虎、兔、龙、蛇、马、羊、猴、鸡、狗、猪
+        if ("鼠".equals(quizOrders.getQuizIntroduces())) {
+            if (Arrays.asList(shuList).contains(one)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(two)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(three)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(four)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(five)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(six)){
+                n = n +1;
+            }
+        }
+
+        if ("牛".equals(quizOrders.getQuizIntroduces())) {
+            if (Arrays.asList(shuList).contains(one)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(two)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(three)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(four)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(five)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(six)){
+                n = n +1;
+            }
+        }
+        if ("虎".equals(quizOrders.getQuizIntroduces())) {
+            if (Arrays.asList(shuList).contains(one)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(two)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(three)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(four)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(five)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(six)){
+                n = n +1;
+            }
+        }
+        if ("兔".equals(quizOrders.getQuizIntroduces())) {
+            if (Arrays.asList(shuList).contains(one)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(two)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(three)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(four)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(five)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(six)){
+                n = n +1;
+            }
+        }
+        if ("龙".equals(quizOrders.getQuizIntroduces())) {
+            if (Arrays.asList(shuList).contains(one)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(two)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(three)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(four)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(five)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(six)){
+                n = n +1;
+            }
+        }
+        if ("蛇".equals(quizOrders.getQuizIntroduces())) {
+            if (Arrays.asList(shuList).contains(one)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(two)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(three)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(four)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(five)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(six)){
+                n = n +1;
+            }
+        }
+        if ("马".equals(quizOrders.getQuizIntroduces())) {
+            if (Arrays.asList(shuList).contains(one)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(two)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(three)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(four)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(five)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(six)){
+                n = n +1;
+            }
+        }
+        if ("羊".equals(quizOrders.getQuizIntroduces())) {
+            if (Arrays.asList(shuList).contains(one)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(two)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(three)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(four)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(five)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(six)){
+                n = n +1;
+            }
+        }
+        if ("猴".equals(quizOrders.getQuizIntroduces())) {
+            if (Arrays.asList(shuList).contains(one)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(two)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(three)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(four)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(five)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(six)){
+                n = n +1;
+            }
+        }
+        if ("鸡".equals(quizOrders.getQuizIntroduces())) {
+            if (Arrays.asList(shuList).contains(one)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(two)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(three)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(four)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(five)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(six)){
+                n = n +1;
+            }
+        }
+        if ("狗".equals(quizOrders.getQuizIntroduces())) {
+            if (Arrays.asList(shuList).contains(one)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(two)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(three)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(four)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(five)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(six)){
+                n = n +1;
+            }
+        }
+        if ("猪".equals(quizOrders.getQuizIntroduces())) {
+            if (Arrays.asList(shuList).contains(one)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(two)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(three)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(four)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(five)){
+                n = n +1;
+            }else if (Arrays.asList(shuList).contains(six)){
+                n = n +1;
+            }
+        }
+        if(n==1){
+            return quizOrders.getTotalPrice().multiply(quizOrders.getOdds());
+        }else if(n>1){
+            return quizOrders.getTotalPrice().multiply(quizOrders.getOdds()).multiply(BigDecimal.valueOf(n)).subtract(quizOrders.getTotalPrice());
+        }else {
+            return BigDecimal.ZERO;
+        }
     }
     //平特肖
     private BigDecimal pingteyixiao(QuizOrders quizOrders,

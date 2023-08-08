@@ -58,7 +58,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
         }
         //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("四中一".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+        if("四全中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
             if(quizChooseDtoList.size()<4){
                 return Result.failed("选择投注号码必须大于等于4个投注号码");
             }
@@ -465,7 +465,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,2-braverySize,true);
         }
         //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("四中一".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("四全中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=4){
                 return Result.failed("选择投注胆码总数必须小于4个投注号码");
             }
@@ -843,7 +843,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
         }
         //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("四中一".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("四全中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<4){
                 return Result.failed("选择投注号码必须大于等于4个投注号码");
             }
@@ -1082,7 +1082,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
         }
         //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("四中一".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("四全中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<4){
                 return Result.failed("选择投注号码必须大于等于4个投注号码");
             }
@@ -1321,7 +1321,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
         }
         //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("四中一".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("四全中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<4){
                 return Result.failed("选择投注号码必须大于等于4个投注号码");
             }
