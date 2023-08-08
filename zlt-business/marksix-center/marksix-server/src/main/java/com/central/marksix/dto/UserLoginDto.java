@@ -35,6 +35,6 @@ public class UserLoginDto {
 
     @ApiModelProperty(value = "代理用户名")
     Integer lotteryId;
-
-
+    @ApiModelProperty(value = "返回主页连接地址")
+    String callbackurl;
 }

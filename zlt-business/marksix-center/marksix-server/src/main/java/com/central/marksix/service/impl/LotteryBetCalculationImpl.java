@@ -225,7 +225,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                     QuizChooseDto dto = quizChooseDtoList.get(j);
                     if(bettingNumber[i].equals(dto.getIntroduce())){
                         oddsArrays[i] = dto.getOdds();
-                        if(null!=dto.getOdds2()&&dto.getOdds()>0){
+                        if(null!=dto.getOdds2()&&dto.getOdds2()>0){
                             oddsArrays2[i] = dto.getOdds2();
                         }else {
                             b = false;
@@ -731,7 +731,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                     QuizChooseDto dto = braveryList.get(j);
                     if(bettingNumber[i].equals(dto.getIntroduce())){
                         oddsArrays[i] = dto.getOdds();
-                        if(null!=dto.getOdds()&&dto.getOdds()>0){
+                        if(null!=dto.getOdds2()&&dto.getOdds2()>0){
                             oddsArrays2[i] = dto.getOdds2();
                         }else {
                             b = false;
@@ -746,7 +746,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                     BettingNumberVo bettingNumberVo = new BettingNumberVo();
                     if(bettingNumber[i].equals(dto.getIntroduce())){
                         oddsArrays[i] = dto.getOdds();
-                        if(null!=dto.getOdds()&&dto.getOdds()>0){
+                        if(null!=dto.getOdds2()&&dto.getOdds2()>0){
                             oddsArrays2[i] = dto.getOdds2();
                         }else {
                             b = false;
@@ -1004,7 +1004,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                     BumpBettingNumberDto dto = bumpBettingNumberDtoList.get(j);
                     if(bettingNumber[i].equals(dto.getBettingNumber())){
                         oddsArrays[i] = dto.getOdds();
-                        if(null!=dto.getOdds()&&dto.getOdds()>0){
+                        if(null!=dto.getOdds2()&&dto.getOdds2()>0){
                             oddsArrays2[i] = dto.getOdds2();
                         }else {
                             b = false;
@@ -1243,7 +1243,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                     BumpBettingNumberDto dto = bumpBettingNumberDtoList.get(j);
                     if(bettingNumber[i].equals(dto.getBettingNumber())){
                         oddsArrays[i] = dto.getOdds();
-                        if(null!=dto.getOdds()&&dto.getOdds()>0){
+                        if(null!=dto.getOdds2()&&dto.getOdds2()>0){
                             oddsArrays2[i] = dto.getOdds2();
                         }else {
                             b = false;
@@ -1482,7 +1482,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                     BumpBettingNumberDto dto = bumpBettingNumberDtoList.get(j);
                     if(bettingNumber[i].equals(dto.getBettingNumber())){
                         oddsArrays[i] = dto.getOdds();
-                        if(null!=dto.getOdds()&&dto.getOdds()>0){
+                        if(null!=dto.getOdds2()&&dto.getOdds2()>0){
                             oddsArrays2[i] = dto.getOdds2();
                         }else {
                             b = false;
