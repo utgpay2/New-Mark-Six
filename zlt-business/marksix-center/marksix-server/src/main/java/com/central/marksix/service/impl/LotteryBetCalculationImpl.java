@@ -177,35 +177,35 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,12,true);
         }
         //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("一粒任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特一任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
             bettingNumberHashSet = new HashSet();
             for (String str:numberStr){
                 bettingNumberHashSet.add(str);
             }
         }
         //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("二粒任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特二任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
             if(quizChooseDtoList.size()<2){
                 return Result.failed("选择投注号码必须大于等于2个投注号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
         }
         //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("三粒任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特三任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
             if(quizChooseDtoList.size()<3){
                 return Result.failed("选择投注号码必须大于等于3个投注号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,3,true);
         }
         //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("四粒任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特四任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
             if(quizChooseDtoList.size()<4){
                 return Result.failed("选择投注号码必须大于等于4个投注号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,4,true);
         }
         //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("五粒任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特五任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
             if(quizChooseDtoList.size()<5){
                 return Result.failed("选择投注号码必须大于等于5个投注号码");
             }
@@ -641,14 +641,14 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,12-braverySize,true);
         }
         //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("一粒任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特一任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             bettingNumberHashSet = new HashSet();
             for (String str:numberStr){
                 bettingNumberHashSet.add(str);
             }
         }
         //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("二粒任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特二任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=2){
                 return Result.failed("选择投注胆码总数必须小于2个投注号码");
             }
@@ -658,7 +658,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,2-braverySize,true);
         }
         //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("三粒任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特三任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=3){
                 return Result.failed("选择投注胆码总数必须小于3个投注号码");
             }
@@ -668,7 +668,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,3-braverySize,true);
         }
         //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("四粒任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特四任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=4){
                 return Result.failed("选择投注胆码总数必须小于4个投注号码");
             }
@@ -678,7 +678,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,4-braverySize,true);
         }
         //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("五粒任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特五任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=5){
                 return Result.failed("选择投注胆码总数必须小于5个投注号码");
             }
@@ -956,35 +956,35 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,11,true);
         }
         //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("一粒任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特一任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
             bettingNumberHashSet = new HashSet();
             for (String str:numberStr){
                 bettingNumberHashSet.add(str);
             }
         }
         //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("二粒任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特二任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<2){
                 return Result.failed("选择投注号码必须大于等于2个投注号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
         }
         //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("三粒任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特三任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<3){
                 return Result.failed("选择投注号码必须大于等于3个投注号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,3,true);
         }
         //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("四粒任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特四任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<4){
                 return Result.failed("选择投注号码必须大于等于4个投注号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,4,true);
         }
         //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("五粒任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特五任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<5){
                 return Result.failed("选择投注号码必须大于等于5个投注号码");
             }
@@ -1195,35 +1195,35 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,11,true);
         }
         //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("一粒任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特一任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
             bettingNumberHashSet = new HashSet();
             for (String str:numberStr){
                 bettingNumberHashSet.add(str);
             }
         }
         //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("二粒任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特二任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<2){
                 return Result.failed("选择投注号码必须大于等于2个投注号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
         }
         //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("三粒任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特三任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<3){
                 return Result.failed("选择投注号码必须大于等于3个投注号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,3,true);
         }
         //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("四粒任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特四任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<4){
                 return Result.failed("选择投注号码必须大于等于4个投注号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,4,true);
         }
         //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("五粒任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特五任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<5){
                 return Result.failed("选择投注号码必须大于等于5个投注号码");
             }
@@ -1434,35 +1434,35 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,11,true);
         }
         //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("一粒任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特一任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
             bettingNumberHashSet = new HashSet();
             for (String str:numberStr){
                 bettingNumberHashSet.add(str);
             }
         }
         //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("二粒任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特二任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<2){
                 return Result.failed("选择投注号码必须大于等于2个投注号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
         }
         //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("三粒任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特三任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<3){
                 return Result.failed("选择投注号码必须大于等于3个投注号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,3,true);
         }
         //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("四粒任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特四任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<4){
                 return Result.failed("选择投注号码必须大于等于4个投注号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,4,true);
         }
         //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("五粒任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
+        if("正特五任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
             if(bumpBettingNumberDtoList.size()<5){
                 return Result.failed("选择投注号码必须大于等于5个投注号码");
             }
