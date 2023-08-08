@@ -329,7 +329,7 @@ public class LotteryController {
         }
         for(QuizOrdersDto dto:ordersDtoList){
             if (ObjectUtil.isEmpty(dto.getPeriods())) {
-                return Result.failed("期数波色不能为空");
+                return Result.failed("期数不能为空");
             }
             if (ObjectUtil.isEmpty(dto.getYear())||dto.getYear()==0) {
                 return Result.failed("年份不能为空");
