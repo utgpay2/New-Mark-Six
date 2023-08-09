@@ -365,7 +365,7 @@ public class LotteryController {
                 return Result.failed("开奖规则明细ID不能为空");
             }
             if (ObjectUtil.isEmpty(dto.getQuizIntroduces())) {
-                return Result.failed("开奖规则明细名称不能为空");
+                return Result.failed("投注内容不能为空");
             }
             if (ObjectUtil.isEmpty(dto.getTotalPrice())||BigDecimal.ZERO.compareTo(dto.getTotalPrice())==1) {
                 return Result.failed("订单金额不能为空");
