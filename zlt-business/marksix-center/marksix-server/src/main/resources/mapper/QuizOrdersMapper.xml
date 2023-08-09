@@ -37,7 +37,12 @@
             <if test="p.sortByCond != null and  p.sortByCond != '' and  p.sortByCond == 3">
                 t.cancel_time
             </if>
-            <choose><when test="p.sortByCond != null and  p.sortByCond != '' and  p.sortByCond == 4"> t.settlement_time </when><otherwise> t.update_time </otherwise></choose>
+            <if test="p.sortByCond != null and  p.sortByCond != '' and  p.sortByCond == 4">
+                t.settlement_time
+            </if>
+            <if test="p.sortByCond == null or p.sortByCond == '' or  p.sortByCond == 1">
+                t.update_time
+            </if>
             <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1"> ASC </when><otherwise> DESC </otherwise></choose>
         </where>
     </select>
