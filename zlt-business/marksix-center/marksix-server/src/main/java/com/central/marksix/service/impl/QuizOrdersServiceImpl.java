@@ -56,10 +56,26 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
         }
         Comparator<QuizOrders> comparator;
-        if(ObjectUtil.isEmpty(params.get("sortBy"))||SortEnum.DESC.getCode() != MapUtils.getInteger(params,"sortBy")){
-            comparator = Comparator.comparing(QuizOrders::getUpdateTime);//正序
-        }else {
-            comparator = Comparator.comparing(QuizOrders::getUpdateTime).reversed();//倒序
+        if(ObjectUtil.isEmpty(params.get("sortBy"))||SortEnum.DESC.getCode() != MapUtils.getInteger(params,"sortBy")){//正序
+            if(ObjectUtil.isEmpty(params.get("sortByCond"))|| 2 == MapUtils.getInteger(params,"sortByCond")){
+                comparator = Comparator.comparing(QuizOrders::getBettingTime);//投注时间
+            }else if(ObjectUtil.isEmpty(params.get("sortByCond"))|| 3 == MapUtils.getInteger(params,"sortByCond")){
+                comparator = Comparator.comparing(QuizOrders::getSiteCategoryName);//撤销时间
+            }else if(ObjectUtil.isEmpty(params.get("sortByCond"))|| 3 == MapUtils.getInteger(params,"sortByCond")){
+                comparator = Comparator.comparing(QuizOrders::getSettlementTime);//结算时间
+            }else {
+                comparator = Comparator.comparing(QuizOrders::getUpdateTime);//操作时间
+            }
+        }else {//倒序
+            if(ObjectUtil.isEmpty(params.get("sortByCond"))|| 2 == MapUtils.getInteger(params,"sortByCond")){
+                comparator = Comparator.comparing(QuizOrders::getBettingTime).reversed();//投注时间
+            }else if(ObjectUtil.isEmpty(params.get("sortByCond"))|| 3 == MapUtils.getInteger(params,"sortByCond")){
+                comparator = Comparator.comparing(QuizOrders::getSiteCategoryName).reversed();//撤销时间
+            }else if(ObjectUtil.isEmpty(params.get("sortByCond"))|| 3 == MapUtils.getInteger(params,"sortByCond")){
+                comparator = Comparator.comparing(QuizOrders::getSettlementTime).reversed();//结算时间
+            }else {
+                comparator = Comparator.comparing(QuizOrders::getUpdateTime).reversed();//操作时间
+            }
         }
         if(status != 0){
             list = list.stream().filter(quizDetails -> status==quizDetails.getStatus())
@@ -206,9 +222,6 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             String statiOrdersRedisKeys = StrUtil.format(RedisConstants.SITE_LOTTERY_ORDERS_MYSTATI_LIST_KEY, user.getSiteId(), user.getId(),"*","*");
             Set<String> statiOrdersRedisKey = RedisRepository.keys(statiOrdersRedisKeys);
             for(String redisKey:statiOrdersRedisKey) {
-                RedisRepository.delete(redisKey);
-            }
-            for(String redisKey:redisKeys) {
                 RedisRepository.delete(redisKey);
             }
             return Result.succeed("投注完成");

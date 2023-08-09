@@ -402,6 +402,7 @@ public class LotteryController {
     @ApiOperation(value = "查询我的投注记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sortBy", value = "排序方式：1正序、2倒叙(默认)", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "sortByCond", value = "排序条件：1操作时间(默认)、2投注时间、3撤销时间、4结算时间", required = false, dataType = "Integer"),
             @ApiImplicitParam(name = "days", value = "1 今天,2 昨天,3 近七天", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "status", value = "0 全部,1 待开奖,2 已取消,3 中奖,4 未中奖", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "page", value = "分页起始位置", required = true, dataType = "Integer"),

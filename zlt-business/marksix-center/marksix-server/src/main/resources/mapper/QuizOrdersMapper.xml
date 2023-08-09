@@ -30,7 +30,15 @@
             <if test="p.days!=null and  p.days != '' and p.days == 3"><!-- 近7天 -->
                 and to_days(now())-to_days(t.create_time) <![CDATA[ <= ]]> 7
             </if>
-            ORDER BY t.create_time <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1"> ASC </when><otherwise> DESC </otherwise></choose>
+            ORDER BY
+            <if test="p.sortByCond != null and  p.sortByCond != '' and  p.sortByCond == 2">
+                t.betting_time
+            </if>
+            <if test="p.sortByCond != null and  p.sortByCond != '' and  p.sortByCond == 3">
+                t.cancel_time
+            </if>
+            <choose><when test="p.sortByCond != null and  p.sortByCond != '' and  p.sortByCond == 4"> t.settlement_time </when><otherwise> t.update_time </otherwise></choose>
+            <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1"> ASC </when><otherwise> DESC </otherwise></choose>
         </where>
     </select>
     <select id="statiOrders" resultType="com.central.marksix.entity.vo.StatiQuizOrdersVo">
