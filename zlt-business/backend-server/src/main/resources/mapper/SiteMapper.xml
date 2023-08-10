@@ -24,7 +24,8 @@
 		COUNT(u.id) as memberNum,
 			s.vip_num as vipNum,
 			s.remark,
-			s.create_time as createTime
+			s.create_time as createTime,
+			s.fee_percentage as feePercentage
 		FROM
 			mks_site s
 		LEFT JOIN sys_user u on u.site_id=s.id

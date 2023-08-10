@@ -1,5 +1,7 @@
 package com.central.common.constant;
 
+import java.math.BigDecimal;
+
 /**
  * 全局公共常量
  *
@@ -158,4 +160,9 @@ public interface CommonConstant {
     Integer NORMAL = 1;
     //维护
     Integer MAINTAIN = 2;
+
+
+    //百分比函数
+    BigDecimal ONE_HUNDRED=new BigDecimal(100);
+
 }

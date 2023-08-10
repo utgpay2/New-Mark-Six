@@ -40,4 +40,7 @@ public class Site extends SuperEntity{
 
     @ApiModelProperty(value = "VIP数")
     private Long vipNum;
+
+    @ApiModelProperty(value = "费率 百分比计算，最大为100")
+    private Integer feePercentage;
 }
