@@ -86,4 +86,17 @@ public class UserBettingDetailedReportFormsVo {
     @ExcelProperty(value = "订单号",index = 11)
     @ColumnWidth(20)
     private String orderNo;
+
+    @ApiModelProperty("费率 百分比计算，最大为100")
+    @ExcelProperty(value = "费率(百分比)",index = 12)
+    @ColumnWidth(20)
+    //@ApiModelProperty(value = "费率 百分比计算，最大为100")
+    private Integer feePercentage;
+
+    @ApiModelProperty("投注金额*费率（未中奖时计算）")
+    @ExcelProperty(value = "手续费",index = 12)
+    @ColumnWidth(20)
+    @NumberFormat("#0.00")
+    private BigDecimal commission;
+
 }

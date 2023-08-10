@@ -27,4 +27,9 @@ public class PageResult<T> implements Serializable {
      * 当前页结果集
      */
     private List<T> data;
+
+    /**
+     * 其他数据结果集
+     */
+    private Object other;
 }

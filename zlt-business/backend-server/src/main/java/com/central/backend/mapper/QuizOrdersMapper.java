@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -28,9 +29,29 @@ public interface QuizOrdersMapper extends SuperMapper<QuizOrders> {
      */
     List<QuizOrders> findList(Page<QuizOrders> page, @Param("p") Map<String, Object> params);
 
-    List<UserReportFormsVo> userReportForms(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
+    List<UserReportFormsVo> userReportForms(@Param("p")Map<String, Object> params);
 
-    List<UserMoneyDetailedReportFormsVo> userMoneyDetailed(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
+    List<UserMoneyDetailedReportFormsVo> userMoneyDetailed( @Param("p")Map<String, Object> params);
 
-    List<UserBettingDetailedReportFormsVo> userBettingDetailed(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
+    List<UserBettingDetailedReportFormsVo> userBettingDetailed(@Param("p")Map<String, Object> params);
+
+
+    List<UserReportFormsVo> userReportFormsPage(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
+
+    Map<String, BigDecimal> userReportFormsSummary(@Param("p") Map<String, Object> params);
+
+    BigDecimal getSumWithdrawalByUsernamesSummary(@Param("p") Map<String, Object> params);
+
+    List<UserMoneyDetailedReportFormsVo> userMoneyDetailedPage(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
+
+    Map<String, BigDecimal> userMoneyDetailedSummary(@Param("p")Map<String, Object> params);
+
+    List<UserBettingDetailedReportFormsVo> userBettingDetailedPage(Page<QuizOrders> page, @Param("p")Map<String, Object> params);
+
+    Map<String, BigDecimal> userBettingDetailedSummary( @Param("p")Map<String, Object> params);
+
+    List<Map<String, Object>> getSumWithdrawalByUsernames(@Param("p")Map<String, Object> params);
+
+
+
 }

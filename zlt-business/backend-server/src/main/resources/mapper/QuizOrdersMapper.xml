@@ -56,30 +56,24 @@
         u.username,
         u.parent_name,
         u.m_balance,
-        COALESCE(sum( o.total_price ),0)  as order_price,
+        COALESCE ( sum( o.total_price ), 0 ) AS order_price,
+        COALESCE ( sum( o.win_mount ), 0 ) AS win_mount,
+        COALESCE ( sum( o.win_lose_amount ), 0 ) AS win_lose_amount,
+        COALESCE ( sum( r.recharge ), 0 ) AS recharge
 
-        COALESCE(sum( o.win_mount ),0) as win_mount ,
 
-        COALESCE(sum( o.win_lose_amount),0) as win_lose_amount,
-
-        COALESCE(sum( r.money ) ,0) as  recharge,
-
-        COALESCE( abs( sum( w.money )),0)  as  withdrawal,
-
-        COALESCE(sum( r.money )/sum( o.total_price ),0)  as win_rate
-        from
+        FROM
         sys_user u
-        left JOIN ( select * from mks_quiz_orders where create_time between #{p.startTime} and #{p.endTime} ) o ON u.id = o.member_id
-        LEFT JOIN (select * from mks_money_log where order_type=6 and create_time between #{p.startTime} and #{p.endTime} ) r ON u.id = r.user_id
-        LEFT JOIN (select * from mks_money_log where order_type=5 and create_time between #{p.startTime} and #{p.endTime} ) w ON u.id = w.user_id
+        LEFT JOIN ( SELECT total_price, win_mount, win_lose_amount,member_id FROM mks_quiz_orders WHERE site_id = #{p.siteId} AND create_time BETWEEN #{p.startTime} AND #{p.endTime} ) o ON u.id = o.member_id
+        LEFT JOIN ( SELECT money as recharge,user_id FROM mks_money_log WHERE order_type = 6 AND create_time BETWEEN #{p.startTime} AND #{p.endTime} ) r ON u.id = r.user_id
+
+
         <where>
-            1=1
-            and
             u.site_id=#{p.siteId}
             and
             u.type='APP'
-            GROUP BY u.id ORDER BY sum( r.money ) DESC
         </where>
+        GROUP BY u.id ORDER BY sum( r.recharge ) DESC
     </select>
 
 
@@ -99,8 +93,9 @@
             <if test="p.username != null and p.username != ''">
               m.user_name=#{p.username}
             </if>
-            ORDER BY  m.create_time  asc
+
         </where>
+        ORDER BY  m.create_time  asc
     </select>
 
 
@@ -127,8 +122,190 @@
             <if test="p.username != null and p.username != ''">
                 m.user_name=#{p.username}
             </if>
-            ORDER BY  m.create_time  asc
+
         </where>
+        ORDER BY  m.create_time  asc
+    </select>
+
+
+
+
+    <select id="userReportFormsPage" resultType="com.central.backend.model.vo.UserReportFormsVo">
+
+        SELECT
+        u.username,
+        u.parent_name,
+        u.m_balance,
+        COALESCE ( sum( o.total_price ), 0 ) AS order_price,
+        COALESCE ( sum( o.win_mount ), 0 ) AS win_mount,
+        COALESCE ( sum( o.win_lose_amount ), 0 ) AS win_lose_amount,
+        COALESCE ( sum( r.recharge ), 0 ) AS recharge
+
+
+        FROM
+        sys_user u
+        LEFT JOIN ( SELECT total_price, win_mount, win_lose_amount,member_id FROM mks_quiz_orders WHERE site_id = #{p.siteId} AND create_time BETWEEN #{p.startTime} AND #{p.endTime} ) o ON u.id = o.member_id
+        LEFT JOIN ( SELECT money as recharge,user_id FROM mks_money_log WHERE order_type = 6 AND create_time BETWEEN #{p.startTime} AND #{p.endTime} ) r ON u.id = r.user_id
+
+
+        <where>
+            u.site_id=#{p.siteId}
+            and
+            u.type='APP'
+        </where>
+        GROUP BY u.id ORDER BY sum( r.recharge ) DESC
+    </select>
+
+    <select id="userReportFormsSummary" resultType="java.util.Map">
+
+        SELECT
+
+        COALESCE ( sum( o.total_price ), 0 ) AS orderPriceSummary,
+        COALESCE ( sum( o.win_mount ), 0 ) AS winMountSummary,
+        COALESCE ( sum( o.win_lose_amount ), 0 ) AS winLoseAmountSummary,
+        COALESCE ( sum( r.recharge ), 0 ) AS rechargeSummary
+
+
+        FROM
+        sys_user u
+        LEFT JOIN ( SELECT total_price, win_mount, win_lose_amount,member_id FROM mks_quiz_orders WHERE site_id = #{p.siteId} AND create_time BETWEEN #{p.startTime} AND #{p.endTime} ) o ON u.id = o.member_id
+        LEFT JOIN ( SELECT money as recharge,user_id FROM mks_money_log WHERE order_type = 6 AND create_time BETWEEN #{p.startTime} AND #{p.endTime} ) r ON u.id = r.user_id
+
+
+        <where>
+            u.site_id=#{p.siteId}
+            and
+            u.type='APP'
+        </where>
+
+    </select>
+
+
+    <select id="getSumWithdrawalByUsernamesSummary" resultType="java.math.BigDecimal">
+
+        SELECT COALESCE
+        ( abs( sum( money )), 0 ) AS withdrawal
+        FROM
+        mks_money_log
+        WHERE
+        order_type = 5 and user_name in
+        <foreach item="item" index="index" collection="p.usernames" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+        AND create_time BETWEEN #{p.startTime} AND #{p.endTime}
+
+
+    </select>
+
+
+
+    <select id="getSumWithdrawalByUsernames" resultType="java.util.Map">
+
+      SELECT COALESCE
+	    ( abs( sum( money )), 0 ) AS withdrawal,
+	    user_name as username
+      FROM
+	    mks_money_log
+      WHERE
+	    user_name in
+        <foreach item="item" index="index" collection="p.usernames" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+	  AND order_type = 5
+	  AND create_time BETWEEN #{p.startTime} AND #{p.endTime}
+      GROUP BY user_name
+    </select>
+
+
+    <select id="userMoneyDetailedPage" resultType="com.central.backend.model.vo.UserMoneyDetailedReportFormsVo">
+        SELECT
+        u.username,
+        m.order_no,
+        m.order_type,
+        COALESCE(abs(m.money),0) as income,
+        COALESCE(m.after_money,0)  as balance,
+        m.create_time
+        from sys_user u left join mks_money_log m on u.username=m.user_name
+        <where>
+            u.site_id=#{p.siteId}
+            and
+            m.create_time between #{p.startTime} and #{p.endTime}
+            <if test="p.username != null and p.username != ''">
+                and   m.user_name=#{p.username}
+            </if>
+            and
+            u.type='APP'
+        </where>
+        ORDER BY  m.create_time  asc
+    </select>
+
+    <select id="userMoneyDetailedSummary" resultType="java.util.Map">
+        SELECT
+
+        COALESCE(abs(sum(m.money)),0) as incomeSummary,
+        COALESCE(sum(m.after_money),0)  as expenditureSummary
+        from sys_user u left join mks_money_log m on u.username=m.user_name
+        <where>
+            u.site_id=#{p.siteId}
+            and
+            m.create_time between #{p.startTime} and #{p.endTime}
+            <if test="p.username != null and p.username != ''">
+                and   m.user_name=#{p.username}
+            </if>
+            and
+            u.type='APP'
+        </where>
+
+    </select>
+
+
+    <select id="userBettingDetailedPage" resultType="com.central.backend.model.vo.UserBettingDetailedReportFormsVo">
+        SELECT
+        o.user_name,
+        o.lottery_name,
+        CONCAT( o.site_category_name, ',', o.quiz_title, ',', o.quiz_details_name ) AS site_category_name,
+        o.periods,
+        m.numbers,
+        o.quiz_introduces,
+        o.total_price,
+        o.units,
+        o.win_mount,
+        o.`status`,
+        o.create_time,
+        o.order_no
+        FROM
+        mks_quiz_orders o left join mks_wn_data m on o.periods=m.qihao and o.lottery_id=m.lottery_id
+        <where>
+            o.site_id=#{p.siteId}
+            and
+            o.create_time between #{p.startTime} and #{p.endTime}
+            <if test="p.username != null and p.username != ''">
+                and  m.user_name=#{p.username}
+            </if>
+
+        </where>
+        ORDER BY  m.create_time  asc
+    </select>
+
+
+    <select id="userBettingDetailedSummary" resultType="java.util.Map">
+        SELECT
+        COALESCE(abs(sum(o.total_price)),0) as orderPriceSummary,
+        COALESCE(sum(o.win_mount),0)  as winMountSummary
+
+        FROM
+        mks_quiz_orders o left join mks_wn_data m on o.periods=m.qihao and o.lottery_id=m.lottery_id
+        <where>
+            o.site_id=#{p.siteId}
+            and
+            o.create_time between #{p.startTime} and #{p.endTime}
+            <if test="p.username != null and p.username != ''">
+                and  m.user_name=#{p.username}
+            </if>
+
+        </where>
+
     </select>
 
 </mapper>
