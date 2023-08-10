@@ -150,7 +150,6 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                         ||"二尾连中".equals(ordersDto.getQuizDetailsName())
                         ||"二尾连不中".equals(ordersDto.getQuizDetailsName())
                         ||"正特二任中".equals(ordersDto.getQuizDetailsName())
-                        ||"特码头尾数".equals(ordersDto.getQuizDetailsName())
                         ||"二全中".equals(ordersDto.getQuizTitle())
                         ||"二中特".equals(ordersDto.getQuizTitle())
                         ||"特串".equals(ordersDto.getQuizTitle())){
