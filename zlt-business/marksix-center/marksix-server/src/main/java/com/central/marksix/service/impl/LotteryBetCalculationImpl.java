@@ -36,6 +36,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             QuizChooseDto dto = quizChooseDtoList.get(i);
             numberStr[i] = dto.getIntroduce();
         }
+        System.out.println("==========================>>>"+duplexLotteryBetDto.getQuizTitle());
         //所投注的每三个号码为一组合，若三个号码都是开奖号码之正码，视为中奖，其余行情视为不中奖
         //所投注的每三个号码为一组合，若其中2个号码都是开奖号码之正码，视为三中二奖，若3个都是开奖号码中的正码，即为三中二之中三，其余行情视为不中奖
         if("三全中".equals(duplexLotteryBetDto.getQuizTitle())
@@ -59,6 +60,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
         }
         //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
         if("四全中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+            System.out.println("==========================>>>"+duplexLotteryBetDto.getQuizTitle()+"==========================");
             if(quizChooseDtoList.size()<4){
                 return Result.failed("选择投注号码必须大于等于4个投注号码");
             }
