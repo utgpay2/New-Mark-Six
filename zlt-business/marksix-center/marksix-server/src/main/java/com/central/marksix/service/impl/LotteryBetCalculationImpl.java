@@ -257,7 +257,11 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
         List<String> list = new ArrayList<>();
         for(int i=0;i<str.length;i++) {
             if (length == 1) {
-                list.add(str[i]);
+                if (b) {
+                    list.add(String.format("%02d", str[i]));
+                } else{
+                    list.add(str[i]);
+                }
             }else {
                 for (int j = 0; j < str.length; j++) {
                     if (i != j) {
@@ -287,9 +291,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                     Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m])};
                                                     Arrays.sort(str1);
                                                     if (b) {
-                                                        list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]));
+                                                        list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]));
                                                     } else {
-                                                        list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m]);
+                                                        list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3]);
                                                     }
                                                 } else {
                                                     for (int n = 0; n < str.length; n++) {
@@ -298,9 +302,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                 Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n])};
                                                                 Arrays.sort(str1);
                                                                 if (b) {
-                                                                    list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]));
+                                                                    list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]));
                                                                 } else {
-                                                                    list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n]);
+                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4]);
                                                                 }
                                                             } else {
                                                                 for (int o = 0; o < str.length; o++) {
@@ -309,9 +313,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                             Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o])};
                                                                             Arrays.sort(str1);
                                                                             if (b) {
-                                                                                list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]));
+                                                                                list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]) + "," + String.format("%02d", str1[5]));
                                                                             } else {
-                                                                                list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o]);
+                                                                                list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5]);
                                                                             }
                                                                         } else {
                                                                             for (int p = 0; p < str.length; p++) {
@@ -320,9 +324,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                                         Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p])};
                                                                                         Arrays.sort(str1);
                                                                                         if (b) {
-                                                                                            list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]));
+                                                                                            list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]) + "," + String.format("%02d", str1[5]) + "," + String.format("%02d", str1[6]));
                                                                                         } else {
-                                                                                            list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o] + "," + str1[p]);
+                                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6]);
                                                                                         }
                                                                                     } else {
                                                                                         for (int q = 0; q < str.length; q++) {
@@ -331,9 +335,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                                                     Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q])};
                                                                                                     Arrays.sort(str1);
                                                                                                     if (b) {
-                                                                                                        list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]));
+                                                                                                        list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]) + "," + String.format("%02d", str1[5]) + "," + String.format("%02d", str1[6]) + "," + String.format("%02d", str1[7]));
                                                                                                     } else {
-                                                                                                        list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o] + "," + str1[p] + "," + str1[q]);
+                                                                                                        list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7]);
                                                                                                     }
                                                                                                 } else {
                                                                                                     for (int r = 0; r < str.length; r++) {
@@ -342,9 +346,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                                                                 Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q]), Integer.parseInt(str[r])};
                                                                                                                 Arrays.sort(str1);
                                                                                                                 if (b) {
-                                                                                                                    list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]));
+                                                                                                                    list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]) + "," + String.format("%02d", str1[5]) + "," + String.format("%02d", str1[6]) + "," + String.format("%02d", str1[7]) + "," + String.format("%02d", str1[8]));
                                                                                                                 } else {
-                                                                                                                    list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o] + "," + str1[p] + "," + str1[q] + "," + str1[r]);
+                                                                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]);
                                                                                                                 }
                                                                                                             } else {
                                                                                                                 for (int s = 0; s < str.length; s++) {
@@ -353,9 +357,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                                                                             Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q]), Integer.parseInt(str[r]), Integer.parseInt(str[s])};
                                                                                                                             Arrays.sort(str1);
                                                                                                                             if (b) {
-                                                                                                                                list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]) + "," + String.format("%02d", str1[s]));
+                                                                                                                                list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]) + "," + String.format("%02d", str1[5]) + "," + String.format("%02d", str1[6]) + "," + String.format("%02d", str1[7]) + "," + String.format("%02d", str1[8]) + "," + String.format("%02d", str1[9]));
                                                                                                                             } else {
-                                                                                                                                list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o] + "," + str1[p] + "," + str1[q] + "," + str1[r] + "," + str1[s]);
+                                                                                                                                list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8] + "," + str1[9]);
                                                                                                                             }
                                                                                                                         } else {
                                                                                                                             for (int t = 0; t < str.length; t++) {
@@ -364,9 +368,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                                                                                         Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q]), Integer.parseInt(str[r]), Integer.parseInt(str[s]), Integer.parseInt(str[t])};
                                                                                                                                         Arrays.sort(str1);
                                                                                                                                         if (b) {
-                                                                                                                                            list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]) + "," + String.format("%02d", str1[s]) + "," + String.format("%02d", str1[t]));
+                                                                                                                                            list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]) + "," + String.format("%02d", str1[5]) + "," + String.format("%02d", str1[6]) + "," + String.format("%02d", str1[7]) + "," + String.format("%02d", str1[8]) + "," + String.format("%02d", str1[9]) + "," + String.format("%02d", str1[10]));
                                                                                                                                         } else {
-                                                                                                                                            list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o] + "," + str1[p] + "," + str1[q] + "," + str1[r] + "," + str1[s] + "," + str1[t]);
+                                                                                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8] + "," + str1[9] + "," + str1[10]);
                                                                                                                                         }
                                                                                                                                     } else {
                                                                                                                                         for (int u = 0; u < str.length; u++) {
@@ -375,9 +379,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                                                                                                     Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q]), Integer.parseInt(str[r]), Integer.parseInt(str[s]), Integer.parseInt(str[t]), Integer.parseInt(str[u])};
                                                                                                                                                     Arrays.sort(str1);
                                                                                                                                                     if (b) {
-                                                                                                                                                        list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]) + "," + String.format("%02d", str1[s]) + "," + String.format("%02d", str1[t])+ "," + String.format("%02d", str1[u]));
+                                                                                                                                                        list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]) + "," + String.format("%02d", str1[5]) + "," + String.format("%02d", str1[6]) + "," + String.format("%02d", str1[7]) + "," + String.format("%02d", str1[8]) + "," + String.format("%02d", str1[9]) + "," + String.format("%02d", str1[10])+ "," + String.format("%02d", str1[11]));
                                                                                                                                                     } else {
-                                                                                                                                                        list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o] + "," + str1[p] + "," + str1[q] + "," + str1[r] + "," + str1[s] + "," + str1[t]+ "," + str1[u]);
+                                                                                                                                                        list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8] + "," + str1[9] + "," + str1[10]+ "," + str1[11]);
                                                                                                                                                     }
                                                                                                                                                 }
                                                                                                                                             }
