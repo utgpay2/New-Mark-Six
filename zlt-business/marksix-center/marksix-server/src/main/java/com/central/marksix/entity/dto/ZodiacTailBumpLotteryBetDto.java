@@ -18,7 +18,7 @@ public class ZodiacTailBumpLotteryBetDto {
     @ApiModelProperty(value = "开奖分类二类名称")
     private String quizTitle;
     @ApiModelProperty(value = "生肖一")
-    private Integer zodiacOne;
+    private String zodiacOne;
     @ApiModelProperty(value = "尾数二")
     private Integer tailTwo;
     @ApiModelProperty(value = "生肖一 赔率")

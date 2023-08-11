@@ -247,6 +247,20 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
         }
         return Result.succeed(bettingNumberGroupVoList);
     }
+    public HashSet<String> doubleNumber(List<BumpBettingNumberDto> bumpBettingNumberDtoList1,List<BumpBettingNumberDto> bumpBettingNumberDtoList2){
+        List<String> list = new ArrayList<>();
+        for(int i=0;i<bumpBettingNumberDtoList1.size();i++) {
+            BumpBettingNumberDto bumpBettingNumberDto1 = bumpBettingNumberDtoList1.get(i);
+            for (int j = 0; j < bumpBettingNumberDtoList2.size(); j++) {
+                BumpBettingNumberDto bumpBettingNumberDto2 = bumpBettingNumberDtoList2.get(j);
+                Integer[] str1 = {Integer.parseInt(bumpBettingNumberDto1.getBettingNumber()), Integer.parseInt(bumpBettingNumberDto2.getBettingNumber())};
+                Arrays.sort(str1);
+                list.add(String.format("%02d",str1[0]) + "," + String.format("%02d",str1[1]));
+            }
+        }
+        //去重集合
+        return new HashSet<>(list);
+    }
     /**
      * 复式投注
      * @param str 选择号码
@@ -257,7 +271,11 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
         List<String> list = new ArrayList<>();
         for(int i=0;i<str.length;i++) {
             if (length == 1) {
-                list.add(str[i]);
+                if (b) {
+                    list.add(String.format("%02d", str[i]));
+                } else{
+                    list.add(str[i]);
+                }
             }else {
                 for (int j = 0; j < str.length; j++) {
                     if (i != j) {
@@ -287,9 +305,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                     Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m])};
                                                     Arrays.sort(str1);
                                                     if (b) {
-                                                        list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]));
+                                                        list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]));
                                                     } else {
-                                                        list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m]);
+                                                        list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3]);
                                                     }
                                                 } else {
                                                     for (int n = 0; n < str.length; n++) {
@@ -298,9 +316,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                 Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n])};
                                                                 Arrays.sort(str1);
                                                                 if (b) {
-                                                                    list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]));
+                                                                    list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]));
                                                                 } else {
-                                                                    list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n]);
+                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4]);
                                                                 }
                                                             } else {
                                                                 for (int o = 0; o < str.length; o++) {
@@ -309,9 +327,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                             Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o])};
                                                                             Arrays.sort(str1);
                                                                             if (b) {
-                                                                                list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]));
+                                                                                list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]) + "," + String.format("%02d", str1[5]));
                                                                             } else {
-                                                                                list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o]);
+                                                                                list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5]);
                                                                             }
                                                                         } else {
                                                                             for (int p = 0; p < str.length; p++) {
@@ -320,9 +338,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                                         Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p])};
                                                                                         Arrays.sort(str1);
                                                                                         if (b) {
-                                                                                            list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]));
+                                                                                            list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]) + "," + String.format("%02d", str1[5]) + "," + String.format("%02d", str1[6]));
                                                                                         } else {
-                                                                                            list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o] + "," + str1[p]);
+                                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6]);
                                                                                         }
                                                                                     } else {
                                                                                         for (int q = 0; q < str.length; q++) {
@@ -331,9 +349,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                                                     Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q])};
                                                                                                     Arrays.sort(str1);
                                                                                                     if (b) {
-                                                                                                        list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]));
+                                                                                                        list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]) + "," + String.format("%02d", str1[5]) + "," + String.format("%02d", str1[6]) + "," + String.format("%02d", str1[7]));
                                                                                                     } else {
-                                                                                                        list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o] + "," + str1[p] + "," + str1[q]);
+                                                                                                        list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7]);
                                                                                                     }
                                                                                                 } else {
                                                                                                     for (int r = 0; r < str.length; r++) {
@@ -342,9 +360,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                                                                 Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q]), Integer.parseInt(str[r])};
                                                                                                                 Arrays.sort(str1);
                                                                                                                 if (b) {
-                                                                                                                    list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]));
+                                                                                                                    list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]) + "," + String.format("%02d", str1[5]) + "," + String.format("%02d", str1[6]) + "," + String.format("%02d", str1[7]) + "," + String.format("%02d", str1[8]));
                                                                                                                 } else {
-                                                                                                                    list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o] + "," + str1[p] + "," + str1[q] + "," + str1[r]);
+                                                                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]);
                                                                                                                 }
                                                                                                             } else {
                                                                                                                 for (int s = 0; s < str.length; s++) {
@@ -353,9 +371,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                                                                             Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q]), Integer.parseInt(str[r]), Integer.parseInt(str[s])};
                                                                                                                             Arrays.sort(str1);
                                                                                                                             if (b) {
-                                                                                                                                list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]) + "," + String.format("%02d", str1[s]));
+                                                                                                                                list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]) + "," + String.format("%02d", str1[5]) + "," + String.format("%02d", str1[6]) + "," + String.format("%02d", str1[7]) + "," + String.format("%02d", str1[8]) + "," + String.format("%02d", str1[9]));
                                                                                                                             } else {
-                                                                                                                                list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o] + "," + str1[p] + "," + str1[q] + "," + str1[r] + "," + str1[s]);
+                                                                                                                                list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8] + "," + str1[9]);
                                                                                                                             }
                                                                                                                         } else {
                                                                                                                             for (int t = 0; t < str.length; t++) {
@@ -364,9 +382,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                                                                                         Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q]), Integer.parseInt(str[r]), Integer.parseInt(str[s]), Integer.parseInt(str[t])};
                                                                                                                                         Arrays.sort(str1);
                                                                                                                                         if (b) {
-                                                                                                                                            list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]) + "," + String.format("%02d", str1[s]) + "," + String.format("%02d", str1[t]));
+                                                                                                                                            list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]) + "," + String.format("%02d", str1[5]) + "," + String.format("%02d", str1[6]) + "," + String.format("%02d", str1[7]) + "," + String.format("%02d", str1[8]) + "," + String.format("%02d", str1[9]) + "," + String.format("%02d", str1[10]));
                                                                                                                                         } else {
-                                                                                                                                            list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o] + "," + str1[p] + "," + str1[q] + "," + str1[r] + "," + str1[s] + "," + str1[t]);
+                                                                                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8] + "," + str1[9] + "," + str1[10]);
                                                                                                                                         }
                                                                                                                                     } else {
                                                                                                                                         for (int u = 0; u < str.length; u++) {
@@ -375,9 +393,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                                                                                                                                                     Integer[] str1 = {Integer.parseInt(str[i]), Integer.parseInt(str[j]), Integer.parseInt(str[k]), Integer.parseInt(str[m]), Integer.parseInt(str[n]), Integer.parseInt(str[o]), Integer.parseInt(str[p]), Integer.parseInt(str[q]), Integer.parseInt(str[r]), Integer.parseInt(str[s]), Integer.parseInt(str[t]), Integer.parseInt(str[u])};
                                                                                                                                                     Arrays.sort(str1);
                                                                                                                                                     if (b) {
-                                                                                                                                                        list.add(String.format("%02d", str1[i]) + "," + String.format("%02d", str1[j]) + "," + String.format("%02d", str1[k]) + "," + String.format("%02d", str1[m]) + "," + String.format("%02d", str1[n]) + "," + String.format("%02d", str1[o]) + "," + String.format("%02d", str1[p]) + "," + String.format("%02d", str1[q]) + "," + String.format("%02d", str1[r]) + "," + String.format("%02d", str1[s]) + "," + String.format("%02d", str1[t])+ "," + String.format("%02d", str1[u]));
+                                                                                                                                                        list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]) + "," + String.format("%02d", str1[2]) + "," + String.format("%02d", str1[3]) + "," + String.format("%02d", str1[4]) + "," + String.format("%02d", str1[5]) + "," + String.format("%02d", str1[6]) + "," + String.format("%02d", str1[7]) + "," + String.format("%02d", str1[8]) + "," + String.format("%02d", str1[9]) + "," + String.format("%02d", str1[10])+ "," + String.format("%02d", str1[11]));
                                                                                                                                                     } else {
-                                                                                                                                                        list.add(str1[i] + "," + str1[j] + "," + str1[k] + "," + str1[m] + "," + str1[n] + "," + str1[o] + "," + str1[p] + "," + str1[q] + "," + str1[r] + "," + str1[s] + "," + str1[t]+ "," + str1[u]);
+                                                                                                                                                        list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8] + "," + str1[9] + "," + str1[10]+ "," + str1[11]);
                                                                                                                                                     }
                                                                                                                                                 }
                                                                                                                                             }
@@ -796,6 +814,8 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
     public Result zodiacBumpLotteryBetNumber(ZodiacBumpLotteryBetDto zodiacBumpLotteryBetDto){
         List<NumberAttributes> numberList = numberAttributesService.findList(null,DateUtil.getYear());
         List<BumpBettingNumberDto> bumpBettingNumberDtoList = new ArrayList<>();
+        List<BumpBettingNumberDto> bumpBettingNumberDtoList1 = new ArrayList<>();
+        List<BumpBettingNumberDto> bumpBettingNumberDtoList2 = new ArrayList<>();
         for (NumberAttributes numberAttributes:numberList) {
             if (zodiacBumpLotteryBetDto.getZodiacOne().equals(numberAttributes.getZodiac())) {
                 BumpBettingNumberDto bumpBettingNumberDto = new BumpBettingNumberDto();
@@ -803,6 +823,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 bumpBettingNumberDto.setOdds2(zodiacBumpLotteryBetDto.getOddsOne2());
                 bumpBettingNumberDto.setBettingNumber(numberAttributes.getNumber());
                 bumpBettingNumberDto.setColor(numberAttributes.getColor());
+                bumpBettingNumberDtoList1.add(bumpBettingNumberDto);
                 bumpBettingNumberDtoList.add(bumpBettingNumberDto);
             }
             if (zodiacBumpLotteryBetDto.getZodiacTwo().equals(numberAttributes.getZodiac())) {
@@ -811,185 +832,12 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 bumpBettingNumberDto.setOdds2(zodiacBumpLotteryBetDto.getOddsTwo2());
                 bumpBettingNumberDto.setBettingNumber(numberAttributes.getNumber());
                 bumpBettingNumberDto.setColor(numberAttributes.getColor());
+                bumpBettingNumberDtoList2.add(bumpBettingNumberDto);
                 bumpBettingNumberDtoList.add(bumpBettingNumberDto);
             }
         }
 
-        HashSet<String> bettingNumberHashSet = new HashSet<>();
-        String[] numberStr = new String[bumpBettingNumberDtoList.size()];
-        for (int i = 0; i< bumpBettingNumberDtoList.size(); i++){
-            BumpBettingNumberDto dto = bumpBettingNumberDtoList.get(i);
-            numberStr[i] = dto.getBettingNumber();
-        }
-        //所投注的每三个号码为一组合，若三个号码都是开奖号码之正码，视为中奖，其余行情视为不中奖
-        //所投注的每三个号码为一组合，若其中2个号码都是开奖号码之正码，视为三中二奖，若3个都是开奖号码中的正码，即为三中二之中三，其余行情视为不中奖
-        if("三全中".equals(zodiacBumpLotteryBetDto.getQuizTitle())
-                ||"三中二".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<3){
-                return Result.failed("选择投注号码必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3,true);
-        }
-
-        //所投注的每二个号码为一组合，若二个号码都是开奖号码之正码，视为中奖，其余行情视为不中奖（含一个正码加一个特码情形）
-        //所投注的每二个号码为一组合，若二个号码都是开奖号码之正码，叫二中特之中二，其中一个是正码，一个是特码，视为中奖,其余行情视为不中奖二中特之中二赔率高于二中特之中特的赔率
-        //所投注的每两个号码为一组合，其中一个是正码，一个是特码，视为中奖，其余情形视为不中奖（含二个都是正码之情形）
-        if("二全中".equals(zodiacBumpLotteryBetDto.getQuizTitle())
-                ||"二中特".equals(zodiacBumpLotteryBetDto.getQuizTitle())
-                ||"特串".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<2){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
-        }
-        //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("四全中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<4){
-                return Result.failed("选择投注号码必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4,true);
-        }
-        //选择2-4个尾数为一投注组合进行投注。该注的2-4个尾数必须在当期开出的7个开奖号码相对应的尾数中，（49亦算输赢，不为和）。每个号码都有自己的赔率，下注组合的总赔率，取该组合码的最低赔率为下单赔率
-        if("二尾连中".equals(zodiacBumpLotteryBetDto.getQuizTitle())
-                ||"二尾连不中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<2){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2,false);
-        }
-        if("三尾连中".equals(zodiacBumpLotteryBetDto.getQuizTitle())
-                ||"三尾连不中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<3){
-                return Result.failed("选择投注号码必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3,false);
-        }
-        if("四尾连中".equals(zodiacBumpLotteryBetDto.getQuizTitle())
-                ||"四尾连不中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<4){
-                return Result.failed("选择投注号码必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4,false);
-        }
-        //挑选5个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("五选中一".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<5){
-                return Result.failed("选择投注号码必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
-        }
-        //挑选6个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("六选中一".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<6){
-                return Result.failed("选择投注号码必须大于等于6个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,6,true);
-        }
-        //挑选7个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("七选中一".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<7){
-                return Result.failed("选择投注号码必须大于等于7个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,7,true);
-        }
-        //挑选8个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("八选中一".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<8){
-                return Result.failed("选择投注号码必须大于等于8个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,8,true);
-        }
-        //挑选9个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("九选中一".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<9){
-                return Result.failed("选择投注号码必须大于等于9个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,9,true);
-        }
-        //挑选10个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("十选中一".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<10){
-                return Result.failed("选择投注号码必须大于等于10个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,10,true);
-        }
-        if("五不中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<5){
-                return Result.failed("选择投注号码必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
-        }
-        if("六不中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<6){
-                return Result.failed("选择投注号码必须大于等于6个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,6,true);
-        }
-        if("七不中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<7){
-                return Result.failed("选择投注号码必须大于等于7个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,7,true);
-        }
-        if("八不中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<8){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,8,true);
-        }
-        if("九不中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<9){
-                return Result.failed("选择投注号码必须大于等于9个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,9,true);
-        }
-        if("十不中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<10){
-                return Result.failed("选择投注号码必须大于等于10个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,10,true);
-        }
-        if("十一不中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<11){
-                return Result.failed("选择投注号码必须大于等于11个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,11,true);
-        }
-        //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特一任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            bettingNumberHashSet = new HashSet();
-            for (String str:numberStr){
-                bettingNumberHashSet.add(str);
-            }
-        }
-        //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特二任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<2){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
-        }
-        //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特三任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<3){
-                return Result.failed("选择投注号码必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3,true);
-        }
-        //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特四任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<4){
-                return Result.failed("选择投注号码必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4,true);
-        }
-        //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特五任中".equals(zodiacBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<5){
-                return Result.failed("选择投注号码必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
-        }
+        HashSet<String> bettingNumberHashSet = this.doubleNumber(bumpBettingNumberDtoList1,bumpBettingNumberDtoList2);
         List<BettingNumberGroupVo> bettingNumberGroupVoList = new ArrayList<>();
         boolean b = true;
         for (String bettingNumberStr:bettingNumberHashSet) {
@@ -1035,6 +883,8 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
     public Result tailBumpLotteryBetNumber(TailBumpLotteryBetDto tailBumpLotteryBetDto){
         List<NumberAttributes> numberList = numberAttributesService.findList(null,DateUtil.getYear());
         List<BumpBettingNumberDto> bumpBettingNumberDtoList = new ArrayList<>();
+        List<BumpBettingNumberDto> bumpBettingNumberDtoList1 = new ArrayList<>();
+        List<BumpBettingNumberDto> bumpBettingNumberDtoList2 = new ArrayList<>();
         for (NumberAttributes numberAttributes:numberList) {
             if (tailBumpLotteryBetDto.getTailOne()==Integer.parseInt(numberAttributes.getNumber())%10) {
                 BumpBettingNumberDto bumpBettingNumberDto = new BumpBettingNumberDto();
@@ -1043,6 +893,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 bumpBettingNumberDto.setBettingNumber(numberAttributes.getNumber());
                 bumpBettingNumberDto.setColor(numberAttributes.getColor());
                 bumpBettingNumberDtoList.add(bumpBettingNumberDto);
+                bumpBettingNumberDtoList1.add(bumpBettingNumberDto);
             }
             if (tailBumpLotteryBetDto.getTailTwo()==Integer.parseInt(numberAttributes.getNumber())%10) {
                 BumpBettingNumberDto bumpBettingNumberDto = new BumpBettingNumberDto();
@@ -1051,184 +902,11 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 bumpBettingNumberDto.setBettingNumber(numberAttributes.getNumber());
                 bumpBettingNumberDto.setColor(numberAttributes.getColor());
                 bumpBettingNumberDtoList.add(bumpBettingNumberDto);
+                bumpBettingNumberDtoList2.add(bumpBettingNumberDto);
             }
         }
 
-        HashSet<String> bettingNumberHashSet = new HashSet<>();
-        String[] numberStr = new String[bumpBettingNumberDtoList.size()];
-        for (int i = 0; i< bumpBettingNumberDtoList.size(); i++){
-            BumpBettingNumberDto dto = bumpBettingNumberDtoList.get(i);
-            numberStr[i] = dto.getBettingNumber();
-        }
-        //所投注的每三个号码为一组合，若三个号码都是开奖号码之正码，视为中奖，其余行情视为不中奖
-        //所投注的每三个号码为一组合，若其中2个号码都是开奖号码之正码，视为三中二奖，若3个都是开奖号码中的正码，即为三中二之中三，其余行情视为不中奖
-        if("三全中".equals(tailBumpLotteryBetDto.getQuizTitle())
-                ||"三中二".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<3){
-                return Result.failed("选择投注号码必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3,true);
-        }
-
-        //所投注的每二个号码为一组合，若二个号码都是开奖号码之正码，视为中奖，其余行情视为不中奖（含一个正码加一个特码情形）
-        //所投注的每二个号码为一组合，若二个号码都是开奖号码之正码，叫二中特之中二，其中一个是正码，一个是特码，视为中奖,其余行情视为不中奖二中特之中二赔率高于二中特之中特的赔率
-        //所投注的每两个号码为一组合，其中一个是正码，一个是特码，视为中奖，其余情形视为不中奖（含二个都是正码之情形）
-        if("二全中".equals(tailBumpLotteryBetDto.getQuizTitle())
-                ||"二中特".equals(tailBumpLotteryBetDto.getQuizTitle())
-                ||"特串".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<2){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
-        }
-        //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("四全中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<4){
-                return Result.failed("选择投注号码必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4,true);
-        }
-        //选择2-4个尾数为一投注组合进行投注。该注的2-4个尾数必须在当期开出的7个开奖号码相对应的尾数中，（49亦算输赢，不为和）。每个号码都有自己的赔率，下注组合的总赔率，取该组合码的最低赔率为下单赔率
-        if("二尾连中".equals(tailBumpLotteryBetDto.getQuizTitle())
-                ||"二尾连不中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<2){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2,false);
-        }
-        if("三尾连中".equals(tailBumpLotteryBetDto.getQuizTitle())
-                ||"三尾连不中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<3){
-                return Result.failed("选择投注号码必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3,false);
-        }
-        if("四尾连中".equals(tailBumpLotteryBetDto.getQuizTitle())
-                ||"四尾连不中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<4){
-                return Result.failed("选择投注号码必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4,false);
-        }
-        //挑选5个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("五选中一".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<5){
-                return Result.failed("选择投注号码必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
-        }
-        //挑选6个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("六选中一".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<6){
-                return Result.failed("选择投注号码必须大于等于6个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,6,true);
-        }
-        //挑选7个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("七选中一".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<7){
-                return Result.failed("选择投注号码必须大于等于7个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,7,true);
-        }
-        //挑选8个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("八选中一".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<8){
-                return Result.failed("选择投注号码必须大于等于8个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,8,true);
-        }
-        //挑选9个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("九选中一".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<9){
-                return Result.failed("选择投注号码必须大于等于9个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,9,true);
-        }
-        //挑选10个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("十选中一".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<10){
-                return Result.failed("选择投注号码必须大于等于10个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,10,true);
-        }
-        if("五不中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<5){
-                return Result.failed("选择投注号码必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
-        }
-        if("六不中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<6){
-                return Result.failed("选择投注号码必须大于等于6个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,6,true);
-        }
-        if("七不中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<7){
-                return Result.failed("选择投注号码必须大于等于7个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,7,true);
-        }
-        if("八不中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<8){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,8,true);
-        }
-        if("九不中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<9){
-                return Result.failed("选择投注号码必须大于等于9个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,9,true);
-        }
-        if("十不中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<10){
-                return Result.failed("选择投注号码必须大于等于10个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,10,true);
-        }
-        if("十一不中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<11){
-                return Result.failed("选择投注号码必须大于等于11个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,11,true);
-        }
-        //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特一任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            bettingNumberHashSet = new HashSet();
-            for (String str:numberStr){
-                bettingNumberHashSet.add(str);
-            }
-        }
-        //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特二任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<2){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
-        }
-        //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特三任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<3){
-                return Result.failed("选择投注号码必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3,true);
-        }
-        //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特四任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<4){
-                return Result.failed("选择投注号码必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4,true);
-        }
-        //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特五任中".equals(tailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<5){
-                return Result.failed("选择投注号码必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
-        }
+        HashSet<String> bettingNumberHashSet = this.doubleNumber(bumpBettingNumberDtoList1,bumpBettingNumberDtoList2);
         List<BettingNumberGroupVo> bettingNumberGroupVoList = new ArrayList<>();
         boolean b = true;
         for (String bettingNumberStr:bettingNumberHashSet) {
@@ -1274,6 +952,8 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
     public Result ZodiacTailBumpLotteryBetNumber(ZodiacTailBumpLotteryBetDto zodiacTailBumpLotteryBetDto){
         List<NumberAttributes> numberList = numberAttributesService.findList(null, DateUtil.getYear());
         List<BumpBettingNumberDto> bumpBettingNumberDtoList = new ArrayList<>();
+        List<BumpBettingNumberDto> bumpBettingNumberDtoList1 = new ArrayList<>();
+        List<BumpBettingNumberDto> bumpBettingNumberDtoList2 = new ArrayList<>();
         for (NumberAttributes numberAttributes:numberList) {
             if (zodiacTailBumpLotteryBetDto.getZodiacOne().equals(numberAttributes.getZodiac())) {
                 BumpBettingNumberDto bumpBettingNumberDto = new BumpBettingNumberDto();
@@ -1282,6 +962,7 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 bumpBettingNumberDto.setBettingNumber(numberAttributes.getNumber());
                 bumpBettingNumberDto.setColor(numberAttributes.getColor());
                 bumpBettingNumberDtoList.add(bumpBettingNumberDto);
+                bumpBettingNumberDtoList1.add(bumpBettingNumberDto);
             }
             if (zodiacTailBumpLotteryBetDto.getTailTwo()==Integer.parseInt(numberAttributes.getNumber())%10) {
                 BumpBettingNumberDto bumpBettingNumberDto = new BumpBettingNumberDto();
@@ -1290,184 +971,11 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 bumpBettingNumberDto.setBettingNumber(numberAttributes.getNumber());
                 bumpBettingNumberDto.setColor(numberAttributes.getColor());
                 bumpBettingNumberDtoList.add(bumpBettingNumberDto);
+                bumpBettingNumberDtoList2.add(bumpBettingNumberDto);
             }
         }
 
-        HashSet<String> bettingNumberHashSet = new HashSet<>();
-        String[] numberStr = new String[bumpBettingNumberDtoList.size()];
-        for (int i = 0; i< bumpBettingNumberDtoList.size(); i++){
-            BumpBettingNumberDto dto = bumpBettingNumberDtoList.get(i);
-            numberStr[i] = dto.getBettingNumber();
-        }
-        //所投注的每三个号码为一组合，若三个号码都是开奖号码之正码，视为中奖，其余行情视为不中奖
-        //所投注的每三个号码为一组合，若其中2个号码都是开奖号码之正码，视为三中二奖，若3个都是开奖号码中的正码，即为三中二之中三，其余行情视为不中奖
-        if("三全中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())
-                ||"三中二".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<3){
-                return Result.failed("选择投注号码必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3,true);
-        }
-
-        //所投注的每二个号码为一组合，若二个号码都是开奖号码之正码，视为中奖，其余行情视为不中奖（含一个正码加一个特码情形）
-        //所投注的每二个号码为一组合，若二个号码都是开奖号码之正码，叫二中特之中二，其中一个是正码，一个是特码，视为中奖,其余行情视为不中奖二中特之中二赔率高于二中特之中特的赔率
-        //所投注的每两个号码为一组合，其中一个是正码，一个是特码，视为中奖，其余情形视为不中奖（含二个都是正码之情形）
-        if("二全中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())
-                ||"二中特".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())
-                ||"特串".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<2){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
-        }
-        //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("四全中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<4){
-                return Result.failed("选择投注号码必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4,true);
-        }
-        //选择2-4个尾数为一投注组合进行投注。该注的2-4个尾数必须在当期开出的7个开奖号码相对应的尾数中，（49亦算输赢，不为和）。每个号码都有自己的赔率，下注组合的总赔率，取该组合码的最低赔率为下单赔率
-        if("二尾连中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())
-                ||"二尾连不中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<2){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2,false);
-        }
-        if("三尾连中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())
-                ||"三尾连不中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<3){
-                return Result.failed("选择投注号码必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3,false);
-        }
-        if("四尾连中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())
-                ||"四尾连不中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<4){
-                return Result.failed("选择投注号码必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4,false);
-        }
-        //挑选5个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("五选中一".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<5){
-                return Result.failed("选择投注号码必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
-        }
-        //挑选6个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("六选中一".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<6){
-                return Result.failed("选择投注号码必须大于等于6个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,6,true);
-        }
-        //挑选7个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("七选中一".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<7){
-                return Result.failed("选择投注号码必须大于等于7个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,7,true);
-        }
-        //挑选8个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("八选中一".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<8){
-                return Result.failed("选择投注号码必须大于等于8个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,8,true);
-        }
-        //挑选9个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("九选中一".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<9){
-                return Result.failed("选择投注号码必须大于等于9个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,9,true);
-        }
-        //挑选10个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("十选中一".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<10){
-                return Result.failed("选择投注号码必须大于等于10个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,10,true);
-        }
-        if("五不中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<5){
-                return Result.failed("选择投注号码必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
-        }
-        if("六不中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<6){
-                return Result.failed("选择投注号码必须大于等于6个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,6,true);
-        }
-        if("七不中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<7){
-                return Result.failed("选择投注号码必须大于等于7个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,7,true);
-        }
-        if("八不中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<8){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,8,true);
-        }
-        if("九不中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<9){
-                return Result.failed("选择投注号码必须大于等于9个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,9,true);
-        }
-        if("十不中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<10){
-                return Result.failed("选择投注号码必须大于等于10个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,10,true);
-        }
-        if("十一不中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<11){
-                return Result.failed("选择投注号码必须大于等于11个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,11,true);
-        }
-        //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特一任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            bettingNumberHashSet = new HashSet();
-            for (String str:numberStr){
-                bettingNumberHashSet.add(str);
-            }
-        }
-        //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特二任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<2){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
-        }
-        //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特三任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<3){
-                return Result.failed("选择投注号码必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3,true);
-        }
-        //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特四任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<4){
-                return Result.failed("选择投注号码必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4,true);
-        }
-        //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特五任中".equals(zodiacTailBumpLotteryBetDto.getQuizTitle())) {//分类二类
-            if(bumpBettingNumberDtoList.size()<5){
-                return Result.failed("选择投注号码必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
-        }
+        HashSet<String> bettingNumberHashSet = this.doubleNumber(bumpBettingNumberDtoList1,bumpBettingNumberDtoList2);
         List<BettingNumberGroupVo> bettingNumberGroupVoList = new ArrayList<>();
         boolean b = true;
         for (String bettingNumberStr:bettingNumberHashSet) {

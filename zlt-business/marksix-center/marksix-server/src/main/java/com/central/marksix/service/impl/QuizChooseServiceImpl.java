@@ -109,7 +109,7 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
                         "47".equals(quizChoose.getIntroduce()) ||
                         "48".equals(quizChoose.getIntroduce()) ||
                         "49".equals(quizChoose.getIntroduce())) {
-                    quizChooseVo = this.setQuizChooseVo(quizChooseVo, quizChoose.getIntroduce(), null);
+                    quizChooseVo = this.setQuizChooseVo(quizChooseVo, quizChoose.getIntroduce(), null,"");
                 }
                 if ("金".equals(quizChoose.getIntroduce()) ||
                         "木".equals(quizChoose.getIntroduce()) ||
@@ -118,8 +118,70 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
                         "土".equals(quizChoose.getIntroduce())) {
                     NumberAttributesDto numberAttributesDto = new NumberAttributesDto();
                     numberAttributesDto.setFiveElements(quizChoose.getIntroduce());
-                    quizChooseVo = this.setQuizChooseVo(quizChooseVo, "", numberAttributesDto);
+                    quizChooseVo = this.setQuizChooseVo(quizChooseVo, "", numberAttributesDto,"");
                 }
+                if("小".equals(quizChoose.getIntroduce()) ||
+                    "大".equals(quizChoose.getIntroduce()) ||
+                    "单".equals(quizChoose.getIntroduce()) ||
+                    "双".equals(quizChoose.getIntroduce()) ||
+                    "合大".equals(quizChoose.getIntroduce()) ||
+                    "合小".equals(quizChoose.getIntroduce()) ||
+                    "合单".equals(quizChoose.getIntroduce()) ||
+                    "合双".equals(quizChoose.getIntroduce()) ||
+                    "大双".equals(quizChoose.getIntroduce()) ||
+                    "小双".equals(quizChoose.getIntroduce()) ||
+                    "大单".equals(quizChoose.getIntroduce()) ||
+                    "小单".equals(quizChoose.getIntroduce()) ||
+                    "尾大".equals(quizChoose.getIntroduce()) ||
+                    "尾小".equals(quizChoose.getIntroduce()) ||
+                    "红大".equals(quizChoose.getIntroduce()) ||
+                    "红小".equals(quizChoose.getIntroduce()) ||
+                    "红单".equals(quizChoose.getIntroduce()) ||
+                    "红双".equals(quizChoose.getIntroduce()) ||
+                    "红大单".equals(quizChoose.getIntroduce()) ||
+                    "红大双".equals(quizChoose.getIntroduce()) ||
+                    "红小单".equals(quizChoose.getIntroduce()) ||
+                    "红小双".equals(quizChoose.getIntroduce()) ||
+                    "红合单".equals(quizChoose.getIntroduce()) ||
+                    "红合双".equals(quizChoose.getIntroduce()) ||
+                    "红合大".equals(quizChoose.getIntroduce()) ||
+                    "红合小".equals(quizChoose.getIntroduce()) ||
+                    "绿大".equals(quizChoose.getIntroduce()) ||
+                    "绿小".equals(quizChoose.getIntroduce()) ||
+                    "绿单".equals(quizChoose.getIntroduce()) ||
+                    "绿双".equals(quizChoose.getIntroduce()) ||
+                    "绿大单".equals(quizChoose.getIntroduce()) ||
+                    "绿大双".equals(quizChoose.getIntroduce()) ||
+                    "绿小单".equals(quizChoose.getIntroduce()) ||
+                    "绿小双".equals(quizChoose.getIntroduce()) ||
+                    "绿合单".equals(quizChoose.getIntroduce()) ||
+                    "绿合双".equals(quizChoose.getIntroduce()) ||
+                    "绿合大".equals(quizChoose.getIntroduce()) ||
+                    "绿合小".equals(quizChoose.getIntroduce()) ||
+                    "蓝大".equals(quizChoose.getIntroduce()) ||
+                    "蓝小".equals(quizChoose.getIntroduce()) ||
+                    "蓝单".equals(quizChoose.getIntroduce()) ||
+                    "蓝双".equals(quizChoose.getIntroduce()) ||
+                    "蓝大单".equals(quizChoose.getIntroduce()) ||
+                    "蓝大双".equals(quizChoose.getIntroduce()) ||
+                    "蓝小单".equals(quizChoose.getIntroduce()) ||
+                    "蓝小双".equals(quizChoose.getIntroduce()) ||
+                    "蓝合单".equals(quizChoose.getIntroduce()) ||
+                    "蓝合双".equals(quizChoose.getIntroduce())||
+                    "蓝合大".equals(quizChoose.getIntroduce()) ||
+                    "蓝合小".equals(quizChoose.getIntroduce())) {
+                    quizChooseVo = this.setQuizChooseVo(quizChooseVo, "", null,quizChoose.getIntroduce());
+                }
+//                if ("家禽".equals(quizChoose.getIntroduce())) {
+//                    NumberAttributesDto numberAttributesDto = new NumberAttributesDto();
+//                    numberAttributesDto.setPoultryandbeast("家");
+//                    quizChooseVo = this.setQuizChooseVo(quizChooseVo, "", numberAttributesDto);
+//                }
+//                if ("野兽".equals(quizChoose.getIntroduce())) {
+//                    NumberAttributesDto numberAttributesDto = new NumberAttributesDto();
+//                    numberAttributesDto.setPoultryandbeast("野");
+//                    quizChooseVo = this.setQuizChooseVo(quizChooseVo, "", numberAttributesDto);
+//                }
                 if ("鼠".equals(quizChoose.getIntroduce()) ||
                         "牛".equals(quizChoose.getIntroduce()) ||
                         "虎".equals(quizChoose.getIntroduce()) ||
@@ -134,7 +196,7 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
                         "猪".equals(quizChoose.getIntroduce())) {
                     NumberAttributesDto numberAttributesDto = new NumberAttributesDto();
                     numberAttributesDto.setZodiac(quizChoose.getIntroduce());
-                    quizChooseVo = this.setQuizChooseVo(quizChooseVo, "", numberAttributesDto);
+                    quizChooseVo = this.setQuizChooseVo(quizChooseVo, "", numberAttributesDto,"");
                 }
                 chooseVoList.add(quizChooseVo);
             }
@@ -150,21 +212,532 @@ public class QuizChooseServiceImpl extends SuperServiceImpl<QuizChooseMapper, Qu
                 .sorted(comparator)
                 .collect(Collectors.toList());
     }
-    public QuizChooseVo setQuizChooseVo(QuizChooseVo quizChooseVo, String number, NumberAttributesDto numberAttributesDto) {
+    public QuizChooseVo setQuizChooseVo(QuizChooseVo quizChooseVo, String number, NumberAttributesDto numberAttributesDto,String introduce) {
         List<NumberAttributes> numberAttributesList = numberAttributesService.findList(numberAttributesDto,DateUtil.getYear());
+        List<NumberAttributes> numberList = quizChooseVo.getNumberList();
+        if (null == numberList)
+            numberList = new ArrayList<>();
         if(null!=number&&!"".equals(number)) {
             for (NumberAttributes numberAttributes : numberAttributesList) {
                 if (number.equals(numberAttributes.getNumber())) {
-                    List<NumberAttributes> numberList = quizChooseVo.getNumberList();
-                    if (null == numberList)
-                        numberList = new ArrayList<>();
                     numberList.add(numberAttributes);
-                    quizChooseVo.setNumberList(numberList);
                 }
             }
+            quizChooseVo.setNumberList(numberList);
+        }else if("小".equals(introduce) ||
+                "大".equals(introduce) ||
+                "单".equals(introduce) ||
+                "双".equals(introduce) ||
+                "合大".equals(introduce) ||
+                "合小".equals(introduce) ||
+                "合单".equals(introduce) ||
+                "合双".equals(introduce) ||
+                "大双".equals(introduce) ||
+                "小双".equals(introduce) ||
+                "大单".equals(introduce) ||
+                "小单".equals(introduce) ||
+                "尾大".equals(introduce) ||
+                "尾小".equals(introduce) ||
+                "红大".equals(introduce) ||
+            "红小".equals(introduce) ||
+            "红单".equals(introduce) ||
+            "红双".equals(introduce) ||
+            "红大单".equals(introduce) ||
+            "红大双".equals(introduce) ||
+            "红小单".equals(introduce) ||
+            "红小双".equals(introduce) ||
+            "红合单".equals(introduce) ||
+            "红合双".equals(introduce) ||
+            "红合大".equals(introduce) ||
+            "红合小".equals(introduce) ||
+            "绿大".equals(introduce) ||
+            "绿小".equals(introduce) ||
+            "绿单".equals(introduce) ||
+            "绿双".equals(introduce) ||
+            "绿大单".equals(introduce) ||
+            "绿大双".equals(introduce) ||
+            "绿小单".equals(introduce) ||
+            "绿小双".equals(introduce) ||
+            "绿合单".equals(introduce) ||
+            "绿合双".equals(introduce) ||
+            "绿合大".equals(introduce) ||
+            "绿合小".equals(introduce) ||
+            "蓝大".equals(introduce) ||
+            "蓝小".equals(introduce) ||
+            "蓝单".equals(introduce) ||
+            "蓝双".equals(introduce) ||
+            "蓝大单".equals(introduce) ||
+            "蓝大双".equals(introduce) ||
+            "蓝小单".equals(introduce) ||
+            "蓝小双".equals(introduce) ||
+            "蓝合单".equals(introduce) ||
+            "蓝合双".equals(introduce)||
+            "蓝合大".equals(introduce) ||
+            "蓝合小".equals(introduce)) {
+            for (NumberAttributes numberAttributes : numberAttributesList) {
+                if("小".equals(introduce) ||
+                        "大".equals(introduce) ||
+                        "单".equals(introduce) ||
+                        "双".equals(introduce) ||
+                        "合大".equals(introduce) ||
+                        "合小".equals(introduce) ||
+                        "合单".equals(introduce) ||
+                        "合双".equals(introduce) ||
+                        "大双".equals(introduce) ||
+                        "小双".equals(introduce) ||
+                        "大单".equals(introduce) ||
+                        "小单".equals(introduce) ||
+                        "尾大".equals(introduce) ||
+                        "尾小".equals(introduce)){
+                    if("大".equals(introduce)){
+                        //大：大于或等于25
+                        if (Integer.parseInt(numberAttributes.getNumber()) >= 25){
+                            numberList.add(numberAttributes);
+                        }
+                    }else if("小".equals(introduce)){
+                        //小：小于或等于24
+                        if (Integer.parseInt(numberAttributes.getNumber()) <= 24){
+                            numberList.add(numberAttributes);
+                        }
+                    }else if("单".equals(introduce)){
+                        //单：为奇数
+                        if (Integer.parseInt(numberAttributes.getNumber()) % 2 != 0){
+                            numberList.add(numberAttributes);
+                        }
+                    }else if("双".equals(introduce)){
+                        //双：为偶数
+                        if (Integer.parseInt(numberAttributes.getNumber()) % 2 == 0){
+                            numberList.add(numberAttributes);
+                        }
+                    }else if("小单".equals(introduce)){
+                        if("01".equals(numberAttributes.getNumber())||
+                                "03".equals(numberAttributes.getNumber())||
+                                "05".equals(numberAttributes.getNumber())||
+                                "07".equals(numberAttributes.getNumber())||
+                                "09".equals(numberAttributes.getNumber())||
+                                "11".equals(numberAttributes.getNumber())||
+                                "13".equals(numberAttributes.getNumber())||
+                                "15".equals(numberAttributes.getNumber())||
+                                "17".equals(numberAttributes.getNumber())||
+                                "19".equals(numberAttributes.getNumber())||
+                                "21".equals(numberAttributes.getNumber())||
+                                "23".equals(numberAttributes.getNumber())){
+                            numberList.add(numberAttributes);
+                        }
+                    }else if("大单".equals(introduce)){
+                        if("25".equals(numberAttributes.getNumber())||
+                                "27".equals(numberAttributes.getNumber())||
+                                "29".equals(numberAttributes.getNumber())||
+                                "31".equals(numberAttributes.getNumber())||
+                                "33".equals(numberAttributes.getNumber())||
+                                "35".equals(numberAttributes.getNumber())||
+                                "37".equals(numberAttributes.getNumber())||
+                                "39".equals(numberAttributes.getNumber())||
+                                "41".equals(numberAttributes.getNumber())||
+                                "43".equals(numberAttributes.getNumber())||
+                                "45".equals(numberAttributes.getNumber())||
+                                "47".equals(numberAttributes.getNumber())){
+                            numberList.add(numberAttributes);
+                        }
+                    }else if("大双".equals(introduce)){
+                        if("26".equals(numberAttributes.getNumber())||
+                                "28".equals(numberAttributes.getNumber())||
+                                "30".equals(numberAttributes.getNumber())||
+                                "32".equals(numberAttributes.getNumber())||
+                                "34".equals(numberAttributes.getNumber())||
+                                "36".equals(numberAttributes.getNumber())||
+                                "38".equals(numberAttributes.getNumber())||
+                                "40".equals(numberAttributes.getNumber())||
+                                "42".equals(numberAttributes.getNumber())||
+                                "44".equals(numberAttributes.getNumber())||
+                                "46".equals(numberAttributes.getNumber())||
+                                "48".equals(numberAttributes.getNumber())){
+                            numberList.add(numberAttributes);
+                        }
+                    }else if("小双".equals(introduce)){
+                        if("02".equals(numberAttributes.getNumber())||
+                                "04".equals(numberAttributes.getNumber())||
+                                "06".equals(numberAttributes.getNumber())||
+                                "08".equals(numberAttributes.getNumber())||
+                                "10".equals(numberAttributes.getNumber())||
+                                "12".equals(numberAttributes.getNumber())||
+                                "14".equals(numberAttributes.getNumber())||
+                                "16".equals(numberAttributes.getNumber())||
+                                "18".equals(numberAttributes.getNumber())||
+                                "20".equals(numberAttributes.getNumber())||
+                                "22".equals(numberAttributes.getNumber())||
+                                "24".equals(numberAttributes.getNumber())){
+                            numberList.add(numberAttributes);
+                        }
+                    }else if("合单".equals(introduce)){
+                        //合单：和值为奇数
+                        if ((Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10) % 2 != 0)
+                            numberList.add(numberAttributes);
+                    }else if("合双".equals(introduce)){
+                        //合双：和值为偶数
+                        if ((Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10) % 2 == 0)
+                            numberList.add(numberAttributes);
+                    }else if("合大".equals(introduce)){
+                        //合大：和值大于或等于7
+                        if (Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10 >= 7)
+                            numberList.add(numberAttributes);
+                    }else if("合小".equals(introduce)){
+                        //合小：和值小于或等于6合数小
+                        if (Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10 <= 6)
+                            numberList.add(numberAttributes);
+                    }else if("尾大".equals(introduce)){
+                        //尾大：大于等于5为大
+                        if (Integer.parseInt(numberAttributes.getNumber())%10 <= 5)
+                            numberList.add(numberAttributes);
+                    }else if("尾小".equals(introduce)){
+                        //尾小：小于等于4为小
+                        if (Integer.parseInt(numberAttributes.getNumber())%10 <= 4)
+                            numberList.add(numberAttributes);
+                    }
+                }
+                if("红大".equals(introduce) ||
+                        "红小".equals(introduce) ||
+                        "红单".equals(introduce) ||
+                        "红双".equals(introduce) ||
+                        "红合单".equals(introduce) ||
+                        "红合双".equals(introduce)||
+                        "红大单".equals(introduce) ||
+                        "红大双".equals(introduce) ||
+                        "红小单".equals(introduce) ||
+                        "红小双".equals(introduce) ||
+                        "红合大".equals(introduce) ||
+                        "红合小".equals(introduce)){
+                    if ("红波".equals(numberAttributes.getColor())) {
+                        if("红大".equals(introduce)){
+                            //大：大于或等于25
+                            if (Integer.parseInt(numberAttributes.getNumber()) >= 25){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("红小".equals(introduce)){
+                            //小：小于或等于24
+                            if (Integer.parseInt(numberAttributes.getNumber()) <= 24){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("红单".equals(introduce)){
+                            //单：为奇数
+                            if (Integer.parseInt(numberAttributes.getNumber()) % 2 != 0){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("红双".equals(introduce)){
+                            //双：为偶数
+                            if (Integer.parseInt(numberAttributes.getNumber()) % 2 == 0){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("红小单".equals(introduce)){
+                            if("01".equals(numberAttributes.getNumber())||
+                                    "03".equals(numberAttributes.getNumber())||
+                                    "05".equals(numberAttributes.getNumber())||
+                                    "07".equals(numberAttributes.getNumber())||
+                                    "09".equals(numberAttributes.getNumber())||
+                                    "11".equals(numberAttributes.getNumber())||
+                                    "13".equals(numberAttributes.getNumber())||
+                                    "15".equals(numberAttributes.getNumber())||
+                                    "17".equals(numberAttributes.getNumber())||
+                                    "19".equals(numberAttributes.getNumber())||
+                                    "21".equals(numberAttributes.getNumber())||
+                                    "23".equals(numberAttributes.getNumber())){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("红大单".equals(introduce)){
+                            if("25".equals(numberAttributes.getNumber())||
+                                    "27".equals(numberAttributes.getNumber())||
+                                    "29".equals(numberAttributes.getNumber())||
+                                    "31".equals(numberAttributes.getNumber())||
+                                    "33".equals(numberAttributes.getNumber())||
+                                    "35".equals(numberAttributes.getNumber())||
+                                    "37".equals(numberAttributes.getNumber())||
+                                    "39".equals(numberAttributes.getNumber())||
+                                    "41".equals(numberAttributes.getNumber())||
+                                    "43".equals(numberAttributes.getNumber())||
+                                    "45".equals(numberAttributes.getNumber())||
+                                    "47".equals(numberAttributes.getNumber())){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("红大双".equals(introduce)){
+                            if("26".equals(numberAttributes.getNumber())||
+                                    "28".equals(numberAttributes.getNumber())||
+                                    "30".equals(numberAttributes.getNumber())||
+                                    "32".equals(numberAttributes.getNumber())||
+                                    "34".equals(numberAttributes.getNumber())||
+                                    "36".equals(numberAttributes.getNumber())||
+                                    "38".equals(numberAttributes.getNumber())||
+                                    "40".equals(numberAttributes.getNumber())||
+                                    "42".equals(numberAttributes.getNumber())||
+                                    "44".equals(numberAttributes.getNumber())||
+                                    "46".equals(numberAttributes.getNumber())||
+                                    "48".equals(numberAttributes.getNumber())){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("红小双".equals(introduce)){
+                            if("02".equals(numberAttributes.getNumber())||
+                                    "04".equals(numberAttributes.getNumber())||
+                                    "06".equals(numberAttributes.getNumber())||
+                                    "08".equals(numberAttributes.getNumber())||
+                                    "10".equals(numberAttributes.getNumber())||
+                                    "12".equals(numberAttributes.getNumber())||
+                                    "14".equals(numberAttributes.getNumber())||
+                                    "16".equals(numberAttributes.getNumber())||
+                                    "18".equals(numberAttributes.getNumber())||
+                                    "20".equals(numberAttributes.getNumber())||
+                                    "22".equals(numberAttributes.getNumber())||
+                                    "24".equals(numberAttributes.getNumber())){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("红合单".equals(introduce)){
+                            //合单：和值为奇数
+                            if ((Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10) % 2 != 0)
+                                numberList.add(numberAttributes);
+                        }else if("红合双".equals(introduce)){
+                            //合双：和值为偶数
+                            if ((Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10) % 2 == 0)
+                                numberList.add(numberAttributes);
+                        }else if("红合大".equals(introduce)){
+                            //合大：和值大于或等于7
+                            if (Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10 >= 7)
+                                numberList.add(numberAttributes);
+                        }else if("红合小".equals(introduce)){
+                            //合小：和值小于或等于6合数小
+                            if (Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10 <= 6)
+                                numberList.add(numberAttributes);
+                        }
+
+                    }
+                }
+                if("绿大".equals(introduce) ||
+                        "绿小".equals(introduce) ||
+                        "绿单".equals(introduce) ||
+                        "绿双".equals(introduce) ||
+                        "绿大单".equals(introduce) ||
+                        "绿大双".equals(introduce) ||
+                        "绿小单".equals(introduce) ||
+                        "绿小双".equals(introduce) ||
+                        "绿合单".equals(introduce) ||
+                        "绿合双".equals(introduce)||
+                        "绿合大".equals(introduce) ||
+                        "绿合小".equals(introduce) ){
+                    if ("绿波".equals(numberAttributes.getColor())) {
+                        if("绿大".equals(introduce)){
+                            //大：大于或等于25
+                            if (Integer.parseInt(numberAttributes.getNumber()) >= 25){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("绿小".equals(introduce)){
+                            //小：小于或等于24
+                            if (Integer.parseInt(numberAttributes.getNumber()) <= 24){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("绿单".equals(introduce)){
+                            //单：为奇数
+                            if (Integer.parseInt(numberAttributes.getNumber()) % 2 != 0){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("绿双".equals(introduce)){
+                            //双：为偶数
+                            if (Integer.parseInt(numberAttributes.getNumber()) % 2 == 0){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("绿小单".equals(introduce)){
+                            if("01".equals(numberAttributes.getNumber())||
+                                    "03".equals(numberAttributes.getNumber())||
+                                    "05".equals(numberAttributes.getNumber())||
+                                    "07".equals(numberAttributes.getNumber())||
+                                    "09".equals(numberAttributes.getNumber())||
+                                    "11".equals(numberAttributes.getNumber())||
+                                    "13".equals(numberAttributes.getNumber())||
+                                    "15".equals(numberAttributes.getNumber())||
+                                    "17".equals(numberAttributes.getNumber())||
+                                    "19".equals(numberAttributes.getNumber())||
+                                    "21".equals(numberAttributes.getNumber())||
+                                    "23".equals(numberAttributes.getNumber())){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("绿大单".equals(introduce)){
+                            if("25".equals(numberAttributes.getNumber())||
+                                    "27".equals(numberAttributes.getNumber())||
+                                    "29".equals(numberAttributes.getNumber())||
+                                    "31".equals(numberAttributes.getNumber())||
+                                    "33".equals(numberAttributes.getNumber())||
+                                    "35".equals(numberAttributes.getNumber())||
+                                    "37".equals(numberAttributes.getNumber())||
+                                    "39".equals(numberAttributes.getNumber())||
+                                    "41".equals(numberAttributes.getNumber())||
+                                    "43".equals(numberAttributes.getNumber())||
+                                    "45".equals(numberAttributes.getNumber())||
+                                    "47".equals(numberAttributes.getNumber())){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("绿大双".equals(introduce)){
+                            if("26".equals(numberAttributes.getNumber())||
+                                    "28".equals(numberAttributes.getNumber())||
+                                    "30".equals(numberAttributes.getNumber())||
+                                    "32".equals(numberAttributes.getNumber())||
+                                    "34".equals(numberAttributes.getNumber())||
+                                    "36".equals(numberAttributes.getNumber())||
+                                    "38".equals(numberAttributes.getNumber())||
+                                    "40".equals(numberAttributes.getNumber())||
+                                    "42".equals(numberAttributes.getNumber())||
+                                    "44".equals(numberAttributes.getNumber())||
+                                    "46".equals(numberAttributes.getNumber())||
+                                    "48".equals(numberAttributes.getNumber())){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("绿小双".equals(introduce)){
+                            if("02".equals(numberAttributes.getNumber())||
+                                    "04".equals(numberAttributes.getNumber())||
+                                    "06".equals(numberAttributes.getNumber())||
+                                    "08".equals(numberAttributes.getNumber())||
+                                    "10".equals(numberAttributes.getNumber())||
+                                    "12".equals(numberAttributes.getNumber())||
+                                    "14".equals(numberAttributes.getNumber())||
+                                    "16".equals(numberAttributes.getNumber())||
+                                    "18".equals(numberAttributes.getNumber())||
+                                    "20".equals(numberAttributes.getNumber())||
+                                    "22".equals(numberAttributes.getNumber())||
+                                    "24".equals(numberAttributes.getNumber())){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("绿合单".equals(introduce)){
+                            //合单：和值为奇数
+                            if ((Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10) % 2 != 0)
+                                numberList.add(numberAttributes);
+                        }else if("绿合双".equals(introduce)){
+                            //合双：和值为偶数
+                            if ((Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10) % 2 == 0)
+                                numberList.add(numberAttributes);
+                        }else if("绿合大".equals(introduce)){
+                            //合大：和值大于或等于7
+                            if (Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10 >= 7)
+                                numberList.add(numberAttributes);
+                        }else if("绿合小".equals(introduce)){
+                            //合小：和值小于或等于6合数小
+                            if (Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10 <= 6)
+                                numberList.add(numberAttributes);
+                        }
+                    }
+                }
+                if("蓝大".equals(introduce) ||
+                        "蓝小".equals(introduce) ||
+                        "蓝单".equals(introduce) ||
+                        "蓝双".equals(introduce) ||
+                        "蓝大单".equals(introduce) ||
+                        "蓝大双".equals(introduce) ||
+                        "蓝小单".equals(introduce) ||
+                        "蓝小双".equals(introduce) ||
+                        "蓝合单".equals(introduce) ||
+                        "蓝合双".equals(introduce) ||
+                        "蓝合大".equals(introduce) ||
+                        "蓝合小".equals(introduce)){
+                    if ("蓝波".equals(numberAttributes.getColor())) {
+                        if("蓝大".equals(introduce)){
+                            //大：大于或等于25
+                            if (Integer.parseInt(numberAttributes.getNumber()) >= 25){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("蓝小".equals(introduce)){
+                            //小：小于或等于24
+                            if (Integer.parseInt(numberAttributes.getNumber()) <= 24){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("蓝单".equals(introduce)){
+                            //单：为奇数
+                            if (Integer.parseInt(numberAttributes.getNumber()) % 2 != 0){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("蓝双".equals(introduce)){
+                            //双：为偶数
+                            if (Integer.parseInt(numberAttributes.getNumber()) % 2 == 0){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("蓝小单".equals(introduce)){
+                            if("01".equals(numberAttributes.getNumber())||
+                                    "03".equals(numberAttributes.getNumber())||
+                                    "05".equals(numberAttributes.getNumber())||
+                                    "07".equals(numberAttributes.getNumber())||
+                                    "09".equals(numberAttributes.getNumber())||
+                                    "11".equals(numberAttributes.getNumber())||
+                                    "13".equals(numberAttributes.getNumber())||
+                                    "15".equals(numberAttributes.getNumber())||
+                                    "17".equals(numberAttributes.getNumber())||
+                                    "19".equals(numberAttributes.getNumber())||
+                                    "21".equals(numberAttributes.getNumber())||
+                                    "23".equals(numberAttributes.getNumber())){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("蓝大单".equals(introduce)){
+                            if("25".equals(numberAttributes.getNumber())||
+                                    "27".equals(numberAttributes.getNumber())||
+                                    "29".equals(numberAttributes.getNumber())||
+                                    "31".equals(numberAttributes.getNumber())||
+                                    "33".equals(numberAttributes.getNumber())||
+                                    "35".equals(numberAttributes.getNumber())||
+                                    "37".equals(numberAttributes.getNumber())||
+                                    "39".equals(numberAttributes.getNumber())||
+                                    "41".equals(numberAttributes.getNumber())||
+                                    "43".equals(numberAttributes.getNumber())||
+                                    "45".equals(numberAttributes.getNumber())||
+                                    "47".equals(numberAttributes.getNumber())){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("蓝大双".equals(introduce)){
+                            if("26".equals(numberAttributes.getNumber())||
+                                    "28".equals(numberAttributes.getNumber())||
+                                    "30".equals(numberAttributes.getNumber())||
+                                    "32".equals(numberAttributes.getNumber())||
+                                    "34".equals(numberAttributes.getNumber())||
+                                    "36".equals(numberAttributes.getNumber())||
+                                    "38".equals(numberAttributes.getNumber())||
+                                    "40".equals(numberAttributes.getNumber())||
+                                    "42".equals(numberAttributes.getNumber())||
+                                    "44".equals(numberAttributes.getNumber())||
+                                    "46".equals(numberAttributes.getNumber())||
+                                    "48".equals(numberAttributes.getNumber())){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("蓝小双".equals(introduce)){
+                            if("02".equals(numberAttributes.getNumber())||
+                                    "04".equals(numberAttributes.getNumber())||
+                                    "06".equals(numberAttributes.getNumber())||
+                                    "08".equals(numberAttributes.getNumber())||
+                                    "10".equals(numberAttributes.getNumber())||
+                                    "12".equals(numberAttributes.getNumber())||
+                                    "14".equals(numberAttributes.getNumber())||
+                                    "16".equals(numberAttributes.getNumber())||
+                                    "18".equals(numberAttributes.getNumber())||
+                                    "20".equals(numberAttributes.getNumber())||
+                                    "22".equals(numberAttributes.getNumber())||
+                                    "24".equals(numberAttributes.getNumber())){
+                                numberList.add(numberAttributes);
+                            }
+                        }else if("蓝合单".equals(introduce)){
+                            //合单：和值为奇数
+                            if ((Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10) % 2 != 0)
+                                numberList.add(numberAttributes);
+                        }else if("蓝合双".equals(introduce)){
+                            //合双：和值为偶数
+                            if ((Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10) % 2 == 0)
+                                numberList.add(numberAttributes);
+                        }else if("蓝合大".equals(introduce)){
+                            //合大：和值大于或等于7
+                            if (Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10 >= 7)
+                                numberList.add(numberAttributes);
+                        }else if("蓝合小".equals(introduce)){
+                            //合小：和值小于或等于6合数小
+                            if (Integer.parseInt(numberAttributes.getNumber())%10 + Integer.parseInt(numberAttributes.getNumber())/10%10 <= 6)
+                                numberList.add(numberAttributes);
+                        }
+                    }
+                }
+            }
+            quizChooseVo.setNumberList(numberList);
         }else {
-            quizChooseVo.setNumberList(numberAttributesList);
+                quizChooseVo.setNumberList(numberAttributesList);
         }
+
         return  quizChooseVo;
     }
 }
