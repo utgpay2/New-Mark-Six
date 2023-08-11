@@ -94,7 +94,7 @@ public class UserBettingDetailedReportFormsVo {
     private Integer feePercentage;
 
     @ApiModelProperty("投注金额*费率（未中奖时计算）")
-    @ExcelProperty(value = "手续费",index = 12)
+    @ExcelProperty(value = "手续费",index = 13)
     @ColumnWidth(20)
     @NumberFormat("#0.00")
     private BigDecimal commission;

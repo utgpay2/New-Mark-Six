@@ -110,7 +110,7 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             Withdrawals= new ArrayList<>();
         }
         for(UserReportFormsVo userReportFormsVo:list){
-            if(!userReportFormsVo.getWinMount().equals(BigDecimal.ZERO) && !userReportFormsVo.getOrderPrice().equals(BigDecimal.ZERO)){
+            if(userReportFormsVo.getWinMount().floatValue()!=0 && userReportFormsVo.getOrderPrice().floatValue()!=0){
                 userReportFormsVo.setWinRate(userReportFormsVo.getWinMount().divide(userReportFormsVo.getOrderPrice(),2,BigDecimal.ROUND_HALF_UP));
             }else {
                 userReportFormsVo.setWinRate(BigDecimal.ZERO);
@@ -207,10 +207,23 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
     @Override
     public void userBettingDetailedExport(Map<String, Object> params, HttpServletResponse httpServletResponse) {
 
+        Site site=siteService.getById(params.get("siteId").toString());
         List<UserBettingDetailedReportFormsVo> list  =  baseMapper.userBettingDetailed( params);
+
+
         for(UserBettingDetailedReportFormsVo userbetting:list){
+
             userbetting.setStatus(OrderStatusEnum.getOptions().get(Integer.parseInt(userbetting.getStatus())));
+            userbetting.setFeePercentage(site.getFeePercentage());
+            BigDecimal commission=BigDecimal.ZERO;
+            if(userbetting.getStatus().equals(OrderStatusEnum.ORDER_FOUR.getStatus().toString())){
+                commission=userbetting.getTotalPrice().multiply(new BigDecimal(site.getFeePercentage())).divide(CommonConstant.ONE_HUNDRED,2,BigDecimal.ROUND_HALF_UP);
+
+            }
+            userbetting.setCommission(commission);
         }
+
+
         try {
             ExcelUtils.write(httpServletResponse,"userBettingDetailed", UserBettingDetailedReportFormsVo.class,list);
         } catch (IOException e) {
