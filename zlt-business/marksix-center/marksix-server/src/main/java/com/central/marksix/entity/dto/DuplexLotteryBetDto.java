@@ -19,6 +19,8 @@ import java.util.List;
 public class DuplexLotteryBetDto {
     @ApiModelProperty(value = "开奖分类二类名称")
     private String quizTitle;
+    @ApiModelProperty(value = "开奖分类三类名称")
+    private String quizDetailsTitle;
     @ApiModelProperty(value = "号码与赔率")
     List<QuizChooseDto> quizChooseDtoList;
 }

@@ -39,7 +39,8 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
         //所投注的每三个号码为一组合，若三个号码都是开奖号码之正码，视为中奖，其余行情视为不中奖
         //所投注的每三个号码为一组合，若其中2个号码都是开奖号码之正码，视为三中二奖，若3个都是开奖号码中的正码，即为三中二之中三，其余行情视为不中奖
         if("三全中".equals(duplexLotteryBetDto.getQuizTitle())
-                ||"三中二".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+                ||"三中二".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"三肖".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
             if(quizChooseDtoList.size()<3){
                 return Result.failed("选择投注号码必须大于等于3个投注号码");
             }
@@ -51,14 +52,16 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
         //所投注的每两个号码为一组合，其中一个是正码，一个是特码，视为中奖，其余情形视为不中奖（含二个都是正码之情形）
         if("二全中".equals(duplexLotteryBetDto.getQuizTitle())
                 ||"二中特".equals(duplexLotteryBetDto.getQuizTitle())
-                ||"特串".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+                ||"特串".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"二肖".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
             if(quizChooseDtoList.size()<2){
                 return Result.failed("选择投注号码必须大于等于2个投注号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,2,true);
         }
         //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("四全中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+        if("四全中".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"四肖".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
             if(quizChooseDtoList.size()<4){
                 return Result.failed("选择投注号码必须大于等于4个投注号码");
             }
@@ -87,92 +90,69 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             bettingNumberHashSet = this.duplexNumber(numberStr,4,false);
         }
         //挑选5个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("五选中一".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<5){
-                return Result.failed("选择投注号码必须大于等于5个投注号码");
+        if("五选中一".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"五不中".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"五肖".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+            if(quizChooseDtoList.size()<5||quizChooseDtoList.size()>10){
+                return Result.failed("选择投注号码必须大于等于5个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
         }
         //挑选6个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("六选中一".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<6){
-                return Result.failed("选择投注号码必须大于等于6个投注号码");
+        if("六选中一".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"六不中".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"六肖".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+            if(quizChooseDtoList.size()<6||quizChooseDtoList.size()>10){
+                return Result.failed("选择投注号码必须大于等于6个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,6,true);
         }
         //挑选7个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("七选中一".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<7){
-                return Result.failed("选择投注号码必须大于等于7个投注号码");
+        if("七选中一".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"七不中".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"七肖".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+            if(quizChooseDtoList.size()<7||quizChooseDtoList.size()>10){
+                return Result.failed("选择投注号码必须大于等于7个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,7,true);
         }
         //挑选8个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("八选中一".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<8){
-                return Result.failed("选择投注号码必须大于等于8个投注号码");
+        if("八选中一".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"八不中".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"八肖".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+            if(quizChooseDtoList.size()<8||quizChooseDtoList.size()>11){
+                return Result.failed("选择投注号码必须大于等于8个投注号码，最多可以选择11个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,8,true);
         }
         //挑选9个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("九选中一".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<9){
-                return Result.failed("选择投注号码必须大于等于9个投注号码");
+        if("九选中一".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"九不中".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"九肖".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+            if(quizChooseDtoList.size()<9||quizChooseDtoList.size()>12){
+                return Result.failed("选择投注号码必须大于等于9个投注号码，最多可以选择12个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,9,true);
         }
         //挑选10个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("十选中一".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<10){
-                return Result.failed("选择投注号码必须大于等于10个投注号码");
+        if("十选中一".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"十不中".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"十肖".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+            if(quizChooseDtoList.size()<10||quizChooseDtoList.size()>13){
+                return Result.failed("选择投注号码必须大于等于10个投注号码，最多可以选择13个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,10,true);
         }
-        if("五不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<5){
-                return Result.failed("选择投注号码必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5,true);
-        }
-        if("六不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<6){
-                return Result.failed("选择投注号码必须大于等于6个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,6,true);
-        }
-        if("七不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<7){
-                return Result.failed("选择投注号码必须大于等于7个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,7,true);
-        }
-        if("八不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<8){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,8,true);
-        }
-        if("九不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<9){
-                return Result.failed("选择投注号码必须大于等于9个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,9,true);
-        }
-        if("十不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<10){
-                return Result.failed("选择投注号码必须大于等于10个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,10,true);
-        }
-        if("十一不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<11){
-                return Result.failed("选择投注号码必须大于等于11个投注号码");
+        if("十一不中".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"十一肖".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
+            if(quizChooseDtoList.size()<11||quizChooseDtoList.size()>13){
+                return Result.failed("选择投注号码必须大于等于11个投注号码，最多可以选择13个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,11,true);
         }
         if("十二不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<12){
-                return Result.failed("选择投注号码必须大于等于12个投注号码");
+            if(quizChooseDtoList.size()<12||quizChooseDtoList.size()>14){
+                return Result.failed("选择投注号码必须大于等于12个投注号码，最多可以选择14个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,12,true);
         }
