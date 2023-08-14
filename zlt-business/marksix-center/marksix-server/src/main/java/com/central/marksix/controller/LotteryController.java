@@ -214,9 +214,9 @@ public class LotteryController {
             if (ObjectUtil.isEmpty(dto.getOdds())||dto.getOdds()==0) {
                 return Result.failed("赔率不能为空");
             }
-            if (ObjectUtil.isEmpty(dto.getColor())) {
-                return Result.failed("波色不能为空");
-            }
+//            if (ObjectUtil.isEmpty(dto.getColor())) {
+//                return Result.failed("波色不能为空");
+//            }
         }
         return lotteryBetCalculationService.duplexLotteryBetNumber(duplexLotteryBetDto);
     }
