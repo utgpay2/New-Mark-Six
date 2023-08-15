@@ -133,12 +133,22 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             if(quizChooseDtoList.size()<10||quizChooseDtoList.size()>13){
                 return Result.failed("选择投注号码必须大于等于10个投注号码，最多可以选择13个号码");
             }
+            if("十肖".equals(duplexLotteryBetDto.getQuizDetailsTitle())){
+                if(quizChooseDtoList.size()>12){
+                    return Result.failed("选择投注号码必须大于等于10个投注号码，最多可以选择12个号码");
+                }
+            }
             bettingNumberHashSet = this.duplexNumber(numberStr,10);
         }
         if("十一不中".equals(duplexLotteryBetDto.getQuizTitle())
                 ||"十一肖".equals(duplexLotteryBetDto.getQuizDetailsTitle())) {//分类二类
             if(quizChooseDtoList.size()<11||quizChooseDtoList.size()>13){
                 return Result.failed("选择投注号码必须大于等于11个投注号码，最多可以选择13个号码");
+            }
+            if("十一肖".equals(duplexLotteryBetDto.getQuizDetailsTitle())){
+                if(quizChooseDtoList.size()>12){
+                    return Result.failed("选择投注号码必须大于等于11个投注号码，最多可以选择12个号码");
+                }
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,11);
         }
@@ -225,9 +235,11 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             BumpBettingNumberDto bumpBettingNumberDto1 = bumpBettingNumberDtoList1.get(i);
             for (int j = 0; j < bumpBettingNumberDtoList2.size(); j++) {
                 BumpBettingNumberDto bumpBettingNumberDto2 = bumpBettingNumberDtoList2.get(j);
-                Integer[] str1 = {Integer.parseInt(bumpBettingNumberDto1.getBettingNumber()), Integer.parseInt(bumpBettingNumberDto2.getBettingNumber())};
-                Arrays.sort(str1);
-                list.add(String.format("%02d",str1[0]) + "," + String.format("%02d",str1[1]));
+                if(!bumpBettingNumberDto1.getBettingNumber().equals(bumpBettingNumberDto2.getBettingNumber())) {
+                    Integer[] str1 = {Integer.parseInt(bumpBettingNumberDto1.getBettingNumber()), Integer.parseInt(bumpBettingNumberDto2.getBettingNumber())};
+                    Arrays.sort(str1);
+                    list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]));
+                }
             }
         }
         //去重集合
@@ -245,87 +257,120 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             if (length == 1) {
                 list.add(str[i]);
             }else {
-                for (int j = 0; j < str.length; j++) {
-                    if (i != j) {
-                        if (length == 2) {
+                for (int j = i+1; j < str.length; j++) {
+                    if (length == 2) {
+                        if (i != j) {
                             String[] str1 = {str[i], str[j]};
                             Arrays.sort(str1);
                             list.add(str1[0] + "," + str1[1]);
-                        } else {
-                            for (int k = 0; k < str.length; k++) {
+                        }
+                    } else {
+                        for (int k = j+1; k < str.length; k++) {
+
+                            if (length == 3) {
                                 if (k != i && k != j) {
-                                    if (length == 3) {
-                                        String[] str1 = {str[i], str[j], str[k]};
-                                        Arrays.sort(str1);
-                                        list.add(str1[0] + "," + str1[1] + "," + str1[2]);
+                                    String[] str1 = {str[i], str[j], str[k]};
+                                    Arrays.sort(str1);
+                                    list.add(str1[0] + "," + str1[1] + "," + str1[2]);
+                                }
+                            } else {
+                                for (int m = k+1; m < str.length; m++) {
+                                    if (length == 4) {
+                                        if (m != i && m != k && m != j) {
+                                            String[] str1 = {str[i], str[j], str[k], str[m]};
+                                            Arrays.sort(str1);
+                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3]);
+                                        }
                                     } else {
-                                        for (int m = 0; m < str.length; m++) {
-                                            if (m != i && m != k && m != j) {
-                                                if (length == 4) {
-                                                    String[] str1 = {str[i], str[j], str[k], str[m]};
+                                        for (int n = m+1; n < str.length; n++) {
+                                            if (length == 5) {
+                                                if (n != i && n != j && n != k && n != m) {
+                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n]};
                                                     Arrays.sort(str1);
-                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3]);
-                                                } else {
-                                                    for (int n = 0; n < str.length; n++) {
-                                                        if (n != i && n != j && n != k && n != m) {
-                                                            if (length == 5) {
-                                                                String[] str1 = {str[i], str[j], str[k], str[m], str[n]};
-                                                                Arrays.sort(str1);
-                                                                list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4]);
+                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4]);
+                                                }
+                                            } else {
+                                                for (int o = n+1; o < str.length; o++) {
+                                                    if (length == 6) {
+                                                        if (o != i && o != j && o != k && o != m && o != n) {
+                                                            String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o]};
+                                                            Arrays.sort(str1);
+                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5]);
+                                                        }
+                                                    } else {
+                                                        for (int p = o+1; p < str.length; p++) {
+                                                            if (length == 7) {
+                                                                if (p != i && p != j && p != k && p != m && p != n && p != o) {
+                                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p]};
+                                                                    Arrays.sort(str1);
+                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6]);
+                                                                }
                                                             } else {
-                                                                for (int o = 0; o < str.length; o++) {
-                                                                    if (o != i && o != j && o != k && o != m && o != n) {
-                                                                        if (length == 6) {
-                                                                            String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o]};
+                                                                for (int q = p+1; q < str.length; q++) {
+                                                                    if (length == 8) {
+                                                                        if (q != i && q != j && q != k && q != m && q != n && q != o && q != p) {
+                                                                            String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q]};
                                                                             Arrays.sort(str1);
-                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5]);
-                                                                        } else {
-                                                                            for (int p = 0; p < str.length; p++) {
-                                                                                if (p != i && p != j && p != k && p != m && p != n && p != o) {
-                                                                                    if (length == 7) {
-                                                                                        String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p]};
-                                                                                        Arrays.sort(str1);
-                                                                                        list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6]);
+                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7]);
+                                                                        }
+                                                                    } else {
+                                                                        for (int r = q+1; r < str.length; r++) {
+                                                                            if (length == 9) {
+                                                                                if (r != i && r != j && r != k && r != m && r != n && r != o && r != p && r != q) {
+                                                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r]};
+                                                                                    Arrays.sort(str1);
+                                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]);
+                                                                                }
+                                                                            } else {
+                                                                                for (int s = r+1; s < str.length; s++) {
+                                                                                    if (length == 10) {
+                                                                                        if (s != i && s != j && s != k && s != m && s != n && s != o && s != p && s != q && s != r) {
+                                                                                            String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s]};
+                                                                                            Arrays.sort(str1);
+                                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]+ "," + str1[9]);
+                                                                                        }
                                                                                     } else {
-                                                                                        for (int q = 0; q < str.length; q++) {
-                                                                                            if (q != i && q != j && q != k && q != m && q != n && q != o && q != p) {
-                                                                                                if (length == 8) {
-                                                                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q]};
+                                                                                        for (int t = s+1; t < str.length; t++) {
+                                                                                            if (length == 11) {
+                                                                                                if (t != i && t != j && t != k && t != m && t != n && t != o && t != p && t != q && t != r && t != s) {
+                                                                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s], str[t]};
                                                                                                     Arrays.sort(str1);
-                                                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7]);
-                                                                                                } else {
-                                                                                                    for (int r = 0; r < str.length; r++) {
-                                                                                                        if (r != i && r != j && r != k && r != m && r != n && r != o && r != p && r != q) {
-                                                                                                            if (length == 9) {
-                                                                                                                String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r]};
-                                                                                                                Arrays.sort(str1);
-                                                                                                                list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]);
+                                                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]+ "," + str1[9]+ "," + str1[10]);
+                                                                                                }
+                                                                                            } else {
+                                                                                                for (int u = t+1; u < str.length; u++) {
+                                                                                                    if (length == 12) {
+                                                                                                        if (u != i && u != j && u != k && u != m && u != n && u != o && u != p && u != q && u != r && u != s && u != t) {
+                                                                                                            String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s], str[t], str[u]};
+                                                                                                            Arrays.sort(str1);
+                                                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]+ "," + str1[9]+ "," + str1[10]+ "," + str1[11]);
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        for (int v = u+1; v < str.length; v++) {
+                                                                                                            if (length == 13) {
+                                                                                                                if (v != i && v != j && v != k && v != m && v != n && v != o && v != p && v != q && v != r && v != s && v != t && v != u) {
+                                                                                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s], str[t], str[u], str[v]};
+                                                                                                                    Arrays.sort(str1);
+                                                                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]+ "," + str1[9]+ "," + str1[10]+ "," + str1[11]+ "," + str1[12]);
+                                                                                                                }
                                                                                                             } else {
-                                                                                                                for (int s = 0; s < str.length; s++) {
-                                                                                                                    if (s != i && s != j && s != k && s != m && s != n && s != o && s != p && s != q && s != r) {
-                                                                                                                        if (length == 10) {
-                                                                                                                            String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s]};
+                                                                                                                for (int w = v+1; w < str.length; w++) {
+                                                                                                                    if (length == 14) {
+                                                                                                                        if (w != i && w != j && w != k && w != m && w != n && w != o && w != p && w != q && w != r && w != s && w != t && w != u && w != v) {
+                                                                                                                            String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s], str[t], str[u], str[v], str[w]};
                                                                                                                             Arrays.sort(str1);
-                                                                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8] + "," + str1[9]);
-                                                                                                                        } else {
-                                                                                                                            for (int t = 0; t < str.length; t++) {
-                                                                                                                                if (t != i && t != j && t != k && t != m && t != n && t != o && t != p && t != q && t != r && t != s) {
-                                                                                                                                    if (length == 11) {
-                                                                                                                                        String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s], str[t]};
-                                                                                                                                        Arrays.sort(str1);
-                                                                                                                                        list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8] + "," + str1[9] + "," + str1[10]);
-                                                                                                                                    } else {
-                                                                                                                                        for (int u = 0; u < str.length; u++) {
-                                                                                                                                            if (u != i && u != j && u != k && u != m && u != n && u != o && u != p && u != q && u != r && u != s && u != t) {
-                                                                                                                                                if (length == 12) {
-                                                                                                                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s], str[t], str[u]};
-                                                                                                                                                    Arrays.sort(str1);
-                                                                                                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8] + "," + str1[9] + "," + str1[10]+ "," + str1[11]);
-                                                                                                                                                }
-                                                                                                                                            }
-                                                                                                                                        }
-                                                                                                                                    }
+                                                                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]+ "," + str1[9]+ "," + str1[10]+ "," + str1[11]+ "," + str1[12]+ "," + str1[13]);
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        for (int y = w+1; y < str.length; y++) {
+                                                                                                                            if (length == 15) {
+                                                                                                                                if (y != i && y != j && y != k && y != m && y != n && y != o && y != p && y != q && y != r && y != s && y != t && y != u && y != v && y != w) {
+                                                                                                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s], str[t], str[u], str[v], str[w], str[y]};
+                                                                                                                                    Arrays.sort(str1);
+                                                                                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]+ "," + str1[9]+ "," + str1[10]+ "," + str1[11]+ "," + str1[12]+ "," + str1[13]+ "," + str1[14]);
                                                                                                                                 }
+                                                                                                                            } else {
+
                                                                                                                             }
                                                                                                                         }
                                                                                                                     }
