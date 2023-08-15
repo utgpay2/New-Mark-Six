@@ -61,6 +61,11 @@ public abstract class DefaultPermissionServiceImpl {
             if (!userType.equals(CommonConstant.USER_TYPE_BACKEND)) {
                 return false;
             }
+        }else if(requestURI.startsWith("/proxy-server/")){
+            // 不是后台用户不能访问
+            if (!userType.equals(CommonConstant.USER_TYPE_BACKEND)) {
+                return false;
+            }
         } else {
             // 后台用户不能访问
             if ( userType.equals(CommonConstant.USER_TYPE_BACKEND) ){
