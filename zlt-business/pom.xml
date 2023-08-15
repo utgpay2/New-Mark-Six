@@ -18,5 +18,7 @@
         <module>backend-server</module>
         <!-- 推送中心 -->
         <module>push-center</module>
+        <!-- 代理服务 -->
+        <module>proxy-server</module>
     </modules>
 </project>

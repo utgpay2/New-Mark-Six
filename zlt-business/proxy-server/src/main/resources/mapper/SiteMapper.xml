@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.proxy.center.mapper.SiteMapper">
+	<select id="findKpnSiteList" resultType="com.central.common.model.Site">
+		SELECT * FROM mks_site s
+		<where>
+		 1=1
+			<if test="p.status != null and p.status != ''">
+				and s.status = #{p.status}
+			</if>
+		</where>
+	</select>
+	<select id="findList" resultType="com.central.common.model.Site">
+		SELECT
+			s.id as id ,
+			s.code as code,
+			s.`name` as name,
+			s.logo_url as logoUrl,
+			s.domains as domains,
+			s.`status` as status,
+			s.repair_status as repairStatus,
+			s.currency_code as currencyCode,
+		COUNT(u.id) as memberNum,
+			s.vip_num as vipNum,
+			s.remark,
+			s.create_time as createTime,
+			s.fee_percentage as feePercentage
+		FROM
+			mks_site s
+		LEFT JOIN sys_user u on u.site_id=s.id
+		<where>
+			<if test="r.name != null and r.name != ''">
+				and s.name = #{r.name}
+			</if>
+
+			<if test="r.status != null ">
+				and t.status = #{r.status}
+			</if>
+			<if test="r.startTime != null and r.startTime != ''">
+				AND  t.create_time <![CDATA[>=]]> #{r.startTime}
+			</if>
+
+			<if test="r.endTime != null and r.endTime != ''">
+				AND  t.create_time <![CDATA[<=]]> #{r.endTime}
+			</if>
+		</where>
+		 GROUP BY s.id
+	</select>
+
+
+	<select id="findSiteTotal" resultType="com.proxy.center.vo.SiteVo">
+		SELECT
+			IFNULL(COUNT(DISTINCT s.id),0) as siteTotal,
+				   IFNULL(COUNT(DISTINCT u.id),0) as memberNumTotal
+		FROM
+			mks_site s
+				LEFT JOIN sys_user u on u.site_id=s.id
+
+	</select>
+
+
+	<select id="findSiteBoxList" resultType="com.proxy.center.vo.SiteListVo">
+		SELECT
+			s.id as siteId,
+			s.`code` as siteCode,
+			s.`name` as siteName
+		FROM
+			mks_site s
+		<where>
+			<if test="roleId != null and roleId == 0 ">
+				and s.`status`=1
+			</if>
+		</where>
+	</select>
+
+
+	<select id="getStationOwner" resultType="com.central.common.model.SysUser">
+		select t.* from sys_user t left join sys_role_user r on t.id = r.user_id
+		where t.site_id = #{siteId} and r.role_id=3
+
+	</select>
+
+
+	<select id="getProxys" resultType="com.central.common.model.SysUser">
+		select t.* from sys_user t left join sys_role_user r on t.id = r.user_id
+		where t.site_id = #{p.siteId} and r.role_id=11
+	</select>
+</mapper>

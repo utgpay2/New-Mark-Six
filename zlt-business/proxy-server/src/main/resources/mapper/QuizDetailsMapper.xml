@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.proxy.center.mapper.QuizDetailsMapper">
+    <select id="findList" resultType="com.central.common.model.QuizDetails">
+        select * from mks_quiz_details t
+        <where>
+            1=1
+            <if test="p.quizId != null and  p.quizId != '' and  p.quizId != 0">
+                and t.quiz_id = #{p.quizId}
+            </if>
+            <if test="p.status != null and  p.status != ''">
+                and t.status = #{p.status}
+            </if>
+            ORDER BY t.sort <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 2"> DESC </when><otherwise> ASC </otherwise></choose>
+        </where>
+    </select>
+</mapper>

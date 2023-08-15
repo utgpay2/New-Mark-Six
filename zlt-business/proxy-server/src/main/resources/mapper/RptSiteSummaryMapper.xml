@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.proxy.center.mapper.RptSiteSummaryMapper">
+
+
+
+
+	<select id="findSummaryTotal" resultType="com.proxy.center.vo.RptSiteSummaryVo">
+		SELECT
+		IFNULL(SUM( s.pv ),0) as pvTotal,
+		IFNULL(SUM( s.uv ),0) as uvTotal,
+		IFNULL(SUM( s.new_user_num ),0) as newUserNumTotal,
+		IFNULL(SUM( s.new_vip_num ),0) as newVipNumTotal,
+		IFNULL(SUM( s.recharge ) ,0) as rechargeTotal
+		FROM
+			rpt_site_summary s
+
+		<where>
+			<if test="r.siteId != null ">
+				and s.site_id = #{r.siteId}
+			</if>
+
+			<if test="r.startTime != null and r.startTime != ''">
+				AND  date_format( s.create_time,  '%Y-%m-%d' ) <![CDATA[>=]]> #{r.startTime}
+			</if>
+			<if test="r.endTime != null and r.endTime != ''">
+				AND  date_format( s.create_time,  '%Y-%m-%d' ) <![CDATA[<=]]> #{r.endTime}
+			</if>
+		</where>
+
+	</select>
+
+
+
+	<insert id="addSummaryNum">
+		insert into rpt_site_summary (site_id, site_code, site_name, `date`, new_vip_num,recharge_number,recharge)
+		values (#{siteId}, #{siteCode}, #{siteName}, #{date}, 1,1,#{recharge}) ON DUPLICATE KEY
+		UPDATE new_vip_num = new_vip_num + 1,
+			recharge_number = recharge_number + 1,
+			recharge = recharge + #{recharge}
+	</insert>
+
+
+	<insert id="addSummaryNewUserNum">
+		insert into rpt_site_summary (site_id, site_code, site_name,`date`,new_user_num)
+		values (#{siteId}, #{siteCode}, #{siteName}, #{date}, 1) ON DUPLICATE KEY
+		UPDATE new_user_num = new_user_num + 1
+	</insert>
+
+
+</mapper>

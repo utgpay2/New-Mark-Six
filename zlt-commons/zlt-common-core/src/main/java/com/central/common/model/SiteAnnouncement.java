@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("kpn_site_announcement")
+@TableName("mks_site_announcement")
 @ApiModel("公告实体")
 public class SiteAnnouncement extends SuperEntity {
 
@@ -27,6 +27,7 @@ public class SiteAnnouncement extends SuperEntity {
 
 	@ApiModelProperty(value = "公告标题(中文)")
 	private String titleZh;
+
 	@ApiModelProperty(value = "公告内容(中文)")
 	private String contentZh;
 

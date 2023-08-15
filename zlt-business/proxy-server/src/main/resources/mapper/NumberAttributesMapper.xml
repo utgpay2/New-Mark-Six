@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.proxy.center.mapper.NumberAttributesMapper">
+    <select id="findList" resultType="com.central.common.model.NumberAttributes">
+        select * from mks_number_attributes t
+        <where>
+            1=1
+            <if test="p.year != null and  p.year != ''">
+                and t.year = #{p.year}
+            </if>
+            ORDER BY t.number ASC
+        </where>
+    </select>
+</mapper>

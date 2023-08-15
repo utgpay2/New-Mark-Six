@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.proxy.center.mapper.I18nInfoMapper">
+
+    <select id="findListByZhCn" resultType="com.central.common.model.I18nInfo">
+        select
+        t.id as id,
+        t.from_of as fromOf,
+        t.zh_cn as zhCn
+        from i18n_info t
+        <where>
+            <if test="zhCn != null and zhCn != ''">
+                AND t.zh_cn = #{zhCn}
+            </if>
+            <if test="fromOf != null">
+                AND t.from_of = #{fromOf}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="findList" resultType="com.central.common.model.I18nInfo">
+        select * from i18n_info t
+    </select>
+
+    <select id="findPage" resultType="com.central.common.vo.I18nInfoPageVO">
+        SELECT
+            t.id,
+            t.zh_cn,
+            t.en_us,
+            t.khm,
+            t.th,
+            t.vi,
+            t.my,
+            t.operator,
+            t.update_time
+        FROM i18n_info t
+        <where>
+            <if test="p.zhCn != null and p.zhCn != ''">
+                AND t.zh_cn LIKE concat('%', #{p.zhCn}, '%')
+            </if>
+            <if test="p.enUs != null and p.enUs != ''">
+                AND t.en_us LIKE concat('%', #{p.enUs}, '%')
+            </if>
+            <if test="p.khm != null and p.khm != ''">
+                AND t.khm LIKE concat('%', #{p.khm}, '%')
+            </if>
+            <if test="p.th != null and p.th != ''">
+                AND t.th LIKE concat('%', #{p.th}, '%')
+            </if>
+            <if test="p.vi != null and p.vi != ''">
+                AND t.vi LIKE concat('%', #{p.vi}, '%')
+            </if>
+            <if test="p.my != null and p.my != ''">
+                AND t.my LIKE concat('%', #{p.my}, '%')
+            </if>
+            <if test="p.from != null">
+                AND t.from_of = #{p.from}
+            </if>
+        </where>
+        ORDER BY t.update_time DESC
+    </select>
+
+</mapper>

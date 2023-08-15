@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.proxy.center.mapper.SiteLotteryMapper">
+    <select id="findList" resultType="com.central.common.vo.SiteLotteryVo">
+        select l.id as id,ml.lottery_name as lotteryName,ml.sort as sort,ml.picture as picture,ml.is_display as isDisplay,
+        ml.bet_deadline_time as betDeadlineTime,ml.bet_settlement_time as betSettlementTime,
+        l.create_time as createTime,l.update_time as updateTime,
+        l.site_id as siteId,l.site_code as siteCode,l.site_name as siteName,
+        l.create_by as createBy,l.update_by as updateBy,l.lottery_id  as lotteryId
+        from mks_site_lottery l
+        LEFT JOIN mks_lottery ml
+        ON l.lottery_id=ml.id
+        <where>
+            1=1
+            <if test="p.siteId != null and  p.siteId != '' and p.siteId != 0">
+                and l.site_id = #{p.siteId}
+            </if>
+            <if test="p.name != null and p.name != ''">
+                and ml.lottery_name LIKE CONCAT('%',#{p.name},'%')
+            </if>
+            ORDER BY ml.sort <choose><when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 2"> DESC </when><otherwise> ASC </otherwise></choose>
+        </where>
+    </select>
+</mapper>

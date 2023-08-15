@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.proxy.center.mapper.QuizOrdersMapper">
+   <!-- <select id="findList" resultType="com.central.common.model.QuizOrders">
+        select * from mks_quiz_orders t
+    </select>-->
+
+
+    <select id="findList" resultType="com.central.common.model.QuizOrders">
+        select t.* from sys_user u left join mks_quiz_orders t on  t.member_id=u.id
+        <where>
+            1=1
+            <if test="p.userIds != null ">
+                n.number in
+                <foreach item='item' index='index' collection='p.userIds' open='(' separator=',' close=')'>
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test="p.parentName != null and p.parentName != '' and p.parentName != 0">
+                and u.parent_name = #{p.parentName}
+            </if>
+            <if test="p.siteCode != null and p.siteCode != '' ">
+                and t.site_code = #{p.siteCode}
+            </if>
+            <if test="p.status != null and p.status != '' and p.status != 0">
+                and t.status = #{p.status}
+            </if>
+
+            <if test="p.periods != null and p.periods != ''">
+                and t.periods = #{p.periods}
+            </if>
+            <if test="p.siteLotteryId != null and p.siteLotteryId != '' and p.siteLotteryId != 0">
+                and t.site_lottery_id = #{p.siteLotteryId}
+            </if>
+            <if test="p.days!=null and  p.days != '' and p.days = 1"><!-- 今天 -->
+                and to_days(t.create_time) = to_days(now())
+            </if>
+            <if test="p.days!=null and  p.days != '' and p.days = 2"><!-- 昨天 -->
+                and to_days(now())-to_days(t.create_time) =1
+            </if>
+            <if test="p.days!=null and  p.days != '' and p.days = 3"><!-- 近7天 -->
+                and to_days(now())-to_days(t.create_time) <![CDATA[ <= ]]> 7
+            </if>
+            ORDER BY t.createTime
+                <choose>
+                    <when test="p.sortBy != null and  p.sortBy != '' and  p.sortBy == 1">ASC </when>
+                    <otherwise> DESC </otherwise>
+                </choose>
+        </where>
+    </select>
+
+    <select id="userReportForms" resultType="com.proxy.center.model.vo.UserReportFormsVo">
+        SELECT
+        u.username,
+        u.parent_name,
+        u.m_balance,
+        COALESCE ( sum( o.total_price ), 0 ) AS order_price,
+        COALESCE ( sum( o.win_mount ), 0 ) AS win_mount,
+        COALESCE ( sum( o.win_lose_amount ), 0 ) AS win_lose_amount,
+        COALESCE ( sum( r.recharge ), 0 ) AS recharge
+
+
+        FROM
+        sys_user u
+        LEFT JOIN ( SELECT total_price, win_mount, win_lose_amount,member_id FROM mks_quiz_orders WHERE site_id = #{p.siteId} AND create_time BETWEEN #{p.startTime} AND #{p.endTime} ) o ON u.id = o.member_id
+        LEFT JOIN ( SELECT money as recharge,user_id FROM mks_money_log WHERE order_type = 6 AND create_time BETWEEN #{p.startTime} AND #{p.endTime} ) r ON u.id = r.user_id
+
+
+        <where>
+            u.site_id=#{p.siteId}
+            and
+            u.type='APP'
+        </where>
+        GROUP BY u.id ORDER BY sum( r.recharge ) DESC
+    </select>
+
+
+    <select id="userMoneyDetailed" resultType="com.proxy.center.model.vo.UserMoneyDetailedReportFormsVo">
+        SELECT
+        u.username,
+        m.order_no,
+        m.order_type,
+        COALESCE(abs(m.money),0) as income,
+        COALESCE(m.after_money,0)  as balance,
+        m.create_time
+        from sys_user u left join mks_money_log m on u.username=m.user_name
+        <where>
+            u.site_id=#{p.siteId}
+            and
+            m.create_time between #{p.startTime} and #{p.endTime}
+            <if test="p.username != null and p.username != ''">
+              m.user_name=#{p.username}
+            </if>
+
+        </where>
+        ORDER BY  m.create_time  asc
+    </select>
+
+
+    <select id="userBettingDetailed" resultType="com.proxy.center.model.vo.UserBettingDetailedReportFormsVo">
+        SELECT
+        o.user_name,
+        o.lottery_name,
+        CONCAT( o.site_category_name, ',', o.quiz_title, ',', o.quiz_details_name ) AS site_category_name,
+        o.periods,
+        m.numbers,
+        o.quiz_introduces,
+        o.total_price,
+        o.units,
+        o.win_mount,
+        o.`status`,
+        o.create_time,
+        o.order_no
+        FROM
+        mks_quiz_orders o left join mks_wn_data m on o.periods=m.qihao and o.lottery_id=m.lottery_id
+        <where>
+            o.site_id=#{p.siteId}
+            and
+            o.create_time between #{p.startTime} and #{p.endTime}
+            <if test="p.username != null and p.username != ''">
+                m.user_name=#{p.username}
+            </if>
+
+        </where>
+        ORDER BY  m.create_time  asc
+    </select>
+
+
+
+
+    <select id="userReportFormsPage" resultType="com.proxy.center.model.vo.UserReportFormsVo">
+
+        SELECT
+        u.username,
+        u.parent_name,
+        u.m_balance,
+        COALESCE ( sum( o.total_price ), 0 ) AS order_price,
+        COALESCE ( sum( o.win_mount ), 0 ) AS win_mount,
+        COALESCE ( sum( o.win_lose_amount ), 0 ) AS win_lose_amount,
+        COALESCE ( sum( r.recharge ), 0 ) AS recharge
+
+
+        FROM
+        sys_user u
+        LEFT JOIN ( SELECT total_price, win_mount, win_lose_amount,member_id FROM mks_quiz_orders WHERE site_id = #{p.siteId} AND create_time BETWEEN #{p.startTime} AND #{p.endTime} ) o ON u.id = o.member_id
+        LEFT JOIN ( SELECT money as recharge,user_id FROM mks_money_log WHERE order_type = 6 AND create_time BETWEEN #{p.startTime} AND #{p.endTime} ) r ON u.id = r.user_id
+
+
+        <where>
+            u.site_id=#{p.siteId}
+            and
+            u.type='APP'
+        </where>
+        GROUP BY u.id ORDER BY sum( r.recharge ) DESC
+    </select>
+
+    <select id="userReportFormsSummary" resultType="java.util.Map">
+
+        SELECT
+
+        COALESCE ( sum( o.total_price ), 0 ) AS orderPriceSummary,
+        COALESCE ( sum( o.win_mount ), 0 ) AS winMountSummary,
+        COALESCE ( sum( o.win_lose_amount ), 0 ) AS winLoseAmountSummary,
+        COALESCE ( sum( r.recharge ), 0 ) AS rechargeSummary
+
+
+        FROM
+        sys_user u
+        LEFT JOIN ( SELECT total_price, win_mount, win_lose_amount,member_id FROM mks_quiz_orders WHERE site_id = #{p.siteId} AND create_time BETWEEN #{p.startTime} AND #{p.endTime} ) o ON u.id = o.member_id
+        LEFT JOIN ( SELECT money as recharge,user_id FROM mks_money_log WHERE order_type = 6 AND create_time BETWEEN #{p.startTime} AND #{p.endTime} ) r ON u.id = r.user_id
+
+
+        <where>
+            u.site_id=#{p.siteId}
+            and
+            u.type='APP'
+        </where>
+
+    </select>
+
+
+    <select id="getSumWithdrawalByUsernamesSummary" resultType="java.math.BigDecimal">
+
+        SELECT COALESCE
+        ( abs( sum( money )), 0 ) AS withdrawal
+        FROM
+        mks_money_log
+        WHERE
+        order_type = 5 and user_name in
+        <foreach item="item" index="index" collection="p.usernames" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+        AND create_time BETWEEN #{p.startTime} AND #{p.endTime}
+
+
+    </select>
+
+
+
+    <select id="getSumWithdrawalByUsernames" resultType="java.util.Map">
+
+      SELECT COALESCE
+	    ( abs( sum( money )), 0 ) AS withdrawal,
+	    user_name as username
+      FROM
+	    mks_money_log
+      WHERE
+	    user_name in
+        <foreach item="item" index="index" collection="p.usernames" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+	  AND order_type = 5
+	  AND create_time BETWEEN #{p.startTime} AND #{p.endTime}
+      GROUP BY user_name
+    </select>
+
+
+    <select id="userMoneyDetailedPage" resultType="com.proxy.center.model.vo.UserMoneyDetailedReportFormsVo">
+        SELECT
+        u.username,
+        m.order_no,
+        m.order_type,
+        COALESCE(abs(m.money),0) as income,
+        COALESCE(m.after_money,0)  as balance,
+        m.create_time
+        from sys_user u left join mks_money_log m on u.username=m.user_name
+        <where>
+            u.site_id=#{p.siteId}
+            and
+            m.create_time between #{p.startTime} and #{p.endTime}
+            <if test="p.username != null and p.username != ''">
+                and   m.user_name=#{p.username}
+            </if>
+            and
+            u.type='APP'
+        </where>
+        ORDER BY  m.create_time  asc
+    </select>
+
+    <select id="userMoneyDetailedSummary" resultType="java.util.Map">
+        SELECT
+
+        COALESCE(abs(sum(m.money)),0) as incomeSummary,
+        COALESCE(sum(m.after_money),0)  as expenditureSummary
+        from sys_user u left join mks_money_log m on u.username=m.user_name
+        <where>
+            u.site_id=#{p.siteId}
+            and
+            m.create_time between #{p.startTime} and #{p.endTime}
+            <if test="p.username != null and p.username != ''">
+                and   m.user_name=#{p.username}
+            </if>
+            and
+            u.type='APP'
+        </where>
+
+    </select>
+
+
+    <select id="userBettingDetailedPage" resultType="com.proxy.center.model.vo.UserBettingDetailedReportFormsVo">
+        SELECT
+        o.user_name,
+        o.lottery_name,
+        CONCAT( o.site_category_name, ',', o.quiz_title, ',', o.quiz_details_name ) AS site_category_name,
+        o.periods,
+        m.numbers,
+        o.quiz_introduces,
+        o.total_price,
+        o.units,
+        o.win_mount,
+        o.`status`,
+        o.create_time,
+        o.order_no
+        FROM
+        mks_quiz_orders o left join mks_wn_data m on o.periods=m.qihao and o.lottery_id=m.lottery_id
+        <where>
+            o.site_id=#{p.siteId}
+            and
+            o.create_time between #{p.startTime} and #{p.endTime}
+            <if test="p.username != null and p.username != ''">
+                and  m.user_name=#{p.username}
+            </if>
+
+        </where>
+        ORDER BY  m.create_time  asc
+    </select>
+
+
+    <select id="userBettingDetailedSummary" resultType="java.util.Map">
+        SELECT
+        COALESCE(abs(sum(o.total_price)),0) as orderPriceSummary,
+        COALESCE(sum(o.win_mount),0)  as winMountSummary
+
+        FROM
+        mks_quiz_orders o left join mks_wn_data m on o.periods=m.qihao and o.lottery_id=m.lottery_id
+        <where>
+            o.site_id=#{p.siteId}
+            and
+            o.create_time between #{p.startTime} and #{p.endTime}
+            <if test="p.username != null and p.username != ''">
+                and  m.user_name=#{p.username}
+            </if>
+
+        </where>
+
+    </select>
+
+</mapper>
