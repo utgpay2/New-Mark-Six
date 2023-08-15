@@ -16,6 +16,7 @@ import com.central.common.utils.SnowflakeIdWorker;
 import com.central.marksix.entity.dto.QuizOrdersDto;
 import com.central.marksix.entity.dto.QuizSubordersDto;
 import com.central.marksix.entity.vo.StatiQuizOrdersVo;
+import com.central.marksix.entity.vo.WnDataVo;
 import com.central.marksix.mapper.QuizOrdersMapper;
 import com.central.marksix.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,8 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
     private ILotteryService lotteryService;
     @Autowired
     private IQuizSubordersService quizSubordersService;
-
+    @Autowired
+    private IWnDataService wnDataService;
     @Override
     public PageResult<QuizOrders> findList(Map<String, Object> params) {
         Page<QuizOrders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
@@ -233,6 +235,11 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 Lottery lottery = lotteryService.getById(ordersDto.getLotteryId());
                 if (StatusEnum.ONE_TRUE.getStatus() == lottery.getStatus()) {
                     return Result.failed(lottery.getLotteryName() + "结算中，请稍后再试");
+                }
+                //彩种最大
+                WnDataVo wnData = wnDataService.lastOneWnData(Math.toIntExact(lottery.getId()));
+                if(!ordersDto.getPeriods().equals(wnData.getNextQihao())){
+                    return Result.failed("投注期号不正确，错误为"+ordersDto.getPeriods()+"期，正确为"+wnData.getNextQihao()+"期");
                 }
                 totalPrice = totalPrice.add(ordersDto.getTotalPrice());//汇总订单金额
                 QuizOrders quizOrders = new QuizOrders();

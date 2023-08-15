@@ -45,8 +45,8 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 ||"三肖连不中".equals(duplexLotteryBetDto.getQuizTitle())
                 ||"三尾连中".equals(duplexLotteryBetDto.getQuizTitle())
                 ||"三尾连不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<3){
-                return Result.failed("选择投注号码必须大于等于3个投注号码");
+            if(quizChooseDtoList.size()<3||quizChooseDtoList.size()>10){
+                return Result.failed("选择投注号码必须大于等于3个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr, 3);
         }
@@ -62,8 +62,8 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 ||"二肖连不中".equals(duplexLotteryBetDto.getQuizDetailsTitle())
                 ||"二尾连中".equals(duplexLotteryBetDto.getQuizTitle())
                 ||"二尾连不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<2){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
+            if(quizChooseDtoList.size()<2||quizChooseDtoList.size()>10){
+                return Result.failed("选择投注号码必须大于等于2个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,2);
         }
@@ -74,8 +74,8 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 ||"四肖连不中".equals(duplexLotteryBetDto.getQuizDetailsTitle())
                 ||"四尾连中".equals(duplexLotteryBetDto.getQuizTitle())
                 ||"四尾连不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<4){
-                return Result.failed("选择投注号码必须大于等于4个投注号码");
+            if(quizChooseDtoList.size()<4||quizChooseDtoList.size()>10){
+                return Result.failed("选择投注号码必须大于等于4个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,4);
         }
