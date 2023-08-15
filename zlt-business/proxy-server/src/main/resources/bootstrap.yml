@@ -1,0 +1,12 @@
+server:
+  port: 6500
+
+spring:
+  application:
+    name: proxy-server
+  cloud:
+    nacos:
+      discovery:
+        namespace: ${zlt.naocs.server.namespace}
+#        metadata:
+#          version: zlt
