@@ -158,41 +158,6 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,12);
         }
-        //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特一任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            bettingNumberHashSet = new HashSet();
-            for (String str:numberStr){
-                bettingNumberHashSet.add(str);
-            }
-        }
-        //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特二任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<2){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2);
-        }
-        //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特三任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<3){
-                return Result.failed("选择投注号码必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3);
-        }
-        //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特四任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<4){
-                return Result.failed("选择投注号码必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4);
-        }
-        //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特五任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<5){
-                return Result.failed("选择投注号码必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5);
-        }
         List<BettingNumberGroupVo> bettingNumberGroupVoList = new ArrayList<>();
         boolean b = true;
         for (String bettingNumberStr:bettingNumberHashSet) {
@@ -427,12 +392,14 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
         //所投注的每三个号码为一组合，若三个号码都是开奖号码之正码，视为中奖，其余行情视为不中奖
         //所投注的每三个号码为一组合，若其中2个号码都是开奖号码之正码，视为三中二奖，若3个都是开奖号码中的正码，即为三中二之中三，其余行情视为不中奖
         if("三全中".equals(braveryTowLotteryBetDto.getQuizTitle())
-                ||"三中二".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+                ||"三中二".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"三尾连中".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"三尾连不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=3){
                 return Result.failed("选择投注胆码总数必须小于3个投注号码");
             }
-            if(braverySize+towSize<3){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于3个投注号码");
+            if(braverySize+towSize<3||braverySize+towSize>10){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于3个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,3-braverySize);
         }
@@ -442,170 +409,92 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
         //所投注的每两个号码为一组合，其中一个是正码，一个是特码，视为中奖，其余情形视为不中奖（含二个都是正码之情形）
         if("二全中".equals(braveryTowLotteryBetDto.getQuizTitle())
                 ||"二中特".equals(braveryTowLotteryBetDto.getQuizTitle())
-                ||"特串".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=2){
-                return Result.failed("选择投注胆码总数必须小于2个投注号码");
-            }
-            if(braverySize+towSize<2){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2-braverySize);
-        }
-        //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("四全中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=4){
-                return Result.failed("选择投注胆码总数必须小于4个投注号码");
-            }
-            if(braverySize+towSize<4){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4-braverySize);
-        }
-        //选择2-4个尾数为一投注组合进行投注。该注的2-4个尾数必须在当期开出的7个开奖号码相对应的尾数中，（49亦算输赢，不为和）。每个号码都有自己的赔率，下注组合的总赔率，取该组合码的最低赔率为下单赔率
-        if("二尾连中".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"特串".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"二尾连中".equals(braveryTowLotteryBetDto.getQuizTitle())
                 ||"二尾连不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=2){
                 return Result.failed("选择投注胆码总数必须小于2个投注号码");
             }
-            if(braverySize+towSize<2){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于2个投注号码");
+            if(braverySize+towSize<2||braverySize+towSize>10){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于2个投注号码，最多可以选择10个号码");
             }
-            bl = false;
             bettingNumberHashSet = this.duplexNumber(numberStr,2-braverySize);
         }
-        if("三尾连中".equals(braveryTowLotteryBetDto.getQuizTitle())
-                ||"三尾连不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=3){
-                return Result.failed("选择投注胆码总数必须小于3个投注号码");
-            }
-            if(braverySize+towSize<3){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3-braverySize);
-            bl = false;
-        }
-        if("四尾连中".equals(braveryTowLotteryBetDto.getQuizTitle())
+        //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
+        if("四全中".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"四尾连中".equals(braveryTowLotteryBetDto.getQuizTitle())
                 ||"四尾连不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=4){
                 return Result.failed("选择投注胆码总数必须小于4个投注号码");
             }
-            if(braverySize+towSize<4){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于4个投注号码");
+            if(braverySize+towSize<4||braverySize+towSize>10){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于4个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,4-braverySize);
-            bl = false;
         }
         //挑选5个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("五选中一".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("五选中一".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"五不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=5){
                 return Result.failed("选择投注胆码总数必须小于5个投注号码");
             }
-            if(braverySize+towSize<5){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于5个投注号码");
+            if(braverySize+towSize<5||braverySize+towSize>10){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于5个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,5-braverySize);
         }
         //挑选6个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("六选中一".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("六选中一".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"六不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=6){
                 return Result.failed("选择投注胆码总数必须小于6个投注号码");
             }
-            if(braverySize+towSize<6){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于6个投注号码");
+            if(braverySize+towSize<6||braverySize+towSize>10){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于6个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,6-braverySize);
         }
         //挑选7个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("七选中一".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("七选中一".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"七不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=7){
                 return Result.failed("选择投注胆码总数必须小于7个投注号码");
             }
-            if(braverySize+towSize<7){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于7个投注号码");
+            if(braverySize+towSize<7||braverySize+towSize>10){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于7个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,7-braverySize);
         }
         //挑选8个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("八选中一".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("八选中一".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"八不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=8){
                 return Result.failed("选择投注胆码总数必须小于8个投注号码");
             }
-            if(braverySize+towSize<8){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于8个投注号码");
+            if(braverySize+towSize<8||braverySize+towSize>11){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于8个投注号码，最多可以选择11个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,8-braverySize);
         }
         //挑选9个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("九选中一".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("九选中一".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"九不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=9){
                 return Result.failed("选择投注胆码总数必须小于9个投注号码");
             }
-            if(braverySize+towSize<9){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于9个投注号码");
+            if(braverySize+towSize<9||braverySize+towSize>11){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于9个投注号码，最多可以选择12个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,9-braverySize);
         }
         //挑选10个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("十选中一".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("十选中一".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"十不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=10){
                 return Result.failed("选择投注胆码总数必须小于10个投注号码");
             }
-            if(braverySize+towSize<10){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于10个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,10-braverySize);
-        }
-        if("五不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=5){
-                return Result.failed("选择投注胆码总数必须小于5个投注号码");
-            }
-            if(braverySize+towSize<5){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5-braverySize);
-        }
-        if("六不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=6){
-                return Result.failed("选择投注胆码总数必须小于6个投注号码");
-            }
-            if(braverySize+towSize<6){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于6个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,6-braverySize);
-        }
-        if("七不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=7){
-                return Result.failed("选择投注胆码总数必须小于7个投注号码");
-            }
-            if(braverySize+towSize<7){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于7个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,7-braverySize);
-        }
-        if("八不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=8){
-                return Result.failed("选择投注胆码总数必须小于8个投注号码");
-            }
-            if(braverySize+towSize<8){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,8-braverySize);
-        }
-        if("九不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=9){
-                return Result.failed("选择投注胆码总数必须小于9个投注号码");
-            }
-            if(braverySize+towSize<9){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于9个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,9-braverySize);
-        }
-        if("十不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=10){
-                return Result.failed("选择投注胆码总数必须小于10个投注号码");
-            }
-            if(braverySize+towSize<10){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于10个投注号码");
+            if(braverySize+towSize<10||braverySize+towSize>12){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于10个投注号码，最多可以选择12个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,10-braverySize);
         }
@@ -613,8 +502,8 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             if(braverySize>=11){
                 return Result.failed("选择投注胆码总数必须小于11个投注号码");
             }
-            if(braverySize+towSize<11){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于11个投注号码");
+            if(braverySize+towSize<11||braverySize+towSize>13){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于11个投注号码，最多可以选择13个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,11-braverySize);
         }
@@ -622,57 +511,10 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             if(braverySize>=12){
                 return Result.failed("选择投注胆码总数必须小于12个投注号码");
             }
-            if(braverySize+towSize<12){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于12个投注号码");
+            if(braverySize+towSize<12||braverySize+towSize>14){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于12个投注号码，最多可以选择14个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,12-braverySize);
-        }
-        //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特一任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            bettingNumberHashSet = new HashSet();
-            for (String str:numberStr){
-                bettingNumberHashSet.add(str);
-            }
-        }
-        //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特二任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=2){
-                return Result.failed("选择投注胆码总数必须小于2个投注号码");
-            }
-            if(braverySize+towSize<2){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2-braverySize);
-        }
-        //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特三任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=3){
-                return Result.failed("选择投注胆码总数必须小于3个投注号码");
-            }
-            if(braverySize+towSize<3){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3-braverySize);
-        }
-        //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特四任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=4){
-                return Result.failed("选择投注胆码总数必须小于4个投注号码");
-            }
-            if(braverySize+towSize<4){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4-braverySize);
-        }
-        //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特五任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=5){
-                return Result.failed("选择投注胆码总数必须小于5个投注号码");
-            }
-            if(braverySize+towSize<5){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5-braverySize);
         }
 
         List<String> list = new ArrayList<>();
