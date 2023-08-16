@@ -16,6 +16,7 @@ import com.central.common.utils.SnowflakeIdWorker;
 import com.central.marksix.entity.dto.QuizOrdersDto;
 import com.central.marksix.entity.dto.QuizSubordersDto;
 import com.central.marksix.entity.vo.StatiQuizOrdersVo;
+import com.central.marksix.entity.vo.WnDataVo;
 import com.central.marksix.mapper.QuizOrdersMapper;
 import com.central.marksix.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,8 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
     private ILotteryService lotteryService;
     @Autowired
     private IQuizSubordersService quizSubordersService;
-
+    @Autowired
+    private IWnDataService wnDataService;
     @Override
     public PageResult<QuizOrders> findList(Map<String, Object> params) {
         Page<QuizOrders> page = new Page<>(MapUtils.getInteger(params, "page"), MapUtils.getInteger(params, "limit"));
@@ -142,97 +144,15 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
             List<MoneyLog> moneyLogList = new ArrayList<>();
             BigDecimal currentBalance = sysUser.getMBalance();//用户当前余额
             for (QuizOrdersDto ordersDto : ordersDtoList) {
-                String[] bettingNumbers = ordersDto.getQuizIntroduces().split(",");
-                int len = bettingNumbers.length;
-                if("二肖".equals(ordersDto.getQuizDetailsName())
-                        ||"二肖连中".equals(ordersDto.getQuizDetailsName())
-                        ||"二肖连不中".equals(ordersDto.getQuizDetailsName())
-                        ||"二尾连中".equals(ordersDto.getQuizDetailsName())
-                        ||"二尾连不中".equals(ordersDto.getQuizDetailsName())
-                        ||"正特二任中".equals(ordersDto.getQuizDetailsName())
-                        ||"二全中".equals(ordersDto.getQuizTitle())
-                        ||"二中特".equals(ordersDto.getQuizTitle())
-                        ||"特串".equals(ordersDto.getQuizTitle())){
-                    if(2!=len){
-                        return Result.failed("投注不正确，请投注2个号码一注");
-                    }
-                }else if("三肖".equals(ordersDto.getQuizDetailsName())
-                        ||"三肖连中".equals(ordersDto.getQuizDetailsName())
-                        ||"三肖连不中".equals(ordersDto.getQuizDetailsName())
-                        ||"三尾连中".equals(ordersDto.getQuizDetailsName())
-                        ||"三尾连不中".equals(ordersDto.getQuizDetailsName())
-                        ||"正特三任中".equals(ordersDto.getQuizDetailsName())
-                        ||"三全中".equals(ordersDto.getQuizTitle())
-                        ||"三中二".equals(ordersDto.getQuizTitle())){
-                    if(3!=len){
-                        return Result.failed("投注不正确，请投注3个号码一注");
-                    }
-                }else if("四肖".equals(ordersDto.getQuizDetailsName())
-                        ||"四肖连中".equals(ordersDto.getQuizDetailsName())
-                        ||"四肖连不中".equals(ordersDto.getQuizDetailsName())
-                        ||"四尾连中".equals(ordersDto.getQuizDetailsName())
-                        ||"四尾连不中".equals(ordersDto.getQuizDetailsName())
-                        ||"正特四任中".equals(ordersDto.getQuizDetailsName())
-                        ||"四全中".equals(ordersDto.getQuizTitle())){
-                    if(4!=len){
-                        return Result.failed("投注不正确，请投注4个号码一注");
-                    }
-                }else if("五肖".equals(ordersDto.getQuizDetailsName())
-                        ||"五肖连中".equals(ordersDto.getQuizDetailsName())
-                        ||"五选中一".equals(ordersDto.getQuizDetailsName())
-                        ||"五不中".equals(ordersDto.getQuizDetailsName())
-                        ||"正特五任中".equals(ordersDto.getQuizDetailsName())){
-                    if(5!=len){
-                        return Result.failed("投注不正确，请投注5个号码一注");
-                    }
-                }else if("六肖".equals(ordersDto.getQuizDetailsName())
-                        ||"六肖连中".equals(ordersDto.getQuizDetailsName())
-                        ||"六选中一".equals(ordersDto.getQuizDetailsName())
-                        ||"六不中".equals(ordersDto.getQuizDetailsName())){
-                    if(6!=len){
-                        return Result.failed("投注不正确，请投注6个号码一注");
-                    }
-                }else if("七肖".equals(ordersDto.getQuizDetailsName())
-                        ||"七选中一".equals(ordersDto.getQuizDetailsName())
-                        ||"七不中".equals(ordersDto.getQuizDetailsName())){
-                    if(7!=len){
-                        return Result.failed("投注不正确，请投注7个号码一注");
-                    }
-                }else if("八肖".equals(ordersDto.getQuizDetailsName())
-                        ||"八选中一".equals(ordersDto.getQuizDetailsName())
-                        ||"八不中".equals(ordersDto.getQuizDetailsName())){
-                    if(8!=len){
-                        return Result.failed("投注不正确，请投注8个号码一注");
-                    }
-                }else if("九肖".equals(ordersDto.getQuizDetailsName())
-                        ||"九选中一".equals(ordersDto.getQuizDetailsName())
-                        ||"九不中".equals(ordersDto.getQuizDetailsName())){
-                    if(9!=len){
-                        return Result.failed("投注不正确，请投注9个号码一注");
-                    }
-                }else if("十肖".equals(ordersDto.getQuizDetailsName())
-                        ||"十选中一".equals(ordersDto.getQuizDetailsName())
-                        ||"十不中".equals(ordersDto.getQuizDetailsName())){
-                    if(10!=len){
-                        return Result.failed("投注不正确，请投注10个号码一注");
-                    }
-                }else if("十一肖".equals(ordersDto.getQuizDetailsName())||
-                        "十一不中".equals(ordersDto.getQuizDetailsName())){
-                    if(11!=len){
-                        return Result.failed("投注不正确，请投注11个号码一注");
-                    }
-                }else if("十二不中".equals(ordersDto.getQuizDetailsName())){
-                    if(12!=len){
-                        return Result.failed("投注不正确，请投注12个号码一注");
-                    }
-                }else {
-                    if(1!=len){
-                        return Result.failed("投注不正确，请投注1个号码一注");
-                    }
-                }
+
                 Lottery lottery = lotteryService.getById(ordersDto.getLotteryId());
                 if (StatusEnum.ONE_TRUE.getStatus() == lottery.getStatus()) {
                     return Result.failed(lottery.getLotteryName() + "结算中，请稍后再试");
+                }
+                //彩种最大
+                WnDataVo wnData = wnDataService.lastOneWnData(Math.toIntExact(lottery.getId()));
+                if(!ordersDto.getPeriods().equals(wnData.getNextQihao())){
+                    return Result.failed("投注期号不正确，错误为"+ordersDto.getPeriods()+"期，正确为"+wnData.getNextQihao()+"期");
                 }
                 totalPrice = totalPrice.add(ordersDto.getTotalPrice());//汇总订单金额
                 QuizOrders quizOrders = new QuizOrders();
@@ -257,6 +177,90 @@ public class QuizOrdersServiceImpl extends SuperServiceImpl<QuizOrdersMapper, Qu
                 List<QuizSubordersDto> subordersDtoList = ordersDto.getSubordersList();
                 if(null!=subordersDtoList && subordersDtoList.size()>0) {
                     for (QuizSubordersDto subordersDto : subordersDtoList) {
+                        String[] bettingNumbers = subordersDto.getBettingContent().split(",");
+                        int len = bettingNumbers.length;
+                        if("二肖".equals(ordersDto.getQuizDetailsName())
+                                ||"二肖连中".equals(ordersDto.getQuizDetailsName())
+                                ||"二肖连不中".equals(ordersDto.getQuizDetailsName())
+                                ||"二尾连中".equals(ordersDto.getQuizDetailsName())
+                                ||"二尾连不中".equals(ordersDto.getQuizDetailsName())
+                                ||"正特二任中".equals(ordersDto.getQuizDetailsName())
+                                ||"二全中".equals(ordersDto.getQuizTitle())
+                                ||"二中特".equals(ordersDto.getQuizTitle())
+                                ||"特串".equals(ordersDto.getQuizTitle())){
+                            if(2!=len){
+                                return Result.failed("投注不正确，请投注2个号码一注");
+                            }
+                        }else if("三肖".equals(ordersDto.getQuizDetailsName())
+                                ||"三肖连中".equals(ordersDto.getQuizDetailsName())
+                                ||"三肖连不中".equals(ordersDto.getQuizDetailsName())
+                                ||"三尾连中".equals(ordersDto.getQuizDetailsName())
+                                ||"三尾连不中".equals(ordersDto.getQuizDetailsName())
+                                ||"正特三任中".equals(ordersDto.getQuizDetailsName())
+                                ||"三全中".equals(ordersDto.getQuizTitle())
+                                ||"三中二".equals(ordersDto.getQuizTitle())){
+                            if(3!=len){
+                                return Result.failed("投注不正确，请投注3个号码一注");
+                            }
+                        }else if("四肖".equals(ordersDto.getQuizDetailsName())
+                                ||"四肖连中".equals(ordersDto.getQuizDetailsName())
+                                ||"四肖连不中".equals(ordersDto.getQuizDetailsName())
+                                ||"四尾连中".equals(ordersDto.getQuizDetailsName())
+                                ||"四尾连不中".equals(ordersDto.getQuizDetailsName())
+                                ||"正特四任中".equals(ordersDto.getQuizDetailsName())
+                                ||"四全中".equals(ordersDto.getQuizTitle())){
+                            if(4!=len){
+                                return Result.failed("投注不正确，请投注4个号码一注");
+                            }
+                        }else if("五肖".equals(ordersDto.getQuizDetailsName())
+                                ||"五肖连中".equals(ordersDto.getQuizDetailsName())
+                                ||"五选中一".equals(ordersDto.getQuizDetailsName())
+                                ||"五不中".equals(ordersDto.getQuizDetailsName())
+                                ||"正特五任中".equals(ordersDto.getQuizDetailsName())){
+                            if(5!=len){
+                                return Result.failed("投注不正确，请投注5个号码一注");
+                            }
+                        }else if("六肖".equals(ordersDto.getQuizDetailsName())
+                                ||"六肖连中".equals(ordersDto.getQuizDetailsName())
+                                ||"六选中一".equals(ordersDto.getQuizDetailsName())
+                                ||"六不中".equals(ordersDto.getQuizDetailsName())){
+                            if(6!=len){
+                                return Result.failed("投注不正确，请投注6个号码一注");
+                            }
+                        }else if("七肖".equals(ordersDto.getQuizDetailsName())
+                                ||"七选中一".equals(ordersDto.getQuizDetailsName())
+                                ||"七不中".equals(ordersDto.getQuizDetailsName())){
+                            if(7!=len){
+                                return Result.failed("投注不正确，请投注7个号码一注");
+                            }
+                        }else if("八肖".equals(ordersDto.getQuizDetailsName())
+                                ||"八选中一".equals(ordersDto.getQuizDetailsName())
+                                ||"八不中".equals(ordersDto.getQuizDetailsName())){
+                            if(8!=len){
+                                return Result.failed("投注不正确，请投注8个号码一注");
+                            }
+                        }else if("九肖".equals(ordersDto.getQuizDetailsName())
+                                ||"九选中一".equals(ordersDto.getQuizDetailsName())
+                                ||"九不中".equals(ordersDto.getQuizDetailsName())){
+                            if(9!=len){
+                                return Result.failed("投注不正确，请投注9个号码一注");
+                            }
+                        }else if("十肖".equals(ordersDto.getQuizDetailsName())
+                                ||"十选中一".equals(ordersDto.getQuizDetailsName())
+                                ||"十不中".equals(ordersDto.getQuizDetailsName())){
+                            if(10!=len){
+                                return Result.failed("投注不正确，请投注10个号码一注");
+                            }
+                        }else if("十一肖".equals(ordersDto.getQuizDetailsName())||
+                                "十一不中".equals(ordersDto.getQuizDetailsName())){
+                            if(11!=len){
+                                return Result.failed("投注不正确，请投注11个号码一注");
+                            }
+                        }else if("十二不中".equals(ordersDto.getQuizDetailsName())){
+                            if(12!=len){
+                                return Result.failed("投注不正确，请投注12个号码一注");
+                            }
+                        }
                         quizOrders.setIsSubOrders(StatusEnum.ONE_TRUE.getStatus());
                         QuizSuborders quizSuborders = new QuizSuborders();
                         BeanUtil.copyProperties(subordersDto, quizSuborders);

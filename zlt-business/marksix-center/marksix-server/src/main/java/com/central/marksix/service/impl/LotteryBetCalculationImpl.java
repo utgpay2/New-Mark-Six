@@ -45,8 +45,8 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 ||"三肖连不中".equals(duplexLotteryBetDto.getQuizTitle())
                 ||"三尾连中".equals(duplexLotteryBetDto.getQuizTitle())
                 ||"三尾连不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<3){
-                return Result.failed("选择投注号码必须大于等于3个投注号码");
+            if(quizChooseDtoList.size()<3||quizChooseDtoList.size()>10){
+                return Result.failed("选择投注号码必须大于等于3个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr, 3);
         }
@@ -62,8 +62,8 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 ||"二肖连不中".equals(duplexLotteryBetDto.getQuizDetailsTitle())
                 ||"二尾连中".equals(duplexLotteryBetDto.getQuizTitle())
                 ||"二尾连不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<2){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
+            if(quizChooseDtoList.size()<2||quizChooseDtoList.size()>10){
+                return Result.failed("选择投注号码必须大于等于2个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,2);
         }
@@ -74,8 +74,8 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 ||"四肖连不中".equals(duplexLotteryBetDto.getQuizDetailsTitle())
                 ||"四尾连中".equals(duplexLotteryBetDto.getQuizTitle())
                 ||"四尾连不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<4){
-                return Result.failed("选择投注号码必须大于等于4个投注号码");
+            if(quizChooseDtoList.size()<4||quizChooseDtoList.size()>10){
+                return Result.failed("选择投注号码必须大于等于4个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,4);
         }
@@ -133,12 +133,22 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             if(quizChooseDtoList.size()<10||quizChooseDtoList.size()>13){
                 return Result.failed("选择投注号码必须大于等于10个投注号码，最多可以选择13个号码");
             }
+            if("十肖".equals(duplexLotteryBetDto.getQuizDetailsTitle())){
+                if(quizChooseDtoList.size()>12){
+                    return Result.failed("选择投注号码必须大于等于10个投注号码，最多可以选择12个号码");
+                }
+            }
             bettingNumberHashSet = this.duplexNumber(numberStr,10);
         }
         if("十一不中".equals(duplexLotteryBetDto.getQuizTitle())
                 ||"十一肖".equals(duplexLotteryBetDto.getQuizDetailsTitle())) {//分类二类
             if(quizChooseDtoList.size()<11||quizChooseDtoList.size()>13){
                 return Result.failed("选择投注号码必须大于等于11个投注号码，最多可以选择13个号码");
+            }
+            if("十一肖".equals(duplexLotteryBetDto.getQuizDetailsTitle())){
+                if(quizChooseDtoList.size()>12){
+                    return Result.failed("选择投注号码必须大于等于11个投注号码，最多可以选择12个号码");
+                }
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,11);
         }
@@ -147,41 +157,6 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
                 return Result.failed("选择投注号码必须大于等于12个投注号码，最多可以选择14个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,12);
-        }
-        //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特一任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            bettingNumberHashSet = new HashSet();
-            for (String str:numberStr){
-                bettingNumberHashSet.add(str);
-            }
-        }
-        //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特二任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<2){
-                return Result.failed("选择投注号码必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2);
-        }
-        //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特三任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<3){
-                return Result.failed("选择投注号码必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3);
-        }
-        //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特四任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<4){
-                return Result.failed("选择投注号码必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4);
-        }
-        //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特五任中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
-            if(quizChooseDtoList.size()<5){
-                return Result.failed("选择投注号码必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5);
         }
         List<BettingNumberGroupVo> bettingNumberGroupVoList = new ArrayList<>();
         boolean b = true;
@@ -225,9 +200,11 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             BumpBettingNumberDto bumpBettingNumberDto1 = bumpBettingNumberDtoList1.get(i);
             for (int j = 0; j < bumpBettingNumberDtoList2.size(); j++) {
                 BumpBettingNumberDto bumpBettingNumberDto2 = bumpBettingNumberDtoList2.get(j);
-                Integer[] str1 = {Integer.parseInt(bumpBettingNumberDto1.getBettingNumber()), Integer.parseInt(bumpBettingNumberDto2.getBettingNumber())};
-                Arrays.sort(str1);
-                list.add(String.format("%02d",str1[0]) + "," + String.format("%02d",str1[1]));
+                if(!bumpBettingNumberDto1.getBettingNumber().equals(bumpBettingNumberDto2.getBettingNumber())) {
+                    Integer[] str1 = {Integer.parseInt(bumpBettingNumberDto1.getBettingNumber()), Integer.parseInt(bumpBettingNumberDto2.getBettingNumber())};
+                    Arrays.sort(str1);
+                    list.add(String.format("%02d", str1[0]) + "," + String.format("%02d", str1[1]));
+                }
             }
         }
         //去重集合
@@ -245,87 +222,120 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             if (length == 1) {
                 list.add(str[i]);
             }else {
-                for (int j = 0; j < str.length; j++) {
-                    if (i != j) {
-                        if (length == 2) {
+                for (int j = i+1; j < str.length; j++) {
+                    if (length == 2) {
+                        if (i != j) {
                             String[] str1 = {str[i], str[j]};
                             Arrays.sort(str1);
                             list.add(str1[0] + "," + str1[1]);
-                        } else {
-                            for (int k = 0; k < str.length; k++) {
+                        }
+                    } else {
+                        for (int k = j+1; k < str.length; k++) {
+
+                            if (length == 3) {
                                 if (k != i && k != j) {
-                                    if (length == 3) {
-                                        String[] str1 = {str[i], str[j], str[k]};
-                                        Arrays.sort(str1);
-                                        list.add(str1[0] + "," + str1[1] + "," + str1[2]);
+                                    String[] str1 = {str[i], str[j], str[k]};
+                                    Arrays.sort(str1);
+                                    list.add(str1[0] + "," + str1[1] + "," + str1[2]);
+                                }
+                            } else {
+                                for (int m = k+1; m < str.length; m++) {
+                                    if (length == 4) {
+                                        if (m != i && m != k && m != j) {
+                                            String[] str1 = {str[i], str[j], str[k], str[m]};
+                                            Arrays.sort(str1);
+                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3]);
+                                        }
                                     } else {
-                                        for (int m = 0; m < str.length; m++) {
-                                            if (m != i && m != k && m != j) {
-                                                if (length == 4) {
-                                                    String[] str1 = {str[i], str[j], str[k], str[m]};
+                                        for (int n = m+1; n < str.length; n++) {
+                                            if (length == 5) {
+                                                if (n != i && n != j && n != k && n != m) {
+                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n]};
                                                     Arrays.sort(str1);
-                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3]);
-                                                } else {
-                                                    for (int n = 0; n < str.length; n++) {
-                                                        if (n != i && n != j && n != k && n != m) {
-                                                            if (length == 5) {
-                                                                String[] str1 = {str[i], str[j], str[k], str[m], str[n]};
-                                                                Arrays.sort(str1);
-                                                                list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4]);
+                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4]);
+                                                }
+                                            } else {
+                                                for (int o = n+1; o < str.length; o++) {
+                                                    if (length == 6) {
+                                                        if (o != i && o != j && o != k && o != m && o != n) {
+                                                            String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o]};
+                                                            Arrays.sort(str1);
+                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5]);
+                                                        }
+                                                    } else {
+                                                        for (int p = o+1; p < str.length; p++) {
+                                                            if (length == 7) {
+                                                                if (p != i && p != j && p != k && p != m && p != n && p != o) {
+                                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p]};
+                                                                    Arrays.sort(str1);
+                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6]);
+                                                                }
                                                             } else {
-                                                                for (int o = 0; o < str.length; o++) {
-                                                                    if (o != i && o != j && o != k && o != m && o != n) {
-                                                                        if (length == 6) {
-                                                                            String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o]};
+                                                                for (int q = p+1; q < str.length; q++) {
+                                                                    if (length == 8) {
+                                                                        if (q != i && q != j && q != k && q != m && q != n && q != o && q != p) {
+                                                                            String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q]};
                                                                             Arrays.sort(str1);
-                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5]);
-                                                                        } else {
-                                                                            for (int p = 0; p < str.length; p++) {
-                                                                                if (p != i && p != j && p != k && p != m && p != n && p != o) {
-                                                                                    if (length == 7) {
-                                                                                        String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p]};
-                                                                                        Arrays.sort(str1);
-                                                                                        list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6]);
+                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7]);
+                                                                        }
+                                                                    } else {
+                                                                        for (int r = q+1; r < str.length; r++) {
+                                                                            if (length == 9) {
+                                                                                if (r != i && r != j && r != k && r != m && r != n && r != o && r != p && r != q) {
+                                                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r]};
+                                                                                    Arrays.sort(str1);
+                                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]);
+                                                                                }
+                                                                            } else {
+                                                                                for (int s = r+1; s < str.length; s++) {
+                                                                                    if (length == 10) {
+                                                                                        if (s != i && s != j && s != k && s != m && s != n && s != o && s != p && s != q && s != r) {
+                                                                                            String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s]};
+                                                                                            Arrays.sort(str1);
+                                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]+ "," + str1[9]);
+                                                                                        }
                                                                                     } else {
-                                                                                        for (int q = 0; q < str.length; q++) {
-                                                                                            if (q != i && q != j && q != k && q != m && q != n && q != o && q != p) {
-                                                                                                if (length == 8) {
-                                                                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q]};
+                                                                                        for (int t = s+1; t < str.length; t++) {
+                                                                                            if (length == 11) {
+                                                                                                if (t != i && t != j && t != k && t != m && t != n && t != o && t != p && t != q && t != r && t != s) {
+                                                                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s], str[t]};
                                                                                                     Arrays.sort(str1);
-                                                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7]);
-                                                                                                } else {
-                                                                                                    for (int r = 0; r < str.length; r++) {
-                                                                                                        if (r != i && r != j && r != k && r != m && r != n && r != o && r != p && r != q) {
-                                                                                                            if (length == 9) {
-                                                                                                                String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r]};
-                                                                                                                Arrays.sort(str1);
-                                                                                                                list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]);
+                                                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]+ "," + str1[9]+ "," + str1[10]);
+                                                                                                }
+                                                                                            } else {
+                                                                                                for (int u = t+1; u < str.length; u++) {
+                                                                                                    if (length == 12) {
+                                                                                                        if (u != i && u != j && u != k && u != m && u != n && u != o && u != p && u != q && u != r && u != s && u != t) {
+                                                                                                            String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s], str[t], str[u]};
+                                                                                                            Arrays.sort(str1);
+                                                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]+ "," + str1[9]+ "," + str1[10]+ "," + str1[11]);
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        for (int v = u+1; v < str.length; v++) {
+                                                                                                            if (length == 13) {
+                                                                                                                if (v != i && v != j && v != k && v != m && v != n && v != o && v != p && v != q && v != r && v != s && v != t && v != u) {
+                                                                                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s], str[t], str[u], str[v]};
+                                                                                                                    Arrays.sort(str1);
+                                                                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]+ "," + str1[9]+ "," + str1[10]+ "," + str1[11]+ "," + str1[12]);
+                                                                                                                }
                                                                                                             } else {
-                                                                                                                for (int s = 0; s < str.length; s++) {
-                                                                                                                    if (s != i && s != j && s != k && s != m && s != n && s != o && s != p && s != q && s != r) {
-                                                                                                                        if (length == 10) {
-                                                                                                                            String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s]};
+                                                                                                                for (int w = v+1; w < str.length; w++) {
+                                                                                                                    if (length == 14) {
+                                                                                                                        if (w != i && w != j && w != k && w != m && w != n && w != o && w != p && w != q && w != r && w != s && w != t && w != u && w != v) {
+                                                                                                                            String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s], str[t], str[u], str[v], str[w]};
                                                                                                                             Arrays.sort(str1);
-                                                                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8] + "," + str1[9]);
-                                                                                                                        } else {
-                                                                                                                            for (int t = 0; t < str.length; t++) {
-                                                                                                                                if (t != i && t != j && t != k && t != m && t != n && t != o && t != p && t != q && t != r && t != s) {
-                                                                                                                                    if (length == 11) {
-                                                                                                                                        String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s], str[t]};
-                                                                                                                                        Arrays.sort(str1);
-                                                                                                                                        list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8] + "," + str1[9] + "," + str1[10]);
-                                                                                                                                    } else {
-                                                                                                                                        for (int u = 0; u < str.length; u++) {
-                                                                                                                                            if (u != i && u != j && u != k && u != m && u != n && u != o && u != p && u != q && u != r && u != s && u != t) {
-                                                                                                                                                if (length == 12) {
-                                                                                                                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s], str[t], str[u]};
-                                                                                                                                                    Arrays.sort(str1);
-                                                                                                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8] + "," + str1[9] + "," + str1[10]+ "," + str1[11]);
-                                                                                                                                                }
-                                                                                                                                            }
-                                                                                                                                        }
-                                                                                                                                    }
+                                                                                                                            list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]+ "," + str1[9]+ "," + str1[10]+ "," + str1[11]+ "," + str1[12]+ "," + str1[13]);
+                                                                                                                        }
+                                                                                                                    } else {
+                                                                                                                        for (int y = w+1; y < str.length; y++) {
+                                                                                                                            if (length == 15) {
+                                                                                                                                if (y != i && y != j && y != k && y != m && y != n && y != o && y != p && y != q && y != r && y != s && y != t && y != u && y != v && y != w) {
+                                                                                                                                    String[] str1 = {str[i], str[j], str[k], str[m], str[n], str[o], str[p], str[q], str[r], str[s], str[t], str[u], str[v], str[w], str[y]};
+                                                                                                                                    Arrays.sort(str1);
+                                                                                                                                    list.add(str1[0] + "," + str1[1] + "," + str1[2] + "," + str1[3] + "," + str1[4] + "," + str1[5] + "," + str1[6] + "," + str1[7] + "," + str1[8]+ "," + str1[9]+ "," + str1[10]+ "," + str1[11]+ "," + str1[12]+ "," + str1[13]+ "," + str1[14]);
                                                                                                                                 }
+                                                                                                                            } else {
+
                                                                                                                             }
                                                                                                                         }
                                                                                                                     }
@@ -382,12 +392,14 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
         //所投注的每三个号码为一组合，若三个号码都是开奖号码之正码，视为中奖，其余行情视为不中奖
         //所投注的每三个号码为一组合，若其中2个号码都是开奖号码之正码，视为三中二奖，若3个都是开奖号码中的正码，即为三中二之中三，其余行情视为不中奖
         if("三全中".equals(braveryTowLotteryBetDto.getQuizTitle())
-                ||"三中二".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+                ||"三中二".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"三尾连中".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"三尾连不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=3){
                 return Result.failed("选择投注胆码总数必须小于3个投注号码");
             }
-            if(braverySize+towSize<3){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于3个投注号码");
+            if(braverySize+towSize<3||braverySize+towSize>10){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于3个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,3-braverySize);
         }
@@ -397,170 +409,92 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
         //所投注的每两个号码为一组合，其中一个是正码，一个是特码，视为中奖，其余情形视为不中奖（含二个都是正码之情形）
         if("二全中".equals(braveryTowLotteryBetDto.getQuizTitle())
                 ||"二中特".equals(braveryTowLotteryBetDto.getQuizTitle())
-                ||"特串".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=2){
-                return Result.failed("选择投注胆码总数必须小于2个投注号码");
-            }
-            if(braverySize+towSize<2){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2-braverySize);
-        }
-        //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("四全中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=4){
-                return Result.failed("选择投注胆码总数必须小于4个投注号码");
-            }
-            if(braverySize+towSize<4){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4-braverySize);
-        }
-        //选择2-4个尾数为一投注组合进行投注。该注的2-4个尾数必须在当期开出的7个开奖号码相对应的尾数中，（49亦算输赢，不为和）。每个号码都有自己的赔率，下注组合的总赔率，取该组合码的最低赔率为下单赔率
-        if("二尾连中".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"特串".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"二尾连中".equals(braveryTowLotteryBetDto.getQuizTitle())
                 ||"二尾连不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=2){
                 return Result.failed("选择投注胆码总数必须小于2个投注号码");
             }
-            if(braverySize+towSize<2){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于2个投注号码");
+            if(braverySize+towSize<2||braverySize+towSize>10){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于2个投注号码，最多可以选择10个号码");
             }
-            bl = false;
             bettingNumberHashSet = this.duplexNumber(numberStr,2-braverySize);
         }
-        if("三尾连中".equals(braveryTowLotteryBetDto.getQuizTitle())
-                ||"三尾连不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=3){
-                return Result.failed("选择投注胆码总数必须小于3个投注号码");
-            }
-            if(braverySize+towSize<3){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3-braverySize);
-            bl = false;
-        }
-        if("四尾连中".equals(braveryTowLotteryBetDto.getQuizTitle())
+        //所投注号码每四个为一组，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
+        if("四全中".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"四尾连中".equals(braveryTowLotteryBetDto.getQuizTitle())
                 ||"四尾连不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=4){
                 return Result.failed("选择投注胆码总数必须小于4个投注号码");
             }
-            if(braverySize+towSize<4){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于4个投注号码");
+            if(braverySize+towSize<4||braverySize+towSize>10){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于4个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,4-braverySize);
-            bl = false;
         }
         //挑选5个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("五选中一".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("五选中一".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"五不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=5){
                 return Result.failed("选择投注胆码总数必须小于5个投注号码");
             }
-            if(braverySize+towSize<5){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于5个投注号码");
+            if(braverySize+towSize<5||braverySize+towSize>10){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于5个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,5-braverySize);
         }
         //挑选6个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("六选中一".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("六选中一".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"六不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=6){
                 return Result.failed("选择投注胆码总数必须小于6个投注号码");
             }
-            if(braverySize+towSize<6){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于6个投注号码");
+            if(braverySize+towSize<6||braverySize+towSize>10){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于6个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,6-braverySize);
         }
         //挑选7个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("七选中一".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("七选中一".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"七不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=7){
                 return Result.failed("选择投注胆码总数必须小于7个投注号码");
             }
-            if(braverySize+towSize<7){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于7个投注号码");
+            if(braverySize+towSize<7||braverySize+towSize>10){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于7个投注号码，最多可以选择10个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,7-braverySize);
         }
         //挑选8个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("八选中一".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("八选中一".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"八不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=8){
                 return Result.failed("选择投注胆码总数必须小于8个投注号码");
             }
-            if(braverySize+towSize<8){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于8个投注号码");
+            if(braverySize+towSize<8||braverySize+towSize>11){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于8个投注号码，最多可以选择11个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,8-braverySize);
         }
         //挑选9个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("九选中一".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("九选中一".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"九不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=9){
                 return Result.failed("选择投注胆码总数必须小于9个投注号码");
             }
-            if(braverySize+towSize<9){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于9个投注号码");
+            if(braverySize+towSize<9||braverySize+towSize>11){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于9个投注号码，最多可以选择12个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,9-braverySize);
         }
         //挑选10个号码为一组进行下注，如果有一个号码在开奖号码的七个号码（正码和特码）里面，视为中奖，其他情形都视为不中奖
-        if("十选中一".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
+        if("十选中一".equals(braveryTowLotteryBetDto.getQuizTitle())
+                ||"十不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
             if(braverySize>=10){
                 return Result.failed("选择投注胆码总数必须小于10个投注号码");
             }
-            if(braverySize+towSize<10){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于10个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,10-braverySize);
-        }
-        if("五不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=5){
-                return Result.failed("选择投注胆码总数必须小于5个投注号码");
-            }
-            if(braverySize+towSize<5){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5-braverySize);
-        }
-        if("六不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=6){
-                return Result.failed("选择投注胆码总数必须小于6个投注号码");
-            }
-            if(braverySize+towSize<6){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于6个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,6-braverySize);
-        }
-        if("七不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=7){
-                return Result.failed("选择投注胆码总数必须小于7个投注号码");
-            }
-            if(braverySize+towSize<7){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于7个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,7-braverySize);
-        }
-        if("八不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=8){
-                return Result.failed("选择投注胆码总数必须小于8个投注号码");
-            }
-            if(braverySize+towSize<8){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,8-braverySize);
-        }
-        if("九不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=9){
-                return Result.failed("选择投注胆码总数必须小于9个投注号码");
-            }
-            if(braverySize+towSize<9){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于9个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,9-braverySize);
-        }
-        if("十不中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=10){
-                return Result.failed("选择投注胆码总数必须小于10个投注号码");
-            }
-            if(braverySize+towSize<10){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于10个投注号码");
+            if(braverySize+towSize<10||braverySize+towSize>12){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于10个投注号码，最多可以选择12个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,10-braverySize);
         }
@@ -568,8 +502,8 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             if(braverySize>=11){
                 return Result.failed("选择投注胆码总数必须小于11个投注号码");
             }
-            if(braverySize+towSize<11){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于11个投注号码");
+            if(braverySize+towSize<11||braverySize+towSize>13){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于11个投注号码，最多可以选择13个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,11-braverySize);
         }
@@ -577,57 +511,10 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
             if(braverySize>=12){
                 return Result.failed("选择投注胆码总数必须小于12个投注号码");
             }
-            if(braverySize+towSize<12){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于12个投注号码");
+            if(braverySize+towSize<12||braverySize+towSize>14){
+                return Result.failed("选择投注胆码加拖码总数必须大于等于12个投注号码，最多可以选择14个号码");
             }
             bettingNumberHashSet = this.duplexNumber(numberStr,12-braverySize);
-        }
-        //挑选1个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特一任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            bettingNumberHashSet = new HashSet();
-            for (String str:numberStr){
-                bettingNumberHashSet.add(str);
-            }
-        }
-        //挑选2个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特二任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=2){
-                return Result.failed("选择投注胆码总数必须小于2个投注号码");
-            }
-            if(braverySize+towSize<2){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于2个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,2-braverySize);
-        }
-        //挑选3个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特三任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=3){
-                return Result.failed("选择投注胆码总数必须小于3个投注号码");
-            }
-            if(braverySize+towSize<3){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于3个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,3-braverySize);
-        }
-        //挑选4个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特四任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=4){
-                return Result.failed("选择投注胆码总数必须小于4个投注号码");
-            }
-            if(braverySize+towSize<4){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于4个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,4-braverySize);
-        }
-        //挑选5个号码为一投注组合进行下注，当期开出的7个号码有任何1个号码在该注组合中，即视为中奖，其余情形视为不中奖
-        if("正特五任中".equals(braveryTowLotteryBetDto.getQuizTitle())) {//分类二类
-            if(braverySize>=5){
-                return Result.failed("选择投注胆码总数必须小于5个投注号码");
-            }
-            if(braverySize+towSize<5){
-                return Result.failed("选择投注胆码加拖码总数必须大于等于5个投注号码");
-            }
-            bettingNumberHashSet = this.duplexNumber(numberStr,5-braverySize);
         }
 
         List<String> list = new ArrayList<>();
