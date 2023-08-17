@@ -40,9 +40,9 @@ public class LotteryBetCalculationImpl implements ILotteryBetCalculationService 
         //所投注的每三个号码为一组合，若其中2个号码都是开奖号码之正码，视为三中二奖，若3个都是开奖号码中的正码，即为三中二之中三，其余行情视为不中奖
         if("三全中".equals(duplexLotteryBetDto.getQuizTitle())
                 ||"三中二".equals(duplexLotteryBetDto.getQuizTitle())
-                ||"三肖".equals(duplexLotteryBetDto.getQuizTitle())
-                ||"三肖连中".equals(duplexLotteryBetDto.getQuizTitle())
-                ||"三肖连不中".equals(duplexLotteryBetDto.getQuizTitle())
+                ||"三肖".equals(duplexLotteryBetDto.getQuizDetailsTitle())
+                ||"三肖连中".equals(duplexLotteryBetDto.getQuizDetailsTitle())
+                ||"三肖连不中".equals(duplexLotteryBetDto.getQuizDetailsTitle())
                 ||"三尾连中".equals(duplexLotteryBetDto.getQuizTitle())
                 ||"三尾连不中".equals(duplexLotteryBetDto.getQuizTitle())) {//分类二类
             if(quizChooseDtoList.size()<3||quizChooseDtoList.size()>10){

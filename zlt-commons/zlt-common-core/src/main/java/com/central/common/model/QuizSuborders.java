@@ -31,7 +31,7 @@ public class QuizSuborders extends SuperEntity {
     private BigDecimal totalPrice;
     @ApiModelProperty(value = "赢取金额")
     private BigDecimal winMount;
-    @ApiModelProperty(value = "输赢金额")
+    @ApiModelProperty(value = "输赢金额(扣除本金)")
     private BigDecimal winLoseAmount;
     @ApiModelProperty(value = "注数")
     private Integer units;
