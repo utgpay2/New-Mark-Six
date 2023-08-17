@@ -5,6 +5,7 @@ import com.central.common.model.Result;
 import com.central.common.model.SysUser;
 import com.central.common.model.WnData;
 import com.central.common.service.ISuperService;
+import com.proxy.center.vo.WnDataVo;
 
 import java.util.Map;
 
@@ -23,5 +24,7 @@ public interface IWnDataService extends ISuperService<WnData> {
     PageResult<WnData> findList(Map<String, Object> params);
     Result saveOrUpdateWnData(WnData wnData, SysUser user);
     Result deleteWnData(Long id, Integer lotteryId);
+
+    PageResult<WnDataVo> wnDatalist(Map<String, Object> params);
 }
 

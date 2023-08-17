@@ -165,4 +165,14 @@ public interface CommonConstant {
     //百分比函数
     BigDecimal ONE_HUNDRED=new BigDecimal(100);
 
+    //小
+    Integer SMALL = 1;
+    //大
+    Integer BIG = 2;
+    //和
+    Integer GENTLE = 3;
+    //单
+    Integer ONE = 1;
+    //双
+    Integer TWO = 2;
 }
