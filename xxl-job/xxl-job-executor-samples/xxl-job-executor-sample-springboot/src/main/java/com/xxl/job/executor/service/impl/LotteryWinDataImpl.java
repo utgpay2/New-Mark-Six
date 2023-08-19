@@ -1794,7 +1794,7 @@ public class LotteryWinDataImpl implements ILotteryWinDataService {
         String qihaoStr;//期号
         String nextQihao;//下一期号
         Integer year = DateUtil.getYear();//号码归属年份
-        Integer nextTime = 0;//下期开奖时间
+        String nextTime = "";//下期开奖时间
         if(null==wnData){
             qihaoStr = year+"001";
             nextQihao = year+"002";

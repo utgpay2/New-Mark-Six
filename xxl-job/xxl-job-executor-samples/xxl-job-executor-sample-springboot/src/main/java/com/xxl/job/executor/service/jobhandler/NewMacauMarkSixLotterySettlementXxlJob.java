@@ -33,14 +33,14 @@ public class NewMacauMarkSixLotterySettlementXxlJob {
     /**
      * 新澳门六合彩结算
      */
-    @XxlJob("macauMarkSixLotterySettlementJobHandler")
-    public void macauMarkSixLotterySettlementJobHandler() throws Exception {
+    @XxlJob("newMacauMarkSixLotterySettlementJobHandler")
+    public void newMacauMarkSixLotterySettlementJobHandler() throws Exception {
         XxlJobHelper.log("新澳门六合彩结算开始=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
         try {
             iWinningSettlementService.winningSettlement(LotteryEnum.NEWMACAO_MKS.getStatus());
         } catch (Exception e) {
             XxlJobHelper.log(e);
-            XxlJobHelper.handleFail("Macau Mark Six Lottery Settlement Failed");
+            XxlJobHelper.handleFail("New Macau Mark Six Lottery Settlement Failed");
         }
         XxlJobHelper.log("新澳门六合彩结算结束=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
     }

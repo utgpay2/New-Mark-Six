@@ -27,7 +27,7 @@ public class WnData extends SuperEntity {
     @ApiModelProperty(value = "开奖视频")
     private String videoPath;
     @ApiModelProperty(value = "下一期开奖时间")
-    private Integer nextTime;
+    private String nextTime;
     @ApiModelProperty(value = "下一期号")
     private String nextQihao;
     @ApiModelProperty(value = "号码归属年份")

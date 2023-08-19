@@ -20,6 +20,7 @@ public interface ILotteryService extends ISuperService<Lottery> {
      * @return
      */
     List<SiteLotteryVo> findList(Map<String, Object> params);
+    List<Lottery> findLotteryList(Map<String, Object> params);
     public void updateLotteryStatus(Integer lotteryId, Integer stauts);
 }
 

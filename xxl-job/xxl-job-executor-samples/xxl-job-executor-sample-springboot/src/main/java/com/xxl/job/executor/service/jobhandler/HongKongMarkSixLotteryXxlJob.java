@@ -1,16 +1,26 @@
 package com.xxl.job.executor.service.jobhandler;
 
+import com.central.common.model.Lottery;
+import com.central.common.model.WnData;
 import com.central.common.model.enums.LotteryEnum;
 import com.central.common.utils.DateUtil;
+import com.central.common.vo.SiteLotteryVo;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
+import com.xxl.job.executor.service.IHongKongPositionUtils;
+import com.xxl.job.executor.service.ILotteryService;
 import com.xxl.job.executor.service.ILotteryWinDataService;
+import com.xxl.job.executor.service.IWnDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * XxlJob开发示例（Bean模式）
@@ -26,21 +36,39 @@ import java.util.Date;
 @Component
 public class HongKongMarkSixLotteryXxlJob {
     private static Logger logger = LoggerFactory.getLogger(HongKongMarkSixLotteryXxlJob.class);
-
     @Autowired
-    private ILotteryWinDataService iLotteryWinDataService;
+    private ILotteryService lotteryService;
+    @Autowired
+    private IHongKongPositionUtils iHongKongPositionUtils;
+    @Autowired
+    private IWnDataService iWnDataService;
 
     /**
-     * 香港六合彩开奖
+     * 香港六合彩开奖(自动爬取官菜数据)
      */
     @XxlJob("hongKongMarkSixLotteryJobHandler")
     public void hongKongMarkSixLotteryJobHandler() throws Exception {
         XxlJobHelper.log("香港六合彩开奖开始=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
         try {
-            iLotteryWinDataService.markSixLottery(LotteryEnum.HONGKONG_MKS.getStatus());
+            WnData wnData = iWnDataService.lastOneWnData(LotteryEnum.HONGKONG_MKS.getStatus());
+            if(null!=wnData){
+                //判断是否当前日期开奖号码
+                if(!DateUtil.dateToyyyyMMdd(new Date()).equals(DateUtil.strToDate(wnData.getNextTime(),DateUtil.YYYYMMDD))){
+                    return;
+                }
+
+            }
+            Map<String, Object> params = new HashMap<>();
+            List<Lottery> list = lotteryService.findLotteryList(params);
+            list = list.stream().filter(lottery -> LotteryEnum.HONGKONG_MKS.getStatus()==Math.toIntExact(lottery.getId()))
+                    .collect(Collectors.toList());
+            Lottery lottery = list.get(0);
+            iHongKongPositionUtils.reqPosition(lottery.getLotteryUrl());
         } catch (Exception e) {
             XxlJobHelper.log(e);
             XxlJobHelper.handleFail("New HK Mark Six Lottery Settlement Failed");
+            Thread.sleep(2*60*1000);//1秒=1000
+            this.hongKongMarkSixLotteryJobHandler();
         }
         XxlJobHelper.log("香港六合彩开奖结束=========》》》"+ DateUtil.dateToyyyyMMddHHmmss(new Date()));
     }

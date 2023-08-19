@@ -4,6 +4,8 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.central.common.constant.RedisConstants;
 import com.central.common.model.Lottery;
+import com.central.common.model.enums.LotteryEnum;
+import com.central.common.model.enums.StatusEnum;
 import com.central.common.redis.template.RedisRepository;
 import com.central.common.service.impl.SuperServiceImpl;
 import com.central.common.vo.SiteLotteryVo;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 /**
@@ -35,6 +38,16 @@ public class LotteryServiceImpl extends SuperServiceImpl<LotteryMapper, Lottery>
     @Override
     public List<SiteLotteryVo> findList(Map<String, Object> params){
         return baseMapper.findList( params);
+    }
+    @Override
+    public List<Lottery> findLotteryList(Map<String, Object> params){
+        String redisKey = StrUtil.format(RedisConstants.SITE_LOTTERY_KEY);
+        List<Lottery> list = (List<Lottery>)RedisRepository.get(redisKey);
+        if (ObjectUtil.isEmpty(list)) {
+            list = baseMapper.findLotteryList(params);
+            RedisRepository.setExpire(redisKey, list, RedisConstants.EXPIRE_TIME_30_DAYS);
+        }
+        return list;
     }
     @Override
     public void updateLotteryStatus(Integer lotteryId, Integer stauts) {

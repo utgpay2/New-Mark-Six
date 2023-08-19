@@ -10,17 +10,19 @@ import java.util.Date;
  */
 public class DateUtil {
 
-    private static String patten = "yyyy-MM-dd HH:mm:ss";
+    public static String patten = "yyyy-MM-dd HH:mm:ss";
+    public static String ddMMyyyyHHMM = "dd/MM/yyyy HH:mm";
+    public static String patten1 = "yyyy-MM-dd";
 
-    private static String patten1 = "yyyy-MM-dd";
-
-    private static String pattenMonth = "yyyy-MM";
+    public static String pattenMonth = "yyyy-MM";
 
     public static final String YYYYMM = "yyyyMM";
 
     public static final String YYYYMMDD = "yyyyMMdd";
 
     public static final String format = "HH:mm:ss";
+
+    public static final String HHMM = "HH:mm";
 
     public static  Date startTime;
 
@@ -135,6 +137,15 @@ public class DateUtil {
 
     public static String dateToYYYYMM(Date date) {
         SimpleDateFormat sf = new SimpleDateFormat(DateUtil.YYYYMM);
+        return sf.format(date);
+    }
+    public static Date strToDate(String time,String simpStr) throws ParseException {
+        SimpleDateFormat sf = new SimpleDateFormat(simpStr);
+        return sf.parse(time);
+    }
+    public static String longToStr(Long time,String simpStr) {
+        Date date = new Date(time);
+        SimpleDateFormat sf = new SimpleDateFormat(simpStr);
         return sf.format(date);
     }
 
@@ -254,6 +265,11 @@ public class DateUtil {
      */
     public static int getYear() {
         Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.YEAR);
+    }
+    public static int getYear(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
         return calendar.get(Calendar.YEAR);
     }
 
